@@ -9,8 +9,8 @@ app.use(morgan('combined'))
 app.use(bodyParser.json())
 app.use(cors())
 
-app.get('/modules', function(req, res) {
-  artifactoryService.fetchModules().then(response => {
+app.get('/packages', function(req, res) {
+  artifactoryService.fetchPackages().then(response => {
     res.send(response.data);
   });
 });

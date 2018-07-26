@@ -12,24 +12,24 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import ModulesService from '@/services/ModulesService';
+import PackageService from '@/services/PackageService';
 
 interface PackagesResponse {
   [key: string]: object;
 }
 
 @Component
-export default class Modules extends Vue {
+export default class Packages extends Vue {
   @Prop() private packagesProp!: any;
   private packages: any = this.packagesProp;
 
   constructor() {
     super();
-    this.getModules();
+    this.getPackages();
   }
 
-  public async getModules() {
-    ModulesService.fetchModules().then((response) => {
+  public async getPackages() {
+    PackageService.fetchPackages().then((response) => {
       const packagesResponse: PackagesResponse | string = response.data;
       const packageNames: any[] = Object.keys(packagesResponse).filter((key) => !key.startsWith('_'));
 

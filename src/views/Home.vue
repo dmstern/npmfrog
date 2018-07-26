@@ -1,16 +1,16 @@
 <template>
   <div class="home">
-    <Modules packagesProp="Loading packages..."/>
+    <Packages packagesProp="Loading packages..."/>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import Modules from '@/components/Modules.vue';
+import Packages from '@/components/Packages.vue';
 
 @Component({
   components: {
-    Modules,
+    Packages,
   },
 })
 export default class Home extends Vue {}
