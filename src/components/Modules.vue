@@ -11,8 +11,9 @@ import ModulesService from '@/services/ModulesService';
 
 @Component
 export default class Modules extends Vue {
-  @Prop() private msg!: string;
+  @Prop() private msgProp!: string;
 
+  private msg: string = this.msgProp;
   constructor() {
     super();
     this.getModules();
