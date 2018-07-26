@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <Modules msgProp="Loading Modules..."/>
+    <Modules packagesProp="Loading packages..."/>
   </div>
 </template>
 
