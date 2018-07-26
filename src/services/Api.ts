@@ -1,5 +1,4 @@
 import axios, { AxiosInstance, AxiosPromise } from 'axios';
-// import Promise from 'axios';
 
 export default class Api {
 
