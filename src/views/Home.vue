@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <Packages packagesProp="Loading packages..."/>
+    <Packages startMsg="Loading packages..."/>
   </div>
 </template>
 

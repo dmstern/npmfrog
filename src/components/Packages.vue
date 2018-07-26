@@ -1,8 +1,8 @@
 <template>
   <div class="packages">
     <h2>Packages</h2>
-    <!-- TODO if packages is typeof string, render string, else loop -->
-    <ul>
+    <span v-if="!Object.keys(packages).length">{{startMsg}}</span>
+    <ul v-else>
       <li v-for="(metaData, packageName) in packages" :key='packageName'>
         <router-link :to="`/package/${packageName}`">{{ packageName }} (by {{metaData.displayName}})</router-link>
       </li>
@@ -13,38 +13,33 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import PackageService from '@/services/PackageService';
-
-interface PackagesResponse {
-  [key: string]: object;
-}
+import { PackagesResponse } from '@/api/PackageResponse';
 
 @Component
 export default class Packages extends Vue {
-  @Prop() private packagesProp!: any;
-  private packages: any = this.packagesProp;
+  @Prop() private startMsg!: string;
+  @Prop() private packagesProp!: PackagesResponse;
+  private packages: PackagesResponse = this.packagesProp;
 
   constructor() {
     super();
+    this.packages = {};
     this.getPackages();
   }
 
   public async getPackages() {
     PackageService.fetchPackages().then((response) => {
-      const packagesResponse: PackagesResponse | string = response.data;
+      const packagesResponse: PackagesResponse = response.data;
       const packageNames: any[] = Object.keys(packagesResponse).filter((key) => !key.startsWith('_'));
 
       this.packages = {};
-      const authorKey: any = 'author';
-      const nameKey: any = 'name';
-      const displayNameKey: any = 'displayName';
       for (const packageName of packageNames) {
-        const displayName =
-          (
-            packagesResponse[packageName][authorKey]
-            && packagesResponse[packageName][authorKey][nameKey]
-          )
-          ? packagesResponse[packageName][authorKey][nameKey]
-          : packagesResponse[packageName][authorKey];
+        let displayName: any = "";
+        if (packagesResponse[packageName].author) {
+          displayName = packagesResponse[packageName].author!.name
+            ? packagesResponse[packageName].author!.name
+            : packagesResponse[packageName].author;
+        }
         Object.assign(packagesResponse[packageName], {displayName});
         this.packages[packageName] = packagesResponse[packageName];
       }
