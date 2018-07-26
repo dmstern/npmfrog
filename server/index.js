@@ -11,7 +11,6 @@ app.use(cors())
 
 app.get('/modules', function(req, res) {
   artifactoryService.fetchModules().then(response => {
-    console.log(response.data);
     res.send(response.data);
   });
 });

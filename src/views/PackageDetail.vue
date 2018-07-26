@@ -1,5 +1,5 @@
 <template>
   <div class="about">
-    <h2>{{this.$route.params.packageName}}</h2>
+    <h2>Package Details</h2>
   </div>
 </template>

@@ -1,9 +1,10 @@
 <template>
   <div id="app">
-    <div id="nav">
+    <h1>jsFrog - Explore Artifactory's NPM registry</h1>
+    <!-- <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
-    </div>
+    </div> -->
     <router-view/>
   </div>
 </template>

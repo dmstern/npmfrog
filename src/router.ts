@@ -17,5 +17,10 @@ export default new Router({
       name: 'about',
       component: About,
     },
+    {
+      path: '/package/:scope?/:packageName',
+      name: 'packageDetail',
+      component: About,
+    },
   ],
 });

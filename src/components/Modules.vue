@@ -1,9 +1,10 @@
 <template>
   <div class="packages">
     <h2>Packages</h2>
+    <!-- TODO if packages is typeof string, render string, else loop -->
     <ul>
       <li v-for="(metaData, packageName) in packages" :key='packageName'>
-        {{ packageName }} (by {{metaData.displayName}})
+        <router-link :to="`/package/${packageName}`">{{ packageName }} (by {{metaData.displayName}})</router-link>
       </li>
     </ul>
   </div>
