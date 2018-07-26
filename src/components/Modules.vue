@@ -1,6 +1,6 @@
 <template>
   <div class="modules">
-    This file will list all the posts.
+    <h2>Modules</h2>
     {{ msg }}
   </div>
 </template>
@@ -12,8 +12,8 @@ import ModulesService from '@/services/ModulesService';
 @Component
 export default class Modules extends Vue {
   @Prop() private msgProp!: string;
-
   private msg: string = this.msgProp;
+
   constructor() {
     super();
     this.getModules();

@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <Modules msgProp="Welcome to Your Vue.js + TypeScript App"/>
+    <Modules msgProp="Loading Modules..."/>
   </div>
 </template>
 
