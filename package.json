@@ -12,7 +12,7 @@
   ],
   "author": "Daniel Morgenstern <morgenstern.daniel@gmail.com>",
   "scripts": {
-    "start": "concurrently --kill-others --names \"SERVER,WEB-UI\" -c \"bgBlue.bold,bgMagenta.bold\" \"npm run startServer\" \"npm run startWebui\"",
+    "start": "concurrently --kill-others --names \"SERVER,WEB_UI\" -c \"bgBlue.bold,bgMagenta.bold\" \"npm run startServer\" \"npm run startWebui\"",
     "startWebui": "vue-cli-service serve",
     "buildWebui": "vue-cli-service build",
     "lintWebui": "vue-cli-service lint",
