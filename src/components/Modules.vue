@@ -3,7 +3,7 @@
     <h2>Packages</h2>
     <ul>
       <li v-for="(metaData, packageName) in packages" :key='packageName'>
-        {{ packageName }} (by {{metaData.author}})
+        {{ packageName }} (by {{metaData.displayName}})
       </li>
     </ul>
   </div>
@@ -33,13 +33,23 @@ export default class Modules extends Vue {
       const packageNames: any[] = Object.keys(packagesResponse).filter((key) => !key.startsWith('_'));
 
       this.packages = {};
+      const authorKey: any = 'author';
+      const nameKey: any = 'name';
+      const displayNameKey: any = 'displayName';
       for (const packageName of packageNames) {
-        console.log(packageName, packagesResponse[packageName]);
+        const displayName = 
+          (
+            packagesResponse[packageName][authorKey]
+            && packagesResponse[packageName][authorKey][nameKey]
+          )
+          ? packagesResponse[packageName][authorKey][nameKey]
+          : packagesResponse[packageName][authorKey];
+        Object.assign(packagesResponse[packageName], {
+          displayName: displayName,
+        });
         this.packages[packageName] = packagesResponse[packageName];
       }
     });
   }
-
-
 }
 </script>
