@@ -21,7 +21,7 @@
                 <md-avatar>
                   <img src="https://placeimg.com/40/40/people/1" alt="People">
                 </md-avatar>
-                <span>{{metaData.displayName}}</span>
+                <span class="package-list--author-name">{{metaData.displayName}}</span>
               </span>
             </div>
 
@@ -39,6 +39,7 @@
 </template>
 
 <style lang="scss">
+@import '../assets/variables';
 
 .md-list-item-text * {
   width: auto;
@@ -48,6 +49,10 @@
 }
 
 .package-list {
+
+  .md-list-item-container {
+    padding: 0.5em 0;
+  }
 
   & &--package-name {
     font-weight: bold;
@@ -59,15 +64,24 @@
     .md-list.md-theme-default.md-triple-line .md-list-item-text &:nth-child(3) {
       color: inherit;
     }
+
+    &-name {
+      align-self: flex-end;
+      padding-left: 0.8em;
+    }
+
+    .md-avatar {
+      width: #{$package-list--avatar--width}px;
+      height: #{$package-list--avatar--width}px;
+      min-width: initial;
+    }
   }
 
   & &--description {
+    padding: 0.7em 0;
     color: var(--md-theme-default-text-accent-on-background, rgba(0,0,0,0.54));
   }
 
-  & .md-avatar {
-    width: auto;
-  }
 }
 
 </style>
