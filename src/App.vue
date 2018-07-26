@@ -45,7 +45,7 @@
 </template>
 
 <style lang="scss">
-@import url("//fonts.googleapis.com/css?family=Roboto:400,500,700,400italic|Material+Icons");
+@import url("//fonts.googleapis.com/css?family=Roboto:400,500,700,400italic|Fira+Mono|Material+Icons");
 
 .page-container {
   height: 100vh;
