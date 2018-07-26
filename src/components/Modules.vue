@@ -37,16 +37,14 @@ export default class Modules extends Vue {
       const nameKey: any = 'name';
       const displayNameKey: any = 'displayName';
       for (const packageName of packageNames) {
-        const displayName = 
+        const displayName =
           (
             packagesResponse[packageName][authorKey]
             && packagesResponse[packageName][authorKey][nameKey]
           )
           ? packagesResponse[packageName][authorKey][nameKey]
           : packagesResponse[packageName][authorKey];
-        Object.assign(packagesResponse[packageName], {
-          displayName: displayName,
-        });
+        Object.assign(packagesResponse[packageName], {displayName});
         this.packages[packageName] = packagesResponse[packageName];
       }
     });
