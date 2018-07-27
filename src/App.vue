@@ -3,10 +3,23 @@
 <div class="page-container">
   <md-app id="app" md-waterfall md-mode="fixed">
     <md-app-toolbar class="md-primary">
-      <md-button class="md-icon-button" @click="menuVisible = !menuVisible">
-        <md-icon>menu</md-icon>
-      </md-button>
-      <span class="md-title">npmFrog - Explore jFrog's Artifactory - the NPM-way</span>
+      <div class="md-toolbar-row">
+        <div class="md-toolbar-section-start">
+          <md-button class="md-icon-button" @click="menuVisible = !menuVisible">
+            <md-icon>menu</md-icon>
+          </md-button>
+        </div>
+      <!-- <span class="md-title">npmFrog - Explore jFrog's Artifactory - the NPM-way</span> -->
+        <md-autocomplete
+          class="search"
+          v-model="selectedPackage"
+          :md-options="Object.keys(packages)"
+          md-layout="box">
+          <label>Search packages</label>
+        </md-autocomplete>
+        <div class="md-toolbar-section-end">
+        </div>
+      </div>
     </md-app-toolbar>
 
     <md-app-drawer  :md-active.sync="menuVisible">
@@ -62,15 +75,32 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+import PackageService from '@/services/PackageService';
+import { PackageMetaData } from '@/api/package-meta-data';
+import { PackagesResponse } from '@/api/PackageResponse';
+import PackagesService from '@/services/PackageService';
 
 @Component
 export default class App extends Vue {
   @Prop() private menuVisibleProp!: boolean;
+  @Prop() private packagesProp!: PackagesResponse;
+  @Prop() private selectedPackageProp!: string|null;
   private menuVisible: boolean;
+  private packages: PackagesResponse;
+  private selectedPackage: string|null;
 
   constructor() {
     super();
     this.menuVisible = false;
+    this.packages = {};
+    this.selectedPackage = null;
+    this.loadPackages();
+  }
+
+  private loadPackages(): void {
+    PackagesService.getPackages().then((response) => {
+      this.packages = response;
+    });
   }
 }
 </script>
