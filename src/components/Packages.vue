@@ -6,8 +6,7 @@
     <md-list v-else class="md-triple-line package-list">
 
       <span v-for="(metaData, packageName) in packages" :key='packageName'>
-        <md-list-item>
-          <!-- <router-link :to="`/package/${packageName}`"> -->
+        <md-list-item v-on:click="$router.push(`package/${packageName}`)">
 
             <div class="md-list-item-text">
               <span class="package-list--package-name">{{ packageName }}</span>
@@ -28,7 +27,6 @@
                 </md-avatar>
               </div>
             </div>
-          <!-- </router-link> -->
         </md-list-item>
 
         <md-divider class="md-full"></md-divider>
@@ -50,7 +48,7 @@
 
 .package-list {
 
-  .md-list-item-container {
+  .md-list-item {
     padding: .5em 0;
   }
 
