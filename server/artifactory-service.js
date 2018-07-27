@@ -1,9 +1,13 @@
 const axios = require("axios");
+const path = require('path');
+const homedir = require('os').homedir();
+const config = require(path.join(homedir, '.jsfrog.config.json'));
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-axios.defaults.baseURL = 'http://artifactory.init.de/artifactory/api/npm/';
-axios.defaults.headers.common['Authorization'] = "AKCp5bB3N7rCWCeSyuh64ehyYQP6HGLAZ9Dc3UhhVKL1hyskWGrjprmxAKfKZoDdf9XfQpVo4";
-const repoKey = 'npm';
+axios.defaults.baseURL = `${config.artifactory.baseURL}/artifactory/api/npm/`;
+axios.defaults.headers.common['Authorization'] = config.artifactory.apiKey;
+
+const repoKey = config.artifactory.repoKey;
 
 module.exports = {
   fetchPackages: async () => {

@@ -15,17 +15,19 @@
               <span class="package-list--keywords">
                 <md-badge v-for="keyword in metaData.keywords" :key="keyword" class="md-square" v-bind:md-content="keyword" />
               </span>
-              <span class="package-list--author">
+           
+            </div>
+
+            <div class="package-list--right">
+
+              <div class="package-list--by">crafted by</div>
+              <div class="package-list--author">
+                <span class="package-list--author-name">{{metaData.displayName}}</span>
                 <md-avatar>
                   <img src="https://placeimg.com/40/40/people/1" alt="People">
                 </md-avatar>
-                <span class="package-list--author-name">{{metaData.displayName}}</span>
-              </span>
+              </div>
             </div>
-
-            <md-button class="md-icon-button md-list-action">
-              <md-icon class="md-primary">star</md-icon>
-            </md-button>
           <!-- </router-link> -->
         </md-list-item>
 
@@ -57,31 +59,46 @@
     font-size: 1.2em;
   }
 
+  &--right {
+    text-align: right;
+    margin-top: auto;
+    margin-bottom: 0;
+  }
+
   &--author {
     display: flex;
     font-family: $monospace;
     font-weight: bold;
+    font-size: $package-list--author--font-size;
 
     &,
     .md-list.md-theme-default.md-triple-line .md-list-item-text &,
     .md-list.md-theme-default.md-triple-line .md-list-item-text &:nth-child(3) {
-      color: $color-gray-medium;
+      color: $color-gray-light;
     }
 
     &-name {
       align-self: flex-end;
       padding-left: .8em;
+      margin-right: .8em;
     }
 
     .md-avatar {
       width: #{$package-list--avatar--width}px;
       height: #{$package-list--avatar--width}px;
       min-width: initial;
+      margin-left: auto;
     }
   }
 
+  & &--by {
+    padding-bottom: .3em;
+    color: $color-gray-extralight;
+    font-size: $package-list--author--font-size;
+  }
+
   & &--description {
-    padding: .7em 0 .5em 0;
+    padding: .5em 0 .5em 0;
     color: $color-gray-medium;
   }
 
