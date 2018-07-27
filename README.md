@@ -9,6 +9,19 @@ A nice npmjs.org-like web interface for jFrog Artifactory
 npm install
 ```
 
+Create a file `.jsfrog.config.json`in your home directory with the following properties:
+
+```json
+{
+  "artifactory": {
+    "baseURL": "http://<YOUR_ARTIFACTORY_BASE_URL>",
+    "apiKey": "<YOUR_ARTIFACTORY_API_KEY>",
+    "repoKey": "npm"
+  }
+}
+
+```
+
 ## Start App (Server and WebUI)
 
 ```bash
