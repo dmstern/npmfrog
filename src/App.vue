@@ -6,7 +6,7 @@
       <md-button class="md-icon-button" @click="menuVisible = !menuVisible">
         <md-icon>menu</md-icon>
       </md-button>
-      <span class="md-title">jsFrog - Explore Artifactory's NPM registry</span>
+      <span class="md-title">npmFrog - Explore jFrog's Artifactory - the NPM-way</span>
     </md-app-toolbar>
 
     <md-app-drawer  :md-active.sync="menuVisible">
