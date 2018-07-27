@@ -11,25 +11,26 @@ const repoKey = config.artifactory.repoKey;
 
 module.exports = {
   fetchPackages: async () => {
-    // return await axios.get(`${repoKey}/-/all`);
-    return new Promise((resolve, reject) => {
-      resolve({data: {
-        module1: {
-          name: "hello",
-          description: "Beschreibung",
-          author: "icke eben"
-        },
-        module2: {
-          name: "hello",
-          description: "Beschreibung",
-          author: "icke eben"
-        },
-        module3: {
-          name: "hello",
-          description: "Beschreibung",
-          author: "icke eben"
-        }
-      }});
-    });
+    const request = axios.get(`${repoKey}/-/all`);
+    return request;
+    // return new Promise((resolve, reject) => {
+    //   resolve({data: {
+    //     module1: {
+    //       name: "hello",
+    //       description: "Beschreibung",
+    //       author: "icke eben"
+    //     },
+    //     module2: {
+    //       name: "hello",
+    //       description: "Beschreibung",
+    //       author: "icke eben"
+    //     },
+    //     module3: {
+    //       name: "hello",
+    //       description: "Beschreibung",
+    //       author: "icke eben"
+    //     }
+    //   }});
+    // });
   }
 };

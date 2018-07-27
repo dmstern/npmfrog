@@ -12,6 +12,8 @@ app.use(cors())
 app.get('/packages', function(req, res) {
   artifactoryService.fetchPackages().then(response => {
     res.send(response.data);
+  }).catch(error => {
+    console.log(error);
   });
 });
 
