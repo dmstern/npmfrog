@@ -3,7 +3,6 @@ import axios, { AxiosInstance, AxiosPromise } from 'axios';
 export default class Api {
 
   private static instance: Api;
-
   private axios: AxiosInstance;
 
   private constructor() {

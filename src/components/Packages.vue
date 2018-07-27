@@ -136,7 +136,7 @@ export default class Packages extends Vue {
   }
 
   private loadPackages(): void {
-    PackagesService.getPackages().then((response) => {
+    PackagesService.Instance.getPackages().then((response) => {
       this.packages = response;
     });
   }
