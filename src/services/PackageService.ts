@@ -27,7 +27,7 @@ export default class PackagesService {
   private packages!: Package[];
   private packagesResponse!: PackagesResponse;
   private packageNamesList!: string[];
-  private searchItemList!: Array<string|{}>;
+  private searchItemList!: SearchItem[];
 
   constructor() {
     this.packages = [];
@@ -36,6 +36,12 @@ export default class PackagesService {
   }
 
   public addSearchItem(searchItem: SearchItem) {
+    for (const currentSearchItem of this.searchItemList) {
+      if (currentSearchItem.key === searchItem.key
+        && currentSearchItem.displayString === searchItem.displayString) {
+        return;
+      }
+    }
     this.searchItemList.push(searchItem);
   }
 

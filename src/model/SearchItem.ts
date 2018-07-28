@@ -1,12 +1,16 @@
 export class SearchItem {
   public key: SearchKey;
-  public searchString: string;
   public displayString: string;
+  private searchStringProp: string;
 
   constructor(key: SearchKey, value: string) {
     this.key = key;
     this.displayString = value;
-    this.searchString = `${this.key}: ${this.displayString}`;
+    this.searchStringProp = `${this.key}: ${this.displayString}`;
+  }
+
+  public get searchString() {
+    return this.searchStringProp;
   }
 }
 
