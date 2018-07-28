@@ -1,5 +1,5 @@
 {
-  "name": "jsfrog",
+  "name": "npmfrog",
   "version": "0.1.0",
   "private": true,
   "description": "A nice npmjs.org-like web interface for jFrog Artifactory",

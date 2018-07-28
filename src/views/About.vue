@@ -1,5 +1,5 @@
 <template>
   <div class="about">
-    <h2>About jsFrog</h2>
+    <h2>About npmFrog</h2>
   </div>
 </template>

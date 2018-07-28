@@ -1,4 +1,4 @@
-jsFrog
+npmFrog
 ======
 
 A nice npmjs.org-like web interface for jFrog Artifactory
@@ -9,7 +9,7 @@ A nice npmjs.org-like web interface for jFrog Artifactory
 npm install
 ```
 
-Create a file `.jsfrog.config.json`in your home directory with the following properties:
+Create a file `.npmfrog.config.json`in your home directory with the following properties:
 
 ```json
 {
