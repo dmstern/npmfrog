@@ -1,0 +1,109 @@
+{
+  "_updated": 1532272070591,
+  "schoenes-module": {
+    "_id": "schoenes-module",
+    "_rev": "1-0",
+    "name": "schoenes-module",
+    "description": "wunderschoen",
+    "dist-tags": { "latest": "1.1.0" },
+    "keywords": ["npm", "test", "quatsch"],
+    "versions": { "1.1.0": "latest" },
+    "author": "Erklärbär",
+    "time": {
+      "1.0.3": "2018-07-22T14:23:52.861Z",
+      "1.0.4": "2018-07-22T14:24:57.989Z",
+      "created": "2018-07-22T14:23:52.861Z",
+      "modified": "2018-07-22T15:06:48.615Z",
+      "1.1.0": "2018-07-22T15:06:48.615Z"
+    },
+    "users": {},
+    "license": "ISC"
+  },
+  "abgefahrenes-module": {
+    "_id": "abgefahrenes-module",
+    "_rev": "1-0",
+    "name": "abgefahrenes-module",
+    "description": "Mega abgefahren, alter!",
+    "dist-tags": { "latest": "1.1.0" },
+    "versions": { "1.1.0": "latest" },
+    "author": "Erklärbär",
+    "time": {
+      "1.0.3": "2018-07-22T14:23:52.861Z",
+      "1.0.4": "2018-07-22T14:24:57.989Z",
+      "created": "2018-07-22T14:23:52.861Z",
+      "modified": "2018-07-22T15:06:48.615Z",
+      "1.1.0": "2018-07-22T15:06:48.615Z"
+    },
+    "users": {},
+    "license": "ISC"
+  },
+  "tolles-module": {
+    "_id": "tolles-module",
+    "_rev": "1-0",
+    "name": "tolles-module",
+    "description": "Einfach nur total tolls",
+    "dist-tags": { "latest": "1.1.0" },
+    "versions": { "1.1.0": "latest" },
+    "author": "Erklärbär",
+    "keywords": ["fractal", "toll", "lustig", "prototype"],
+    "time": {
+      "1.0.3": "2018-07-22T14:23:52.861Z",
+      "1.0.4": "2018-07-22T14:24:57.989Z",
+      "created": "2018-07-22T14:23:52.861Z",
+      "modified": "2018-07-22T15:06:48.615Z",
+      "1.1.0": "2018-07-22T15:06:48.615Z"
+    },
+    "users": {},
+    "license": "ISC"
+  },
+  "lustiges-module": {
+    "_id": "lustiges-module",
+    "_rev": "1-0",
+    "name": "lustiges-module",
+    "description": "superlustig",
+    "dist-tags": { "latest": "1.1.0" },
+    "versions": { "1.1.0": "latest" },
+    "author": "Erklärbär",
+    "keywords": ["fractal", "toll", "js"],
+    "time": {
+      "1.0.3": "2018-07-22T14:23:52.861Z",
+      "1.0.4": "2018-07-22T14:24:57.989Z",
+      "created": "2018-07-22T14:23:52.861Z",
+      "modified": "2018-07-22T15:06:48.615Z",
+      "1.1.0": "2018-07-22T15:06:48.615Z"
+    },
+    "users": {},
+    "license": "ISC"
+  },
+  "@init/fractal-menu-enhancer": {
+    "_id": "@init/fractal-menu-enhancer",
+    "_rev": "1-0",
+    "name": "@init/fractal-menu-enhancer",
+    "description": "Adds extra functionality to the fractal menu",
+    "dist-tags": { "latest": "0.3.2" },
+    "versions": { "0.3.2": "latest" },
+    "author": {
+      "name": "Krüger, Steffen (ext)",
+      "email": "Steffen.Krueger.ext@init.de"
+    },
+    "time": {
+      "0.3.1": "2018-07-22T13:40:13.185Z",
+      "0.3.2": "2018-07-22T14:21:30.535Z",
+      "created": "2018-07-22T13:34:54.888Z",
+      "modified": "2018-07-22T14:21:30.535Z",
+      "0.3.0": "2018-07-22T13:34:54.888Z"
+    },
+    "repository": {
+      "type": "git",
+      "url": "https://gitlab.init.de/dmorgenstern/fractal-menu-enhancer"
+    },
+    "users": {},
+    "keywords": ["fractal", "search", "js", "prototype"],
+    "contributors": [
+      {
+        "name": "Morgenstern, Daniel (init)",
+        "email": "daniel.morgenstern@init.de"
+      }
+    ]
+  }
+}
