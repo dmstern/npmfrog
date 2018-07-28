@@ -1,22 +1,46 @@
 import Api from '@/services/Api';
 import { AxiosPromise } from 'axios';
 import { PackagesResponse } from '@/api/PackageResponse';
-import { resolve } from 'url';
+import Package from '@/api/Package';
 
 export default class PackagesService {
-
   public static get Instance(): PackagesService {
     return this.instance || (this.instance = new this());
   }
 
+  public get response(): PackagesResponse {
+    return this.packagesResponse;
+  }
+
+  public get packageNames(): string[] {
+    return this.packageNamesList;
+  }
+
+  public get searchItems(): string[] {
+    return this.searchItemList;
+  }
+
   private static instance: PackagesService;
 
-  private request!: Promise<PackagesResponse>;
-  private packages!: PackagesResponse;
+  private request!: Promise<Package[]>;
+  private packages!: Package[];
+  private packagesResponse!: PackagesResponse;
+  private packageNamesList!: string[];
+  private searchItemList!: string[];
 
-  public async getPackages(): Promise<PackagesResponse> {
-    if (this.packages) {
-      return new Promise<PackagesResponse>((fulfill, reject) => {
+  constructor() {
+    this.packages = [];
+    this.packageNamesList = [];
+    this.searchItemList = [];
+  }
+
+  public addSearchItem(searchItem: string, prefix?: string) {
+    this.searchItemList.push(`${prefix ? `${prefix}: ` : ''} ${searchItem}`);
+  }
+
+  public async getPackages(): Promise<Package[]> {
+    if (this.packages.length) {
+      return new Promise<Package[]>((fulfill, reject) => {
         fulfill(this.packages);
       });
     }
@@ -24,25 +48,33 @@ export default class PackagesService {
     if (this.request) {
       return this.request;
     }
-    this.request = this.fetchPackages().then((response) => {
-      const packagesResponse: PackagesResponse = response.data;
-      const packageNames: any[] = Object.keys(packagesResponse).filter((key) => !key.startsWith('_'));
+    return (this.request = new Promise<Package[]>((fulfill, reject) => {
+      this.fetchPackages().then((response) => {
+        const packagesResponse: PackagesResponse = response.data;
+        this.packageNamesList = Object.keys(packagesResponse).filter(
+          (key) => !key.startsWith('_'),
+        );
 
-      const packages: PackagesResponse = {};
-      for (const packageName of packageNames) {
-        let displayName: any = '';
-        if (packagesResponse[packageName].author) {
-          displayName = packagesResponse[packageName].author!.name
-            ? packagesResponse[packageName].author!.name
-            : packagesResponse[packageName].author;
+        for (const packageName of this.packageNamesList) {
+          const modifiedPackage: Package = new Package(
+            packagesResponse[packageName],
+          );
+          this.packages.push(modifiedPackage);
+
+          this.addSearchItem(packageName, 'name');
+          if (modifiedPackage.keywords) {
+            for (const keyword of modifiedPackage.keywords!) {
+              this.addSearchItem(keyword, 'keyword');
+            }
+          }
+          if (modifiedPackage.displayName) {
+            this.addSearchItem(modifiedPackage.displayName, 'author');
+          }
         }
-        Object.assign(packagesResponse[packageName], {displayName});
-        packages[packageName] = packagesResponse[packageName];
-      }
-      this.packages = packages;
-      return packages;
-    });
-    return this.request;
+        this.packagesResponse = packagesResponse;
+        fulfill(this.packages);
+      });
+    }));
   }
 
   private fetchPackages(): AxiosPromise<PackagesResponse> {

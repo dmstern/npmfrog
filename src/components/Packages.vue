@@ -1,15 +1,15 @@
 <template>
   <div class="packages">
-    <h2>Artifactory is keinbockly serving {{Object.keys(packages).length}} npm packages</h2>
-    <span v-if="!Object.keys(packages).length">{{startMsg}}</span>
+    <h2>Artifactory is keinbockly serving {{packages.length}} npm packages</h2>
+    <span v-if="!packages.length">{{startMsg}}</span>
 
     <md-list v-else class="md-triple-line package-list">
 
       <span v-for="(metaData, packageName) in packages" :key='packageName'>
-        <md-list-item v-on:click="$router.push(`package/${packageName}`)">
+        <md-list-item v-on:click="$router.push(`package/${metaData.name}`)">
 
             <div class="md-list-item-text">
-              <span class="package-list--package-name">{{ packageName }}</span>
+              <span class="package-list--package-name">{{ metaData.name }}</span>
               <span class="package-list--description">{{metaData.description}}</span>
               <span class="package-list--keywords">
                 <md-badge v-for="keyword in metaData.keywords" :key="keyword" class="md-square" v-bind:md-content="keyword" />
@@ -122,34 +122,35 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import PackageService from '@/services/PackageService';
 import { PackagesResponse } from '@/api/PackageResponse';
 import PackagesService from '@/services/PackageService';
+import Package from '@/api/Package';
 
 @Component
 export default class Packages extends Vue {
   @Prop() private startMsg!: string;
-  @Prop() private packagesProp!: PackagesResponse;
-  private packages: PackagesResponse = this.packagesProp;
+  @Prop() private packagesProp!: Package[];
+  @Prop() private packageNamesProp!: string[];
+  private packages: Package[] = this.packagesProp;
 
   constructor() {
     super();
-    this.packages = {};
+    this.packages = [];
     this.loadPackages();
   }
 
-  public searched(packages: PackagesResponse): PackagesResponse {
-    const filteredPackageNames = Object.keys(packages).filter((key) => {
-      return key.match('oen') != null; // TODO replace with real search string property
-    });
-    const resultPackages: PackagesResponse = {};
-    for (const packageName of filteredPackageNames) {
-      resultPackages[packageName] = packages[packageName];
-    }
-    return resultPackages;
-  }
+  // public searched(packages: PackagesResponse): PackagesResponse {
+  //   const filteredPackageNames = Object.keys(packages).filter((key) => {
+  //     return key.match('oen') != null; // TODO: replace with real search string property
+  //   });
+  //   const resultPackages: PackagesResponse = {};
+  //   for (const packageName of filteredPackageNames) {
+  //     resultPackages[packageName] = packages[packageName];
+  //   }
+  //   return resultPackages;
+  // }
 
-private loadPackages(): void {
-    PackagesService.Instance.getPackages().then((response) => {
-      this.packages = response;
-    });
+  private async loadPackages() {
+    this.packages = await PackagesService.Instance.getPackages();
   }
 }
+
 </script>

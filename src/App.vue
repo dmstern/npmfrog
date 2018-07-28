@@ -9,7 +9,6 @@
             <md-icon>menu</md-icon>
           </md-button>
         </div>
-      <!-- <span class="md-title">npmFrog - Explore jFrog's Artifactory - the NPM-way</span> -->
         <md-autocomplete
           class="search"
           v-model="selectedPackage"
@@ -65,7 +64,6 @@
 }
 
 #app {
-  // font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100%;
@@ -78,6 +76,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import { PackageMetaData } from '@/api/package-meta-data';
 import { PackagesResponse } from '@/api/PackageResponse';
 import PackagesService from '@/services/PackageService';
+import Package from '@/api/Package';
 
 @Component
 export default class App extends Vue {
@@ -85,32 +84,23 @@ export default class App extends Vue {
   @Prop() private packagesProp!: PackagesResponse;
   @Prop() private selectedPackageProp!: string|null;
   private menuVisible: boolean;
-  private packages: PackagesResponse;
+  private packages: Package[];
   private selectedPackage: string|null;
   private searchItems: string[];
 
   constructor() {
     super();
     this.menuVisible = false;
-    this.packages = {};
+    this.packages = [];
     this.selectedPackage = null;
     this.searchItems = [];
     this.loadPackages();
   }
 
   private loadPackages(): void {
-    PackagesService.Instance.getPackages().then((response) => {
-      this.packages = response;
-      for (let packageName in this.packages) {
-        if (this.packages.hasOwnProperty(packageName)) {
-          this.searchItems.push(packageName);
-          if (this.packages[packageName].keywords) {
-            for (let keyword of this.packages[packageName].keywords!) {
-              this.searchItems.push(`keyword:${keyword}`);
-            }
-          }
-        }
-      }
+    PackagesService.Instance.getPackages().then((packages) => {
+      this.packages = packages;
+      this.searchItems = PackagesService.Instance.searchItems;
     });
   }
 }
