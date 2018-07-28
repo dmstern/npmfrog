@@ -13,7 +13,7 @@
         <md-autocomplete
           class="search"
           v-model="selectedPackage"
-          :md-options="Object.keys(packages)"
+          :md-options="searchItems"
           md-layout="box">
           <label>Search packages</label>
         </md-autocomplete>
@@ -75,7 +75,6 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import PackageService from '@/services/PackageService';
 import { PackageMetaData } from '@/api/package-meta-data';
 import { PackagesResponse } from '@/api/PackageResponse';
 import PackagesService from '@/services/PackageService';
@@ -88,18 +87,30 @@ export default class App extends Vue {
   private menuVisible: boolean;
   private packages: PackagesResponse;
   private selectedPackage: string|null;
+  private searchItems: string[];
 
   constructor() {
     super();
     this.menuVisible = false;
     this.packages = {};
     this.selectedPackage = null;
+    this.searchItems = [];
     this.loadPackages();
   }
 
   private loadPackages(): void {
     PackagesService.Instance.getPackages().then((response) => {
       this.packages = response;
+      for (let packageName in this.packages) {
+        if (this.packages.hasOwnProperty(packageName)) {
+          this.searchItems.push(packageName);
+          if (this.packages[packageName].keywords) {
+            for (let keyword of this.packages[packageName].keywords!) {
+              this.searchItems.push(`keyword:${keyword}`);
+            }
+          }
+        }
+      }
     });
   }
 }
