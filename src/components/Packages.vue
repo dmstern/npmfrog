@@ -1,6 +1,6 @@
 <template>
   <div class="packages">
-    <h2>Packages {{ packagesProp }}</h2>
+    <h2>Artifactory is keinbockly serving {{Object.keys(packages).length}} npm packages</h2>
     <span v-if="!Object.keys(packages).length">{{startMsg}}</span>
 
     <md-list v-else class="md-triple-line package-list">
@@ -135,7 +135,18 @@ export default class Packages extends Vue {
     this.loadPackages();
   }
 
-  private loadPackages(): void {
+  public searched(packages: PackagesResponse): PackagesResponse {
+    const filteredPackageNames = Object.keys(packages).filter((key) => {
+      return key.match('oen') != null; // TODO replace with real search string property
+    });
+    const resultPackages: PackagesResponse = {};
+    for (const packageName of filteredPackageNames) {
+      resultPackages[packageName] = packages[packageName];
+    }
+    return resultPackages;
+  }
+
+private loadPackages(): void {
     PackagesService.Instance.getPackages().then((response) => {
       this.packages = response;
     });
