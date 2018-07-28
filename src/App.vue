@@ -15,6 +15,16 @@
           :md-options="searchItems"
           md-layout="box">
           <label>Search packages</label>
+
+          <template slot="md-autocomplete-item" slot-scope="{ item, term }" class="search-item">
+            <md-badge :class="item.key" class="md-square search-key" v-bind:md-content="item.key" />
+            <md-highlight-text :class="item.key" :md-term="term">{{ item.displayString }}</md-highlight-text>
+          </template>
+
+          <template slot="md-autocomplete-empty" slot-scope="{ term }">
+            No packages matching "{{ term }}" were found.
+          </template>
+
         </md-autocomplete>
         <div class="md-toolbar-section-end">
         </div>
@@ -58,6 +68,7 @@
 
 <style lang="scss">
 @import url("//fonts.googleapis.com/css?family=Roboto:400,500,700,400italic|Fira+Mono|Material+Icons");
+@import 'assets/variables';
 
 .page-container {
   height: 100vh;
@@ -69,12 +80,34 @@
   min-height: 100%;
 }
 
+.md-badge.md-square.md-theme-default.search-key {
+  background-color: $color-gray-light;
+  display: inline-block;
+  padding: .3em;
+  margin-right: .3em;
+  // font-size: .8em;
+  min-height: 1rem;
+
+  &::after {
+    content: ':';
+  }
+
+  &.author {
+    background-color: $color-search-author;
+  }
+
+  &.keyword {
+    background-color: $color-search-keyword;
+  }
+}
+
 </style>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import PackagesService from '@/services/PackageService';
 import Package from '@/model/Package';
+import { SearchItem } from '@/model/SearchItem';
 
 @Component
 export default class App extends Vue {
@@ -82,7 +115,7 @@ export default class App extends Vue {
   @Prop() private selectedPackageProp!: string|null;
   private menuVisible: boolean;
   private selectedPackage: string|null;
-  private searchItems: string[];
+  private searchItems: Array<string|{}>;
 
   constructor() {
     super();

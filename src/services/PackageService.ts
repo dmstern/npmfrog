@@ -2,6 +2,7 @@ import Api from '@/services/Api';
 import { AxiosPromise } from 'axios';
 import { PackagesResponse } from '@/model/PackageResponse';
 import Package from '@/model/Package';
+import { SearchItem, SearchKey } from '@/model/SearchItem';
 
 export default class PackagesService {
   public static get Instance(): PackagesService {
@@ -16,7 +17,7 @@ export default class PackagesService {
     return this.packageNamesList;
   }
 
-  public get searchItems(): string[] {
+  public get searchItems(): Array<string|{}> {
     return this.searchItemList;
   }
 
@@ -26,7 +27,7 @@ export default class PackagesService {
   private packages!: Package[];
   private packagesResponse!: PackagesResponse;
   private packageNamesList!: string[];
-  private searchItemList!: string[];
+  private searchItemList!: Array<string|{}>;
 
   constructor() {
     this.packages = [];
@@ -34,8 +35,8 @@ export default class PackagesService {
     this.searchItemList = [];
   }
 
-  public addSearchItem(searchItem: string, prefix?: string) {
-    this.searchItemList.push(`${prefix ? `${prefix}: ` : ''} ${searchItem}`);
+  public addSearchItem(searchItem: SearchItem) {
+    this.searchItemList.push(searchItem);
   }
 
   public async getPackages(): Promise<Package[]> {
@@ -61,14 +62,14 @@ export default class PackagesService {
           );
           this.packages.push(modifiedPackage);
 
-          this.addSearchItem(packageName, 'name');
+          this.addSearchItem(new SearchItem(SearchKey.name, packageName));
           if (modifiedPackage.keywords) {
             for (const keyword of modifiedPackage.keywords!) {
-              this.addSearchItem(keyword, 'keyword');
+              this.addSearchItem(new SearchItem(SearchKey.keyword, keyword));
             }
           }
           if (modifiedPackage.displayName) {
-            this.addSearchItem(modifiedPackage.displayName, 'author');
+            this.addSearchItem(new SearchItem(SearchKey.author, modifiedPackage.displayName));
           }
         }
         this.packagesResponse = packagesResponse;
