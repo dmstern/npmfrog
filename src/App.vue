@@ -14,11 +14,17 @@
           v-model="selectedPackage"
           :md-options="searchItems"
           md-layout="box">
-          <label>Search packages</label>
+          <label>Search packages...</label>
 
           <template slot="md-autocomplete-item" slot-scope="{ item, term }" class="search-item">
-            <md-badge :class="item.key" class="md-square search-key" v-bind:md-content="item.key" />
-            <md-highlight-text :class="item.key" :md-term="term">{{ item.displayString }}</md-highlight-text>
+            <span v-if="item.key === 'name'">
+              <md-badge :class="item.key" class="md-square search-key" v-bind:md-content="item.key" />
+              <strong class="search-item-text" :class="item.key" :md-term="term">{{ item.displayString }}</strong>
+            </span>
+            <span v-else class="search-item--with-key">
+              <md-badge :class="item.key" class="md-square search-key" v-bind:md-content="item.key" />
+              <md-highlight-text class="search-item-text" :class="item.key" :md-term="term">{{ item.displayString }}</md-highlight-text>
+            </span>
           </template>
 
           <template slot="md-autocomplete-empty" slot-scope="{ term }">
@@ -85,7 +91,6 @@
   display: inline-block;
   padding: .3em;
   margin-right: .3em;
-  // font-size: .8em;
   min-height: 1rem;
 
   &::after {
@@ -99,6 +104,10 @@
   &.keyword {
     background-color: $color-search-keyword;
   }
+}
+
+.search-item--with-key {
+  display: flex;
 }
 
 </style>
