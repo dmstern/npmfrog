@@ -1,4 +1,4 @@
-import { IPackageJSON } from '@/api/package-json';
+import { IPackageJSON } from '@/model/package-json';
 
 export interface PackageMetaData extends IPackageJSON {
 

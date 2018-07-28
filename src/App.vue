@@ -73,25 +73,20 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { PackageMetaData } from '@/api/package-meta-data';
-import { PackagesResponse } from '@/api/PackageResponse';
 import PackagesService from '@/services/PackageService';
-import Package from '@/api/Package';
+import Package from '@/model/Package';
 
 @Component
 export default class App extends Vue {
   @Prop() private menuVisibleProp!: boolean;
-  @Prop() private packagesProp!: PackagesResponse;
   @Prop() private selectedPackageProp!: string|null;
   private menuVisible: boolean;
-  private packages: Package[];
   private selectedPackage: string|null;
   private searchItems: string[];
 
   constructor() {
     super();
     this.menuVisible = false;
-    this.packages = [];
     this.selectedPackage = null;
     this.searchItems = [];
     this.loadPackages();
@@ -99,7 +94,6 @@ export default class App extends Vue {
 
   private loadPackages(): void {
     PackagesService.Instance.getPackages().then((packages) => {
-      this.packages = packages;
       this.searchItems = PackagesService.Instance.searchItems;
     });
   }

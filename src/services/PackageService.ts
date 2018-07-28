@@ -1,7 +1,7 @@
 import Api from '@/services/Api';
 import { AxiosPromise } from 'axios';
-import { PackagesResponse } from '@/api/PackageResponse';
-import Package from '@/api/Package';
+import { PackagesResponse } from '@/model/PackageResponse';
+import Package from '@/model/Package';
 
 export default class PackagesService {
   public static get Instance(): PackagesService {

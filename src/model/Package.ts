@@ -9,13 +9,13 @@ import {
   IDependencyMap,
   IEngines,
   IPublishConfig,
-} from '@/api/package-json';
+} from '@/model/package-json';
 import {
   IDistTags,
   ITimes,
   IVersions,
   PackageMetaData,
-} from '@/api/package-meta-data';
+} from '@/model/package-meta-data';
 
 export default class Package implements PackageMetaData {
   public distTags!: IDistTags;

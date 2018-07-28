@@ -120,15 +120,14 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import PackageService from '@/services/PackageService';
-import { PackagesResponse } from '@/api/PackageResponse';
+import { PackagesResponse } from '@/model/PackageResponse';
 import PackagesService from '@/services/PackageService';
-import Package from '@/api/Package';
+import Package from '@/model/Package';
 
 @Component
 export default class Packages extends Vue {
   @Prop() private startMsg!: string;
   @Prop() private packagesProp!: Package[];
-  @Prop() private packageNamesProp!: string[];
   private packages: Package[] = this.packagesProp;
 
   constructor() {
