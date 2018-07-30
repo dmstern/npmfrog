@@ -75,6 +75,14 @@
 <style lang="scss">
 @import url("//fonts.googleapis.com/css?family=Roboto:400,500,700,400italic|Fira+Mono|Material+Icons");
 @import 'assets/variables';
+@import "~vue-material/dist/theme/engine";
+
+@include md-register-theme("default", (
+  primary: white,
+  accent: #D63E19
+));
+
+@import "~vue-material/dist/theme/all"; // Apply the theme
 
 .page-container {
   height: 100vh;
@@ -83,7 +91,7 @@
 #app {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  min-height: 100%;
+  max-height: 100%;
 }
 
 .md-badge.md-square.md-theme-default.search-key {
