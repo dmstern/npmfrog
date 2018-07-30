@@ -14,7 +14,7 @@
           v-model="selectedPackage"
           :md-options="searchItems"
           md-layout="box">
-          <label>Search packages...</label>
+          <label><md-icon>search</md-icon> Search packages...</label>
 
           <template slot="md-autocomplete-item" slot-scope="{ item, term }" class="search-item">
             <span v-if="item.key === 'name'">
