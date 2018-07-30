@@ -4,6 +4,7 @@
   "private": true,
   "description": "A nice npmjs.org-like web interface for jFrog Artifactory",
   "license": "ISC",
+  "main": "src/main.ts",
   "keywords": [
     "npm",
     "npmjs",
