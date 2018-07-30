@@ -15,7 +15,8 @@ export class SearchItem {
 }
 
 export enum SearchKey {
-  keyword = 'keyword',
-  author = 'author',
-  name = 'name',
+  KEYWORD = 'keyword',
+  AUTHOR = 'author',
+  NAME = 'name',
+  DESCRIPTION = 'description',
 }

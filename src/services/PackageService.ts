@@ -68,14 +68,17 @@ export default class PackagesService {
           );
           this.packages.push(modifiedPackage);
 
-          this.addSearchItem(new SearchItem(SearchKey.name, packageName));
+          this.addSearchItem(new SearchItem(SearchKey.NAME, packageName));
           if (modifiedPackage.keywords) {
             for (const keyword of modifiedPackage.keywords!) {
-              this.addSearchItem(new SearchItem(SearchKey.keyword, keyword));
+              this.addSearchItem(new SearchItem(SearchKey.KEYWORD, keyword));
             }
           }
           if (modifiedPackage.displayName) {
-            this.addSearchItem(new SearchItem(SearchKey.author, modifiedPackage.displayName));
+            this.addSearchItem(new SearchItem(SearchKey.AUTHOR, modifiedPackage.displayName));
+          }
+          if (modifiedPackage.description) {
+            this.addSearchItem(new SearchItem(SearchKey.DESCRIPTION, modifiedPackage.description));
           }
         }
         this.packagesResponse = packagesResponse;
