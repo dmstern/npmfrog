@@ -1,14 +1,19 @@
 <template>
 
 <div class="page-container">
-  <md-app id="app" md-waterfall md-mode="fixed">
-    <md-app-toolbar class="md-white">
+  <md-app id="app" md-waterfall md-mode="flexible">
+    <md-app-toolbar class="md-neutral md-medium">
       <div class="md-toolbar-row">
         <div class="md-toolbar-section-start">
           <md-button class="md-icon-button" @click="menuVisible = !menuVisible">
             <md-icon>menu</md-icon>
           </md-button>
+          <div class="md-logo">
+            <router-link to="/"><strong>npmFrog</strong></router-link>
+          </div>
         </div>
+      </div>
+      <div class="md-toolbar-row md-toolbar-offset">
         <md-autocomplete
           class="search"
           v-model="selectedPackage"
@@ -76,10 +81,11 @@
 @import url("//fonts.googleapis.com/css?family=Roboto:400,500,700,400italic|Fira+Mono|Material+Icons");
 @import "assets/variables";
 @import "~vue-material/dist/theme/engine";
+@import "~vue-material/src/components/MdAnimation/variables";
 
 @include md-register-theme(
   "default",
-  (primary: md-get-palette-color(blue, A200), accent: #d63e19, neutral: white)
+  (primary: #d63e19, accent: md-get-palette-color(blue, A200), neutral: white)
 );
 
 @import "~vue-material/dist/theme/all"; // Apply the theme
@@ -93,11 +99,16 @@
   -moz-osx-font-smoothing: grayscale;
   height: 100%;
 
+  .md-app-toolbar {
+    height: 110px;
+    z-index: 100;
+  }
+
   .md-toolbar {
     border-bottom: 1px solid $color-gray-extralight;
 
     @include md-theme-component() {
-      &.md-white {
+      &.md-neutral {
         @include md-theme-property(background-color, neutral);
         @include md-theme-property(color, text-primary, neutral);
         @include md-toolbar-icon(text-accent, neutral);
@@ -106,8 +117,38 @@
       }
     }
 
-    &.md-white {
+    &.md-neutral {
       background-color: white;
+    }
+
+    * {
+      transition: all $md-transition-default;
+    }
+
+    .md-toolbar-offset {
+      margin-left: 2em;
+      z-index: inherit;
+    }
+
+    .md-logo {
+      opacity: 0;
+      visibility: hidden;
+      margin-top: -2em;
+    }
+
+    &.md-no-elevation {
+      .md-logo {
+        opacity: 1;
+        visibility: visible;
+        margin-top: 0;
+      }
+
+      &.md-large,
+      &.md-medium {
+        .md-toolbar-row {
+          margin-left: 0;
+        }
+      }
     }
   }
 }
