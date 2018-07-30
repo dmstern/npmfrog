@@ -42,13 +42,18 @@
 .md-list-item-text * {
   width: auto;
 }
-.md-list-item-text > * {
-  width: 100%;
+.md-list-item-text {
+
+  align-self: flex-start;
+
+  & > * {
+    width: 100%;
+  }
 }
 
 .package-list {
 
-  .md-list-item {
+  .md-list-item-content {
     padding: .5em 0;
   }
 
@@ -60,7 +65,6 @@
   &--right {
     text-align: right;
     margin-top: auto;
-    margin-bottom: 0;
   }
 
   &--author {
@@ -105,7 +109,7 @@
 
     .md-badge {
       display: inline-block;
-      margin: .2em .5em .5em 0;
+      margin: .2em .5em 0 0;
       background-color: $color-gray-extralight;
       color: $color-gray-medium;
       font-size: .8em;
