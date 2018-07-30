@@ -91,7 +91,7 @@
 #app {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  max-height: 100%;
+  height: 100%;
 }
 
 .md-badge.md-square.md-theme-default.search-key {
