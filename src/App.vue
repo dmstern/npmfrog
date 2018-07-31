@@ -128,6 +128,9 @@
     .md-toolbar-offset {
       margin-left: 2em;
       z-index: inherit;
+      left: $md-app-content-padding;
+      right: $md-app-content-padding;
+      width: calc(100% - #{2 * $md-app-content-padding});
     }
 
     .md-logo {
