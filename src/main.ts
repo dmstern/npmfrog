@@ -3,7 +3,6 @@ import Vue from 'vue';
 import './plugins/vuetify';
 import App from './App.vue';
 import router from '@/router';
-import 'vue-material/dist/vue-material.min.css';
 
 Vue.config.productionTip = false;
 

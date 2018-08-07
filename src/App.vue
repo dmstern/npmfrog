@@ -25,8 +25,13 @@
     <v-toolbar
       app
       :clipped-left="clipped"
+      color="primary"
+      dark
+      fixed
     >
-      <v-toolbar-side-icon @click.stop="menuVisible = !menuVisible"></v-toolbar-side-icon>
+      <v-btn icon @click.stop="menuVisible = !menuVisible">
+        <v-icon>menu</v-icon>
+      </v-btn>
       <!-- <v-btn icon @click.stop="miniVariant = !miniVariant">
         <v-icon v-html="miniVariant ? 'chevron_right' : 'chevron_left'"></v-icon>
       </v-btn> -->
@@ -35,29 +40,29 @@
       </v-btn> -->
       <v-toolbar-title v-text="title"></v-toolbar-title>
       <v-autocomplete
-        :solo-inverted="!hasFocus"
-        :flat="!hasFocus"
-        :solo="hasFocus"
-        @focus="hasFocus = true"
-        @blur="hasFocus = false"
-        @input="onInput"
         label="Search package..."
         prepend-inner-icon="search"
-        v-model="selectedPackage"
-        :items="searchItems"
         clearable
+        solo-inverted
         chips
+        deletable-chips
         item-text="displayString"
         item-value="searchString"
         multiple
+        :flat="!hasFocus"
+        :items="searchItems"
+        v-model="selectedPackage"
+        @focus="hasFocus = true"
+        @blur="hasFocus = false"
+        class="hidden-sm-and-down"
+        hide-details
       >
         <template slot="selection" slot-scope="data">
           <v-chip
             :selected="data.selected"
             :disabled="data.disabled"
-            :key="data.item.key"
+            :key="data.item.searchString"
             class="v-chip--select-multi "
-
             :close="true"
           ><!--@input="data.parent.selectItem(data.item)"-->
             <v-avatar>
@@ -74,16 +79,18 @@
         >
           <template>
             <v-list-tile-avatar>
-              <img :src="data.item.avatar">
+              <v-icon v-if="data.item.key === 'author'">account_circle</v-icon>
+              <v-icon v-if="data.item.key === 'keyword'">local_offer</v-icon>
+              <v-icon v-if="data.item.key === 'description'">subject</v-icon>
+              <v-icon v-if="data.item.key === 'name'">package-variant</v-icon>
             </v-list-tile-avatar>
             <v-list-tile-content>
-              <v-list-tile-title v-html="data.item.key"></v-list-tile-title>
-              <v-list-tile-sub-title v-html="data.item.displayString"></v-list-tile-sub-title>
+              <v-list-tile-sub-title v-html="data.item.key"></v-list-tile-sub-title>
+              <v-list-tile-title v-html="data.item.displayString"></v-list-tile-title>
             </v-list-tile-content>
           </template>
         </template>
       </v-autocomplete>
-
       <v-spacer></v-spacer>
       <!-- <v-btn icon @click.stop="rightDrawer = !rightDrawer">
         <v-icon>menu</v-icon>
@@ -139,10 +146,6 @@ export default class App extends Vue {
     PackagesService.Instance.getPackages().then((packages) => {
       this.searchItems = PackagesService.Instance.searchItems;
     });
-  }
-
-  private onInput(value: any) {
-    console.log('hasFocus', this.hasFocus);
   }
 }
 </script>
