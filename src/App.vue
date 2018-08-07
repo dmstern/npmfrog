@@ -32,12 +32,6 @@
       <v-btn icon @click.stop="menuVisible = !menuVisible">
         <v-icon>menu</v-icon>
       </v-btn>
-      <!-- <v-btn icon @click.stop="miniVariant = !miniVariant">
-        <v-icon v-html="miniVariant ? 'chevron_right' : 'chevron_left'"></v-icon>
-      </v-btn> -->
-      <!-- <v-btn icon @click.stop="clipped = !clipped">
-        <v-icon>web</v-icon>
-      </v-btn> -->
       <v-toolbar-title v-text="title"></v-toolbar-title>
       <v-autocomplete
         label="Search package..."
@@ -92,9 +86,6 @@
         </template>
       </v-autocomplete>
       <v-spacer></v-spacer>
-      <!-- <v-btn icon @click.stop="rightDrawer = !rightDrawer">
-        <v-icon>menu</v-icon>
-      </v-btn> -->
     </v-toolbar>
     <v-content>
       <!-- <router-view/> -->
@@ -118,8 +109,6 @@ export default class App extends Vue {
   @Prop() private selectedPackageProp!: string|null;
   @Prop() private clippedProp!: boolean;
   @Prop() private hasFocusProp!: boolean;
-  // @Prop() private fixedProp!: boolean;
-  // @Prop() private miniVariantProp!: boolean;
   @Prop() private titleProp!: string;
   private menuVisible: boolean;
   private selectedPackage: string|null;
@@ -127,12 +116,10 @@ export default class App extends Vue {
   private title: string = 'npmFrog';
   private clipped: boolean = true;
   private hasFocus: boolean = false;
-  // private fixed: boolean = false;
   private items: any[] = [{
     icon: 'bubble_chart',
     title: 'Inspire',
   }];
-  // private miniVariant: boolean = false;
 
   constructor() {
     super();
