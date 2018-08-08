@@ -11,6 +11,7 @@
     "startServer": "nodemon server"
   },
   "dependencies": {
+    "@mdi/font": "^2.5.94",
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "cors": "^2.8.4",

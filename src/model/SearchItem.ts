@@ -6,7 +6,7 @@ export class SearchItem {
   constructor(key: SearchKey, value: string) {
     this.key = key;
     this.displayString = value;
-    this.searchStringProp = `${this.key}: ${this.displayString}`;
+    this.searchStringProp = `${this.key}:${this.displayString}`;
   }
 
   public get searchString() {

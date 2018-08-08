@@ -40,15 +40,14 @@
         solo-inverted
         chips
         deletable-chips
-        item-text="displayString"
-        item-value="searchString"
+        :item-text="getSearchString"
+        :item-value="getSearchString"
         multiple
         :flat="!hasFocus"
         :items="searchItems"
         v-model="selectedPackage"
         @focus="hasFocus = true"
         @blur="hasFocus = false"
-        class="hidden-sm-and-down"
         hide-details
       >
         <template slot="selection" slot-scope="data">
@@ -56,31 +55,36 @@
             :selected="data.selected"
             :disabled="data.disabled"
             :key="data.item.searchString"
-            class="v-chip--select-multi "
+            class="v-chip--select-multi"
             :close="true"
+            light
           ><!--@input="data.parent.selectItem(data.item)"-->
-            <v-avatar>
+            <v-avatar color="accent">
               <v-icon v-if="data.item.key === 'author'">account_circle</v-icon>
               <v-icon v-if="data.item.key === 'keyword'">local_offer</v-icon>
               <v-icon v-if="data.item.key === 'description'">subject</v-icon>
             </v-avatar>
-            {{ data.item.displayString }}
+            <v-list-tile-sub-title> {{ data.item.displayString }}</v-list-tile-sub-title>
           </v-chip>
         </template>
-        <template
-          slot="item"
-          slot-scope="data"
-        >
-          <template>
+        <template slot="item" slot-scope="data">
+          <template v-if="isPackage(data.item)">
+            <v-list-tile-avatar>
+              <v-icon>mdi-package-variant-closed</v-icon>
+            </v-list-tile-avatar>
+            <v-list-tile-content>
+              <v-list-tile-title><strong v-html="data.item.name"></strong></v-list-tile-title>
+              <v-list-tile-sub-title v-html="data.item.description"></v-list-tile-sub-title>
+            </v-list-tile-content>
+          </template>
+          <template v-else>
             <v-list-tile-avatar>
               <v-icon v-if="data.item.key === 'author'">account_circle</v-icon>
               <v-icon v-if="data.item.key === 'keyword'">local_offer</v-icon>
               <v-icon v-if="data.item.key === 'description'">subject</v-icon>
-              <v-icon v-if="data.item.key === 'name'">package-variant</v-icon>
             </v-list-tile-avatar>
             <v-list-tile-content>
-              <v-list-tile-sub-title v-html="data.item.key"></v-list-tile-sub-title>
-              <v-list-tile-title v-html="data.item.displayString"></v-list-tile-title>
+              <v-list-tile-title><span class="search--key grey--text text--darken-1">{{data.item.key}}:</span><span v-html="data.item.displayString"></span></v-list-tile-title>
             </v-list-tile-content>
           </template>
         </template>
@@ -112,7 +116,7 @@ export default class App extends Vue {
   @Prop() private titleProp!: string;
   private menuVisible: boolean;
   private selectedPackage: string|null;
-  private searchItems: Array<string|{}>;
+  private searchItems: Array<SearchItem|Package>;
   private title: string = 'npmFrog';
   private clipped: boolean = true;
   private hasFocus: boolean = false;
@@ -131,13 +135,23 @@ export default class App extends Vue {
 
   private loadPackages(): void {
     PackagesService.Instance.getPackages().then((packages) => {
-      this.searchItems = PackagesService.Instance.searchItems;
+      this.searchItems = PackagesService.Instance.searchItems.concat(packages);
     });
+  }
+
+  private getSearchString(item: any) {
+    return JSON.stringify(item);
+  }
+
+  private isPackage(item: SearchItem | Package): boolean {
+    return item instanceof Package;
   }
 }
 </script>
 
 <style lang="scss">
+@import 'assets/variables';
+
 .v-navigation-drawer {
   .v-list {
     margin-top: 4em;
@@ -147,4 +161,10 @@ export default class App extends Vue {
 .v-toolbar__title {
   margin-right: 2em;
 }
+
+.search--key {
+  display: none;
+  font-size: .9em;
+}
+
 </style>
