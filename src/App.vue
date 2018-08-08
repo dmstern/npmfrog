@@ -54,7 +54,6 @@
           <v-chip
             :selected="data.selected"
             :disabled="data.disabled"
-            :key="data.item.searchString"
             class="v-chip--select-multi"
             :close="true"
             light
