@@ -75,6 +75,8 @@
               <v-list-tile-title><strong v-html="data.item.name"></strong></v-list-tile-title>
               <v-list-tile-sub-title v-html="data.item.description"></v-list-tile-sub-title>
             </v-list-tile-content>
+            <v-spacer></v-spacer>
+            <v-icon>mdi-arrow-right-box</v-icon>
           </template>
           <template v-else>
             <v-list-tile-avatar>
@@ -85,6 +87,8 @@
             <v-list-tile-content>
               <v-list-tile-title><span class="search--key grey--text text--darken-1">{{data.item.key}}:</span><span v-html="data.item.value"></span></v-list-tile-title>
             </v-list-tile-content>
+            <v-spacer></v-spacer>
+            <v-icon>mdi-arrow-top-left</v-icon>
           </template>
         </template>
       </v-autocomplete>
