@@ -1,10 +1,10 @@
 export class SearchItem {
   public key: SearchKey;
-  public displayString: string;
+  public value: string;
 
   constructor(key: SearchKey, value: string) {
     this.key = key;
-    this.displayString = value;
+    this.value = value;
   }
 }
 

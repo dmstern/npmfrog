@@ -38,7 +38,7 @@ export default class PackagesService {
   public addSearchItem(searchItem: SearchItem) {
     for (const currentSearchItem of this.searchItemList) {
       if (currentSearchItem.key === searchItem.key
-        && currentSearchItem.displayString === searchItem.displayString) {
+        && currentSearchItem.value === searchItem.value) {
         return;
       }
     }

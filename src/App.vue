@@ -63,7 +63,7 @@
               <v-icon v-if="data.item.key === 'keyword'">local_offer</v-icon>
               <v-icon v-if="data.item.key === 'description'">subject</v-icon>
             </v-avatar>
-            <v-list-tile-sub-title> {{ data.item.displayString }}</v-list-tile-sub-title>
+            <v-list-tile-sub-title> {{ data.item.value }}</v-list-tile-sub-title>
           </v-chip>
         </template>
         <template slot="item" slot-scope="data">
@@ -83,7 +83,7 @@
               <v-icon v-if="data.item.key === 'description'">subject</v-icon>
             </v-list-tile-avatar>
             <v-list-tile-content>
-              <v-list-tile-title><span class="search--key grey--text text--darken-1">{{data.item.key}}:</span><span v-html="data.item.displayString"></span></v-list-tile-title>
+              <v-list-tile-title><span class="search--key grey--text text--darken-1">{{data.item.key}}:</span><span v-html="data.item.value"></span></v-list-tile-title>
             </v-list-tile-content>
           </template>
         </template>
