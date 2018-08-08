@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "concurrently --kill-others --names \"SERVER,WEB_UI\" -c \"bgBlue.bold,bgMagenta.bold\" \"npm run startServer\" \"npm run startWebui\"",
+    "start": "concurrently --kill-others --raw \"npm run startServer\" \"npm run startWebui\"",
     "dev": "cross-env-shell MOCK=true npm start",
     "startWebui": "vue-cli-service serve",
     "buildWebui": "vue-cli-service build",
