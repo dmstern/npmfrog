@@ -32,7 +32,16 @@
       <v-btn icon @click.stop="menuVisible = !menuVisible">
         <v-icon>menu</v-icon>
       </v-btn>
-      <v-toolbar-title v-text="title"></v-toolbar-title>      
+      <router-link to="/" class="home-button">
+        <v-toolbar-title>
+          <simple-svg
+            :filepath="getIcon('logo-monochrome')"
+            :width="`${btnIconSize}`"
+            :height="`${btnIconSize}`"
+          />
+          <span class="label hidden-sm-and-down">{{title}}</span>
+        </v-toolbar-title>    
+      </router-link>
       <v-autocomplete
         ref="searchbar"
         label="Search package..."
@@ -107,6 +116,8 @@
     </v-content>
     <v-footer app>
       <span>&copy; {{ new Date().getFullYear() }} by ]init[ PixelSchubser Unit</span>
+      <v-spacer></v-spacer>
+      <span>Logo icons designed Freepik and Dimitry Miroliubov from <a href="//www.flaticon.com" target="_blank">Flaticon</a></span>
     </v-footer>
   </v-app>
 </template>
@@ -136,6 +147,7 @@ export default class App extends Vue {
   private title: string = 'npmFrog';
   private clipped: boolean = true;
   private hasFocus: boolean = false;
+  private btnIconSize: number = 36;
   private items: any[] = [{
     icon: 'bubble_chart',
     title: 'Inspire',
@@ -186,6 +198,10 @@ export default class App extends Vue {
       contentElement.style.padding = `${toolbar.offsetHeight}px 0 ${footer.offsetHeight}px`;
     }, 0);
   }
+
+  private getIcon(icon: string) {
+    return require(`@/../art/${icon}.svg`);
+  }
 }
 
 </script>
@@ -199,13 +215,37 @@ export default class App extends Vue {
   }
 }
 
-.v-toolbar__content {
-  height: auto !important;
-  padding: .5em;
-}
+.v-toolbar {
 
-.v-toolbar__title {
-  margin-right: 2em;
+  &.theme--dark a {
+    color: $color-link--dark;
+    text-decoration: none;
+  }
+
+  &__content {
+    height: auto !important;
+    padding: .5em;
+  }
+
+  &__title {
+    margin-right: 2em;
+  }
+
+  .home-button {
+
+    .v-toolbar__title {
+      display: flex;
+      align-items: center;
+      
+      .label {
+        margin-left: .5em;
+      }
+    }
+
+    .simple-svg {
+      fill: $color-white;
+    }
+  }
 }
 
 </style>
