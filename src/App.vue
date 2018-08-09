@@ -69,6 +69,7 @@
         :items="searchItems"
         v-model="selectedPackage"
         @input.native="hasFocus = true"
+        @focus="hasFocus = true"
         @blur="hasFocus = false"
         @change="onSearchChange"
       >
@@ -185,6 +186,7 @@ export default class App extends Vue {
   }
 
   private onSearchChange(values: string[]) {
+    this.hasFocus = true;
     for (const value of values) {
       const item = JSON.parse(value);
       const isPackage = item.name !== undefined;
