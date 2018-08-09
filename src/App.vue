@@ -4,10 +4,17 @@
       persistent
       v-model="menuVisible"
       enable-resize-watcher
-      fixed
+      temporary  
       app
     >
       <v-list>
+        <v-list-tile>
+          <v-toolbar-title>
+            <img src="@/../art/logo.svg" alt="npmFrog" class="v-btn--icon">
+            <span class="label">{{title}}</span>
+          </v-toolbar-title>
+        </v-list-tile>
+
         <v-list-tile
           value="true"
           v-for="(item, i) in items"
@@ -196,6 +203,7 @@ export default class App extends Vue {
       const toolbar = document.querySelector('.v-toolbar__content') as HTMLElement;
       const footer = document.querySelector('.v-footer') as HTMLElement;
       contentElement.style.padding = `${toolbar.offsetHeight}px 0 ${footer.offsetHeight}px`;
+      console.log('test');
     }, 0);
   }
 
@@ -208,12 +216,6 @@ export default class App extends Vue {
 
 <style lang="scss">
 @import 'assets/variables';
-
-.v-navigation-drawer {
-  .v-list {
-    margin-top: 4em;
-  }
-}
 
 .v-toolbar {
 
@@ -231,21 +233,20 @@ export default class App extends Vue {
     margin-right: 2em;
   }
 
-  .home-button {
 
-    .v-toolbar__title {
-      display: flex;
-      align-items: center;
-      
-      .label {
-        margin-left: .5em;
-      }
+  &__title {
+    display: flex;
+    align-items: center;
+    
+    .label {
+      margin-left: .5em;
     }
 
     .simple-svg {
       fill: $color-white;
     }
   }
+
 }
 
 </style>
