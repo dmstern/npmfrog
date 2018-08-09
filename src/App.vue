@@ -32,39 +32,46 @@
       <v-btn icon @click.stop="menuVisible = !menuVisible">
         <v-icon>menu</v-icon>
       </v-btn>
-      <v-toolbar-title v-text="title"></v-toolbar-title>
+      <v-toolbar-title v-text="title"></v-toolbar-title>      
       <v-autocomplete
+        ref="searchbar"
         label="Search package..."
         prepend-inner-icon="search"
         clearable
+        hide-selected
         solo-inverted
         chips
         deletable-chips
+        multiple
+        hide-details
         :item-text="getSearchString"
         :item-value="getSearchString"
-        multiple
         :flat="!hasFocus"
         :items="searchItems"
         v-model="selectedPackage"
         @focus="hasFocus = true"
         @blur="hasFocus = false"
-        hide-details
+        @change="onSearchChange"
       >
         <template slot="selection" slot-scope="data">
-          <v-chip
-            :selected="data.selected"
-            :disabled="data.disabled"
-            class="v-chip--select-multi"
-            :close="true"
-            light
-          ><!--@input="data.parent.selectItem(data.item)"-->
-            <v-avatar color="accent">
-              <v-icon v-if="data.item.key === 'author'">account_circle</v-icon>
-              <v-icon v-if="data.item.key === 'keyword'">local_offer</v-icon>
-              <v-icon v-if="data.item.key === 'description'">subject</v-icon>
-            </v-avatar>
-            <v-list-tile-sub-title> {{ data.item.value }}</v-list-tile-sub-title>
-          </v-chip>
+          <template v-if="!isPackage(data.item)">
+            <v-chip
+              :selected="data.selected"
+              :disabled="data.disabled"
+              class="v-chip--select-multi highlight"
+              :close="true"
+              :light="hasFocus"
+              solo-inverted
+              @input="data.parent.selectItem(data.item)"
+            >
+              <v-avatar>
+                <v-icon v-if="data.item.key === 'author'">account_circle</v-icon>
+                <v-icon v-if="data.item.key === 'keyword'">local_offer</v-icon>
+                <v-icon v-if="data.item.key === 'description'">subject</v-icon>
+              </v-avatar>
+              <v-list-tile-sub-title> {{ data.item.value }}</v-list-tile-sub-title>
+            </v-chip>
+          </template>
         </template>
         <template slot="item" slot-scope="data">
           <template v-if="isPackage(data.item)">
@@ -95,8 +102,8 @@
       <v-spacer></v-spacer>
     </v-toolbar>
     <v-content>
-      <!-- <router-view/> -->
-      Hello Vue!
+       <router-view/> 
+      <!-- Hello Vue! -->
     </v-content>
     <v-footer app>
       <span>&copy; 2017</span>
@@ -109,9 +116,14 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import PackagesService from '@/services/PackageService';
 import Package from '@/model/Package';
 import { SearchItem, SearchKey } from '@/model/SearchItem';
+import router from '@/router';
 
 @Component
 export default class App extends Vue {
+  public $refs!: {
+    searchbar: any,
+  };
+
   @Prop() private menuVisibleProp!: boolean;
   @Prop() private selectedPackageProp!: string|null;
   @Prop() private clippedProp!: boolean;
@@ -137,7 +149,7 @@ export default class App extends Vue {
   }
 
   private loadPackages(): void {
-    PackagesService.Instance.getPackages().then((packages) => {
+    PackagesService.Instance.getPackages().then((packages: Package[]) => {
       this.searchItems = PackagesService.Instance.searchItems.concat(packages);
     });
   }
@@ -149,7 +161,26 @@ export default class App extends Vue {
   private isPackage(item: SearchItem | Package): boolean {
     return item instanceof Package;
   }
+
+  private onSearchChange(values: string[]) {
+    for (const value of values) {
+      const item = JSON.parse(value);
+      const isPackage = item.name !== undefined;
+      if (isPackage) {
+        router.push(`/package/${item.name}`);
+        this.$refs.searchbar.blur();
+      }
+    }
+    // Hack: adapt spacing of content to height of toolbar:
+    window.setTimeout(() => {
+      const contentElement = document.querySelector('.v-content') as HTMLElement;
+      const toolbar = document.querySelector('.v-toolbar') as HTMLElement;
+      const footer = document.querySelector('.v-footer') as HTMLElement;
+      contentElement.style.padding = `${toolbar.offsetHeight}px 0 ${footer.offsetHeight}px`;
+    }, 0);
+  }
 }
+
 </script>
 
 <style lang="scss">
@@ -159,6 +190,10 @@ export default class App extends Vue {
   .v-list {
     margin-top: 4em;
   }
+}
+
+.v-toolbar__content {
+  height: auto !important;
 }
 
 .v-toolbar__title {
