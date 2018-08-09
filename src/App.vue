@@ -122,7 +122,6 @@
     </v-toolbar>
     <v-content>
        <router-view/> 
-      <!-- Hello Vue! -->
     </v-content>
     <v-footer app>
       <span>&copy; {{ new Date().getFullYear() }} by ]init[ PixelSchubser Unit</span>
