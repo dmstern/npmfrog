@@ -117,6 +117,7 @@ import PackagesService from '@/services/PackageService';
 import Package from '@/model/Package';
 import { SearchItem, SearchKey } from '@/model/SearchItem';
 import router from '@/router';
+import { setTimeout } from 'timers';
 
 @Component
 export default class App extends Vue {
@@ -170,14 +171,15 @@ export default class App extends Vue {
       const isPackage = item.name !== undefined;
       if (isPackage) {
         router.push(`/package/${item.name}`);
-        this.$refs.searchbar.blur();
+        this.$refs.searchbar.clearableCallback();
+        setTimeout(this.$refs.searchbar.blur, 100);
       }
     }
     this.adaptContentSpacing();
   }
 
   private adaptContentSpacing() {
-    window.setTimeout(() => {
+    setTimeout(() => {
       const contentElement = document.querySelector('.v-content') as HTMLElement;
       const toolbar = document.querySelector('.v-toolbar__content') as HTMLElement;
       const footer = document.querySelector('.v-footer') as HTMLElement;
