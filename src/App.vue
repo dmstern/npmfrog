@@ -28,6 +28,9 @@
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
+      <v-footer app>
+        <span>Logo icons designed by Freepik and Dimitry Miroliubov from <a href="//www.flaticon.com" target="_blank">Flaticon</a></span>
+      </v-footer>
     </v-navigation-drawer>
     <v-toolbar
       app
@@ -123,8 +126,6 @@
     </v-content>
     <v-footer app>
       <span>&copy; {{ new Date().getFullYear() }} by ]init[ PixelSchubser Unit</span>
-      <v-spacer></v-spacer>
-      <span>Logo icons designed by Freepik and Dimitry Miroliubov from <a href="//www.flaticon.com" target="_blank">Flaticon</a></span>
     </v-footer>
   </v-app>
 </template>
