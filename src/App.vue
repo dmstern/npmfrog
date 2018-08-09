@@ -106,7 +106,7 @@
       <!-- Hello Vue! -->
     </v-content>
     <v-footer app>
-      <span>&copy; 2017</span>
+      <span>&copy; {{ new Date().getFullYear() }} by ]init[ PixelSchubser Unit</span>
     </v-footer>
   </v-app>
 </template>
@@ -146,6 +146,8 @@ export default class App extends Vue {
     this.selectedPackage = null;
     this.searchItems = [];
     this.loadPackages();
+    this.adaptContentSpacing();
+    window.onresize = this.adaptContentSpacing;
   }
 
   private loadPackages(): void {
@@ -171,10 +173,13 @@ export default class App extends Vue {
         this.$refs.searchbar.blur();
       }
     }
-    // Hack: adapt spacing of content to height of toolbar:
+    this.adaptContentSpacing();
+  }
+
+  private adaptContentSpacing() {
     window.setTimeout(() => {
       const contentElement = document.querySelector('.v-content') as HTMLElement;
-      const toolbar = document.querySelector('.v-toolbar') as HTMLElement;
+      const toolbar = document.querySelector('.v-toolbar__content') as HTMLElement;
       const footer = document.querySelector('.v-footer') as HTMLElement;
       contentElement.style.padding = `${toolbar.offsetHeight}px 0 ${footer.offsetHeight}px`;
     }, 0);
@@ -194,6 +199,7 @@ export default class App extends Vue {
 
 .v-toolbar__content {
   height: auto !important;
+  padding: .5em;
 }
 
 .v-toolbar__title {
