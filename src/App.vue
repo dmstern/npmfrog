@@ -124,7 +124,7 @@
     <v-footer app>
       <span>&copy; {{ new Date().getFullYear() }} by ]init[ PixelSchubser Unit</span>
       <v-spacer></v-spacer>
-      <span>Logo icons designed Freepik and Dimitry Miroliubov from <a href="//www.flaticon.com" target="_blank">Flaticon</a></span>
+      <span>Logo icons designed by Freepik and Dimitry Miroliubov from <a href="//www.flaticon.com" target="_blank">Flaticon</a></span>
     </v-footer>
   </v-app>
 </template>
