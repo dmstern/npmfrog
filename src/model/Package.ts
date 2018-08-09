@@ -27,7 +27,7 @@ export default class Package implements PackageMetaData {
   // tslint:disable-next-line:variable-name
   public _rev!: string;
   public name!: string;
-  public version!: string;
+  public version?: string|undefined;
   public description?: string | undefined;
   public keywords?: string[] | undefined;
   public homepage?: string | undefined;
