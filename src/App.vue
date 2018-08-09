@@ -43,8 +43,8 @@
         <v-toolbar-title>
           <simple-svg
             :filepath="getIcon('logo-monochrome')"
-            :width="`${btnIconSize}`"
-            :height="`${btnIconSize}`"
+            :width="`${btnIconSize}px`"
+            :height="`${btnIconSize}px`"
           />
           <span class="label hidden-sm-and-down">{{title}}</span>
         </v-toolbar-title>    
@@ -203,7 +203,6 @@ export default class App extends Vue {
       const toolbar = document.querySelector('.v-toolbar__content') as HTMLElement;
       const footer = document.querySelector('.v-footer') as HTMLElement;
       contentElement.style.padding = `${toolbar.offsetHeight}px 0 ${footer.offsetHeight}px`;
-      console.log('test');
     }, 0);
   }
 
