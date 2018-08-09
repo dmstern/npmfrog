@@ -49,7 +49,7 @@
         :flat="!hasFocus"
         :items="searchItems"
         v-model="selectedPackage"
-        @focus="hasFocus = true"
+        @input.native="hasFocus = true"
         @blur="hasFocus = false"
         @change="onSearchChange"
       >
@@ -206,11 +206,6 @@ export default class App extends Vue {
 
 .v-toolbar__title {
   margin-right: 2em;
-}
-
-.search--key {
-  display: none;
-  font-size: .9em;
 }
 
 </style>
