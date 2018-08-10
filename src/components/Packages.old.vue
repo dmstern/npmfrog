@@ -3,40 +3,36 @@
     <h2>Artifactory is keinbockly serving {{packages.length}} npm packages</h2>
     <span v-if="!packages.length">{{startMsg}}</span>
 
-    <v-list two-line v-else class="package-list">
-          <template v-for="(item, index) in packages">
-            <v-list-tile
-              :key='item.name'
-              avatar
-              ripple
-              @click="$router.push(`package/${item.name}`)"
-            >
-              <v-list-tile-content>
-                <v-list-tile-title>{{ item.name }}</v-list-tile-title>
-                <v-list-tile-sub-title class="text--primary">{{item.description}}</v-list-tile-sub-title>
-                <v-list-tile-sub-title><span v-for="keyword in item.keywords" :key="keyword" class="md-square">{{keyword}}</span></v-list-tile-sub-title>
-              </v-list-tile-content>
+    <md-list v-else class="md-triple-line package-list">
 
-              <v-list-tile-action>
-                <div class="package-list--right">
+      <span v-for="(metaData, packageName) in packages" :key='packageName'>
+        <md-list-item v-on:click="$router.push(`package/${metaData.name}`)">
 
-                  <div class="package-list--by">crafted by</div>
-                  <div class="package-list--author">
-                    <span class="package-list--author-name">{{item.displayName}}</span>
-                    <v-avatar>
-                      <img src="https://placeimg.com/40/40/people/1" alt="People">
-                    </v-avatar>
-                  </div>
-                </div>
-              </v-list-tile-action>
+            <div class="md-list-item-text">
+              <span class="package-list--package-name">{{ metaData.name }}</span>
+              <span class="package-list--description">{{metaData.description}}</span>
+              <span class="package-list--keywords">
+                <md-badge v-for="keyword in metaData.keywords" :key="keyword" class="md-square" v-bind:md-content="keyword" />
+              </span>
+           
+            </div>
 
-            </v-list-tile>
-            <v-divider
-              v-if="index + 1 < packages.length"
-              v-bind:key="index"
-            ></v-divider>
-          </template>
-        </v-list>
+            <div class="package-list--right">
+
+              <div class="package-list--by">crafted by</div>
+              <div class="package-list--author">
+                <span class="package-list--author-name">{{metaData.displayName}}</span>
+                <md-avatar>
+                  <img src="https://placeimg.com/40/40/people/1" alt="People">
+                </md-avatar>
+              </div>
+            </div>
+        </md-list-item>
+
+        <md-divider class="md-full"></md-divider>
+      </span>
+    </md-list>
+
   </div>
 </template>
 
@@ -145,12 +141,12 @@ export default class Packages extends Vue {
   }
 
   // public searched(packages: PackagesResponse): PackagesResponse {
-  //   const filteredindexs = Object.keys(packages).filter((key) => {
+  //   const filteredPackageNames = Object.keys(packages).filter((key) => {
   //     return key.match('oen') != null; // TODO: replace with real search string property
   //   });
   //   const resultPackages: PackagesResponse = {};
-  //   for (const index of filteredindexs) {
-  //     resultPackages[index] = packages[index];
+  //   for (const packageName of filteredPackageNames) {
+  //     resultPackages[packageName] = packages[packageName];
   //   }
   //   return resultPackages;
   // }
