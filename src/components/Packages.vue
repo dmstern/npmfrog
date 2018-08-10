@@ -14,7 +14,9 @@
               <v-list-tile-content>
                 <v-list-tile-title>{{ item.name }}</v-list-tile-title>
                 <v-list-tile-sub-title class="text--primary">{{item.description}}</v-list-tile-sub-title>
-                <v-list-tile-sub-title><span v-for="keyword in item.keywords" :key="keyword" class="md-square">{{keyword}}</span></v-list-tile-sub-title>
+                <v-list-tile-sub-title>
+                  <v-chip v-for="keyword in item.keywords" :key="keyword" small>{{keyword}}</v-chip>
+                </v-list-tile-sub-title>
               </v-list-tile-content>
 
               <v-list-tile-action>
