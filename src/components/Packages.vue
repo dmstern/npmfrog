@@ -1,9 +1,9 @@
 <template>
   <div class="packages">
-    <h2>Artifactory is keinbockly serving {{packages.length}} npm packages</h2>
     <span v-if="!packages.length">{{startMsg}}</span>
 
-    <v-list two-line v-else class="package-list">
+    <v-list subheader two-line v-else class="package-list">
+        <v-subheader class="title">Artifactory is keinbockly serving {{packages.length}} npm packages</v-subheader>
           <template v-for="(item, index) in packages">
             <v-list-tile
               :key='item.name'
