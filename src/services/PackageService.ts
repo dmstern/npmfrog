@@ -68,7 +68,6 @@ export default class PackagesService {
           );
           this.packages.push(modifiedPackage);
 
-          // this.addSearchItem(new SearchItem(SearchKey.NAME, packageName));
           if (modifiedPackage.keywords) {
             for (const keyword of modifiedPackage.keywords!) {
               this.addSearchItem(new SearchItem(SearchKey.KEYWORD, keyword));
@@ -77,9 +76,6 @@ export default class PackagesService {
           if (modifiedPackage.displayName) {
             this.addSearchItem(new SearchItem(SearchKey.AUTHOR, modifiedPackage.displayName));
           }
-          // if (modifiedPackage.description) {
-          //   this.addSearchItem(new SearchItem(SearchKey.DESCRIPTION, modifiedPackage.description));
-          // }
         }
         this.packagesResponse = packagesResponse;
         fulfill(this.packages);
