@@ -14,7 +14,7 @@
               <v-list-tile-content>
                 <v-list-tile-title class="font-weight-medium">{{ item.name }}</v-list-tile-title>
                 <v-list-tile-sub-title>{{item.description}}</v-list-tile-sub-title>
-                <v-list-tile-sub-title>
+                <v-list-tile-sub-title class="package-list--keywords">
                   <v-chip v-for="keyword in item.keywords" :key="keyword" small>{{keyword}}</v-chip>
                 </v-list-tile-sub-title>
               </v-list-tile-content>
@@ -55,6 +55,10 @@
 }
 
 .package-list {
+
+  &--keywords {
+    min-height: 2em;
+  }
 
   &--author {
     display: flex;
