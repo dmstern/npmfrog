@@ -239,9 +239,13 @@ export default class App extends Vue {
           if (filteredPackage instanceof Package) {
             switch (item.key) {
               case SearchKey.AUTHOR:
-                return item.value === filteredPackage.displayName
+                if (item.value === filteredPackage.displayName) {
+                  return true;
+                }
               case SearchKey.KEYWORD:
-                return filteredPackage.keywords && filteredPackage.keywords.indexOf(item.value) !== -1;
+                if (filteredPackage.keywords && filteredPackage.keywords.indexOf(item.value) !== -1) {
+                  return true;
+                }
             }
           }
         }
