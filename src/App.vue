@@ -66,9 +66,10 @@
         :item-text="getSearchItemText"
         :item-value="getSearchItemValue"
         :flat="!hasFocus"
-        :items="searchItems"
+        :items="searchItemsFiltered"
         v-model="activeFilters"
         @input.native="hasFocus = true"
+        @input="filterSearchItems"
         @focus="hasFocus = true"
         @blur="hasFocus = false"
         @change="onSearchChange"
@@ -140,6 +141,7 @@ import Package from '@/model/Package';
 import { SearchItem, SearchKey } from '@/model/SearchItem';
 import router from '@/router';
 import { setTimeout } from 'timers';
+// import VAutocomplete from 'vuetify/src/components/VAutocomplete/VAutocomplete';
 
 @Component
 export default class App extends Vue {
@@ -148,13 +150,14 @@ export default class App extends Vue {
   };
 
   @Prop() private menuVisibleProp!: boolean;
-  @Prop() private activeFiltersProp!: Array<SearchItem|Package>;
+  @Prop() private activeFiltersProp!: SearchItem[];
   @Prop() private clippedProp!: boolean;
   @Prop() private hasFocusProp!: boolean;
   @Prop() private titleProp!: string;
   private menuVisible: boolean;
-  private activeFilters: Array<SearchItem|Package>;
+  private activeFilters: SearchItem[];
   private searchItems: Array<SearchItem|Package>;
+  private searchItemsFiltered: Array<SearchItem|Package>;
   private title: string = 'npmFrog';
   private clipped: boolean = true;
   private hasFocus: boolean = false;
@@ -171,12 +174,14 @@ export default class App extends Vue {
     this.searchItems = [];
     this.loadPackages();
     this.adaptContentSpacing();
+    this.searchItemsFiltered = [],
     window.onresize = this.adaptContentSpacing;
   }
 
   private loadPackages(): void {
     PackagesService.Instance.getPackages().then((packages: Package[]) => {
       this.searchItems = PackagesService.Instance.searchItems.concat(packages);
+      this.filterSearchItems();
     });
   }
 
@@ -197,6 +202,74 @@ export default class App extends Vue {
 
   private isPackage(item: SearchItem | Package): boolean {
     return item instanceof Package;
+  }
+
+
+
+  // private filter(item: Package|SearchItem, queryText: string, itemText: string[]): boolean {
+  //   console.log(`item: ${item}`, `queryText: ${queryText}`, `itemText: ${Object.keys(itemText)}`);
+  //   const defaultFilter: boolean = VAutocomplete.props.filter.default(item, queryText, itemText);
+  //   let matchesActiveFilters = true;
+  //   for (const filter of this.activeFilters) {
+  //     if (item instanceof Package) {
+  //       switch (filter.key) {
+  //         case  SearchKey.KEYWORD:
+  //           matchesActiveFilters =
+  //             matchesActiveFilters &&
+  //             item.keywords !== undefined &&
+  //             item.keywords.indexOf(filter.value) >= 0;
+  //           break;
+  //         case  SearchKey.AUTHOR:
+  //           matchesActiveFilters = matchesActiveFilters && item.displayName === filter.value;
+  //           break;
+  //       }
+  //     }
+  //   }
+  //   return defaultFilter && matchesActiveFilters;
+
+
+    // return items.filter((item) => {
+    //   if (!this.activeFilters.length) {
+    //     return true;
+    //   }
+    //   for (const filter of this.activeFilters) {
+    //     if (item instanceof Package && item.keywords !== undefined) {
+    //       return item.keywords.indexOf(filter.value) >= 0;
+    //     }
+    //   }
+    // });
+  // }
+
+  private filterSearchItems() {
+    const result = this.searchItems.filter((item) => {
+      if (!this.activeFilters.length) {
+        return true;
+      }
+      let filterMatchesItem = false;
+      for (const filter of this.activeFilters) {
+        if (item instanceof Package) {
+          switch (filter.key) {
+            case SearchKey.KEYWORD:
+              if (item.keywords !== undefined) {
+                if (item.keywords.indexOf(filter.value) >= 0) {
+                  filterMatchesItem = true;
+                  break;
+                }
+              }
+            case SearchKey.AUTHOR:
+              if (item.displayName === filter.value) {
+                filterMatchesItem = true;
+                break;
+              }
+          }
+        } else {
+          const filterCrossMatches = true;
+          filterMatchesItem = item === filter || filterCrossMatches;
+        }
+      }
+      return filterMatchesItem;
+    });
+    this.searchItemsFiltered = result;
   }
 
   private onSearchChange(values: Array<Package|SearchItem>) {
