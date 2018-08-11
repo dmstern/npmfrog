@@ -2,7 +2,7 @@
   <div class="packages">
     <span v-if="!packages.length">{{startMsg}}</span>
 
-    <v-list subheader two-line v-else class="package-list">
+    <v-list subheader three-line v-else class="package-list">
         <v-subheader class="title">Artifactory is keinbockly serving {{packages.length}} npm packages</v-subheader>
           <template v-for="(item, index) in packages">
             <v-list-tile
@@ -12,23 +12,20 @@
               @click="$router.push(`package/${item.name}`)"
             >
               <v-list-tile-content>
-                <v-list-tile-title>{{ item.name }}</v-list-tile-title>
-                <v-list-tile-sub-title class="text--primary">{{item.description}}</v-list-tile-sub-title>
+                <v-list-tile-title class="font-weight-medium">{{ item.name }}</v-list-tile-title>
+                <v-list-tile-sub-title>{{item.description}}</v-list-tile-sub-title>
                 <v-list-tile-sub-title>
                   <v-chip v-for="keyword in item.keywords" :key="keyword" small>{{keyword}}</v-chip>
                 </v-list-tile-sub-title>
               </v-list-tile-content>
 
               <v-list-tile-action>
-                <div class="package-list--right">
-
-                  <div class="package-list--by">crafted by</div>
-                  <div class="package-list--author">
-                    <span class="package-list--author-name">{{item.displayName}}</span>
-                    <v-avatar>
-                      <img src="https://placeimg.com/40/40/people/1" alt="People">
-                    </v-avatar>
-                  </div>
+                <div class="package-list--by">crafted by</div>
+                <div class="package-list--author">
+                  <span class="package-list--author-name">{{item.displayName}}</span>
+                  <v-avatar size="32">
+                    <img src="https://placeimg.com/40/40/people/1" alt="People">
+                  </v-avatar>
                 </div>
               </v-list-tile-action>
 
@@ -59,69 +56,34 @@
 
 .package-list {
 
-  .md-list-item-content {
-    padding: .5em 0;
-  }
-
-  & &--package-name {
-    font-weight: 500;
-    font-size: 1.2em;
-  }
-
-  &--right {
-    text-align: right;
-    margin-top: auto;
-  }
-
   &--author {
     display: flex;
     font-family: $monospace;
     font-weight: bold;
     font-size: $package-list--author--font-size;
-
-    &,
-    .md-list.md-theme-default.md-triple-line .md-list-item-text &,
-    .md-list.md-theme-default.md-triple-line .md-list-item-text &:nth-child(3) {
-      color: $color-gray-light;
-    }
+    color: $color-gray-light;
 
     &-name {
       align-self: flex-end;
       padding-left: .8em;
       margin-right: .8em;
-    }
-
-    .md-avatar {
-      width: #{$package-list--avatar--width}px;
-      height: #{$package-list--avatar--width}px;
-      min-width: initial;
-      margin-left: auto;
+      line-height: 1em;
     }
   }
 
   & &--by {
     padding-bottom: .3em;
-    color: $color-gray-extralight;
+    color: $color-gray-light;
     font-size: $package-list--author--font-size;
   }
 
-  & &--description {
-    padding: .5em 0 .5em 0;
-    color: $color-gray-medium;
-  }
-
-  & &--keywords {
-    width: auto;
-
-    .md-badge {
-      display: inline-block;
-      margin: .2em .5em 0 0;
-      background-color: $color-gray-extralight;
-      color: $color-gray-medium;
-      font-size: .8em;
-    }
-  }
-
+ .v-list__tile__sub-title {
+   .v-chip {
+     &:first-child {
+       margin-left: 0;
+     }
+   }
+ }
 }
 
 </style>
