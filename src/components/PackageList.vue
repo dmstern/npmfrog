@@ -110,14 +110,9 @@ export default class Packages extends Vue {
   constructor() {
     super();
     this.packages = {data: []};
-    this.loadPackages();
     EventBus.$on(Events.FILTER_SEARCH, (filteredSearchItems) => {
       this.packages.data = filteredSearchItems.filter((searchItem) => searchItem instanceof Package);
     });
-  }
-
-  private async loadPackages() {
-    this.packages.data = await PackagesService.Instance.getPackages();
   }
 }
 
