@@ -204,7 +204,7 @@ export default class App extends Vue {
   }
 
   private filterSearchItems() {
-    const result = this.searchItems.filter((item) => {
+    const results = this.searchItems.filter((item) => {
       if (!this.activeFilters.length) {
         // include everything, if no filter is selected:
         return true;
@@ -235,7 +235,7 @@ export default class App extends Vue {
 
     const crossResults = this.searchItems.filter((item) => {
       if (item instanceof SearchItem) {
-        for (const filteredPackage of result) {
+        for (const filteredPackage of results) {
           if (filteredPackage instanceof Package) {
             switch (item.key) {
               case SearchKey.AUTHOR:
@@ -251,7 +251,7 @@ export default class App extends Vue {
         }
       }
     });
-    this.searchItemsFiltered = crossResults.concat(result);
+    this.searchItemsFiltered = crossResults.concat(results);
   }
 
   private onSearchChange(values: Array<Package|SearchItem>) {
