@@ -63,11 +63,11 @@
         deletable-chips
         multiple
         hide-details
-        :item-text="getSearchString"
-        :item-value="getSearchString"
+        :item-text="getSearchItemText"
+        :item-value="getSearchItemValue"
         :flat="!hasFocus"
         :items="searchItems"
-        v-model="selectedPackage"
+        v-model="activeFilters"
         @input.native="hasFocus = true"
         @focus="hasFocus = true"
         @blur="hasFocus = false"
@@ -87,7 +87,6 @@
               <v-avatar>
                 <v-icon v-if="data.item.key === 'author'">account_circle</v-icon>
                 <v-icon v-if="data.item.key === 'keyword'">local_offer</v-icon>
-                <v-icon v-if="data.item.key === 'description'">subject</v-icon>
               </v-avatar>
               <v-list-tile-sub-title> {{ data.item.value }}</v-list-tile-sub-title>
             </v-chip>
@@ -109,10 +108,14 @@
             <v-list-tile-avatar>
               <v-icon v-if="data.item.key === 'author'">account_circle</v-icon>
               <v-icon v-if="data.item.key === 'keyword'">local_offer</v-icon>
-              <v-icon v-if="data.item.key === 'description'">subject</v-icon>
             </v-list-tile-avatar>
             <v-list-tile-content>
-              <v-list-tile-title><span class="search--key grey--text text--darken-1">{{data.item.key}}:</span><span v-html="data.item.value"></span></v-list-tile-title>
+              <v-list-tile-title>
+                <span class="search--key grey--text text--darken-1">
+                  {{data.item.key === 'keyword'? '#' : `${data.item.key}:`}}
+                </span>
+                <span v-html="data.item.value"></span>
+              </v-list-tile-title>
             </v-list-tile-content>
             <v-spacer></v-spacer>
             <v-icon>mdi-arrow-top-left</v-icon>
@@ -145,12 +148,12 @@ export default class App extends Vue {
   };
 
   @Prop() private menuVisibleProp!: boolean;
-  @Prop() private selectedPackageProp!: string|null;
+  @Prop() private activeFiltersProp!: Array<SearchItem|Package>;
   @Prop() private clippedProp!: boolean;
   @Prop() private hasFocusProp!: boolean;
   @Prop() private titleProp!: string;
   private menuVisible: boolean;
-  private selectedPackage: string|null;
+  private activeFilters: Array<SearchItem|Package>;
   private searchItems: Array<SearchItem|Package>;
   private title: string = 'npmFrog';
   private clipped: boolean = true;
@@ -164,7 +167,7 @@ export default class App extends Vue {
   constructor() {
     super();
     this.menuVisible = false;
-    this.selectedPackage = null;
+    this.activeFilters = [];
     this.searchItems = [];
     this.loadPackages();
     this.adaptContentSpacing();
@@ -177,21 +180,30 @@ export default class App extends Vue {
     });
   }
 
-  private getSearchString(item: any) {
-    return JSON.stringify(item);
+  private getSearchItemValue(item: Package|SearchItem): Package|SearchItem {
+    return item;
+  }
+
+  private getSearchItemText(item: SearchItem|Package) {
+    if (item instanceof Package) {
+      return [item.name, item.description, item.author].concat(item.keywords);
+    }
+    const searchText = [`${item.key}:${item.value}`];
+    if (item.key === SearchKey.KEYWORD) {
+      searchText.push(`#${item.value}`);
+    }
+    return searchText;
   }
 
   private isPackage(item: SearchItem | Package): boolean {
     return item instanceof Package;
   }
 
-  private onSearchChange(values: string[]) {
+  private onSearchChange(values: Array<Package|SearchItem>) {
     this.hasFocus = true;
     for (const value of values) {
-      const item = JSON.parse(value);
-      const isPackage = item.name !== undefined;
-      if (isPackage) {
-        router.push(`/package/${item.name}`);
+      if (value instanceof Package) {
+        router.push(`/package/${value.name}`);
         this.$refs.searchbar.clearableCallback();
         setTimeout(this.$refs.searchbar.blur, 100);
       }
@@ -248,6 +260,10 @@ export default class App extends Vue {
     }
   }
 
+}
+  
+.search--key {
+  margin-right: -3px;
 }
 
 </style>
