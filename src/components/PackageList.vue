@@ -112,17 +112,6 @@ export default class Packages extends Vue {
     this.loadPackages();
   }
 
-  // public searched(packages: PackagesResponse): PackagesResponse {
-  //   const filteredindexs = Object.keys(packages).filter((key) => {
-  //     return key.match('oen') != null; // TODO: replace with real search string property
-  //   });
-  //   const resultPackages: PackagesResponse = {};
-  //   for (const index of filteredindexs) {
-  //     resultPackages[index] = packages[index];
-  //   }
-  //   return resultPackages;
-  // }
-
   private async loadPackages() {
     this.packages = await PackagesService.Instance.getPackages();
   }
