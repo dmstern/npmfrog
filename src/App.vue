@@ -141,7 +141,6 @@ import Package from '@/model/Package';
 import { SearchItem, SearchKey } from '@/model/SearchItem';
 import router from '@/router';
 import { setTimeout } from 'timers';
-// import VAutocomplete from 'vuetify/src/components/VAutocomplete/VAutocomplete';
 
 @Component
 export default class App extends Vue {
@@ -204,49 +203,13 @@ export default class App extends Vue {
     return item instanceof Package;
   }
 
-
-
-  // private filter(item: Package|SearchItem, queryText: string, itemText: string[]): boolean {
-  //   console.log(`item: ${item}`, `queryText: ${queryText}`, `itemText: ${Object.keys(itemText)}`);
-  //   const defaultFilter: boolean = VAutocomplete.props.filter.default(item, queryText, itemText);
-  //   let matchesActiveFilters = true;
-  //   for (const filter of this.activeFilters) {
-  //     if (item instanceof Package) {
-  //       switch (filter.key) {
-  //         case  SearchKey.KEYWORD:
-  //           matchesActiveFilters =
-  //             matchesActiveFilters &&
-  //             item.keywords !== undefined &&
-  //             item.keywords.indexOf(filter.value) >= 0;
-  //           break;
-  //         case  SearchKey.AUTHOR:
-  //           matchesActiveFilters = matchesActiveFilters && item.displayName === filter.value;
-  //           break;
-  //       }
-  //     }
-  //   }
-  //   return defaultFilter && matchesActiveFilters;
-
-
-    // return items.filter((item) => {
-    //   if (!this.activeFilters.length) {
-    //     return true;
-    //   }
-    //   for (const filter of this.activeFilters) {
-    //     if (item instanceof Package && item.keywords !== undefined) {
-    //       return item.keywords.indexOf(filter.value) >= 0;
-    //     }
-    //   }
-    // });
-  // }
-
   private filterSearchItems() {
     const result = this.searchItems.filter((item) => {
       if (!this.activeFilters.length) {
         // include everything, if no filter is selected:
         return true;
       }
-      return this.activeFilters.every((filter) => {
+      const filterMatchesExactly = this.activeFilters.every((filter) => {
         if (item instanceof Package) {
           let filterMatchesItem: boolean = false;
           switch (filter.key) {
@@ -263,35 +226,28 @@ export default class App extends Vue {
           }
           return filterMatchesItem;
         } else {
-          // include selected filter.
+          // include selected filter:
           return filter === item;
         }
       });
-
-      // for (const filter of this.activeFilters) {
-      //   if (item instanceof Package) {
-      //     switch (filter.key) {
-      //       case SearchKey.KEYWORD:
-      //         if (item.keywords !== undefined) {
-      //           if (item.keywords.indexOf(filter.value) >= 0) {
-      //             filterMatchesItem = true;
-      //             break;
-      //           }
-      //         }
-      //       case SearchKey.AUTHOR:
-      //         if (item.displayName === filter.value) {
-      //           filterMatchesItem = true;
-      //           break;
-      //         }
-      //     }
-      //   } else {
-      //     const filterCrossMatches = true;
-      //     filterMatchesItem = item === filter || filterCrossMatches;
-      //   }
-      // }
-      // return filterMatchesItem;
+      return filterMatchesExactly;
     });
-    this.searchItemsFiltered = result;
+
+    const crossResults = this.searchItems.filter((item) => {
+      if (item instanceof SearchItem) {
+        for (const filteredPackage of result) {
+          if (filteredPackage instanceof Package) {
+            switch (item.key) {
+              case SearchKey.AUTHOR:
+                return item.value === filteredPackage.displayName
+              case SearchKey.KEYWORD:
+                return filteredPackage.keywords && filteredPackage.keywords.indexOf(item.value) !== -1;
+            }
+          }
+        }
+      }
+    });
+    this.searchItemsFiltered = crossResults.concat(result);
   }
 
   private onSearchChange(values: Array<Package|SearchItem>) {
