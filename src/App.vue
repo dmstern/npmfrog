@@ -243,31 +243,53 @@ export default class App extends Vue {
   private filterSearchItems() {
     const result = this.searchItems.filter((item) => {
       if (!this.activeFilters.length) {
+        // include everything, if no filter is selected:
         return true;
       }
-      let filterMatchesItem = false;
-      for (const filter of this.activeFilters) {
+      return this.activeFilters.every((filter) => {
         if (item instanceof Package) {
+          let filterMatchesItem: boolean = false;
           switch (filter.key) {
+            case SearchKey.AUTHOR:
+              filterMatchesItem = filter.value === item.displayName
+              break;
             case SearchKey.KEYWORD:
               if (item.keywords !== undefined) {
-                if (item.keywords.indexOf(filter.value) >= 0) {
-                  filterMatchesItem = true;
-                  break;
-                }
+                filterMatchesItem = item.keywords.indexOf(filter.value) !== -1;
               }
-            case SearchKey.AUTHOR:
-              if (item.displayName === filter.value) {
-                filterMatchesItem = true;
-                break;
-              }
+              break;
+            default:
+              filterMatchesItem = false;
           }
+          return filterMatchesItem;
         } else {
-          const filterCrossMatches = true;
-          filterMatchesItem = item === filter || filterCrossMatches;
+          // include selected filter.
+          return filter === item;
         }
-      }
-      return filterMatchesItem;
+      });
+
+      // for (const filter of this.activeFilters) {
+      //   if (item instanceof Package) {
+      //     switch (filter.key) {
+      //       case SearchKey.KEYWORD:
+      //         if (item.keywords !== undefined) {
+      //           if (item.keywords.indexOf(filter.value) >= 0) {
+      //             filterMatchesItem = true;
+      //             break;
+      //           }
+      //         }
+      //       case SearchKey.AUTHOR:
+      //         if (item.displayName === filter.value) {
+      //           filterMatchesItem = true;
+      //           break;
+      //         }
+      //     }
+      //   } else {
+      //     const filterCrossMatches = true;
+      //     filterMatchesItem = item === filter || filterCrossMatches;
+      //   }
+      // }
+      // return filterMatchesItem;
     });
     this.searchItemsFiltered = result;
   }
