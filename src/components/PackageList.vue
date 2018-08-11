@@ -1,10 +1,10 @@
 <template>
   <div class="packages">
-    <span v-if="!packages.length">{{startMsg}}</span>
+    <span v-if="!packages.data.length">{{startMsg}}</span>
 
     <v-list subheader three-line v-else class="package-list">
-        <v-subheader class="title">Artifactory is keinbockly serving {{packages.length}} npm packages</v-subheader>
-          <template v-for="(item, index) in packages">
+        <v-subheader class="title">Artifactory is keinbockly serving {{packages.data.length}} npm packages</v-subheader>
+          <template v-for="(item, index) in packages.data">
             <v-list-tile
               :key='item.name'
               avatar
@@ -31,7 +31,7 @@
 
             </v-list-tile>
             <v-divider
-              v-if="index + 1 < packages.length"
+              v-if="index + 1 < packages.data.length"
               v-bind:key="index"
             ></v-divider>
           </template>
@@ -99,21 +99,25 @@ import PackageService from '@/services/PackageService';
 import { PackagesResponse } from '@/model/PackageResponse';
 import PackagesService from '@/services/PackageService';
 import Package from '@/model/Package';
+import { EventBus, Events } from '@/services/event-bus' ;
 
 @Component
 export default class Packages extends Vue {
   @Prop() private startMsg!: string;
-  @Prop() private packagesProp!: Package[];
-  private packages: Package[] = this.packagesProp;
+  @Prop() private packagesProp!: {data: Package[]};
+  private packages: {data: Package[]} = this.packagesProp;
 
   constructor() {
     super();
-    this.packages = [];
+    this.packages = {data: []};
     this.loadPackages();
+    EventBus.$on(Events.FILTER_SEARCH, (filteredSearchItems) => {
+      this.packages.data = filteredSearchItems.filter((searchItem) => searchItem instanceof Package);
+    });
   }
 
   private async loadPackages() {
-    this.packages = await PackagesService.Instance.getPackages();
+    this.packages.data = await PackagesService.Instance.getPackages();
   }
 }
 

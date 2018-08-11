@@ -141,6 +141,7 @@ import Package from '@/model/Package';
 import { SearchItem, SearchKey } from '@/model/SearchItem';
 import router from '@/router';
 import { setTimeout } from 'timers';
+import { EventBus, Events } from '@/services/event-bus';
 
 @Component
 export default class App extends Vue {
@@ -214,7 +215,7 @@ export default class App extends Vue {
           let filterMatchesItem: boolean = false;
           switch (filter.key) {
             case SearchKey.AUTHOR:
-              filterMatchesItem = filter.value === item.displayName
+              filterMatchesItem = filter.value === item.displayName;
               break;
             case SearchKey.KEYWORD:
               if (item.keywords !== undefined) {
@@ -252,6 +253,7 @@ export default class App extends Vue {
       }
     });
     this.searchItemsFiltered = crossResults.concat(results);
+    EventBus.$emit(Events.FILTER_SEARCH, this.searchItemsFiltered);
   }
 
   private onSearchChange(values: Array<Package|SearchItem>) {
