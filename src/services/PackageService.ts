@@ -29,7 +29,7 @@ export default class PackagesService {
   private packageNamesList!: string[];
   private searchItemList!: SearchItem[];
 
-  constructor() {
+  private constructor() {
     this.packages = [];
     this.packageNamesList = [];
     this.searchItemList = [];
