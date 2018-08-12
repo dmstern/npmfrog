@@ -110,6 +110,7 @@ export default class Packages extends Vue {
       data: [],
       searchQueryText: '',
     };
+    this.loadPackages();
     EventBus.$on(Events.FILTER_SEARCH, (filteredSearchItems) => {
       this.packages.all = filteredSearchItems.filter((searchItem) => searchItem instanceof Package);
       this.packages.data = this.packages.all.filter(() => true);
@@ -128,6 +129,12 @@ export default class Packages extends Vue {
             }
           });
       });
+    });
+  }
+
+  private async loadPackages() {
+    PackagesService.Instance.getPackages().then((packages) => {
+      this.packages.data = packages;
     });
   }
 }
