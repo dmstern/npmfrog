@@ -57,12 +57,16 @@
         label="Search package..."
         prepend-inner-icon="search"
         clearable
+        full-width
         hide-selected
         solo-inverted
         chips
         deletable-chips
         multiple
-        hide-details
+        autofocus
+        persistent-hint
+        suffix="/"
+        hint="Press Ctrl+Enter to submit"
         :item-text="getSearchItemText"
         :item-value="getSearchItemValue"
         :flat="!hasFocus"
@@ -274,9 +278,11 @@ export default class App extends Vue {
     this.adaptContentSpacing();
   }
 
-  private onSearchEnter() {
-    // router.push(`/`);
-    // setTimeout(this.$refs.searchbar.blur, 100);
+  private onSearchEnter(event) {
+    if (event.ctrlKey) {
+      router.push(`/`);
+      setTimeout(this.$refs.searchbar.blur, 100);
+    }
   }
 
   private focusSearch() {
@@ -336,23 +342,52 @@ export default class App extends Vue {
       fill: $color-white;
     }
   }
+  
+  .v-input__control {
+    flex-direction: row;
 
+    .v-input__slot {
+      margin-bottom: 0;
+      width: 80%;
+    }
+
+    .v-text-field__details {
+      width: 20%;
+    }
+  }
+
+  .v-text-field {
+    &--box,
+    &--enclosed {
+      .v-text-field__details {
+        display: block;
+      }
+      .v-messages {
+        visibility: hidden;
+        transform: translateX(-100%);
+        transition: $transition-smooth;
+      }
+
+      &.v-input--is-focused {
+        .v-messages {
+          visibility: visible;
+          transform: translateX(0);
+        }
+      }
+    }
+  }
 }
 
-// .v-autocomplete {
-//   .v-input__append-inner:before {
-//     content: '/';
-//     border: 1px solid $color-light-transparent;
-//     width: 1.2em;
-//     height: 1.2em;
-//     text-align: center;
-//     border-radius: 3px;
-//     color: $color-light-transparent;
-//   }
-// }
-  
 .search--key {
   margin-right: -3px;
+}
+
+.v-text-field {
+  &__suffix {
+    border: 1px solid;
+    border-radius: 3px;
+    width: 1em;
+  }
 }
 
 </style>
