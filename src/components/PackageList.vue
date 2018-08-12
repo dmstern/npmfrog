@@ -42,18 +42,6 @@
 <style lang="scss">
 @import '../assets/variables';
 
-.md-list-item-text * {
-  width: auto;
-}
-.md-list-item-text {
-
-  align-self: flex-start;
-
-  & > * {
-    width: 100%;
-  }
-}
-
 .package-list {
 
   &--keywords {
