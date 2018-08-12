@@ -104,14 +104,42 @@ import { EventBus, Events } from '@/services/event-bus' ;
 @Component
 export default class Packages extends Vue {
   @Prop() private startMsg!: string;
-  @Prop() private packagesProp!: {data: Package[]};
-  private packages: {data: Package[]} = this.packagesProp;
+  @Prop() private packagesProp!: {
+    all: Package[],
+    data: Package[],
+    searchQueryText: string,
+  };
+  private packages: {
+    all: Package[],
+    data: Package[],
+    searchQueryText: string,
+  } = this.packagesProp;
 
   constructor() {
     super();
-    this.packages = {data: []};
+    this.packages = {
+      all: [],
+      data: [],
+      searchQueryText: '',
+    };
     EventBus.$on(Events.FILTER_SEARCH, (filteredSearchItems) => {
-      this.packages.data = filteredSearchItems.filter((searchItem) => searchItem instanceof Package);
+      this.packages.all = filteredSearchItems.filter((searchItem) => searchItem instanceof Package);
+      this.packages.data = this.packages.all.filter(() => true);
+    });
+    EventBus.$on(Events.QUERY_SEARCH, (target) => {
+      this.packages.data = this.packages.all.filter((item) => {
+        const pattern = new RegExp(target.value.toLowerCase(), 'i');
+        return item.name.match(pattern) ||
+          item.displayName.match(pattern) ||
+          item.description && item.description.match(pattern) ||
+          item.keywords && item.keywords.some((keyword) => {
+            if (keyword.match(pattern)) {
+              return true;
+            } else {
+              return false;
+            }
+          });
+      });
     });
   }
 }

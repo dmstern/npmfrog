@@ -68,11 +68,12 @@
         :flat="!hasFocus"
         :items="searchItemsFiltered"
         v-model="activeFilters"
-        @input.native="hasFocus = true"
+        @input.native="onSearchInput"
         @input="filterSearchItems"
         @focus="hasFocus = true"
         @blur="hasFocus = false"
         @change="onSearchChange"
+        @keydown.native.enter="onSearchEnter"
       >
         <template slot="selection" slot-scope="data">
           <template v-if="!isPackage(data.item)">
@@ -266,6 +267,16 @@ export default class App extends Vue {
       }
     }
     this.adaptContentSpacing();
+  }
+
+  private onSearchEnter() {
+    // router.push(`/`);
+    // setTimeout(this.$refs.searchbar.blur, 100);
+  }
+
+  private onSearchInput(e: Event) {
+    const target = e.target as HTMLElement;
+    EventBus.$emit(Events.QUERY_SEARCH, target);
   }
 
   private adaptContentSpacing() {
