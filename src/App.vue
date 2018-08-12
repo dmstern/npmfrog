@@ -338,6 +338,18 @@ export default class App extends Vue {
   }
 
 }
+
+// .v-autocomplete {
+//   .v-input__append-inner:before {
+//     content: '/';
+//     border: 1px solid $color-light-transparent;
+//     width: 1.2em;
+//     height: 1.2em;
+//     text-align: center;
+//     border-radius: 3px;
+//     color: $color-light-transparent;
+//   }
+// }
   
 .search--key {
   margin-right: -3px;

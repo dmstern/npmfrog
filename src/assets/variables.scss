@@ -8,6 +8,7 @@ $color-search-keyword: green;
 $color-white: #FFF;
 
 $color-link--dark: $color-white;
+$color-light-transparent: transparentize($color-gray-dark, .5);
 
 $package-list--avatar--width: 25;
 $md-app-content-padding: 16px;
