@@ -177,6 +177,11 @@ export default class App extends Vue {
     this.adaptContentSpacing();
     this.searchItemsFiltered = [],
     window.onresize = this.adaptContentSpacing;
+    window.addEventListener('keypress', (e) => {
+      if (String.fromCharCode(e.keyCode) === '/' || String.fromCharCode(e.keyCode) === '#') {
+        this.focusSearch();
+      }
+    });
   }
 
   private loadPackages(): void {
@@ -272,6 +277,10 @@ export default class App extends Vue {
   private onSearchEnter() {
     // router.push(`/`);
     // setTimeout(this.$refs.searchbar.blur, 100);
+  }
+
+  private focusSearch() {
+    this.$nextTick(this.$refs.searchbar.focus);
   }
 
   private onSearchInput(e: Event) {

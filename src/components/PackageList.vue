@@ -117,12 +117,14 @@ export default class Packages extends Vue {
     });
     EventBus.$on(Events.QUERY_SEARCH, (target) => {
       this.packages.data = this.packages.all.filter((item) => {
-        const pattern = new RegExp(target.value.toLowerCase(), 'i');
-        return item.name.match(pattern) ||
+        const pattern = new RegExp(target.value, 'gi');
+        return `/${item.name}`.match(pattern) ||
           item.displayName.match(pattern) ||
-          item.description && item.description.match(pattern) ||
+          `author:${item.displayName}`.match(pattern) ||
+          target.value === '/' ||
+          item.description && `/${item.description}`.match(pattern) ||
           item.keywords && item.keywords.some((keyword) => {
-            if (keyword.match(pattern)) {
+            if (`#${keyword}`.match(pattern)) {
               return true;
             } else {
               return false;
