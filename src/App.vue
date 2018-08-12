@@ -348,11 +348,14 @@ export default class App extends Vue {
 
     .v-input__slot {
       margin-bottom: 0;
-      width: 80%;
+      width: auto;
+      flex-grow: 1;
+      max-width: 700px;
     }
 
     .v-text-field__details {
-      width: 20%;
+      flex-grow: 0;
+      width: auto;
     }
   }
 
@@ -364,7 +367,7 @@ export default class App extends Vue {
       }
       .v-messages {
         visibility: hidden;
-        transform: translateX(-100%);
+        transform: translateX(-150%);
         transition: $transition-smooth;
       }
 
