@@ -3,7 +3,7 @@
     <span v-if="!packages.data.length">{{startMsg}}</span>
 
     <v-list subheader three-line v-else class="package-list">
-        <v-subheader class="title">Artifactory is keinbockly serving {{packages.data.length}} npm packages</v-subheader>
+        <v-subheader class="title">Found {{packages.data.length}} npm packages on {{artifactoryUrl}}</v-subheader>
           <template v-for="(item, index) in packages.data">
             <v-list-tile
               :key='item.name'
@@ -87,16 +87,19 @@ import PackageService from '@/services/PackageService';
 import { PackagesResponse } from '@/model/PackageResponse';
 import PackagesService from '@/services/PackageService';
 import Package from '@/model/Package';
-import { EventBus, Events } from '@/services/event-bus' ;
+import { EventBus, Events } from '@/services/event-bus';
+// import * as config from '@/../server/config-service';
 
 @Component
 export default class Packages extends Vue {
   @Prop() private startMsg!: string;
+  @Prop() private artifactoryUrlProp!: string;
   @Prop() private packagesProp!: {
     all: Package[],
     data: Package[],
     searchQueryText: string,
   };
+  private artifactoryUrl: string = this.artifactoryUrlProp;
   private packages: {
     all: Package[],
     data: Package[],
@@ -105,6 +108,7 @@ export default class Packages extends Vue {
 
   constructor() {
     super();
+    this.artifactoryUrl = 'artifactory.init.de'; // TODO: load from config
     this.packages = {
       all: [],
       data: [],

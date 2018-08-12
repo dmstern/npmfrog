@@ -280,7 +280,7 @@ export default class App extends Vue {
 
   private onSearchEnter(event) {
     if (event.ctrlKey) {
-      router.push(`/`);
+      router.push(`/`); // TODO: add search params als url params
       setTimeout(this.$refs.searchbar.blur, 100);
     }
   }
