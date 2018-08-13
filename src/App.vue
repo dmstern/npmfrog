@@ -183,7 +183,9 @@ export default class App extends Vue {
     window.onresize = this.adaptContentSpacing;
     window.addEventListener('keypress', (e) => {
       if (String.fromCharCode(e.keyCode) === '/' || String.fromCharCode(e.keyCode) === '#') {
-        this.focusSearch();
+        if (e.target !== this.$refs.searchbar.$el.querySelector('input')) {
+          this.focusSearch();
+        }
       }
     });
   }
@@ -286,7 +288,14 @@ export default class App extends Vue {
   }
 
   private focusSearch() {
-    this.$nextTick(this.$refs.searchbar.focus);
+    this.$nextTick(() => {
+      this.$refs.searchbar.focus();
+    });
+    setTimeout(() => {
+      const input = this.$refs.searchbar.$el.querySelector('input');
+      input.value = input.value.slice(0, input.value.length - 1);
+      input.dispatchEvent(new Event('input'));
+    }, 0);
   }
 
   private onSearchInput(e: Event) {
