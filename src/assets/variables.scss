@@ -21,3 +21,12 @@ $monospace: "Fira Mono", "Roboto Mono", Consolas, Courier, Monospace;
 
 //Transitions:
 $transition-smooth: all 500ms ease-in-out;
+
+// Media queries:
+$grid-breakpoints: (
+  xs: 0,
+  sm: 600px,
+  md: 960px,
+  lg: (1280px - 16px), // Desktop gets a 16dp reduction
+  xl: (1920px - 16px), // https://material.io/guidelines/layout/responsive-ui.html#responsive-ui-breakpoints
+);

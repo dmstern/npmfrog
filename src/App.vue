@@ -365,15 +365,16 @@ export default class App extends Vue {
     .v-text-field__details {
       flex-grow: 0;
       width: auto;
+      display: block;
+      @media screen and (max-width: map-get($grid-breakpoints, md)) {
+        display: none;
+      }
     }
   }
 
   .v-text-field {
     &--box,
     &--enclosed {
-      .v-text-field__details {
-        display: block;
-      }
       .v-messages {
         visibility: hidden;
         transform: translateX(-150%);
