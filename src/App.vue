@@ -77,7 +77,7 @@
         @focus="hasFocus = true"
         @blur="hasFocus = false"
         @change="onSearchChange"
-        @keydown.native.enter="onSearchEnter"
+        @keydown.native.enter="onSearchSubmit"
       >
         <template slot="selection" slot-scope="data">
           <template v-if="!isPackage(data.item)">
@@ -278,7 +278,7 @@ export default class App extends Vue {
     this.adaptContentSpacing();
   }
 
-  private onSearchEnter(event) {
+  private onSearchSubmit(event) {
     if (event.ctrlKey) {
       router.push(`/`); // TODO: add search params als url params
       setTimeout(this.$refs.searchbar.blur, 100);
