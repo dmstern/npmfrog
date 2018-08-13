@@ -121,7 +121,7 @@ export default class Packages extends Vue {
     });
     EventBus.$on(Events.QUERY_SEARCH, (target) => {
       this.packages.data = this.packages.all.filter((item) => {
-        const pattern = new RegExp(target.value, 'gi');
+        const pattern = new RegExp(target.value.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, ''), 'gi');
         return `/${item.name}`.match(pattern) ||
           item.displayName.match(pattern) ||
           `author:${item.displayName}`.match(pattern) ||
