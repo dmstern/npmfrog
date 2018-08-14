@@ -185,7 +185,7 @@ export default class App extends Vue {
     window.onresize = this.adaptContentSpacing;
     window.addEventListener('keypress', (e) => {
       if (String.fromCharCode(e.keyCode) === '/' || String.fromCharCode(e.keyCode) === '#') {
-        if (e.target !== this.searchInput) {
+        if (!this.searchInput || e.target !== this.searchInput) {
           this.focusSearch();
         }
       }
