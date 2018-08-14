@@ -54,7 +54,7 @@
       </router-link>
       <v-autocomplete
         ref="searchbar"
-        :label="`${hasFocus ? '' : 'Search package...'}`"
+        placeholder="Search package..."
         prepend-inner-icon="search"
         clearable
         full-width
@@ -187,6 +187,10 @@ export default class App extends Vue {
       if (String.fromCharCode(e.keyCode) === '/' || String.fromCharCode(e.keyCode) === '#') {
         if (!this.searchInput || e.target !== this.searchInput) {
           this.focusSearch();
+          setTimeout(() => {
+            this.searchInput.value = this.searchInput.value.slice(0, this.searchInput.value.length - 1);
+            this.searchInput.dispatchEvent(new Event('input'));
+          }, 0);
         }
       }
     });
@@ -300,21 +304,19 @@ export default class App extends Vue {
     //   keywords: keywordFilter.join(','),
     //   author: authorFilter.join(','),
     // };
-    router.push({path: '/'}, () => { // query
-    this.$nextTick(() => {
-        this.fireSearchFilterEvent();
-        // EventBus.$emit(Events.QUERY_SEARCH, event);
-      });
-    });
+    router.push({path: '/'});
+    this.$nextTick(this.fireSearchFilterEvent);
     this.$nextTick(this.$refs.searchbar.blur);
+
+    // keep input value:
+    const value = this.searchInput.value;
+    setTimeout(() => {
+      this.searchInput.value = value;
+    }, 0);
   }
 
   private focusSearch() {
     this.$nextTick(this.$refs.searchbar.focus);
-    setTimeout(() => {
-      this.searchInput.value = this.searchInput.value.slice(0, this.searchInput.value.length - 1);
-      this.searchInput.dispatchEvent(new Event('input'));
-    }, 0);
   }
 
   private onSearchInput(e: Event) {
