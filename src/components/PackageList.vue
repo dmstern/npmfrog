@@ -3,7 +3,7 @@
     <span v-if="!packages.data.length">{{startMsg}}</span>
 
     <v-list subheader three-line v-else class="package-list">
-        <v-subheader class="title">Found {{packages.data.length}} npm packages on {{artifactoryUrl}}</v-subheader>
+        <v-subheader class="title">Found {{packages.data.length}}/{{packages.all.length}} npm packages on {{artifactoryUrl}}</v-subheader>
           <template v-for="(item, index) in packages.data">
             <v-list-tile
               :key='item.name'
