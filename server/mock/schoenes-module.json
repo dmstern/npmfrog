@@ -1,0 +1,78 @@
+{
+  "_id": "schoenes-module",
+  "_rev": "1-0",
+  "name": "schoenes-module",
+  "description": "wunderschoen",
+  "dist-tags": {
+    "latest": "1.1.0"
+  },
+  "versions": {
+    "1.0.3": {
+      "name": "schoenes-module",
+      "description": "wunderschoen",
+      "version": "1.0.3",
+      "author": "daniel",
+      "main": "index.js",
+      "dist": {
+        "tarball": "https://artifactory.init.de:443/artifactory/api/npm/npm/schoenes-module/-/schoenes-module-1.0.3.tgz",
+        "shasum": "6f6597cfd1b4421a0aa622e81640b9859fd3817a"
+      },
+      "license": "ISC",
+      "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+      },
+      "publishConfig": {
+        "registry": "https://artifactory.init.de/artifactory/api/npm/npm-local/"
+      },
+      "_id": "schoenes-module@1.0.3"
+    },
+    "1.0.4": {
+      "name": "schoenes-module",
+      "description": "wunderschoen",
+      "version": "1.0.4",
+      "author": "daniel",
+      "main": "index.js",
+      "dist": {
+        "tarball": "https://artifactory.init.de:443/artifactory/api/npm/npm/schoenes-module/-/schoenes-module-1.0.4.tgz",
+        "shasum": "87332249266589df2ef96122144fd7562db7e9c7"
+      },
+      "license": "ISC",
+      "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+      },
+      "_id": "schoenes-module@1.0.4"
+    },
+    "1.1.0": {
+      "name": "schoenes-module",
+      "description": "wunderschoen",
+      "version": "1.1.0",
+      "author": "daniel",
+      "main": "index.js",
+      "dist": {
+        "tarball": "https://artifactory.init.de:443/artifactory/api/npm/npm/schoenes-module/-/schoenes-module-1.1.0.tgz",
+        "shasum": "21e612003e0e344818d40670d40729f750e3347b"
+      },
+      "dependencies": {
+        "underscore": "^1.9.1"
+      },
+      "devDependencies": {
+        "@init/fractal-menu-enhancer": "^0.3.0"
+      },
+      "license": "ISC",
+      "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+      },
+      "_id": "schoenes-module@1.1.0"
+    }
+  },
+  "author": "daniel",
+  "time": {
+    "1.0.3": "2018-07-22T14:23:52.861Z",
+    "1.0.4": "2018-07-22T14:24:57.989Z",
+    "created": "2018-07-22T14:23:52.861Z",
+    "modified": "2018-07-22T15:06:48.615Z",
+    "1.1.0": "2018-07-22T15:06:48.615Z"
+  },
+  "users": {},
+  "license": "ISC"
+}

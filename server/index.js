@@ -17,4 +17,20 @@ app.get('/packages', function(req, res) {
   });
 });
 
+app.get('/package/:scope?/:packageName/dist-tags', function(req, res) {
+  artifactoryService.getDistTags(req.params).then(response => {
+    res.send(response.data);
+  }).catch(error => {
+    throw error;
+  });
+});
+
+app.get('/:scope?/:packageName', function(req, res) {
+  artifactoryService.getPackageDetail(req.params).then(response => {
+    res.send(response.data);
+  }).catch(error => {
+    throw error;
+  });
+});
+
 app.listen(30001);
