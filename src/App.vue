@@ -267,7 +267,7 @@ export default class App extends Vue {
       }
     });
     this.searchItemsFiltered = crossResults.concat(results);
-    EventBus.$emit(Events.FILTER_SEARCH, this.searchItemsFiltered);
+    this.fireSearchFilterEvent();
   }
 
   private onSearchChange(values: Array<Package|SearchItem>) {
@@ -302,7 +302,7 @@ export default class App extends Vue {
     // };
     router.push({path: '/'}, () => { // query
     this.$nextTick(() => {
-        EventBus.$emit(Events.FILTER_SEARCH, this.searchItemsFiltered);
+        this.fireSearchFilterEvent();
         // EventBus.$emit(Events.QUERY_SEARCH, event);
       });
     });
@@ -318,8 +318,12 @@ export default class App extends Vue {
   }
 
   private onSearchInput(e: Event) {
-    const target = e.target as HTMLElement;
-    EventBus.$emit(Events.QUERY_SEARCH, target);
+    const target = e.target as HTMLInputElement;
+    this.fireSearchFilterEvent();
+  }
+
+  private fireSearchFilterEvent() {
+    EventBus.$emit(Events.FILTER_SEARCH, { filters: this.searchItemsFiltered, query: this.searchInput.value });
   }
 
   private adaptContentSpacing() {

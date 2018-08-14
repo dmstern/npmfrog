@@ -115,18 +115,16 @@ export default class Packages extends Vue {
       searchQueryText: '',
     };
 
-    EventBus.$on(Events.FILTER_SEARCH, async (filteredSearchItems) => {
+    EventBus.$on(Events.FILTER_SEARCH, async ({filters, query}) => {
       this.packages.all = await this.loadPackages();
-      this.packages.data = this.packages.all.filter((item) => filteredSearchItems.indexOf(item) >= 0);
-    });
-
-    EventBus.$on(Events.QUERY_SEARCH, (target) => {
-      this.packages.data = this.packages.all.filter((item) => {
-        const pattern = new RegExp(target.value.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, ''), 'gi');
+      this.packages.data = this.packages.all.filter((item) => filters.indexOf(item) >= 0).filter((item) => {
+        if (!query) {
+          return true;
+        }
+        const pattern = new RegExp(query.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, ''), 'gi');
         return `/${item.name}`.match(pattern) ||
           item.displayName.match(pattern) ||
           `author:${item.displayName}`.match(pattern) ||
-          target.value === '/' ||
           item.description && `/${item.description}`.match(pattern) ||
           item.keywords && item.keywords.some((keyword) => {
             if (`#${keyword}`.match(pattern)) {
