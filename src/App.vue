@@ -375,7 +375,14 @@ export default class App extends Vue {
     }
   }
   
+  .v-input__icon--append .v-icon {
+    opacity: 0;
+    visibility: hidden;
+  }
+
   .v-select.v-select--is-menu-active .v-input__icon--append .v-icon {
+    opacity: 1;
+    visibility: visible;
     transform: initial;
   }
 
