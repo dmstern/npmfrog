@@ -54,7 +54,7 @@
       </router-link>
       <v-autocomplete
         ref="searchbar"
-        label="Search package..."
+        :label="`${hasFocus ? '' : 'Search package...'}`"
         prepend-inner-icon="search"
         clearable
         full-width
@@ -65,19 +65,21 @@
         multiple
         autofocus
         persistent-hint
+        return-object
         suffix="/"
         hint="Press Ctrl+Enter to submit"
         :item-text="getSearchItemText"
-        :item-value="getSearchItemValue"
         :flat="!hasFocus"
         :items="searchItemsFiltered"
+        append-icon="mdi-send"
+        @click:append="onSearchSubmit"
         v-model="activeFilters"
         @input.native="onSearchInput"
         @input="filterSearchItems"
         @focus="hasFocus = true"
         @blur="hasFocus = false"
         @change="onSearchChange"
-        @keydown.native.enter="onSearchSubmit"
+        @keydown.native.enter="onSearchEnter"
       >
         <template slot="selection" slot-scope="data">
           <template v-if="!isPackage(data.item)">
@@ -179,15 +181,19 @@ export default class App extends Vue {
     this.searchItems = [];
     this.loadPackages();
     this.adaptContentSpacing();
-    this.searchItemsFiltered = [],
+    this.searchItemsFiltered = [];
     window.onresize = this.adaptContentSpacing;
     window.addEventListener('keypress', (e) => {
       if (String.fromCharCode(e.keyCode) === '/' || String.fromCharCode(e.keyCode) === '#') {
-        if (e.target !== this.$refs.searchbar.$el.querySelector('input')) {
+        if (e.target !== this.searchInput) {
           this.focusSearch();
         }
       }
     });
+  }
+
+  private get searchInput(): HTMLInputElement {
+    return this.$refs.searchbar.$el.querySelector('input');
   }
 
   private loadPackages(): void {
@@ -195,10 +201,6 @@ export default class App extends Vue {
       this.searchItems = PackagesService.Instance.searchItems.concat(packages);
       this.filterSearchItems();
     });
-  }
-
-  private getSearchItemValue(item: Package|SearchItem): Package|SearchItem {
-    return item;
   }
 
   private getSearchItemText(item: SearchItem|Package) {
@@ -280,21 +282,38 @@ export default class App extends Vue {
     this.adaptContentSpacing();
   }
 
-  private onSearchSubmit(event) {
+  private onSearchEnter(event) {
     if (event.ctrlKey) {
-      router.push(`/`); // TODO: add search params als url params
-      this.$nextTick(this.$refs.searchbar.blur);
+      this.onSearchSubmit(event);
     }
   }
 
-  private focusSearch() {
+  private onSearchSubmit(event) {
+    const keywordFilter = this.activeFilters
+      .filter((filter) => filter.key === SearchKey.KEYWORD)
+      .map((filter) => {
+        return filter.value;
+      });
+    // const authorFilter = this.activeFilters.filter((filter) => filter.key === SearchKey.AUTHOR);
+    // const query = {
+    //   search: this.searchInput.value,
+    //   keywords: keywordFilter.join(','),
+    //   author: authorFilter.join(','),
+    // };
+    router.push({path: '/'}, () => { // query
     this.$nextTick(() => {
-      this.$refs.searchbar.focus();
+        EventBus.$emit(Events.FILTER_SEARCH, this.searchItemsFiltered);
+        // EventBus.$emit(Events.QUERY_SEARCH, event);
+      });
     });
+    this.$nextTick(this.$refs.searchbar.blur);
+  }
+
+  private focusSearch() {
+    this.$nextTick(this.$refs.searchbar.focus);
     setTimeout(() => {
-      const input = this.$refs.searchbar.$el.querySelector('input');
-      input.value = input.value.slice(0, input.value.length - 1);
-      input.dispatchEvent(new Event('input'));
+      this.searchInput.value = this.searchInput.value.slice(0, this.searchInput.value.length - 1);
+      this.searchInput.dispatchEvent(new Event('input'));
     }, 0);
   }
 
@@ -352,6 +371,10 @@ export default class App extends Vue {
     }
   }
   
+  .v-select.v-select--is-menu-active .v-input__icon--append .v-icon {
+    transform: initial;
+  }
+
   .v-input__control {
     flex-direction: row;
 
