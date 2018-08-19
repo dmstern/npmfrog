@@ -14,11 +14,6 @@ export default new Router({
       component: Home,
     },
     {
-      path: '/about',
-      name: 'about',
-      component: About,
-    },
-    {
       path: '/package/:scope?/:packageName',
       name: 'packageDetail',
       component: PackageDetail,

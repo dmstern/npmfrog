@@ -1,5 +1,6 @@
 import axios, { AxiosInstance, AxiosPromise } from 'axios';
 import { PackagesResponse } from '@/model/PackageResponse';
+import Package from '@/model/Package';
 
 export default class BackendApi {
 
@@ -20,7 +21,15 @@ export default class BackendApi {
     return this.get('packages');
   }
 
-  private get(route: string): AxiosPromise<PackagesResponse> {
+  public getPackageDetail({scope, packageName}): AxiosPromise<Package> {
+    return this.get(`${scope ? `${scope}/` : ''}${packageName}`);
+  }
+
+  public getReadme({scope, packageName}): AxiosPromise<string> {
+    return this.get(`${scope ? `${scope}/` : ''}${packageName}/readme`);
+  }
+
+  private get(route: string): AxiosPromise<any> {
     return this.axios.get(route);
   }
 

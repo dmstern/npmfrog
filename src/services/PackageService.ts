@@ -22,11 +22,39 @@ export default class PackagesService {
   private packages!: Package[];
   private packageNamesList!: string[];
   private searchItemList!: SearchItem[];
+  private packageDetails!: { // TODO: move this caching to backend
+    [packageName: string]: Package,
+  };
 
   private constructor() {
     this.packages = [];
     this.packageNamesList = [];
     this.searchItemList = [];
+    this.packageDetails = {};
+  }
+
+  public async getPackageDetail(packageId: {scope: string, packageName: string}): Promise<Package|string> {
+    const scope = packageId.scope;
+    const packageName = packageId.packageName;
+    const key = scope ? `${scope}/${packageName}` : packageName;
+    const cachedPackageDetails = scope ? this.packageDetails[key] : this.packageDetails[packageName];
+    if (cachedPackageDetails) {
+      return new Promise<Package>((fulfill, reject) => {
+        fulfill(cachedPackageDetails);
+      });
+    }
+
+    return new Promise<Package|string>((fulfill, reject) => {
+      BackendApi.Instance.getPackageDetail({scope, packageName}).then((response) => {
+        return this.packageDetails[key] = response.data;
+      }).then((packageDetails) => {
+        return BackendApi.Instance.getReadme({scope, packageName}).then((response) => {
+          return this.packageDetails[key].readme = response.data;
+        });
+      }).then(() => {
+        fulfill(this.packageDetails[key]);
+      });
+    });
   }
 
   public async getPackages(): Promise<Package[]> {

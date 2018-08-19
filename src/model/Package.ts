@@ -1,4 +1,3 @@
-import { PackageAbstract } from '@/model/package-abstract';
 import {
   IAuthor,
   IBinMap,
@@ -11,16 +10,14 @@ import {
   IRepository,
   IScriptsMap,
 } from '@/model/package-json';
-import { IDistTags, ITimes } from '@/model/package-abstract';
+import { IDistTags, ITimes, IVersions } from '@/model/package-meta-data';
 import { PackageMetaDataDTO } from '@/model/package-meta-data';
 
 export default class Package implements PackageMetaDataDTO {
   public distTags!: IDistTags;
   public time!: ITimes;
   public users!: {};
-  public versions!: {
-    [key: number]: string;
-  };
+  public versions!: IVersions;
   // tslint:disable-next-line:variable-name
   public _id!: string;
   // tslint:disable-next-line:variable-name
@@ -54,8 +51,9 @@ export default class Package implements PackageMetaDataDTO {
   public private?: boolean | undefined;
   public publishConfig?: IPublishConfig;
   public displayName: any;
+  private readmeProp: string | null;
 
-  constructor(packageDetails: PackageAbstract);
+  constructor(packageDetails: PackageMetaDataDTO);
 
   constructor(packageMetaData: PackageMetaDataDTO) {
     Object.assign(this, packageMetaData);
@@ -66,6 +64,17 @@ export default class Package implements PackageMetaDataDTO {
         : packageMetaData.author;
     }
     Object.assign(this, { displayName: this.displayName });
+    this.readmeProp = null;
+  }
+
+  public set readme(readme: string | null) {
+    if (!this.readmeProp) {
+      this.readmeProp = readme;
+    }
+  }
+
+  public get readme(): string | null {
+    return this.readmeProp;
   }
 
 }

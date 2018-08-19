@@ -29,6 +29,18 @@ async function fetchPackages() {
 }
 
 async function getReadme({ scope, packageName }) {
+  if (process.env.MOCK) {
+    console.log('bla');
+    return new Promise((resolve, reject) => {
+      const converter = new showdown.Converter();
+      const readme = fs.readFileSync("./server/mock/fractal-menu-enhancer.readme.md");
+      const html = converter.makeHtml(readme.toString());
+      resolve({
+        data: html
+      });
+    });
+  }
+
   const packageDetailResonse = await getPackageDetail({ scope, packageName });
   const packageDetail = packageDetailResonse.data;
   const latestVersionResponse = await getDistTags({ scope, packageName });
@@ -67,6 +79,13 @@ async function getReadme({ scope, packageName }) {
 }
 
 async function getPackageDetail({ scope, packageName }) {
+  if (process.env.MOCK) {
+    return new Promise((resolve, reject) => {
+      resolve({
+        data: require(`./mock/fractal-menu-enhancer.json`)
+      });
+    });
+  }
   return axios.get(`/${name2url({ scope, packageName })}`);
 }
 
