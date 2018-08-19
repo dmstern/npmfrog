@@ -25,10 +25,6 @@ export default class BackendApi {
     return this.get(`${scope ? `${scope}/` : ''}${packageName}`);
   }
 
-  // public getReadme({scope, packageName}): AxiosPromise<string> {
-  //   return this.get(`${scope ? `${scope}/` : ''}${packageName}/readme`);
-  // }
-
   private get(route: string): AxiosPromise<any> {
     return this.axios.get(route);
   }

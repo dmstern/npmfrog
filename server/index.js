@@ -33,12 +33,4 @@ app.get('/:scope?/:packageName', function(req, res) {
   });
 });
 
-// app.get('/:scope?/:packageName/readme', async function(req, res) {
-//   artifactoryService.getReadme(req.params).then((response) => {
-//     res.send(response);
-//   }).catch(error => {
-//     throw error;
-//   });
-// });
-
 app.listen(30001);
