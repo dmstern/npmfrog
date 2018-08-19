@@ -20,7 +20,12 @@ function name2url({ scope, packageName }) {
 
 function readme2Html(dir) {
   const readmeFile = `${dir}/package/README.md`; // TODO: ignore case
-  const readme = fs.readFileSync(readmeFile);
+  let readme;
+  try {
+    readme = fs.readFileSync(readmeFile);
+  } catch(error) {
+    readme = "No README.md file present.";
+  }
   const converter = new showdown.Converter();
   const html = converter.makeHtml(readme.toString());
   return html;
@@ -59,7 +64,7 @@ async function getPackageDetail({ scope, packageName }) {
       const latestVersion = latestVersionResponse.data.latest;
       const downloadUrl = packageDetail.versions[latestVersion].dist.tarball;
       const storageDir = `${tmpDir}/${scope}/${packageName}/${latestVersion}`;
-      if (fs.existsSync(`${storageDir}/package/README.md`)) {
+      if (fs.existsSync(storageDir)) {
         resolve(readme2Html(storageDir));
       } else {
         axios
