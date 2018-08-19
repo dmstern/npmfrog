@@ -3,6 +3,7 @@
     <h2>{{data.packageDetail.name}}</h2>
     <div>{{data.packageDetail}}</div>
   </div>
+  <LoadingSpinner msg="Loading package details..." v-else />
 </template>
 
 <script lang="ts">
@@ -10,8 +11,13 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import Package from '@/model/Package';
 import PackagesService from '@/services/PackageService';
 import Router from '@/router';
+import LoadingSpinner from '@/components/LoadingSpinner.vue';
 
-@Component
+@Component({
+  components: {
+    LoadingSpinner,
+  },
+})
 export default class PackageDetail extends Vue {
 
   @Prop() private dataProp!: { packageDetail: Package };

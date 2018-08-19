@@ -1,7 +1,6 @@
 <template>
   <div class="packages">
-    <span v-if="!packages.data.length">{{startMsg}}</span>
-
+    <LoadingSpinner v-if="!packages.data.length" :msg="startMsg"/>
     <v-list subheader three-line v-else class="package-list">
         <v-subheader class="title">Found {{packages.data.length}}/{{packages.all.length}} npm packages on {{artifactoryUrl}}</v-subheader>
           <template v-for="(item, index) in packages.data">
@@ -89,8 +88,13 @@ import PackagesService from '@/services/PackageService';
 import Package from '@/model/Package';
 import { EventBus, Events } from '@/services/event-bus';
 import BackendApi from '@/services/BackendApi';
+import LoadingSpinner from '@/components/LoadingSpinner.vue';
 
-@Component
+@Component({
+  components: {
+    LoadingSpinner,
+  },
+})
 export default class Packages extends Vue {
   @Prop() private startMsg!: string;
   @Prop() private artifactoryUrlProp!: string;
