@@ -24,7 +24,7 @@ function readme2Html(dir) {
   try {
     readme = fs.readFileSync(readmeFile);
   } catch(error) {
-    readme = "No README.md file present.";
+    return null;
   }
   const converter = new showdown.Converter();
   const html = converter.makeHtml(readme.toString());
