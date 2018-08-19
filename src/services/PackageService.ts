@@ -1,4 +1,4 @@
-import Api from '@/services/Api';
+import BackendApi from '@/services/BackendApi';
 import { AxiosPromise } from 'axios';
 import { PackagesResponse } from '@/model/PackageResponse';
 import Package from '@/model/Package';
@@ -35,16 +35,6 @@ export default class PackagesService {
     this.searchItemList = [];
   }
 
-  public addSearchItem(searchItem: SearchItem) {
-    for (const currentSearchItem of this.searchItemList) {
-      if (currentSearchItem.key === searchItem.key
-        && currentSearchItem.value === searchItem.value) {
-        return;
-      }
-    }
-    this.searchItemList.push(searchItem);
-  }
-
   public async getPackages(): Promise<Package[]> {
     if (this.packages.length) {
       return new Promise<Package[]>((fulfill, reject) => {
@@ -56,7 +46,7 @@ export default class PackagesService {
       return this.request;
     }
     return (this.request = new Promise<Package[]>((fulfill, reject) => {
-      this.fetchPackages().then((response) => {
+      BackendApi.Instance.getPackages().then((response) => {
         const packagesResponse: PackagesResponse = response.data;
         this.packageNamesList = Object.keys(packagesResponse).filter(
           (key) => !key.startsWith('_'),
@@ -83,7 +73,13 @@ export default class PackagesService {
     }));
   }
 
-  private fetchPackages(): AxiosPromise<PackagesResponse> {
-    return Api.Instance.get('packages');
+  private addSearchItem(searchItem: SearchItem) {
+    for (const currentSearchItem of this.searchItemList) {
+      if (currentSearchItem.key === searchItem.key
+        && currentSearchItem.value === searchItem.value) {
+        return;
+      }
+    }
+    this.searchItemList.push(searchItem);
   }
 }

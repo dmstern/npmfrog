@@ -35,7 +35,8 @@ async function getReadme({ scope, packageName }) {
   const latestVersion = latestVersionResponse.data.latest;
   const downloadUrl = packageDetail.versions[latestVersion].dist.tarball;
   return axios
-    .request({
+    // Request package:
+    .request({  // TODO: check if readme has been already downloaded
       responseType: "arraybuffer",
       url: downloadUrl,
       method: "get",
@@ -43,18 +44,21 @@ async function getReadme({ scope, packageName }) {
         "Content-Type": "application/gzip"
       }
     })
+    // Store package in filesystem:
     .then(result => {
       fs.ensureDirSync(`${tmpDir}/${scope}/${packageName}`);
       const outputFilename = `${tmpDir}/${scope}/${packageName}/${packageName}-${latestVersion}.tar.gz`;
       fs.writeFileSync(outputFilename, result.data);
       return outputFilename;
     })
+    // Extract package:
     .then(file => {
       const cwd = `${tmpDir}/${scope}/${packageName}`;
       return tar.x({ file, cwd }).then(() => cwd);
     })
+    // Read README.md:
     .then(dir => {
-      const readmeFile = `${dir}/package/README.md`;
+      const readmeFile = `${dir}/package/README.md`; // TODO: ignore case
       const readme = fs.readFileSync(readmeFile);
       const converter = new showdown.Converter();
       const html = converter.makeHtml(readme.toString());
