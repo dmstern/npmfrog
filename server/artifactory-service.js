@@ -85,9 +85,7 @@ async function getPackageDetail({ scope, packageName }) {
 
     packageDetailResonse.data.readme = readme;
     return new Promise((resolve, reject) => {
-      resolve({
-        data: packageDetailResonse,
-      });
+      resolve(packageDetailResonse);
     });
 }
 
