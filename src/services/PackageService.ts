@@ -1,5 +1,4 @@
 import BackendApi from '@/services/BackendApi';
-import { AxiosPromise } from 'axios';
 import { PackagesResponse } from '@/model/PackageResponse';
 import Package from '@/model/Package';
 import { SearchItem, SearchKey } from '@/model/SearchItem';
@@ -7,10 +6,6 @@ import { SearchItem, SearchKey } from '@/model/SearchItem';
 export default class PackagesService {
   public static get Instance(): PackagesService {
     return this.instance || (this.instance = new this());
-  }
-
-  public get response(): PackagesResponse {
-    return this.packagesResponse;
   }
 
   public get packageNames(): string[] {
@@ -25,7 +20,6 @@ export default class PackagesService {
 
   private request!: Promise<Package[]>;
   private packages!: Package[];
-  private packagesResponse!: PackagesResponse;
   private packageNamesList!: string[];
   private searchItemList!: SearchItem[];
 
@@ -67,7 +61,6 @@ export default class PackagesService {
             this.addSearchItem(new SearchItem(SearchKey.AUTHOR, modifiedPackage.displayName));
           }
         }
-        this.packagesResponse = packagesResponse;
         fulfill(this.packages);
       });
     }));

@@ -1,5 +1,5 @@
-import { PackageMetaData } from '@/model/package-meta-data';
+import { PackageMetaDataDTO } from '@/model/package-meta-data';
 
 export interface PackagesResponse {
-  [key: string]: PackageMetaData;
+  [key: string]: PackageMetaDataDTO;
 }

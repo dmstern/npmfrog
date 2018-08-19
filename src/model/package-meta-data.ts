@@ -1,25 +1,8 @@
-import { IPackageJSON } from '@/model/package-json';
+import { PackageAbstract } from '@/model/package-abstract';
 
-export interface PackageMetaData extends IPackageJSON {
+export interface PackageMetaDataDTO extends PackageAbstract {
 
-  readonly distTags: IDistTags;
-  readonly time: ITimes;
-  readonly users: {};
-  readonly versions: IVersions;
-  readonly _id: string;
-  readonly _rev: string;
-}
-
-export interface ITimes {
-  [key: number]: Date;
-  created: string;
-  modified: string;
-}
-
-export interface IVersions {
-  [key: number]: string;
-}
-
-export interface IDistTags {
-  [key: string]: number;
+  readonly versions: {
+    [key: number]: string;
+  };
 }

@@ -1,33 +1,32 @@
+import { PackageAbstract } from '@/model/package-abstract';
 import {
   IAuthor,
   IBinMap,
   IBugs,
-  IDirectories,
-  IRepository,
-  IScriptsMap,
   IConfig,
   IDependencyMap,
+  IDirectories,
   IEngines,
   IPublishConfig,
+  IRepository,
+  IScriptsMap,
 } from '@/model/package-json';
-import {
-  IDistTags,
-  ITimes,
-  IVersions,
-  PackageMetaData,
-} from '@/model/package-meta-data';
+import { IDistTags, ITimes } from '@/model/package-abstract';
+import { PackageMetaDataDTO } from '@/model/package-meta-data';
 
-export default class Package implements PackageMetaData {
+export default class Package implements PackageMetaDataDTO {
   public distTags!: IDistTags;
   public time!: ITimes;
   public users!: {};
-  public versions!: IVersions;
+  public versions!: {
+    [key: number]: string;
+  };
   // tslint:disable-next-line:variable-name
   public _id!: string;
   // tslint:disable-next-line:variable-name
   public _rev!: string;
   public name!: string;
-  public version?: string|undefined;
+  public version?: string | undefined;
   public description?: string | undefined;
   public keywords?: string[] | undefined;
   public homepage?: string | undefined;
@@ -56,7 +55,9 @@ export default class Package implements PackageMetaData {
   public publishConfig?: IPublishConfig;
   public displayName: any;
 
-  constructor(packageMetaData: PackageMetaData) {
+  constructor(packageDetails: PackageAbstract);
+
+  constructor(packageMetaData: PackageMetaDataDTO) {
     Object.assign(this, packageMetaData);
 
     if (packageMetaData.author) {
@@ -66,4 +67,5 @@ export default class Package implements PackageMetaData {
     }
     Object.assign(this, { displayName: this.displayName });
   }
+
 }
