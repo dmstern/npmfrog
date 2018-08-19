@@ -8,7 +8,8 @@ const repoKey = config.artifactory.repoKey;
 const tmpDir = "tmp";
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-axios.defaults.baseURL = `${
+const s = config.artifactory.https ? 's' : '';
+axios.defaults.baseURL = `http${s}://${
   config.artifactory.baseURL
 }/artifactory/api/npm/${repoKey}`;
 axios.defaults.headers.common["Authorization"] = config.artifactory.apiKey;

@@ -21,8 +21,12 @@ export default class BackendApi {
     return this.get('packages');
   }
 
+  public getConfig(): AxiosPromise<any> {
+    return this.get('config');
+  }
+
   public getPackageDetail({scope, packageName}): AxiosPromise<Package> {
-    return this.get(`${scope ? `${scope}/` : ''}${packageName}`);
+    return this.get(`packageDetail/${scope ? `${scope}/` : ''}${packageName}`);
   }
 
   private get(route: string): AxiosPromise<any> {

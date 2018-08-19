@@ -1,7 +1,8 @@
 {
   "artifactory": {
-    "baseURL": "http://<YOUR_ARTIFACTORY_BASE_URL>",
+    "baseURL": "<YOUR_ARTIFACTORY_BASE_URL>",
     "apiKey": "<YOUR_ARTIFACTORY_API_KEY>",
-    "repoKey": "npm"
+    "repoKey": "npm",
+    "https": false
   }
 }

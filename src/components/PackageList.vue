@@ -88,7 +88,7 @@ import { PackagesResponse } from '@/model/PackageResponse';
 import PackagesService from '@/services/PackageService';
 import Package from '@/model/Package';
 import { EventBus, Events } from '@/services/event-bus';
-// import * as config from '@/../server/config-service';
+import BackendApi from '@/services/BackendApi';
 
 @Component
 export default class Packages extends Vue {
@@ -99,7 +99,7 @@ export default class Packages extends Vue {
     data: Package[],
     searchQueryText: string,
   };
-  private artifactoryUrl: string = this.artifactoryUrlProp;
+  private artifactoryUrl: string | undefined = this.artifactoryUrlProp;
   private packages: {
     all: Package[],
     data: Package[],
@@ -108,12 +108,14 @@ export default class Packages extends Vue {
 
   constructor() {
     super();
-    this.artifactoryUrl = 'artifactory.init.de'; // TODO: load from config
+    this.artifactoryUrl = undefined;
     this.packages = {
       all: [],
       data: [],
       searchQueryText: '',
     };
+
+    this.loadConfig();
 
     EventBus.$on(Events.FILTER_SEARCH, async ({filters, query}) => {
       this.packages.all = await this.loadPackages();
@@ -134,6 +136,12 @@ export default class Packages extends Vue {
             }
           });
       });
+    });
+  }
+
+  private loadConfig() {
+    BackendApi.Instance.getConfig().then((config) => {
+      this.artifactoryUrl = config.data.artifactory.baseURL;
     });
   }
 
