@@ -194,6 +194,8 @@ export default class App extends Vue {
         }
       }
     });
+
+    router.afterEach(this.fireSearchFilterEvent);
   }
 
   private get searchInput(): HTMLInputElement {
@@ -325,7 +327,9 @@ export default class App extends Vue {
   }
 
   private fireSearchFilterEvent() {
-    EventBus.$emit(Events.FILTER_SEARCH, { filters: this.searchItemsFiltered, query: this.searchInput.value });
+    this.$nextTick(() => {
+      EventBus.$emit(Events.FILTER_SEARCH, { filters: this.searchItemsFiltered, query: this.searchInput.value });
+    });
   }
 
   private adaptContentSpacing() {
