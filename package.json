@@ -8,7 +8,7 @@
     "startWebui": "vue-cli-service serve",
     "buildWebui": "vue-cli-service build",
     "lintWebui": "vue-cli-service lint",
-    "startServer": "nodemon server"
+    "startServer": "cd server && nodemon"
   },
   "dependencies": {
     "@mdi/font": "^2.5.94",

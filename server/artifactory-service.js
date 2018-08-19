@@ -5,7 +5,7 @@ const showdown  = require('showdown');
 
 const config = require("./config-service.js");
 const repoKey = config.artifactory.repoKey;
-const tmpDir = "tmp";
+const tmpDir = "../tmp";
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 const s = config.artifactory.https ? 's' : '';
