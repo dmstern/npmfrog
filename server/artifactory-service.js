@@ -18,6 +18,14 @@ function name2url({ scope, packageName }) {
   return `${scope ? `${scope}/` : ""}${packageName}`;
 }
 
+function readme2Html(dir) {
+  const readmeFile = `${dir}/package/README.md`; // TODO: ignore case
+  const readme = fs.readFileSync(readmeFile);
+  const converter = new showdown.Converter();
+  const html = converter.makeHtml(readme.toString());
+  return html;
+}
+
 async function fetchPackages() {
   if (process.env.MOCK) {
     return new Promise((resolve, reject) => {
@@ -50,9 +58,13 @@ async function getPackageDetail({ scope, packageName }) {
       const latestVersionResponse = await getDistTags({ scope, packageName });
       const latestVersion = latestVersionResponse.data.latest;
       const downloadUrl = packageDetail.versions[latestVersion].dist.tarball;
-      axios
+      const storageDir = `${tmpDir}/${scope}/${packageName}/${latestVersion}`;
+      if (fs.existsSync(`${storageDir}/package/README.md`)) {
+        resolve(readme2Html(storageDir));
+      } else {
+        axios
         // Request package:
-        .request({  // TODO: check if readme has been already downloaded
+        .request({
           responseType: "arraybuffer",
           url: downloadUrl,
           method: "get",
@@ -62,26 +74,21 @@ async function getPackageDetail({ scope, packageName }) {
         })
         // Store package in filesystem:
         .then(result => {
-          fs.ensureDirSync(`${tmpDir}/${scope}/${packageName}`);
-          const outputFilename = `${tmpDir}/${scope}/${packageName}/${packageName}-${latestVersion}.tar.gz`;
+          fs.ensureDirSync(storageDir);
+          const outputFilename = `${storageDir}/${packageName}-${latestVersion}.tar.gz`;
           fs.writeFileSync(outputFilename, result.data);
           return outputFilename;
         })
         // Extract package:
         .then(file => {
-          const cwd = `${tmpDir}/${scope}/${packageName}`;
+          const cwd = storageDir;
           return tar.x({ file, cwd }).then(() => cwd);
         })
         // Read README.md:
-        .then(dir => {
-          const readmeFile = `${dir}/package/README.md`; // TODO: ignore case
-          const readme = fs.readFileSync(readmeFile);
-          const converter = new showdown.Converter();
-          const html = converter.makeHtml(readme.toString());
-          return html;
-        }).then((result) => {
+        .then(readme2Html).then((result) => {
           resolve(result);
         });
+      }
     });
 
     packageDetailResonse.data.readme = readme;
