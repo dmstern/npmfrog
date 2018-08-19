@@ -13,7 +13,7 @@ app.get('/packages', function(req, res) {
   artifactoryService.fetchPackages().then(response => {
     res.send(response.data);
   }).catch(error => {
-    console.log(error);
+    throw error;
   });
 });
 
@@ -33,12 +33,12 @@ app.get('/:scope?/:packageName', function(req, res) {
   });
 });
 
-app.get('/:scope?/:packageName/readme', async function(req, res) {
-  artifactoryService.getReadme(req.params).then((response) => {
-    res.send(response);
-  }).catch(error => {
-    throw error;
-  });
-});
+// app.get('/:scope?/:packageName/readme', async function(req, res) {
+//   artifactoryService.getReadme(req.params).then((response) => {
+//     res.send(response);
+//   }).catch(error => {
+//     throw error;
+//   });
+// });
 
 app.listen(30001);

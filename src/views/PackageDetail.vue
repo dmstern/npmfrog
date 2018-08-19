@@ -30,7 +30,6 @@ export default class PackageDetail extends Vue {
       scope: Router.currentRoute.params.scope,
       packageName: Router.currentRoute.params.packageName,
     }).then((response) => {
-      console.log('response', response);
       this.data.packageDetail = response;
     });
   }

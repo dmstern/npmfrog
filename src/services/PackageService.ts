@@ -22,7 +22,7 @@ export default class PackagesService {
   private packages!: Package[];
   private packageNamesList!: string[];
   private searchItemList!: SearchItem[];
-  private packageDetails!: { // TODO: move this caching to backend
+  private packageDetails!: {
     [packageName: string]: Package,
   };
 
@@ -46,13 +46,8 @@ export default class PackagesService {
 
     return new Promise<Package|string>((fulfill, reject) => {
       BackendApi.Instance.getPackageDetail({scope, packageName}).then((response) => {
-        return this.packageDetails[key] = response.data;
-      }).then((packageDetails) => {
-        return BackendApi.Instance.getReadme({scope, packageName}).then((response) => {
-          return this.packageDetails[key].readme = response.data;
-        });
-      }).then(() => {
-        fulfill(this.packageDetails[key]);
+        this.packageDetails[key] = response.data;
+        return fulfill(this.packageDetails[key]);
       });
     });
   }
