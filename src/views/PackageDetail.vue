@@ -1,5 +1,5 @@
 <template>
-  <div class="about">
+  <div v-if="data.pachageDetail">
     <h2>{{data.packageDetail.name}}</h2>
     <div>{{data.packageDetail}}</div>
   </div>

@@ -108,7 +108,7 @@ export default class Packages extends Vue {
 
   constructor() {
     super();
-    this.artifactoryUrl = undefined;
+    this.artifactoryUrl = '';
     this.packages = {
       all: [],
       data: [],
