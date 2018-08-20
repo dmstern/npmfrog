@@ -50,7 +50,7 @@ async function fetchPackages() {
   return (request = axios.get(`/-/all`));
 }
 
-async function getPackageDetail({ scope, packageName }) {
+async function getPackageDetail({ scope, packageName }) { // TODO: add caching object to reduce rest calls to artifactory
   const packageDetailResonse = process.env.MOCK
     ? await new Promise((resolve, reject) => {
         resolve({
