@@ -47,18 +47,27 @@
     min-height: 2em;
   }
 
+  .v-list__tile__action--stack {
+    max-width: 40%;
+  }
+
   &--author {
     display: flex;
     font-family: $monospace;
     font-weight: bold;
     font-size: $package-list--author--font-size;
     color: $color-gray-light;
+    max-width: 100%;
+    overflow: hidden;
 
     &-name {
       align-self: flex-end;
       padding-left: .8em;
       margin-right: .8em;
-      line-height: 1em;
+      line-height: 1rem;
+      text-overflow: ellipsis;
+      max-width: 100%;
+      overflow: hidden;
     }
   }
 
