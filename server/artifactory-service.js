@@ -18,8 +18,8 @@ function name2url({ scope, packageName }) {
   return `${scope ? `${scope}/` : ""}${packageName}`;
 }
 
-function readme2Html(dir) {
-  const readmeFile = `${dir}/package/README.md`; // TODO: ignore case
+function readme2Html(readmeFile) {
+  // const readmeFile = ; // TODO: ignore case
   let readme;
   try {
     readme = fs.readFileSync(readmeFile);
@@ -50,22 +50,16 @@ async function getPackageDetail({ scope, packageName }) {
       });
     }) : await axios.get(`/${name2url({ scope, packageName })}`);
 
-  const readme = process.env.MOCK ? 
-    await new Promise((resolve, reject) => {
-      const converter = new showdown.Converter();
-      const readme = fs.readFileSync("./server/mock/fractal-menu-enhancer.readme.md");
-      const html = converter.makeHtml(readme.toString());
-      resolve({
-        data: html
-      });
-    }) : await new Promise(async (resolve, reject) => {
+  const readme = process.env.MOCK
+    ? await new Promise((resolve, reject) => { resolve(readme2Html(`${__dirname}/mock/fractal-menu-enhancer.readme.md`)); })
+    : await new Promise(async (resolve, reject) => {
       const packageDetail = packageDetailResonse.data;
       const latestVersionResponse = await getDistTags({ scope, packageName });
       const latestVersion = latestVersionResponse.data.latest;
       const downloadUrl = packageDetail.versions[latestVersion].dist.tarball;
       const storageDir = `${tmpDir}/${scope}/${packageName}/${latestVersion}`;
       if (fs.existsSync(storageDir)) {
-        resolve(readme2Html(storageDir));
+        resolve(readme2Html(`${storageDir}/package/README.md`));
       } else {
         axios
         // Request package:
@@ -90,7 +84,9 @@ async function getPackageDetail({ scope, packageName }) {
           return tar.x({ file, cwd }).then(() => cwd);
         })
         // Read README.md:
-        .then(readme2Html).then((result) => {
+        .then(() => {
+          return readme2Html(`${storageDir}/package/README.md`);
+        }).then((result) => {
           resolve(result);
         });
       }
