@@ -19,7 +19,6 @@ function name2url({ scope, packageName }) {
 }
 
 function readme2Html(readmeFile) {
-  // const readmeFile = ; // TODO: ignore case
   let readme;
   try {
     readme = fs.readFileSync(readmeFile);
