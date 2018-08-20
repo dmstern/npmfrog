@@ -1,8 +1,12 @@
 <template>
-  <div v-if="data.packageDetail">
-    <h2>{{data.packageDetail.name}}</h2>
-    <div>{{data.packageDetail}}</div>
-  </div>
+  <v-container v-if="data.packageDetail">
+    <h1 v-if="!data.packageDetail.readme">{{ data.packageDetail.name }}</h1>
+    <div v-if="data.packageDetail.readme" v-html="data.packageDetail.readme"></div>
+    <div v-if="data.packageDetail.mainCode">
+      <h1>main: {{data.packageDetail.versions[data.packageDetail['dist-tags'].latest].main}}</h1>
+      <pre><code>{{ data.packageDetail.mainCode }}</code></pre>
+    </div>
+  </v-container>
   <LoadingSpinner msg="Loading package details..." v-else />
 </template>
 
@@ -21,7 +25,7 @@ import LoadingSpinner from '@/components/LoadingSpinner.vue';
 export default class PackageDetail extends Vue {
 
   @Prop() private dataProp!: { packageDetail: Package };
-  private data: { packageDetail: Package | null | string} = this.dataProp;
+  private data: { packageDetail: Package | null | string } = this.dataProp;
 
   constructor() {
     super();
