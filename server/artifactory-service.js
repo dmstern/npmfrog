@@ -5,7 +5,7 @@ const showdown  = require('showdown');
 
 const config = require("./config-service.js");
 const repoKey = config.artifactory.repoKey;
-const tmpDir = "../tmp";
+const tmpDir = `${__dirname}/../tmp`;
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 const s = config.artifactory.https ? 's' : '';
@@ -31,6 +31,15 @@ function readme2Html(readmeFile) {
   return html;
 }
 
+function readMainCode(storageDir) {
+  const packageJson = require(`${storageDir}/package/package.json`);
+  try {
+    return fs.readFileSync(`${storageDir}/package/${packageJson.main}`).toString();
+  } catch(error) {
+    return null;
+  }
+}
+
 async function fetchPackages() {
   if (process.env.MOCK) {
     return new Promise((resolve, reject) => {
@@ -50,8 +59,13 @@ async function getPackageDetail({ scope, packageName }) {
       });
     }) : await axios.get(`/${name2url({ scope, packageName })}`);
 
-  const readme = process.env.MOCK
-    ? await new Promise((resolve, reject) => { resolve(readme2Html(`${__dirname}/mock/fractal-menu-enhancer.readme.md`)); })
+  const additionalCode = process.env.MOCK
+    ? await new Promise((resolve, reject) => { 
+      resolve({
+        readme: readme2Html(`${__dirname}/mock/fractal-menu-enhancer.readme.md`),
+        mainCode: readMainCode(`${__dirname}`),
+      });
+    })
     : await new Promise(async (resolve, reject) => {
       const packageDetail = packageDetailResonse.data;
       const latestVersionResponse = await getDistTags({ scope, packageName });
@@ -59,7 +73,7 @@ async function getPackageDetail({ scope, packageName }) {
       const downloadUrl = packageDetail.versions[latestVersion].dist.tarball;
       const storageDir = `${tmpDir}/${scope}/${packageName}/${latestVersion}`;
       if (fs.existsSync(storageDir)) {
-        resolve(readme2Html(`${storageDir}/package/README.md`));
+        resolve(readAdditionalCode(storageDir));
       } else {
         axios
         // Request package:
@@ -83,19 +97,23 @@ async function getPackageDetail({ scope, packageName }) {
           const cwd = storageDir;
           return tar.x({ file, cwd }).then(() => cwd);
         })
-        // Read README.md:
-        .then(() => {
-          return readme2Html(`${storageDir}/package/README.md`);
-        }).then((result) => {
-          resolve(result);
+        .then((dir) => {
+          resolve(readAdditionalCode(dir));
         });
       }
     });
 
-    packageDetailResonse.data.readme = readme;
+    Object.assign(packageDetailResonse.data, additionalCode);
     return new Promise((resolve, reject) => {
       resolve(packageDetailResonse);
     });
+}
+
+function readAdditionalCode(storageDir) {
+  return {
+    readme: readme2Html(`${storageDir}/package/README.md`),
+    mainCode: readMainCode(storageDir),
+  }
 }
 
 async function getDistTags({ scope, packageName }) {
