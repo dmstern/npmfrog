@@ -1,13 +1,27 @@
 <template>
-  <v-container v-if="data.packageDetail">
-    <h1 v-if="!data.packageDetail.readme">{{ data.packageDetail.name }}</h1>
-    <div v-highlightjs v-if="data.packageDetail.readme" v-html="data.packageDetail.readme"></div>
-    <div v-if="data.packageDetail.mainCode">
-      <h1>main: {{data.packageDetail.versions[data.packageDetail['dist-tags'].latest].main}}</h1>
-      <pre v-highlightjs="data.packageDetail.mainCode"><code></code></pre>
-    </div>
+  <v-container>
+    <h1 v-if="data.packageDetail">{{ data.packageDetail.name }}</h1>
+    <v-tabs v-model="activeTab" v-if="data.packageDetail">
+      <v-tab ripple>README</v-tab>
+      <v-tab ripple v-if="data.packageDetail.mainCode">main code file</v-tab>
+      <v-tab-item>
+        <v-card flat>
+          <v-card-text>
+            <div v-highlightjs v-if="data.packageDetail.readme" v-html="data.packageDetail.readme"></div>
+          </v-card-text>
+        </v-card>
+      </v-tab-item>
+      <v-tab-item v-if="data.packageDetail.mainCode">
+        <v-card flat>
+          <v-card-text>
+            <h1>{{data.packageDetail.versions[data.packageDetail['dist-tags'].latest].main}}</h1>
+            <pre v-highlightjs="data.packageDetail.mainCode"><code></code></pre>
+          </v-card-text>
+        </v-card>
+      </v-tab-item>
+    </v-tabs>
+    <LoadingSpinner msg="Loading package details..." v-else />
   </v-container>
-  <LoadingSpinner msg="Loading package details..." v-else />
 </template>
 
 <script lang="ts">
@@ -26,9 +40,11 @@ export default class PackageDetail extends Vue {
 
   @Prop() private dataProp!: { packageDetail: Package };
   private data: { packageDetail: Package | null } = this.dataProp;
+  private activeTab: number;
 
   constructor() {
     super();
+    this.activeTab = 0;
     this.data = {
       packageDetail: null,
     };
