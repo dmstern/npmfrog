@@ -33,7 +33,7 @@ export default class PackagesService {
     this.packageDetails = {};
   }
 
-  public async getPackageDetail(packageId: {scope: string, packageName: string}): Promise<Package|string> {
+  public async getPackageDetail(packageId: {scope: string, packageName: string}): Promise<Package> {
     const scope = packageId.scope;
     const packageName = packageId.packageName;
     const key = scope ? `${scope}/${packageName}` : packageName;
@@ -44,7 +44,7 @@ export default class PackagesService {
       });
     }
 
-    return new Promise<Package|string>((fulfill, reject) => {
+    return new Promise<Package>((fulfill, reject) => {
       BackendApi.Instance.getPackageDetail({scope, packageName}).then((response) => {
         this.packageDetails[key] = response.data;
         return fulfill(this.packageDetails[key]);

@@ -351,6 +351,14 @@ export default class App extends Vue {
 <style lang="scss">
 @import 'assets/variables';
 
+code,
+kbd {
+  &:after,
+  &:before {
+    letter-spacing: -1em; 
+  }
+}
+
 .v-toolbar {
 
   &.theme--dark a {

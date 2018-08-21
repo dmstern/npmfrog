@@ -51,7 +51,7 @@ export default class Package implements PackageMetaDataDTO {
   public private?: boolean | undefined;
   public publishConfig?: IPublishConfig;
   public displayName: any;
-  private readmeProp: string | null;
+  public readme?: string | null;
 
   constructor(packageDetails: PackageMetaDataDTO);
 
@@ -64,17 +64,6 @@ export default class Package implements PackageMetaDataDTO {
         : packageMetaData.author;
     }
     Object.assign(this, { displayName: this.displayName });
-    this.readmeProp = null;
-  }
-
-  public set readme(readme: string | null) {
-    if (!this.readmeProp) {
-      this.readmeProp = readme;
-    }
-  }
-
-  public get readme(): string | null {
-    return this.readmeProp;
   }
 
 }
