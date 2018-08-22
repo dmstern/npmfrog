@@ -28,8 +28,11 @@
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
-      <v-footer app>
-        <span>Logo icons designed by Freepik and Dimitry Miroliubov from <a href="//www.flaticon.com" target="_blank">Flaticon</a></span>
+      <v-footer app class="footer">
+        <v-divider />
+        <div>&copy; {{ new Date().getFullYear() }} by ]init[ PixelSchubser Unit</div>
+        <v-divider />
+        <div>Logo icons designed by Freepik and Dimitry Miroliubov from <a href="//www.flaticon.com" target="_blank">Flaticon</a></div>
       </v-footer>
     </v-navigation-drawer>
     <v-toolbar
@@ -135,9 +138,6 @@
     <v-content>
        <router-view/> 
     </v-content>
-    <v-footer app>
-      <span>&copy; {{ new Date().getFullYear() }} by ]init[ PixelSchubser Unit</span>
-    </v-footer>
   </v-app>
 </template>
 
@@ -460,6 +460,15 @@ kbd {
     border: 1px solid;
     border-radius: 3px;
     width: 1em;
+  }
+}
+
+.footer {
+  height: auto !important;
+  display: block;
+
+  > div {
+    padding: 5px;
   }
 }
 
