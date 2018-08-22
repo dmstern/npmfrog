@@ -1,6 +1,5 @@
 import axios, { AxiosInstance, AxiosPromise } from 'axios';
 import { PackagesResponse } from '@/model/PackageResponse';
-import Package from '@/model/Package';
 import { PackageMetaDataDTO } from '@/model/package-meta-data';
 
 export default class BackendApi {
