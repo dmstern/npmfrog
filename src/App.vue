@@ -382,8 +382,9 @@ kbd {
   }
 }
 
-pre {
+pre.hljs {
   margin-bottom: 1em;
+  white-space: pre;
 }
 
 .v-toolbar {
