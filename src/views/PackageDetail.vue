@@ -31,7 +31,31 @@
           </v-card-text>
         </v-card>
       </v-tab-item>
-
+      <v-tab-item>
+        <v-card>
+          <v-card-text>
+            <h3>Current Tags</h3>
+            <v-list>
+              <v-list-tile v-for="(version, tag) in data.currentTags" :key="tag">
+                <v-list-tile-content>
+                  <v-list-tile-title v-text="version"></v-list-tile-title>
+                </v-list-tile-content>
+                <v-list-tile-avatar>
+                  <v-list-tile-title v-text="tag"></v-list-tile-title>
+                </v-list-tile-avatar>
+              </v-list-tile>
+            </v-list>
+            <h3>Version History</h3>
+            <v-list>
+              <v-list-tile v-for="(version) in data.currentTags" :key="version">
+                <v-list-tile-content>
+                  <v-list-tile-title v-text="version"></v-list-tile-title>
+                </v-list-tile-content>
+              </v-list-tile>
+            </v-list>
+          </v-card-text>
+        </v-card>
+      </v-tab-item>
     </v-tabs>
     <LoadingSpinner msg="Loading package details..." v-else />
   </v-container>
@@ -43,7 +67,7 @@ import Package from '@/model/Package';
 import PackagesService from '@/services/PackageService';
 import Router from '@/router';
 import LoadingSpinner from '@/components/LoadingSpinner.vue';
-import { PackageMetaDataDTO } from '@/model/package-meta-data';
+import { PackageMetaDataDTO, IVersions } from '@/model/package-meta-data';
 
 @Component({
   components: {
@@ -56,11 +80,15 @@ export default class PackageDetail extends Vue {
     packageDetail: Package | null,
     currentPackage: Package | null,
     dependeciesCount: number,
+    currentTags: IVersions,
+    versionsHistory: IVersions,
   };
   private data: {
     packageDetail: Package | null,
     currentPackage: Package | null,
     dependeciesCount: number,
+    currentTags: IVersions,
+    versionsHistory: IVersions,
   } = this.dataProp;
   private activeTab: number;
 
@@ -71,6 +99,8 @@ export default class PackageDetail extends Vue {
       packageDetail: null,
       currentPackage: null,
       dependeciesCount: 0,
+      currentTags: {},
+      versionsHistory: {},
     };
     this.getPackageDetails();
   }
@@ -90,9 +120,23 @@ export default class PackageDetail extends Vue {
         if (dependencies && devDependencies) {
           this.data.dependeciesCount = Object.keys(dependencies).length + Object.keys(devDependencies).length;
         }
+        this.data.currentTags = response['dist-tags'];
+        this.data.versionsHistory = Object.keys(response.versions);
       }
     });
   }
 }
 
 </script>
+
+<style lang="scss">
+.version-list {
+  list-style: none;
+
+  li {
+    width: 100%;
+    display: flex;
+  }
+}
+</style>
+
