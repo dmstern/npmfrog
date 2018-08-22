@@ -131,7 +131,6 @@ export default class PackageDetail extends Vue {
 
   private loadConfig() {
     BackendApi.Instance.getConfig().then((config) => {
-      console.log(config.data);
       this.data.config = config.data;
     });
   }
