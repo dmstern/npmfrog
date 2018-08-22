@@ -16,7 +16,7 @@
       <v-tab-item v-if="data.packageDetail.mainCode">
         <v-card>
           <v-card-text>
-            <h1>{{data.currentPackage.main}}</h1>
+            <h2>{{data.currentPackage.main}}</h2>
             <pre v-highlightjs="data.packageDetail.mainCode"><code></code></pre>
           </v-card-text>
         </v-card>
@@ -24,9 +24,9 @@
       <v-tab-item>
         <v-card>
           <v-card-text>
-            <h3>Dependencies</h3>
+            <h2>Dependencies</h2>
             <v-chip small outline color="primary" v-for="(version, key) in data.currentPackage.dependencies" :key="key">{{key}}</v-chip>
-            <h3>DevDependencies</h3>
+            <h2>DevDependencies</h2>
             <v-chip small outline color="primary" v-for="(version, key) in data.currentPackage.devDependencies" :key="key">{{key}}</v-chip>
           </v-card-text>
         </v-card>
@@ -34,7 +34,7 @@
       <v-tab-item>
         <v-card>
           <v-card-text>
-            <h3>Current Tags</h3>
+            <h2>Current Tags</h2>
             <v-list>
               <v-list-tile v-for="(version, tag) in data.currentTags" :key="tag">
                 <v-list-tile-content>
@@ -45,7 +45,7 @@
                 </v-list-tile-avatar>
               </v-list-tile>
             </v-list>
-            <h3>Version History</h3>
+            <h2>Version History</h2>
             <v-list>
               <v-list-tile v-for="(version) in data.currentTags" :key="version">
                 <v-list-tile-content>
