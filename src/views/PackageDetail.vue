@@ -1,7 +1,17 @@
 <template>
-  <v-container>
-    <h1 v-if="data.packageDetail">{{ data.packageDetail.name }}</h1>
-    <v-tabs v-model="activeTab" v-if="data.packageDetail">
+<div>
+  <v-container v-if="!data.packageDetail">
+    <LoadingSpinner msg="Loading package details..."/>
+  </v-container>
+  <v-container v-else fluid>
+    <v-layout row wrap>
+      <v-flex xs12>
+        <h1 >{{ data.packageDetail.name }}</h1>
+      </v-flex>
+    </v-layout>
+    <v-layout row wrap>
+       <v-flex xs12 md8 order-xs2 order-md1>
+    <v-tabs v-model="activeTab">
       <v-tab>README</v-tab>
       <v-tab v-if="data.packageDetail.mainCode">main code file</v-tab>
       <v-tab>{{data.dependenciesCount}} Dependencies</v-tab>
@@ -57,8 +67,13 @@
         </v-card>
       </v-tab-item>
     </v-tabs>
-    <LoadingSpinner msg="Loading package details..." v-else />
+       </v-flex>
+       <v-flex xs12 md4 order-xs1 order-md2>
+         test
+       </v-flex>
+    </v-layout>
   </v-container>
+</div>
 </template>
 
 <script lang="ts">
