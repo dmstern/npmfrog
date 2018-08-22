@@ -85,6 +85,8 @@ export default class PackagesService {
           }
         }
         fulfill(this.packages);
+      }).catch((error) => {
+        reject(error);
       });
     }));
   }
