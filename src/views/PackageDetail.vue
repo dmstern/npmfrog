@@ -3,7 +3,7 @@
   <v-container v-if="!data.packageDetail">
     <LoadingSpinner msg="Loading package details..."/>
   </v-container>
-  <v-container v-else fluid>
+  <v-container v-else fluid grid-list-lg>
     <v-layout row wrap>
       <v-flex xs12>
         <h1 >{{ data.packageDetail.name }}</h1>
@@ -70,9 +70,9 @@
        </v-flex>
        <v-flex xs12 md4 order-xs1 order-md2>
          <v-card>
-           <v-card-title primary-title>
-            install
-           </v-card-title>
+          <v-card-title primary-title class="title">install</v-card-title>
+          <pre v-highlightjs><code class="bash language-bash hljs">npm config set registry http://{{data.config.artifactory.host}}/artifactory/api/npm/{{data.config.artifactory.repoKey}}/
+npm i {{data.packageDetail.name}}</code></pre>
          </v-card>
        </v-flex>
     </v-layout>
@@ -87,6 +87,7 @@ import PackagesService from '@/services/PackageService';
 import Router from '@/router';
 import LoadingSpinner from '@/components/LoadingSpinner.vue';
 import { PackageMetaDataDTO, IVersions } from '@/model/package-meta-data';
+import BackendApi from '@/services/BackendApi';
 
 @Component({
   components: {
@@ -101,6 +102,7 @@ export default class PackageDetail extends Vue {
     dependeciesCount: number,
     currentTags: IVersions,
     versionsHistory: IVersions,
+    config: {},
   };
   private data: {
     packageDetail: Package | null,
@@ -108,6 +110,7 @@ export default class PackageDetail extends Vue {
     dependeciesCount: number,
     currentTags: IVersions,
     versionsHistory: IVersions,
+    config: {},
   } = this.dataProp;
   private activeTab: number;
 
@@ -120,8 +123,17 @@ export default class PackageDetail extends Vue {
       dependeciesCount: 0,
       currentTags: {},
       versionsHistory: {},
+      config: {},
     };
     this.getPackageDetails();
+    this.loadConfig();
+  }
+
+  private loadConfig() {
+    BackendApi.Instance.getConfig().then((config) => {
+      console.log(config.data);
+      this.data.config = config.data;
+    });
   }
 
   private getPackageDetails() {
