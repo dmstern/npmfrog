@@ -371,6 +371,7 @@ kbd {
   }
 }
 
+// inline code
 :not(pre) > code.hljs {
   display: inline;
   background: transparent;
@@ -382,9 +383,12 @@ kbd {
   }
 }
 
-pre.hljs {
-  margin-bottom: 1em;
+code.hljs {
   white-space: pre;
+}
+
+pre {
+  margin-bottom: 1em;
 }
 
 .v-toolbar {

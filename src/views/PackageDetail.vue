@@ -69,7 +69,7 @@
     </v-tabs>
        </v-flex>
        <v-flex xs12 md4 order-xs1 order-md2>
-         <v-card>
+         <v-card v-if="data.config.artifactory">
           <v-card-title primary-title class="title">install</v-card-title>
           <pre v-highlightjs><code class="bash language-bash hljs">npm config set registry http://{{data.config.artifactory.host}}/artifactory/api/npm/{{data.config.artifactory.repoKey}}/
 npm i {{data.packageDetail.name}}</code></pre>
@@ -88,6 +88,7 @@ import Router from '@/router';
 import LoadingSpinner from '@/components/LoadingSpinner.vue';
 import { PackageMetaDataDTO, IVersions } from '@/model/package-meta-data';
 import BackendApi from '@/services/BackendApi';
+import router from '@/router';
 
 @Component({
   components: {
@@ -125,6 +126,15 @@ export default class PackageDetail extends Vue {
       versionsHistory: {},
       config: {},
     };
+    router.afterEach((route) => {
+      if (route.name === 'packageDetail') {
+        this.init();
+      }
+    });
+    this.init();
+  }
+
+  private init() {
     this.getPackageDetails();
     this.loadConfig();
   }
