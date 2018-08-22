@@ -371,6 +371,21 @@ kbd {
   }
 }
 
+:not(pre) > code.hljs {
+  display: inline;
+  background: transparent;
+  box-shadow: none;
+
+  &,
+  * {
+    color: $color-code;
+  }
+}
+
+pre {
+  margin-bottom: 1em;
+}
+
 .v-toolbar {
 
   &.theme--dark a {
