@@ -6,10 +6,12 @@ export default class BackendApi {
 
   private static instance: BackendApi;
   private axios: AxiosInstance;
+  private baseURL: string;
 
   private constructor() {
+    this.baseURL = `//${document.location.hostname}:30001`;
     this.axios = axios.create({
-      baseURL: `http://localhost:30001`,
+      baseURL: this.baseURL,
     });
   }
 
