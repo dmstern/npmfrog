@@ -69,7 +69,11 @@
     </v-tabs>
        </v-flex>
        <v-flex xs12 md4 order-xs1 order-md2>
-         test
+         <v-card>
+           <v-card-title primary-title>
+            install
+           </v-card-title>
+         </v-card>
        </v-flex>
     </v-layout>
   </v-container>
