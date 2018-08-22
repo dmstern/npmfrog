@@ -351,6 +351,18 @@ export default class App extends Vue {
 <style lang="scss">
 @import 'assets/variables';
 
+h1 {
+  margin-bottom: .5em; 
+}
+
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 1em 0 .5em 0;
+}
+
 code,
 kbd {
   &:after,
