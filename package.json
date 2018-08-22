@@ -8,7 +8,9 @@
     "startWebui": "vue-cli-service serve",
     "buildWebui": "vue-cli-service build",
     "lintWebui": "vue-cli-service lint",
-    "startServer": "cd server && nodemon"
+    "startServer": "cd server && nodemon",
+    "prestartProd": "npm run buildWebui",
+    "startProd": "pm2 serve dist 8000 && pm2 start server"
   },
   "dependencies": {
     "@mdi/font": "^2.5.94",
@@ -20,6 +22,7 @@
     "fs-extra": "^7.0.0",
     "morgan": "^1.9.0",
     "nodemon": "^1.18.3",
+    "pm2": "^3.0.3",
     "showdown": "^1.8.6",
     "tar": "^4.4.6",
     "vue": "^2.5.16",
