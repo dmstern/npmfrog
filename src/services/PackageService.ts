@@ -46,7 +46,7 @@ export default class PackagesService {
 
     return new Promise<Package>((fulfill, reject) => {
       BackendApi.Instance.getPackageDetail({scope, packageName}).then((response) => {
-        this.packageDetails[key] = response.data;
+        this.packageDetails[key] = new Package(response.data);
         return fulfill(this.packageDetails[key]);
       });
     });
