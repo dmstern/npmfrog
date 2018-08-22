@@ -10,7 +10,7 @@ const tmpDir = `${__dirname}/../tmp`;
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 const s = config.artifactory.https ? "s" : "";
 axios.defaults.baseURL = `http${s}://${
-  config.artifactory.baseURL
+  config.artifactory.host
 }/artifactory/api/npm/${repoKey}`;
 axios.defaults.headers.common["Authorization"] = config.artifactory.apiKey;
 
@@ -125,5 +125,6 @@ async function getDistTags({ scope, packageName }) {
 module.exports = {
   fetchPackages,
   getDistTags,
-  getPackageDetail
+  getPackageDetail,
+  baseURL: axios.defaults.baseURL
 };

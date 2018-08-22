@@ -154,7 +154,7 @@ export default class Packages extends Vue {
 
   private loadConfig() {
     BackendApi.Instance.getConfig().then((config) => {
-      this.artifactoryUrl = config.data.artifactory.baseURL;
+      this.artifactoryUrl = config.data.artifactory.host;
     });
   }
 
