@@ -44,6 +44,7 @@ app.get('/config', function(req, res) {
     res.send({
       artifactory: {
         host: config.artifactory.host,
+        repoKey: config.artifactory.repoKey,
       },
     });
   } catch (error) {
