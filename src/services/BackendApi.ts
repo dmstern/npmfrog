@@ -1,6 +1,7 @@
 import axios, { AxiosInstance, AxiosPromise } from 'axios';
 import { PackagesResponse } from '@/model/PackageResponse';
 import { PackageMetaDataDTO } from '@/model/package-meta-data';
+import { IPackageJSON } from '@/model/package-json';
 
 export default class BackendApi {
 
@@ -29,6 +30,10 @@ export default class BackendApi {
 
   public getPackageDetail({scope, packageName}): AxiosPromise<PackageMetaDataDTO> {
     return this.get(`packageDetail/${scope ? `${scope}/` : ''}${packageName}`);
+  }
+
+  public getMetaInfo(): AxiosPromise<IPackageJSON> {
+    return this.get(`meta`);
   }
 
   private get(route: string): AxiosPromise<any> {

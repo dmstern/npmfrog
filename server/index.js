@@ -52,4 +52,13 @@ app.get('/config', function(req, res) {
   }
 });
 
+app.get('/meta', function(req, res) {
+  try {
+    const packageJson = require("../package.json");
+    res.send(packageJson);
+  } catch (error) {
+    handleError(error, res, `Could not get npmFrog package.json.`);
+  }
+});
+
 app.listen(portNumber);
