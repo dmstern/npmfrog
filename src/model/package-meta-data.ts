@@ -20,5 +20,5 @@ export interface IDistTags {
 }
 
 export interface IVersions {
-  [key: number]: string | PackageMetaDataDTO;
+  [key: string]: string | PackageMetaDataDTO;
 }
