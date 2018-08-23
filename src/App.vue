@@ -27,13 +27,8 @@
             <v-list-tile-title v-text="item.title"></v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
+        <About />
       </v-list>
-      <v-footer app class="footer">
-        <v-divider />
-        <div>&copy; {{ new Date().getFullYear() }} by ]init[ PixelSchubser Unit</div>
-        <v-divider />
-        <div>Logo icons designed by Freepik and Dimitry Miroliubov from <a href="//www.flaticon.com" target="_blank">Flaticon</a></div>
-      </v-footer>
     </v-navigation-drawer>
     <v-toolbar
       app
@@ -149,8 +144,13 @@ import { SearchItem, SearchKey } from '@/model/SearchItem';
 import router from '@/router';
 import { setTimeout } from 'timers';
 import { EventBus, Events } from '@/services/event-bus';
+import About from '@/components/About.vue';
 
-@Component
+@Component({
+  components: {
+    About,
+  },
+})
 export default class App extends Vue {
   public $refs!: {
     searchbar: any,
@@ -169,10 +169,10 @@ export default class App extends Vue {
   private clipped: boolean = true;
   private hasFocus: boolean = false;
   private btnIconSize: number = 36;
-  private navItems: any[] = [{
-    icon: 'bubble_chart',
-    title: 'Inspire',
-  }];
+  private navItems: any[] = []; // {
+  //   icon: 'bubble_chart',
+  //   title: 'Inspire',
+  // }];
 
   constructor() {
     super();
@@ -336,8 +336,7 @@ export default class App extends Vue {
     setTimeout(() => {
       const contentElement = document.querySelector('.v-content') as HTMLElement;
       const toolbar = document.querySelector('.v-toolbar__content') as HTMLElement;
-      const footer = document.querySelector('.v-footer') as HTMLElement;
-      contentElement.style.padding = `${toolbar.offsetHeight}px 0 ${footer.offsetHeight}px`;
+      contentElement.style.padding = `${toolbar.offsetHeight}px 0 0`;
     }, 0);
   }
 
