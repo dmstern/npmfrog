@@ -17,7 +17,7 @@
 
         <v-list-tile
           value="true"
-          v-for="(item, i) in items"
+          v-for="(item, i) in navItems"
           :key="i"
         >
           <v-list-tile-action>
@@ -169,7 +169,7 @@ export default class App extends Vue {
   private clipped: boolean = true;
   private hasFocus: boolean = false;
   private btnIconSize: number = 36;
-  private items: any[] = [{
+  private navItems: any[] = [{
     icon: 'bubble_chart',
     title: 'Inspire',
   }];
