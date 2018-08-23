@@ -57,7 +57,7 @@
             </v-list>
             <h2>Version History</h2>
             <v-list>
-              <v-list-tile v-for="(version) in data.currentTags" :key="version">
+              <v-list-tile v-for="(historicPackage, version) in data.versionsHistory" :key="version">
                 <v-list-tile-content>
                   <v-list-tile-title v-text="version"></v-list-tile-title>
                 </v-list-tile-content>
@@ -161,7 +161,7 @@ export default class PackageDetail extends Vue {
           this.data.dependeciesCount = Object.keys(dependencies).length + Object.keys(devDependencies).length;
         }
         this.data.currentTags = response['dist-tags'];
-        this.data.versionsHistory = Object.keys(response.versions);
+        this.data.versionsHistory = response.versions;
       }
     });
   }
