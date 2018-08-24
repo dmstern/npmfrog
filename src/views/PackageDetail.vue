@@ -6,7 +6,8 @@
   <v-container v-else fluid grid-list-lg>
     <v-layout row wrap>
       <v-flex xs12>
-        <h1 >{{ data.packageDetail.name }}</h1>
+        <h1>{{ data.packageDetail.name }}</h1>
+        <span class="subheading">{{data.currentPackage.version}}</span>
       </v-flex>
     </v-layout>
     <v-layout row wrap>
@@ -67,11 +68,15 @@
         </v-card>
       </v-tab-item>
     </v-tabs>
-       </v-flex>
-       <v-flex xs12 md4 order-xs1 order-md2>
-         <v-card v-if="data.config.artifactory">
-          <v-card-title primary-title class="title">install</v-card-title>
-          <pre v-highlightjs><code class="bash language-bash hljs">npm config set registry http://{{data.config.artifactory.host}}/artifactory/api/npm/{{data.config.artifactory.repoKey}}/
+    <div>
+      <h2 class="title">Keywords</h2>
+      <v-chip v-for="keyword in data.currentPackage.keywords" :key="keyword">{{keyword}}</v-chip>
+    </div>
+  </v-flex>
+  <v-flex xs12 md4 order-xs1 order-md2>
+    <v-card v-if="data.config.artifactory">
+      <v-card-title primary-title class="title">install</v-card-title>
+        <pre v-highlightjs><code class="bash language-bash hljs">npm config set registry http://{{data.config.artifactory.host}}/artifactory/api/npm/{{data.config.artifactory.repoKey}}/
 npm i {{data.packageDetail.name}}</code></pre>
          </v-card>
        </v-flex>
