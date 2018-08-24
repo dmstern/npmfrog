@@ -100,7 +100,7 @@
               </v-card-text>
             </v-card>
           </v-flex>
-          <v-flex>
+          <v-flex v-if="data.currentPackage.repository">
             <v-card>
               <v-card-title primary-title class="title">Repository</v-card-title>
               <v-card-text>
