@@ -2,6 +2,7 @@
     <v-dialog
       v-model="dialog"
       width="500"
+      scrollable
     >
 
       <v-list-tile slot="activator">
@@ -21,14 +22,33 @@
           About npmFrog
         </v-card-title>
 
-        <v-card-text>
+        <v-card-text v-if="data.meta">
+          <blockquote class="blockquote">{{data.meta.description}}</blockquote>
           <p>
             Version: {{data.meta.version}}
           </p>
-          <p>&copy; {{ new Date().getFullYear() }} by ]init[ PixelSchubser Unit</p>
-          
+          <p>
+            This tool requests meta data of npm packages that were published to jFrog's npm registry on {{data.config.artifactory.host}} and aims to display them in a way that should help front-end developers to discover the best in-house front-end solutions to solve a specific problem.
+          </p>
+          <p>
+            It's code is developed as open source and published on <a :href="data.meta.repository.url" target="_blank">GitHub</a>.
+            If you discover any bugs or would like to have a feature being added, feel free to file an <a :href="data.meta.bugs.url" target="_blank">issue</a> or contribute to this project.
+          </p>
+          <h2 class="subheading">Technologies</h2>
+          <ul>
+            <li><a href="https://vuejs.org" target="_blank">Vue.js</a></li>
+            <li><a href="https://www.typescriptlang.org/" target="_blank">TypeScript</a></li>
+            <li><a href="http://vuetifyjs.com" target="_blank">Vuetify</a></li>
+            <li><a href="https://nodejs.org/" target="_blank">node.js</a></li>
+            <li><a href="http://expressjs.com/" target="_blank">Express</a></li>
+            <li><a href="https://github.com/axios/axios" target="_blank">Axios</a></li>
+          </ul>
+          <br>
           <v-divider />
-          <p>Logo icons designed by Freepik and Dimitry Miroliubov from <a href="//www.flaticon.com" target="_blank">Flaticon</a></p>
+          <p>
+            &copy; {{ new Date().getFullYear() }} by ]init[ PixelSchubser Unit <br/>
+            Logo icons designed by Freepik and Dimitry Miroliubov from <a href="//www.flaticon.com" target="_blank">Flaticon</a>
+          </p>
         </v-card-text>
 
         <v-divider></v-divider>
@@ -50,6 +70,8 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import BackendApi from '@/services/BackendApi';
+import Config from '@/model/Config';
+import { IPackageJSON } from '@/model/package-json';
 
 @Component({
   name: 'About',
@@ -57,20 +79,30 @@ import BackendApi from '@/services/BackendApi';
 export default class About extends Vue {
   @Prop() private dialogOpen!: boolean;
   @Prop() private dataProp!: {
-    meta: {},
+    meta: IPackageJSON | undefined,
+    config: Config,
   };
   private dialog: boolean = this.dialogOpen;
   private data: {
-    meta: {},
+    meta: IPackageJSON | undefined,
+    config: Config,
   } = this.dataProp;
 
   constructor() {
     super();
     this.dialog = false;
     this.data = {
-      meta: {},
+      meta: undefined,
+      config: {
+        artifactory: {
+          host: '',
+          repoKey: '',
+          https: false,
+        },
+      },
     };
     this.loadMetaInfo();
+    this.loadConfig();
   }
 
   private loadMetaInfo() {
@@ -78,6 +110,20 @@ export default class About extends Vue {
       this.data.meta = response.data;
     });
   }
+
+  private loadConfig() {
+    BackendApi.Instance.getConfig().then((response) => {
+      this.data.config = response.data;
+    });
+  }
 }
 
 </script>
+
+<style lang="scss" scoped>
+blockquote {
+  padding-top: 0;
+  margin: 0;
+}
+</style>
+

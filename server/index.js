@@ -45,6 +45,7 @@ app.get('/config', function(req, res) {
       artifactory: {
         host: config.artifactory.host,
         repoKey: config.artifactory.repoKey,
+        https: config.artifactory.https,
       },
     });
   } catch (error) {

@@ -89,6 +89,7 @@ import LoadingSpinner from '@/components/LoadingSpinner.vue';
 import { PackageMetaDataDTO, IVersions } from '@/model/package-meta-data';
 import BackendApi from '@/services/BackendApi';
 import router from '@/router';
+import Config from '@/model/Config';
 
 @Component({
   components: {
@@ -103,7 +104,7 @@ export default class PackageDetail extends Vue {
     dependeciesCount: number,
     currentTags: IVersions,
     versionsHistory: IVersions,
-    config: {},
+    config: Config,
   };
   private data: {
     packageDetail: Package | null,

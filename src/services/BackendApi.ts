@@ -2,6 +2,7 @@ import axios, { AxiosInstance, AxiosPromise } from 'axios';
 import { PackagesResponse } from '@/model/PackageResponse';
 import { PackageMetaDataDTO } from '@/model/package-meta-data';
 import { IPackageJSON } from '@/model/package-json';
+import Config from '@/model/Config';
 
 export default class BackendApi {
 
@@ -24,7 +25,7 @@ export default class BackendApi {
     return this.get('packages');
   }
 
-  public getConfig(): AxiosPromise<any> {
+  public getConfig(): AxiosPromise<Config> {
     return this.get('config');
   }
 
@@ -32,7 +33,7 @@ export default class BackendApi {
     return this.get(`packageDetail/${scope ? `${scope}/` : ''}${packageName}`);
   }
 
-  public getMetaInfo(): AxiosPromise<IPackageJSON> {
+  public getMetaInfo(): AxiosPromise<IPackageJSON> { // TODO: add service with frontend cache
     return this.get(`meta`);
   }
 
