@@ -23,7 +23,7 @@ function readme2Html(readmeFile) {
   try {
     readme = fs.readFileSync(readmeFile);
   } catch (error) {
-    return null;
+    throw error;
   }
   const converter = new showdown.Converter();
   const html = converter.makeHtml(readme.toString());
@@ -35,6 +35,7 @@ function readMainCode(storageDir) {
   try {
     return fs.readFileSync(`${storageDir}/${packageJson.main}`).toString();
   } catch (error) {
+    console.error(`README file not found: ${storageDir}`);
     return null;
   }
 }
@@ -53,18 +54,31 @@ async function fetchPackages() {
 async function getPackageDetail({ scope, packageName }) { // TODO: add caching object to reduce rest calls to artifactory
   const packageDetailResonse = process.env.MOCK
     ? await new Promise((resolve, reject) => {
-        resolve({
-          data: require(`${__dirname}/mock/fractal-menu-enhancer.json`)
-        });
-      })
+      let packageResource = `${__dirname}/mock/${packageName}.json`;
+      let data;
+      try {
+        data = require(packageResource);
+      } catch (error) {
+        data = require(`${__dirname}/mock/fractal-menu-enhancer.json`);
+      }
+      resolve({
+        data: data,
+      });
+    })
     : await axios.get(`/${name2url({ scope, packageName })}`);
 
   const additionalCode = process.env.MOCK
     ? await new Promise((resolve, reject) => {
+        let packageResource = `${__dirname}/mock/${packageName}.readme.md`;
+        let data;
+        try {
+          data = readme2Html(packageResource);
+        } catch (error) {
+          console.error(error);
+          data = readme2Html(`${__dirname}/mock/fractal-menu-enhancer.readme.md`);
+        }
         resolve({
-          readme: readme2Html(
-            `${__dirname}/mock/fractal-menu-enhancer.readme.md`
-          ),
+          readme: data,
           mainCode: readMainCode(`${__dirname}/..`)
         });
       })

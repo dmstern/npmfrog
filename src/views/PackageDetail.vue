@@ -135,18 +135,22 @@ export default class PackageDetail extends Vue {
   }
 
   private init() {
-    this.getPackageDetails();
-    this.loadConfig();
+    Promise.all([
+      this.getPackageDetails(),
+      this.loadConfig(),
+    ]).then(() => {
+      this.$nextTick(this.$forceUpdate);
+    });
   }
 
   private loadConfig() {
-    BackendApi.Instance.getConfig().then((config) => {
+    return BackendApi.Instance.getConfig().then((config) => {
       this.data.config = config.data;
     });
   }
 
   private getPackageDetails() {
-    PackagesService.Instance.getPackageDetail({
+    return PackagesService.Instance.getPackageDetail({
       scope: Router.currentRoute.params.scope,
       packageName: Router.currentRoute.params.packageName,
     }).then((response) => {
