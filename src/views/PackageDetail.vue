@@ -11,7 +11,7 @@
       </v-flex>
     </v-layout>
     <v-layout row wrap>
-      <v-flex xs12 md8 order-xs2 order-md1>
+      <v-flex xs12 md7 xl8 order-xs2 order-md1>
         <v-tabs v-model="activeTab">
           <v-tab>README</v-tab>
           <v-tab v-if="data.packageDetail.mainCode">main code file</v-tab>
@@ -73,7 +73,7 @@
           <v-chip v-for="keyword in data.currentPackage.keywords" :key="keyword">{{keyword}}</v-chip>
         </div>
       </v-flex>
-      <v-flex xs12 md4 order-xs1 order-md2>
+      <v-flex xs12 md5 xl4 order-xs1 order-md2>
         <v-layout row wrap>
           <v-flex>
             <v-card v-if="data.config.artifactory">
