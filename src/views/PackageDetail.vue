@@ -19,7 +19,7 @@
       <v-tab-item>
         <v-card>
           <v-card-text>
-            <div v-highlightjs v-if="data.packageDetail.readme" v-html="data.packageDetail.readme"></div>
+            <div v-highlightjs v-if="data.packageDetail.readme" :key="data.packageDetail.readme" v-html="data.packageDetail.readme"></div>
           </v-card-text>
         </v-card>
       </v-tab-item>
@@ -138,9 +138,7 @@ export default class PackageDetail extends Vue {
     Promise.all([
       this.getPackageDetails(),
       this.loadConfig(),
-    ]).then(() => {
-      this.$nextTick(this.$forceUpdate);
-    });
+    ]);
   }
 
   private loadConfig() {
