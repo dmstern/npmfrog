@@ -169,10 +169,7 @@ export default class App extends Vue {
   private clipped: boolean = true;
   private hasFocus: boolean = false;
   private btnIconSize: number = 36;
-  private navItems: any[] = []; // {
-  //   icon: 'bubble_chart',
-  //   title: 'Inspire',
-  // }];
+  private navItems: any[] = [];
 
   constructor() {
     super();
@@ -300,12 +297,6 @@ export default class App extends Vue {
       .map((filter) => {
         return filter.value;
       });
-    // const authorFilter = this.activeFilters.filter((filter) => filter.key === SearchKey.AUTHOR);
-    // const query = {
-    //   search: this.searchInput.value,
-    //   keywords: keywordFilter.join(','),
-    //   author: authorFilter.join(','),
-    // };
     router.push({path: '/'});
     this.$nextTick(this.fireSearchFilterEvent);
     this.$nextTick(this.$refs.searchbar.blur);
