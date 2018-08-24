@@ -377,10 +377,6 @@ code.hljs {
   white-space: pre;
 }
 
-pre {
-  margin-bottom: 1em;
-}
-
 .v-toolbar {
 
   &.theme--dark a {
