@@ -23,7 +23,7 @@
                 <div class="package-list--author">
                   <span class="package-list--author-name">{{item.displayName}}</span>
                   <v-avatar size="32">
-                    <img src="https://placeimg.com/40/40/people/1" alt="People">
+                    <v-icon>account_circle</v-icon>
                   </v-avatar>
                 </div>
               </v-list-tile-action>
