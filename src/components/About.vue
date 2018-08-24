@@ -46,7 +46,7 @@
           <br>
           <v-divider />
           <p>
-            &copy; {{ new Date().getFullYear() }} by ]init[ PixelSchubser Unit <br/>
+            Created with 🧡️ in 2018 by <a href="https://github.com/dmstern" target="_blank">Daniel Morgenstern</a> for ]init[ Pixelschubser Unit<br/>
             Logo icons designed by Freepik and Dimitry Miroliubov from <a href="//www.flaticon.com" target="_blank">Flaticon</a>
           </p>
         </v-card-text>
