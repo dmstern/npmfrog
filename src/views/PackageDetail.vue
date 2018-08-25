@@ -166,10 +166,23 @@ export default class PackageDetail extends Vue {
     };
     router.afterEach((route) => {
       if (route.name === 'packageDetail') {
+        this.resetModel();
         this.init();
       }
     });
     this.init();
+  }
+
+  private resetModel() {
+    this.activeTab = 0;
+    this.data = {
+      packageDetail: null,
+      currentPackage: null,
+      dependeciesCount: 0,
+      currentTags: {},
+      versionsHistory: {},
+      config: {},
+    };
   }
 
   private init() {
