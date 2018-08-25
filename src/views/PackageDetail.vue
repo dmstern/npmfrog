@@ -79,7 +79,8 @@
             <v-card v-if="data.config.artifactory">
               <v-card-title primary-title class="title">install</v-card-title>
               <v-card-text>
-                <pre v-highlightjs="`npm config set registry http://${data.config.artifactory.host}/artifactory/api/npm/${data.config.artifactory.repoKey}/\nnpm i ${data.packageDetail.name}`"><code class="bash language-bash hljs"></code></pre>
+                <pre v-highlightjs="`npm config set registry http://${data.config.artifactory.host}/artifactory/api/npm/${data.config.artifactory.repoKey}/`"><code class="bash language-bash hljs"></code></pre>
+                <pre v-highlightjs="`npm i ${data.packageDetail.name}`"><code class="bash language-bash hljs"></code></pre>
               </v-card-text>
             </v-card>
           </v-flex>
@@ -209,7 +210,7 @@ export default class PackageDetail extends Vue {
 </script>
 
 <style lang="scss">
-.readme pre code.hljs {
+pre code.hljs {
   margin-bottom: 1em;
 }
 
