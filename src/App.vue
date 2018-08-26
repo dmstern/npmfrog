@@ -65,7 +65,7 @@
         persistent-hint
         return-object
         suffix="/"
-        hint="Press Ctrl+Enter to submit"
+        :hint="hasFocus ? `Press Ctrl+Enter to submit` : `Press '/' to focus search`"
         :item-text="getSearchItemText"
         :flat="!hasFocus"
         :items="searchItemsFiltered"
@@ -434,24 +434,6 @@ code.hljs {
       display: block;
       @media screen and (max-width: map-get($grid-breakpoints, md)) {
         display: none;
-      }
-    }
-  }
-
-  .v-text-field {
-    &--box,
-    &--enclosed {
-      .v-messages {
-        visibility: hidden;
-        transform: translateX(-150%);
-        transition: $transition-smooth;
-      }
-
-      &.v-input--is-focused {
-        .v-messages {
-          visibility: visible;
-          transform: translateX(0);
-        }
       }
     }
   }
