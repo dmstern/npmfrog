@@ -89,64 +89,29 @@
       </v-flex>
       <v-flex xs12 md5 xl4 order-xs1 order-md2 class="meta-panel">
         <v-layout row wrap>
-          <v-flex>
-            <v-card v-if="data.config.artifactory">
-              <v-card-title class="title">install</v-card-title>
-              <v-card-text>
-                <pre v-highlightjs="`npm config set ${data.packageDetail.scope ? data.packageDetail.scope + ':' : ''}registry http://${data.config.artifactory.host}/artifactory/api/npm/${data.config.artifactory.repoKey}/`"><code class="bash language-bash hljs"></code></pre>
-                <pre v-highlightjs="`npm i ${data.packageDetail.name}`"><code class="bash language-bash hljs"></code></pre>
-              </v-card-text>
-            </v-card>
-          </v-flex>
-          <v-flex>
-            <v-card>
-              <v-card-title class="title">Version</v-card-title>
-              <v-card-text>
-                {{data.currentPackage.version}}
-              </v-card-text>
-            </v-card>
-          </v-flex>
-          <v-flex v-if="data.currentPackage.license">
-            <v-card>
-              <v-card-title class="title">License</v-card-title>
-              <v-card-text>
-                <span>{{data.currentPackage.license}}</span>
-              </v-card-text>
-            </v-card>
-          </v-flex>
-          <v-flex v-if="data.currentPackage.repository">
-            <v-card>
-              <v-card-title class="title">Repository</v-card-title>
-              <v-card-text>
-                <a :href="`${data.currentPackage.repository.url || data.currentPackage.repository }`" target="_blank">{{data.currentPackage.repository.url || data.currentPackage.repository}}</a>
-              </v-card-text>
-            </v-card>
-          </v-flex>
-          <v-flex>
-            <v-card>
-              <v-card-title class="title">Last publish</v-card-title>
-              <v-card-text>
-                <timeago :datetime="data.packageDetail.time.modified"></timeago>
-              </v-card-text>
-            </v-card>
-          </v-flex>
-          <v-flex v-if="data.currentPackage.author">
-            <v-card>
-              <v-card-title class="title">Author</v-card-title>
-              <v-card-text>
-                <a v-if="data.currentPackage.author.email" :href="`mailto:${data.currentPackage.author.email}`">{{data.currentPackage.author.name}}</a>
-                <span v-else>{{data.currentPackage.displayName}}</span>
-              </v-card-text>
-            </v-card>
-          </v-flex>
-          <v-flex v-if="data.currentPackage.keywords">
-            <v-card>
-              <v-card-title class="title">Keywords</v-card-title>
-              <v-card-text>
-                <v-chip v-for="keyword in data.currentPackage.keywords" :key="keyword">{{keyword}}</v-chip>
-              </v-card-text>
-            </v-card>
-          </v-flex>
+          <PackageDetailItem title="install">
+            <pre v-highlightjs="`npm config set ${data.packageDetail.scope ? data.packageDetail.scope + ':' : ''}registry http://${data.config.artifactory.host}/artifactory/api/npm/${data.config.artifactory.repoKey}/`"><code class="bash language-bash hljs"></code></pre>
+            <pre v-highlightjs="`npm i ${data.packageDetail.name}`"><code class="bash language-bash hljs"></code></pre>
+          </PackageDetailItem>
+          <PackageDetailItem title="Version">
+            {{data.currentPackage.version}}
+          </PackageDetailItem>
+          <PackageDetailItem title="License" v-if="data.currentPackage.license">
+            <span>{{data.currentPackage.license}}</span>
+          </PackageDetailItem>
+          <PackageDetailItem title="Repository" v-if="data.currentPackage.repository">
+            <a :href="`${data.currentPackage.repository.url || data.currentPackage.repository }`" target="_blank">{{data.currentPackage.repository.url || data.currentPackage.repository}}</a>
+          </PackageDetailItem>
+          <PackageDetailItem title="Last publish">
+            <timeago :datetime="data.packageDetail.time.modified"></timeago>
+          </PackageDetailItem>
+          <PackageDetailItem title="Author" v-if="data.currentPackage.author">
+            <a v-if="data.currentPackage.author.email" :href="`mailto:${data.currentPackage.author.email}`">{{data.currentPackage.author.name}}</a>
+            <span v-else>{{data.currentPackage.displayName}}</span>
+          </PackageDetailItem>
+          <PackageDetailItem title="Keywords" v-if="data.currentPackage.keywords">
+            <v-chip v-for="keyword in data.currentPackage.keywords" :key="keyword">{{keyword}}</v-chip>
+          </PackageDetailItem>
         </v-layout>
       </v-flex>
     </v-layout>
@@ -164,10 +129,12 @@ import { PackageMetaDataDTO, IVersions } from '@/model/package-meta-data';
 import BackendApi from '@/services/BackendApi';
 import router from '@/router';
 import Config from '@/model/Config';
+import PackageDetailItem from '@/components/PackageDetailItem.vue';
 
 @Component({
   components: {
     LoadingSpinner,
+    PackageDetailItem,
   },
 })
 export default class PackageDetail extends Vue {
