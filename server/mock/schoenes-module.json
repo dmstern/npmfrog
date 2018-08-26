@@ -67,9 +67,6 @@
       },
       "repository": "https://github.com/bla/blubb",
       "license": "ISC",
-      "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
-      },
       "_id": "schoenes-module@1.1.0"
     }
   },
