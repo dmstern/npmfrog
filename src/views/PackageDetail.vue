@@ -97,6 +97,14 @@
               </v-card-text>
             </v-card>
           </v-flex>
+          <v-flex v-if="data.currentPackage.license">
+            <v-card>
+              <v-card-title class="title">License</v-card-title>
+              <v-card-text>
+                <span>{{data.currentPackage.license}}</span>
+              </v-card-text>
+            </v-card>
+          </v-flex>
           <v-flex v-if="data.currentPackage.repository">
             <v-card>
               <v-card-title class="title">Repository</v-card-title>
