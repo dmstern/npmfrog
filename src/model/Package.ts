@@ -58,6 +58,7 @@ export default class Package implements PackageMetaDataDTO {
   constructor(packageMetaData: PackageMetaDataDTO) {
     Object.assign(this, packageMetaData);
 
+    // handle different types of author:
     if (packageMetaData.author) {
       if (typeof packageMetaData.author === 'string') {
         const authorParts = packageMetaData.author.split('<');
@@ -75,6 +76,7 @@ export default class Package implements PackageMetaDataDTO {
       }
     }
 
+    // set repositoryUrl:
     if (packageMetaData.repository) {
       if (typeof packageMetaData.repository === 'string') {
         this.repositoryUrl = packageMetaData.repository;
@@ -83,7 +85,7 @@ export default class Package implements PackageMetaDataDTO {
       }
     }
 
-    // Count depenedencies
+    // Count depenedencies:
     const dependencies = packageMetaData.dependencies;
     const devDependencies = packageMetaData.devDependencies;
     const dependenciesCount = dependencies ? Object.keys(dependencies).length : 0;
