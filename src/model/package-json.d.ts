@@ -14,7 +14,7 @@ export interface IPackageJSON {
 
   readonly license?: string;
 
-  readonly author?: IAuthor;
+  readonly author?: IAuthor | string;
 
   readonly contributors?: string[]|IAuthor[];
 

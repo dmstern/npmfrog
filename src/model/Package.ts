@@ -50,20 +50,28 @@ export default class Package implements PackageMetaDataDTO {
   public preferGlobal?: boolean | undefined;
   public private?: boolean | undefined;
   public publishConfig?: IPublishConfig;
-  public displayName: any;
+  public displayName?: string;
   public readme?: string | null;
-
-  constructor(packageDetails: PackageMetaDataDTO);
+  public repositoryUrl?: string;
 
   constructor(packageMetaData: PackageMetaDataDTO) {
     Object.assign(this, packageMetaData);
 
     if (packageMetaData.author) {
-      this.displayName = packageMetaData.author!.name
-        ? packageMetaData.author!.name
-        : packageMetaData.author;
+      if (typeof packageMetaData.author === 'string') {
+        this.displayName = packageMetaData.author;
+      } else {
+        this.displayName = packageMetaData.author.name;
+      }
     }
-    Object.assign(this, { displayName: this.displayName });
+
+    if (packageMetaData.repository) {
+      if (typeof packageMetaData.repository === 'string') {
+        this.repositoryUrl = packageMetaData.repository;
+      } else {
+        this.repositoryUrl = packageMetaData.repository.url;
+      }
+    }
   }
 
 }

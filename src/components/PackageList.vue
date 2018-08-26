@@ -138,7 +138,7 @@ export default class Packages extends Vue {
         }
         const pattern = new RegExp(query.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, ''), 'gi');
         return `/${item.name}`.match(pattern) ||
-          item.displayName.match(pattern) ||
+          (item.displayName ? item.displayName.match(pattern) : true) ||
           `author:${item.displayName}`.match(pattern) ||
           item.description && `/${item.description}`.match(pattern) ||
           item.keywords && item.keywords.some((keyword) => {

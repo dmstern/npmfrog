@@ -105,8 +105,7 @@
             <v-card>
               <v-card-title primary-title class="title">Repository</v-card-title>
               <v-card-text>
-                <!-- TODO: handle different types of repos -->
-                <a :href="`${data.currentPackage.repository.url}`" target="_blank">{{data.currentPackage.repository.url}}</a>
+                <a :href="`${data.currentPackage.repository.url || data.currentPackage.repository }`" target="_blank">{{data.currentPackage.repository.url || data.currentPackage.repository}}</a>
               </v-card-text>
             </v-card>
           </v-flex>

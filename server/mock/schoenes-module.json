@@ -21,6 +21,7 @@
       "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
       },
+      "repository": "https://github.com/bla/blubb",
       "publishConfig": {
         "registry": "https://artifactory.init.de/artifactory/api/npm/npm-local/"
       },
@@ -37,6 +38,7 @@
         "shasum": "87332249266589df2ef96122144fd7562db7e9c7"
       },
       "license": "ISC",
+      "repository": "https://github.com/bla/blubb",
       "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
       },
@@ -58,6 +60,7 @@
       "devDependencies": {
         "@init/fractal-menu-enhancer": "^0.3.0"
       },
+      "repository": "https://github.com/bla/blubb",
       "license": "ISC",
       "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
