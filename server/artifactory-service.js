@@ -23,6 +23,7 @@ function readme2Html(readmeFile) {
   try {
     readme = fs.readFileSync(readmeFile);
   } catch (error) {
+    console.error(`README file not found: ${readmeFile}`);
     throw error;
   }
   const converter = new showdown.Converter();
@@ -35,7 +36,7 @@ function readMainCode(storageDir) {
   try {
     return fs.readFileSync(`${storageDir}/${packageJson.main}`).toString();
   } catch (error) {
-    console.error(`README file not found: ${storageDir}`);
+    console.error(`MainCode file not found: ${storageDir}`);
     return null;
   }
 }
