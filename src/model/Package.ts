@@ -59,7 +59,16 @@ export default class Package implements PackageMetaDataDTO {
 
     if (packageMetaData.author) {
       if (typeof packageMetaData.author === 'string') {
-        this.displayName = packageMetaData.author;
+        const authorParts = packageMetaData.author.split('<');
+        if (authorParts.length >= 2) {
+          this.author = {
+            name: authorParts[0],
+            email: authorParts[1].slice(0, authorParts[1].length - 1),
+          };
+          this.displayName = name;
+        } else {
+          this.displayName = packageMetaData.author;
+        }
       } else {
         this.displayName = packageMetaData.author.name;
       }

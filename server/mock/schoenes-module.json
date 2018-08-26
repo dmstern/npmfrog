@@ -48,7 +48,7 @@
       "name": "schoenes-module",
       "description": "wunderschoen",
       "version": "1.1.0",
-      "author": "daniel",
+      "author": "daniel <daniel@mail.com>",
       "main": "index.js",
       "keywords": [
         "npm",
