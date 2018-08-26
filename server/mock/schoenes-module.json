@@ -50,6 +50,11 @@
       "version": "1.1.0",
       "author": "daniel",
       "main": "index.js",
+      "keywords": [
+        "npm",
+        "test",
+        "quatsch"
+      ],
       "dist": {
         "tarball": "https://artifactory.init.de:443/artifactory/api/npm/npm/schoenes-module/-/schoenes-module-1.1.0.tgz",
         "shasum": "21e612003e0e344818d40670d40729f750e3347b"
