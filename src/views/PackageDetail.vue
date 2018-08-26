@@ -103,15 +103,6 @@
               </v-card-text>
             </v-card>
           </v-flex>
-          <v-flex v-if="data.currentPackage.author">
-            <v-card>
-              <v-card-title class="title">Author</v-card-title>
-              <v-card-text>
-                <a v-if="data.currentPackage.author.email" :href="`mailto:${data.currentPackage.author.email}`">{{data.currentPackage.author.name}}</a>
-                <span v-else>{{data.currentPackage.displayName}}</span>
-              </v-card-text>
-            </v-card>
-          </v-flex>
           <v-flex v-if="data.currentPackage.license">
             <v-card>
               <v-card-title class="title">License</v-card-title>
@@ -125,6 +116,15 @@
               <v-card-title class="title">Repository</v-card-title>
               <v-card-text>
                 <a :href="`${data.currentPackage.repository.url || data.currentPackage.repository }`" target="_blank">{{data.currentPackage.repository.url || data.currentPackage.repository}}</a>
+              </v-card-text>
+            </v-card>
+          </v-flex>
+          <v-flex v-if="data.currentPackage.author">
+            <v-card>
+              <v-card-title class="title">Author</v-card-title>
+              <v-card-text>
+                <a v-if="data.currentPackage.author.email" :href="`mailto:${data.currentPackage.author.email}`">{{data.currentPackage.author.name}}</a>
+                <span v-else>{{data.currentPackage.displayName}}</span>
               </v-card-text>
             </v-card>
           </v-flex>
