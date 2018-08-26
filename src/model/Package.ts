@@ -55,6 +55,7 @@ export default class Package implements PackageMetaDataDTO {
   public readonly repositoryUrl?: string;
   public readonly dependenciesCount: number;
   public readonly scope: string | undefined;
+  public readonly mainCode: string | undefined;
 
   constructor(packageMetaData: PackageMetaDataDTO) {
     Object.assign(this, packageMetaData);
