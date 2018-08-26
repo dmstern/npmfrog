@@ -33,7 +33,7 @@ export default class BackendApi {
     return this.get(`packageDetail/${scope ? `${scope}/` : ''}${packageName}`);
   }
 
-  public getMetaInfo(): AxiosPromise<IPackageJSON> { // TODO: add service with frontend cache
+  public getMetaInfo(): AxiosPromise<IPackageJSON> { // TODO: #2 add service with frontend cache
     return this.get(`meta`);
   }
 
