@@ -14,7 +14,7 @@
       <v-flex xs12 md7 xl8 order-xs2 order-md1>
         <v-tabs v-model="activeTab">
           <v-tab>README</v-tab>
-          <v-tab v-if="data.packageDetail.mainCode">main code file</v-tab>
+          <v-tab>Main Code</v-tab>
           <v-tab>{{data.currentPackage.dependenciesCount}} Dependencies</v-tab>
           <v-tab>{{Object.keys(data.packageDetail.versions).length}} Versions</v-tab>
           <v-tab-item class="readme">
@@ -24,13 +24,23 @@
               </v-card-text>
             </v-card>
           </v-tab-item>
-          <v-tab-item v-if="data.packageDetail.mainCode">
-            <v-card>
+          <v-tab-item>
+            <v-card v-if="data.packageDetail.mainCode || data.currentPackage.scripts">
               <v-card-text>
-                <h2>{{data.currentPackage.main}}</h2>
-                <pre v-highlightjs="data.packageDetail.mainCode"><code></code></pre>
+                <div v-if="data.currentPackage.scripts">
+                  <h2>Scripts</h2>
+                  <div v-for="(script, key) in data.currentPackage.scripts" :key="key">
+                    <h3>{{key}}</h3>
+                    <pre v-highlightjs="script"><code></code></pre>
+                  </div>
+                </div>
+                <div v-if="data.packageDetail.mainCode">
+                  <h2>{{data.currentPackage.main}}</h2>
+                  <pre v-highlightjs="data.packageDetail.mainCode"><code></code></pre>
+                </div>
               </v-card-text>
             </v-card>
+            <v-card v-else>Nothing to show...</v-card>
           </v-tab-item>
           <v-tab-item>
             <v-card>
