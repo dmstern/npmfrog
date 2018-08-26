@@ -68,10 +68,6 @@
             </v-card>
           </v-tab-item>
         </v-tabs>
-        <div>
-          <h2 class="title">Keywords</h2>
-          <v-chip v-for="keyword in data.currentPackage.keywords" :key="keyword">{{keyword}}</v-chip>
-        </div>
       </v-flex>
       <v-flex xs12 md5 xl4 order-xs1 order-md2>
         <v-layout row wrap>
@@ -106,6 +102,14 @@
               <v-card-title primary-title class="title">Repository</v-card-title>
               <v-card-text>
                 <a :href="`${data.currentPackage.repository.url || data.currentPackage.repository }`" target="_blank">{{data.currentPackage.repository.url || data.currentPackage.repository}}</a>
+              </v-card-text>
+            </v-card>
+          </v-flex>
+          <v-flex v-if="data.currentPackage.repository">
+            <v-card>
+              <v-card-title primary-title class="title">Keywords</v-card-title>
+              <v-card-text>
+                <v-chip v-for="keyword in data.currentPackage.keywords" :key="keyword">{{keyword}}</v-chip>
               </v-card-text>
             </v-card>
           </v-flex>
