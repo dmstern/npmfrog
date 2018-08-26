@@ -105,7 +105,7 @@
               </v-card-text>
             </v-card>
           </v-flex>
-          <v-flex v-if="data.currentPackage.repository">
+          <v-flex v-if="data.currentPackage.keywords">
             <v-card>
               <v-card-title class="title">Keywords</v-card-title>
               <v-card-text>
