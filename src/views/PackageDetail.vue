@@ -15,7 +15,7 @@
         <v-tabs v-model="activeTab">
           <v-tab>README</v-tab>
           <v-tab v-if="data.packageDetail.mainCode">main code file</v-tab>
-          <v-tab>{{data.dependenciesCount}} Dependencies</v-tab>
+          <v-tab>{{data.currentPackage.dependenciesCount}} Dependencies</v-tab>
           <v-tab>Versions</v-tab>
           <v-tab-item class="readme">
             <v-card>
@@ -149,7 +149,6 @@ export default class PackageDetail extends Vue {
   @Prop() private dataProp!: {
     packageDetail: Package | null,
     currentPackage: Package | null,
-    dependeciesCount: number,
     currentTags: IVersions,
     versionsHistory: IVersions,
     config: Config,
@@ -157,7 +156,6 @@ export default class PackageDetail extends Vue {
   private data: {
     packageDetail: Package | null,
     currentPackage: Package | null,
-    dependeciesCount: number,
     currentTags: IVersions,
     versionsHistory: IVersions,
     config: {},
@@ -170,7 +168,6 @@ export default class PackageDetail extends Vue {
     this.data = {
       packageDetail: null,
       currentPackage: null,
-      dependeciesCount: 0,
       currentTags: {},
       versionsHistory: {},
       config: {},
@@ -189,7 +186,6 @@ export default class PackageDetail extends Vue {
     this.data = {
       packageDetail: null,
       currentPackage: null,
-      dependeciesCount: 0,
       currentTags: {},
       versionsHistory: {},
       config: {},
@@ -219,11 +215,6 @@ export default class PackageDetail extends Vue {
         this.data.packageDetail.versions[this.data.packageDetail['dist-tags'].latest];
       if (typeof currentVersionObject !== 'string') {
         this.data.currentPackage = new Package(currentVersionObject);
-        const dependencies = this.data.currentPackage.dependencies;
-        const devDependencies = this.data.currentPackage.devDependencies;
-        if (dependencies && devDependencies) {
-          this.data.dependeciesCount = Object.keys(dependencies).length + Object.keys(devDependencies).length;
-        }
         this.data.currentTags = response['dist-tags'];
         this.data.versionsHistory = response.versions;
       }

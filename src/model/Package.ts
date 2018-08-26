@@ -14,45 +14,46 @@ import { IDistTags, ITimes, IVersions } from '@/model/package-meta-data';
 import { PackageMetaDataDTO } from '@/model/package-meta-data';
 
 export default class Package implements PackageMetaDataDTO {
-  public distTags!: IDistTags;
-  public time!: ITimes;
-  public users!: {};
-  public versions!: IVersions;
+  public readonly distTags!: IDistTags;
+  public readonly time!: ITimes;
+  public readonly users!: {};
+  public readonly versions!: IVersions;
   // tslint:disable-next-line:variable-name
-  public _id!: string;
+  public readonly _id!: string;
   // tslint:disable-next-line:variable-name
-  public _rev!: string;
-  public name!: string;
-  public version?: string | undefined;
-  public description?: string | undefined;
-  public keywords?: string[] | undefined;
-  public homepage?: string | undefined;
-  public bugs?: string | IBugs;
-  public license?: string | undefined;
-  public author?: IAuthor;
-  public contributors?: string[] | IAuthor[];
-  public files?: string[] | undefined;
-  public main?: string | undefined;
-  public bin?: string | IBinMap;
-  public man?: string | string[] | undefined;
-  public directories?: IDirectories;
-  public repository?: string | IRepository;
-  public scripts?: IScriptsMap;
-  public config?: IConfig;
-  public dependencies?: IDependencyMap;
-  public devDependencies?: IDependencyMap;
-  public peerDependencies?: IDependencyMap;
-  public optionalDependencies?: IDependencyMap;
-  public bundledDependencies?: string[] | undefined;
-  public engines?: IEngines;
-  public os?: string[] | undefined;
-  public cpu?: string[] | undefined;
-  public preferGlobal?: boolean | undefined;
-  public private?: boolean | undefined;
-  public publishConfig?: IPublishConfig;
-  public displayName?: string;
-  public readme?: string | null;
-  public repositoryUrl?: string;
+  public readonly _rev!: string;
+  public readonly name!: string;
+  public readonly version?: string | undefined;
+  public readonly description?: string | undefined;
+  public readonly keywords?: string[] | undefined;
+  public readonly homepage?: string | undefined;
+  public readonly bugs?: string | IBugs;
+  public readonly license?: string | undefined;
+  public readonly author?: IAuthor;
+  public readonly contributors?: string[] | IAuthor[];
+  public readonly files?: string[] | undefined;
+  public readonly main?: string | undefined;
+  public readonly bin?: string | IBinMap;
+  public readonly man?: string | string[] | undefined;
+  public readonly directories?: IDirectories;
+  public readonly repository?: string | IRepository;
+  public readonly scripts?: IScriptsMap;
+  public readonly config?: IConfig;
+  public readonly dependencies?: IDependencyMap;
+  public readonly devDependencies?: IDependencyMap;
+  public readonly peerDependencies?: IDependencyMap;
+  public readonly optionalDependencies?: IDependencyMap;
+  public readonly bundledDependencies?: string[] | undefined;
+  public readonly engines?: IEngines;
+  public readonly os?: string[] | undefined;
+  public readonly cpu?: string[] | undefined;
+  public readonly preferGlobal?: boolean | undefined;
+  public readonly private?: boolean | undefined;
+  public readonly publishConfig?: IPublishConfig;
+  public readonly displayName?: string;
+  public readonly readme?: string | null;
+  public readonly repositoryUrl?: string;
+  public readonly dependenciesCount: number;
 
   constructor(packageMetaData: PackageMetaDataDTO) {
     Object.assign(this, packageMetaData);
@@ -81,6 +82,14 @@ export default class Package implements PackageMetaDataDTO {
         this.repositoryUrl = packageMetaData.repository.url;
       }
     }
+
+    // Count depenedencies
+    const dependencies = packageMetaData.dependencies;
+    const devDependencies = packageMetaData.devDependencies;
+    const dependenciesCount = dependencies ? Object.keys(dependencies).length : 0;
+    const devDependenciesCount = devDependencies ? Object.keys(devDependencies).length : 0;
+    this.dependenciesCount = dependenciesCount + devDependenciesCount;
+
   }
 
 }
