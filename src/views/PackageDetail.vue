@@ -102,6 +102,9 @@
           <PackageDetailItem title="Repository" v-if="data.currentPackage.repository">
             <a :href="`${data.currentPackage.repositoryUrl }`" target="_blank">{{data.currentPackage.repositoryUrl}}</a>
           </PackageDetailItem>
+          <PackageDetailItem title="Created">
+            <timeago :datetime="data.packageDetail.time.created"></timeago>
+          </PackageDetailItem>
           <PackageDetailItem title="Last publish">
             <timeago :datetime="data.packageDetail.time.modified"></timeago>
           </PackageDetailItem>
