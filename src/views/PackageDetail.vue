@@ -61,9 +61,9 @@
                     <v-list-tile-content>
                       <v-list-tile-title v-text="version"></v-list-tile-title>
                     </v-list-tile-content>
-                    <v-list-tile-avatar>
+                    <v-list-tile-action>
                       <v-list-tile-title v-text="tag"></v-list-tile-title>
-                    </v-list-tile-avatar>
+                    </v-list-tile-action>
                   </v-list-tile>
                 </v-list>
                 <h2>Version History</h2>
@@ -72,6 +72,11 @@
                     <v-list-tile-content>
                       <v-list-tile-title v-text="version"></v-list-tile-title>
                     </v-list-tile-content>
+                    <v-list-tile-action>
+                      <v-list-tile-title>
+                        <timeago :datetime="data.packageDetail.time[version]"></timeago>
+                      </v-list-tile-title>
+                    </v-list-tile-action>
                   </v-list-tile>
                 </v-list>
               </v-card-text>
