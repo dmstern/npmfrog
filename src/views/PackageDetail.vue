@@ -92,12 +92,12 @@
               </v-card-text>
             </v-card>
           </v-flex>
-          <v-flex>
+          <v-flex v-if="data.currentPackage.author">
             <v-card>
               <v-card-title primary-title class="title">Author</v-card-title>
               <v-card-text>
-                <!-- TODO: handle different types of authors -->
-                <a :href="`mailto:${data.currentPackage.author.email}`">{{data.currentPackage.author.name}}</a>
+                <a v-if="data.currentPackage.author.email" :href="`mailto:${data.currentPackage.author.email}`">{{data.currentPackage.author.name}}</a>
+                <span v-else>{{data.currentPackage.displayName}}</span>
               </v-card-text>
             </v-card>
           </v-flex>
