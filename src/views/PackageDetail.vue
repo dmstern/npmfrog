@@ -5,9 +5,12 @@
   </v-container>
   <v-container v-else fluid grid-list-lg>
     <v-layout row wrap>
-      <v-flex xs12>
+      <v-flex xs12 class="packageDetail__heading">
         <h1>{{ data.packageDetail.name }}</h1>
-        <span class="subheading">{{data.currentPackage.version}}</span>
+        <div class="subheading">
+          <span>{{data.currentPackage.version}}</span>
+          <span>Published <timeago :datetime="data.packageDetail.time.modified"></timeago></span>
+        </div>
       </v-flex>
     </v-layout>
     <v-layout row wrap>
@@ -116,6 +119,14 @@
               <v-card-title class="title">Repository</v-card-title>
               <v-card-text>
                 <a :href="`${data.currentPackage.repository.url || data.currentPackage.repository }`" target="_blank">{{data.currentPackage.repository.url || data.currentPackage.repository}}</a>
+              </v-card-text>
+            </v-card>
+          </v-flex>
+          <v-flex>
+            <v-card>
+              <v-card-title class="title">Last publish</v-card-title>
+              <v-card-text>
+                <timeago :datetime="data.packageDetail.time.modified"></timeago>
               </v-card-text>
             </v-card>
           </v-flex>
@@ -256,6 +267,18 @@ pre code.hljs {
 .meta-panel {
   .v-card__text {
     padding-top: 0;
+  }
+}
+
+.packageDetail__heading {
+  .subheading {
+    > span:not(:last-child) {
+      &::after {
+        content: '•';
+        display: inline-block;
+        margin: 0 .7em;
+      }
+    }
   }
 }
 </style>
