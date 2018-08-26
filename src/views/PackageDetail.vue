@@ -89,7 +89,7 @@
       </v-flex>
       <v-flex xs12 md5 xl4 order-xs1 order-md2 class="meta-panel">
         <v-layout row wrap>
-          <PackageDetailItem title="install">
+          <PackageDetailItem title="install" :bigContent="false" v-if="data.config.artifactory">
             <pre v-highlightjs="`npm config set ${data.packageDetail.scope ? data.packageDetail.scope + ':' : ''}registry http://${data.config.artifactory.host}/artifactory/api/npm/${data.config.artifactory.repoKey}/`"><code class="bash language-bash hljs"></code></pre>
             <pre v-highlightjs="`npm i ${data.packageDetail.name}`"><code class="bash language-bash hljs"></code></pre>
           </PackageDetailItem>
@@ -100,7 +100,7 @@
             <span>{{data.currentPackage.license}}</span>
           </PackageDetailItem>
           <PackageDetailItem title="Repository" v-if="data.currentPackage.repository">
-            <a :href="`${data.currentPackage.repository.url || data.currentPackage.repository }`" target="_blank">{{data.currentPackage.repository.url || data.currentPackage.repository}}</a>
+            <a :href="`${data.currentPackage.repositoryUrl }`" target="_blank">{{data.currentPackage.repositoryUrl}}</a>
           </PackageDetailItem>
           <PackageDetailItem title="Last publish">
             <timeago :datetime="data.packageDetail.time.modified"></timeago>
@@ -109,7 +109,7 @@
             <a v-if="data.currentPackage.author.email" :href="`mailto:${data.currentPackage.author.email}`">{{data.currentPackage.author.name}}</a>
             <span v-else>{{data.currentPackage.displayName}}</span>
           </PackageDetailItem>
-          <PackageDetailItem title="Keywords" v-if="data.currentPackage.keywords">
+          <PackageDetailItem title="Keywords" :bigContent="false" v-if="data.currentPackage.keywords">
             <v-chip v-for="keyword in data.currentPackage.keywords" :key="keyword">{{keyword}}</v-chip>
           </PackageDetailItem>
         </v-layout>
@@ -218,6 +218,8 @@ export default class PackageDetail extends Vue {
 </script>
 
 <style lang="scss">
+@import '../assets/variables';
+
 pre code.hljs {
   margin-bottom: 1em;
 }
@@ -231,14 +233,10 @@ pre code.hljs {
   }
 }
 
-.meta-panel {
-  .v-card__text {
-    padding-top: 0;
-  }
-}
-
 .packageDetail__heading {
   .subheading {
+    font-family: $monospace;
+
     > span:not(:last-child) {
       &::after {
         content: '•';

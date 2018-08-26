@@ -460,4 +460,8 @@ code.hljs {
   }
 }
 
+.subheading {
+  color: $color-gray-medium;
+}
+
 </style>
