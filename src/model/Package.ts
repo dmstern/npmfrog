@@ -54,6 +54,7 @@ export default class Package implements PackageMetaDataDTO {
   public readonly readme?: string | null;
   public readonly repositoryUrl?: string;
   public readonly dependenciesCount: number;
+  public readonly scope: string | undefined;
 
   constructor(packageMetaData: PackageMetaDataDTO) {
     Object.assign(this, packageMetaData);
@@ -92,6 +93,11 @@ export default class Package implements PackageMetaDataDTO {
     const devDependenciesCount = devDependencies ? Object.keys(devDependencies).length : 0;
     this.dependenciesCount = dependenciesCount + devDependenciesCount;
 
+    // set scope:
+    const packageNameParts = packageMetaData.name.split('/');
+    if (packageNameParts.length > 1) {
+      this.scope = packageNameParts[0];
+    }
   }
 
 }

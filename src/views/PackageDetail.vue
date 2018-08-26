@@ -16,7 +16,7 @@
           <v-tab>README</v-tab>
           <v-tab v-if="data.packageDetail.mainCode">main code file</v-tab>
           <v-tab>{{data.currentPackage.dependenciesCount}} Dependencies</v-tab>
-          <v-tab>Versions</v-tab>
+          <v-tab>{{Object.keys(data.packageDetail.versions).length}} Versions</v-tab>
           <v-tab-item class="readme">
             <v-card>
               <v-card-text>
@@ -75,7 +75,7 @@
             <v-card v-if="data.config.artifactory">
               <v-card-title class="title">install</v-card-title>
               <v-card-text>
-                <pre v-highlightjs="`npm config set registry http://${data.config.artifactory.host}/artifactory/api/npm/${data.config.artifactory.repoKey}/`"><code class="bash language-bash hljs"></code></pre>
+                <pre v-highlightjs="`npm config set ${data.packageDetail.scope ? data.packageDetail.scope + ':' : ''}registry http://${data.config.artifactory.host}/artifactory/api/npm/${data.config.artifactory.repoKey}/`"><code class="bash language-bash hljs"></code></pre>
                 <pre v-highlightjs="`npm i ${data.packageDetail.name}`"><code class="bash language-bash hljs"></code></pre>
               </v-card-text>
             </v-card>
