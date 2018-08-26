@@ -69,11 +69,11 @@
           </v-tab-item>
         </v-tabs>
       </v-flex>
-      <v-flex xs12 md5 xl4 order-xs1 order-md2>
+      <v-flex xs12 md5 xl4 order-xs1 order-md2 class="meta-panel">
         <v-layout row wrap>
           <v-flex>
             <v-card v-if="data.config.artifactory">
-              <v-card-title primary-title class="title">install</v-card-title>
+              <v-card-title class="title">install</v-card-title>
               <v-card-text>
                 <pre v-highlightjs="`npm config set registry http://${data.config.artifactory.host}/artifactory/api/npm/${data.config.artifactory.repoKey}/`"><code class="bash language-bash hljs"></code></pre>
                 <pre v-highlightjs="`npm i ${data.packageDetail.name}`"><code class="bash language-bash hljs"></code></pre>
@@ -82,7 +82,7 @@
           </v-flex>
           <v-flex>
             <v-card>
-              <v-card-title primary-title class="title">Version</v-card-title>
+              <v-card-title class="title">Version</v-card-title>
               <v-card-text>
                 {{data.currentPackage.version}}
               </v-card-text>
@@ -90,7 +90,7 @@
           </v-flex>
           <v-flex v-if="data.currentPackage.author">
             <v-card>
-              <v-card-title primary-title class="title">Author</v-card-title>
+              <v-card-title class="title">Author</v-card-title>
               <v-card-text>
                 <a v-if="data.currentPackage.author.email" :href="`mailto:${data.currentPackage.author.email}`">{{data.currentPackage.author.name}}</a>
                 <span v-else>{{data.currentPackage.displayName}}</span>
@@ -99,7 +99,7 @@
           </v-flex>
           <v-flex v-if="data.currentPackage.repository">
             <v-card>
-              <v-card-title primary-title class="title">Repository</v-card-title>
+              <v-card-title class="title">Repository</v-card-title>
               <v-card-text>
                 <a :href="`${data.currentPackage.repository.url || data.currentPackage.repository }`" target="_blank">{{data.currentPackage.repository.url || data.currentPackage.repository}}</a>
               </v-card-text>
@@ -107,7 +107,7 @@
           </v-flex>
           <v-flex v-if="data.currentPackage.repository">
             <v-card>
-              <v-card-title primary-title class="title">Keywords</v-card-title>
+              <v-card-title class="title">Keywords</v-card-title>
               <v-card-text>
                 <v-chip v-for="keyword in data.currentPackage.keywords" :key="keyword">{{keyword}}</v-chip>
               </v-card-text>
@@ -236,6 +236,12 @@ pre code.hljs {
   li {
     width: 100%;
     display: flex;
+  }
+}
+
+.meta-panel {
+  .v-card__text {
+    padding-top: 0;
   }
 }
 </style>
