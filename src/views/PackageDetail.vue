@@ -100,7 +100,10 @@
             <span>{{data.currentPackage.license}}</span>
           </PackageDetailItem>
           <PackageDetailItem title="Repository" v-if="data.currentPackage.repository" icon="code">
-            <a :href="`${data.currentPackage.repositoryUrl }`" target="_blank">{{data.currentPackage.repositoryUrl.split('/')[2]}}</a>
+            <a :href="`${data.currentPackage.repositoryUrl }`" target="_blank">
+              <v-icon v-if="data.currentPackage.repositoryNameIsBeautified">fa-{{data.currentPackage.repositoryName}}</v-icon>
+              {{data.currentPackage.repositoryName}}
+            </a>
           </PackageDetailItem>
           <PackageDetailItem title="Created" icon="bolt">
             <timeago :datetime="data.packageDetail.time.created"></timeago>
