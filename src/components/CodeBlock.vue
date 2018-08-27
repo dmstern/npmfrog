@@ -16,6 +16,7 @@
     right
     :color="notificationColor"
     auto-height
+    :timeout="3000"
   >
     {{ notificationText }}
   </v-snackbar>
@@ -66,6 +67,7 @@ export default class CodeBlock extends Vue {
   pre {
     flex-grow: 1;
     align-self: flex-end;
+    max-width: calc(100% - 52px);
   }
 }
 
