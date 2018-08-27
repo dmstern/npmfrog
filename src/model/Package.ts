@@ -56,6 +56,7 @@ export default class Package implements PackageMetaDataDTO {
   public readonly dependenciesCount: number;
   public readonly scope: string | undefined;
   public readonly mainCode: string | undefined;
+  protected repositoryNameIsBeautified: boolean = false;
 
   constructor(packageMetaData: PackageMetaDataDTO) {
     Object.assign(this, packageMetaData);
@@ -98,6 +99,20 @@ export default class Package implements PackageMetaDataDTO {
     const packageNameParts = packageMetaData.name.split('/');
     if (packageNameParts.length > 1) {
       this.scope = packageNameParts[0];
+    }
+  }
+
+  public get repositoryName() {
+    if (this.repositoryUrl) {
+      if (this.repositoryUrl.includes('github')) {
+        this.repositoryNameIsBeautified = true;
+        return 'github';
+      }
+      if (this.repositoryUrl.includes('gitlab')) {
+        this.repositoryNameIsBeautified = true;
+        return 'gitlab';
+      }
+      return this.repositoryUrl.split('/')[2];
     }
   }
 
