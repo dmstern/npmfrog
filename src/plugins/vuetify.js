@@ -10,9 +10,5 @@ Vue.use(Vuetify, {
     primary: "#D63B09",
     secondary: "#FF7043",
     accent: colors.lightGreen.darken2,
-    error: "#f44336",
-    warning: "#ffeb3b",
-    info: "#2196f3",
-    success: "#4caf50"
   },
 });
