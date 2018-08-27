@@ -89,30 +89,30 @@
       </v-flex>
       <v-flex xs12 md5 xl4 order-xs1 order-md2 class="meta-panel">
         <v-layout row wrap>
-          <PackageDetailItem title="install" :bigContent="false" v-if="data.config.artifactory">
+          <PackageDetailItem title="install" :bigContent="false" v-if="data.config.artifactory" icon="download">
             <pre v-highlightjs="`npm config set ${data.packageDetail.scope ? data.packageDetail.scope + ':' : ''}registry http://${data.config.artifactory.host}/artifactory/api/npm/${data.config.artifactory.repoKey}/`"><code class="bash language-bash hljs"></code></pre>
             <pre v-highlightjs="`npm i ${data.packageDetail.name}`"><code class="bash language-bash hljs"></code></pre>
           </PackageDetailItem>
-          <PackageDetailItem title="Version">
+          <PackageDetailItem title="Version" icon="code-fork">
             {{data.currentPackage.version}}
           </PackageDetailItem>
-          <PackageDetailItem title="License" v-if="data.currentPackage.license">
+          <PackageDetailItem title="License" v-if="data.currentPackage.license" icon="legal">
             <span>{{data.currentPackage.license}}</span>
           </PackageDetailItem>
-          <PackageDetailItem title="Repository" v-if="data.currentPackage.repository">
+          <PackageDetailItem title="Repository" v-if="data.currentPackage.repository" icon="code">
             <a :href="`${data.currentPackage.repositoryUrl }`" target="_blank">{{data.currentPackage.repositoryUrl.split('/')[2]}}</a>
           </PackageDetailItem>
-          <PackageDetailItem title="Created">
+          <PackageDetailItem title="Created" icon="bolt">
             <timeago :datetime="data.packageDetail.time.created"></timeago>
           </PackageDetailItem>
-          <PackageDetailItem title="Last publish">
+          <PackageDetailItem title="Last publish" icon="clock-o">
             <timeago :datetime="data.packageDetail.time.modified"></timeago>
           </PackageDetailItem>
-          <PackageDetailItem title="Author" v-if="data.currentPackage.author">
+          <PackageDetailItem title="Author" v-if="data.currentPackage.author" icon="user">
             <a v-if="data.currentPackage.author.email" :href="`mailto:${data.currentPackage.author.email}`">{{data.currentPackage.author.name}}</a>
             <span v-else>{{data.currentPackage.displayName}}</span>
           </PackageDetailItem>
-          <PackageDetailItem title="Keywords" :bigContent="false" v-if="data.currentPackage.keywords">
+          <PackageDetailItem title="Keywords" :bigContent="false" v-if="data.currentPackage.keywords" icon="tags">
             <v-chip v-for="keyword in data.currentPackage.keywords" :key="keyword">{{keyword}}</v-chip>
           </PackageDetailItem>
         </v-layout>

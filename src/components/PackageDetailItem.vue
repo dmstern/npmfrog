@@ -3,7 +3,7 @@
 <v-flex>
   <v-card>
     <v-card-title class="subheading">
-      <v-icon>user-times</v-icon>
+      <v-icon v-if="icon">fa-{{icon}}</v-icon>
       {{title.toLowerCase()}}
     </v-card-title>
     <v-card-text :class="bigContent !== false ? `title` : ''">
@@ -24,6 +24,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 export default class PackageDetailItem extends Vue {
   @Prop() private title!: string;
   @Prop() private bigContent!: boolean | undefined;
+  @Prop() private icon!: string;
 
   constructor() {
     super();
@@ -41,5 +42,9 @@ export default class PackageDetailItem extends Vue {
 
 .subheading {
   font-weight: bold;
+
+  .v-icon {
+    margin-right: .5em;
+  }
 }
 </style>
