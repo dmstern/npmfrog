@@ -127,9 +127,21 @@ async function getPackageDetail({ scope, packageName }) { // TODO: #1 add cachin
 }
 
 function readAdditionalCode(storageDir) {
+  let readme;
+  let mainCode;
+  try {
+    readme = readme2Html(`${storageDir}/package/README.md`);
+  } catch (error) {
+    readme = undefined;
+  }
+  try {
+    mainCode = readMainCode(`${storageDir}/package`)
+  } catch (error) {
+    mainCode = undefined;
+  }
   return {
-    readme: readme2Html(`${storageDir}/package/README.md`),
-    mainCode: readMainCode(`${storageDir}/package`)
+    readme,
+    mainCode
   };
 }
 
