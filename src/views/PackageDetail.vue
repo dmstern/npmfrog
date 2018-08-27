@@ -24,12 +24,16 @@
             <v-card>
               <v-card-text>
                 <div v-highlightjs v-if="data.packageDetail.readme" :key="data.packageDetail.readme" v-html="data.packageDetail.readme"></div>
+                <div v-else></div>
+                <v-alert :value="true" type="warning">
+                  No README.md file found.
+                </v-alert>
               </v-card-text>
             </v-card>
           </v-tab-item>
           <v-tab-item>
-            <v-card v-if="data.packageDetail.mainCode || data.currentPackage.scripts">
-              <v-card-text>
+            <v-card>
+              <v-card-text v-if="data.packageDetail.mainCode || data.currentPackage.scripts">
                 <div v-if="data.currentPackage.scripts">
                   <h2>Scripts</h2>
                   <div v-for="(script, key) in data.currentPackage.scripts" :key="key">
@@ -42,17 +46,26 @@
                   <pre v-highlightjs="data.packageDetail.mainCode"><code></code></pre>
                 </div>
               </v-card-text>
+              <v-card-text v-else>
+                <v-alert :value="true" type="info">
+                  Nothing to show...
+                </v-alert>
+              </v-card-text>
             </v-card>
-            <v-card v-else>Nothing to show...</v-card>
           </v-tab-item>
           <v-tab-item>
             <v-card>
-              <v-card-text>
+              <v-card-text v-if="data.currentPackage.dependenciesCount">
                 <h2>Dependencies</h2>
                 <v-chip small outline color="primary" v-for="(version, key) in data.currentPackage.dependencies" :key="key">{{key}}</v-chip>
                 <h2>DevDependencies</h2>
                 <v-chip small outline color="primary" v-for="(version, key) in data.currentPackage.devDependencies" :key="key">{{key}}</v-chip>
               </v-card-text>
+              <v-cart-text v-else>
+                <v-alert :value="true" type="info">
+                  This package has no dependencies.
+                </v-alert>
+              </v-cart-text>
             </v-card>
           </v-tab-item>
           <v-tab-item>
