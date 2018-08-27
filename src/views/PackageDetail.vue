@@ -90,17 +90,8 @@
       <v-flex xs12 md5 xl4 order-xs1 order-md2 class="meta-panel">
         <v-layout row wrap>
           <PackageDetailItem title="install" :bigContent="false" v-if="data.config.artifactory" icon="download">
-            <pre v-highlightjs="`npm config set ${data.packageDetail.scope ? data.packageDetail.scope + ':' : ''}registry http://${data.config.artifactory.host}/artifactory/api/npm/${data.config.artifactory.repoKey}/`"><code class="bash language-bash hljs"></code></pre>
-            <div class="packageDetail__installCode">
-              <pre v-highlightjs="`npm i ${data.packageDetail.name}`"><code class="bash language-bash hljs"></code></pre>
-              <v-btn flat icon
-                color="green darken-2"
-                v-clipboard:copy="`npm i ${data.packageDetail.name}`"
-                v-clipboard:success="onCopySuccess"
-                v-clipboard:error="onCopyError">
-                <v-icon>mdi-clipboard-arrow-left</v-icon>
-              </v-btn>
-            </div>
+            <CodeBlock :code="getInstallCode().config" language="bash"></CodeBlock>
+            <CodeBlock :code="getInstallCode().install" language="bash"></CodeBlock>
           </PackageDetailItem>
           <PackageDetailItem title="Version" icon="code-fork">
             {{data.currentPackage.version}}
@@ -145,11 +136,13 @@ import BackendApi from '@/services/BackendApi';
 import router from '@/router';
 import Config from '@/model/Config';
 import PackageDetailItem from '@/components/PackageDetailItem.vue';
+import CodeBlock from '@/components/CodeBlock.vue';
 
 @Component({
   components: {
     LoadingSpinner,
     PackageDetailItem,
+    CodeBlock,
   },
 })
 export default class PackageDetail extends Vue {
@@ -159,14 +152,14 @@ export default class PackageDetail extends Vue {
     currentPackage: Package | null,
     currentTags: IVersions,
     versionsHistory: IVersions,
-    config: Config,
+    config: Config | undefined,
   };
   private data: {
     packageDetail: Package | null,
     currentPackage: Package | null,
     currentTags: IVersions,
     versionsHistory: IVersions,
-    config: {},
+    config: Config | undefined,
   } = this.dataProp;
   private activeTab: number;
 
@@ -178,7 +171,7 @@ export default class PackageDetail extends Vue {
       currentPackage: null,
       currentTags: {},
       versionsHistory: {},
-      config: {},
+      config: undefined,
     };
     router.afterEach((route) => {
       if (route.name === 'packageDetail') {
@@ -196,7 +189,7 @@ export default class PackageDetail extends Vue {
       currentPackage: null,
       currentTags: {},
       versionsHistory: {},
-      config: {},
+      config: undefined,
     };
   }
 
@@ -229,11 +222,21 @@ export default class PackageDetail extends Vue {
     });
   }
 
-  private onCopySuccess() {
-    console.log('yay');
-  }
-  private onCopyError() {
-    console.log('argh');
+  private getInstallCode() {
+    if (this.data.packageDetail && this.data.config && this.data.config.artifactory) {
+      return {
+        config: `npm config set ${
+          this.data.packageDetail.scope
+        ? this.data.packageDetail.scope + ':'
+        : ''
+        }registry http://${
+          this.data.config.artifactory.host
+        }/artifactory/api/npm/${
+          this.data.config.artifactory.repoKey
+        }/`,
+        install: `npm i ${this.data.packageDetail.name}`,
+      };
+    }
   }
 }
 
@@ -269,13 +272,5 @@ pre code.hljs {
   }
 }
 
-.packageDetail__installCode {
-  display: flex;
-
-  pre {
-    flex-grow: 1;
-    align-self: flex-end;
-  }
-}
 </style>
 
