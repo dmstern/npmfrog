@@ -24,10 +24,11 @@
             <v-card>
               <v-card-text>
                 <div v-highlightjs v-if="data.packageDetail.readme" :key="data.packageDetail.readme" v-html="data.packageDetail.readme"></div>
-                <div v-else></div>
-                <v-alert :value="true" type="warning">
-                  No README.md file found.
-                </v-alert>
+                <div v-else>
+                  <v-alert :value="true" type="warning">
+                    No README.md file found.
+                  </v-alert>
+                </div>
               </v-card-text>
             </v-card>
           </v-tab-item>
