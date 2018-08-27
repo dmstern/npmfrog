@@ -22,6 +22,7 @@ $monospace: "Fira Mono", "Roboto Mono", Consolas, Courier, Monospace;
 
 //Transitions:
 $transition-smooth: all 500ms ease-in-out;
+$transition-fast: all 150ms ease-in-out;
 
 // Media queries:
 $grid-breakpoints: (
