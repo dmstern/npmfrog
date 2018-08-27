@@ -91,7 +91,16 @@
         <v-layout row wrap>
           <PackageDetailItem title="install" :bigContent="false" v-if="data.config.artifactory" icon="download">
             <pre v-highlightjs="`npm config set ${data.packageDetail.scope ? data.packageDetail.scope + ':' : ''}registry http://${data.config.artifactory.host}/artifactory/api/npm/${data.config.artifactory.repoKey}/`"><code class="bash language-bash hljs"></code></pre>
-            <pre v-highlightjs="`npm i ${data.packageDetail.name}`"><code class="bash language-bash hljs"></code></pre>
+            <div class="packageDetail__installCode">
+              <pre v-highlightjs="`npm i ${data.packageDetail.name}`"><code class="bash language-bash hljs"></code></pre>
+              <v-btn flat icon
+                color="green darken-2"
+                v-clipboard:copy="`npm i ${data.packageDetail.name}`"
+                v-clipboard:success="onCopySuccess"
+                v-clipboard:error="onCopyError">
+                <v-icon>mdi-clipboard-arrow-left</v-icon>
+              </v-btn>
+            </div>
           </PackageDetailItem>
           <PackageDetailItem title="Version" icon="code-fork">
             {{data.currentPackage.version}}
@@ -219,6 +228,13 @@ export default class PackageDetail extends Vue {
       }
     });
   }
+
+  private onCopySuccess() {
+    console.log('yay');
+  }
+  private onCopyError() {
+    console.log('argh');
+  }
 }
 
 </script>
@@ -250,6 +266,15 @@ pre code.hljs {
         margin: 0 .7em;
       }
     }
+  }
+}
+
+.packageDetail__installCode {
+  display: flex;
+
+  pre {
+    flex-grow: 1;
+    align-self: flex-end;
   }
 }
 </style>

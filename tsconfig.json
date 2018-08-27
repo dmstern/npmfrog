@@ -31,7 +31,7 @@
     "src/**/*.tsx",
     "src/**/*.vue",
     "tests/**/*.ts",
-    "tests/**/*.tsx", "src/plugins/index.js",
+    "tests/**/*.tsx", "src/plugins/index.js", "src/plugins/vue-clipboard.js",
   ],
   "exclude": [
     "node_modules"
