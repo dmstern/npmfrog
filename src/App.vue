@@ -353,6 +353,27 @@ h6 {
   margin: 1em 0 .5em 0;
 }
 
+a {
+  display: inline-block;
+  text-decoration: none;
+  transition: $transition-fast;
+
+  &:hover,
+  &:focus {
+    opacity: .7;
+  }
+
+  .v-icon {
+    &,
+    .theme--light & {
+      &,
+      .application & {
+        color: inherit;
+      }
+    }
+  }
+}
+
 code,
 kbd {
   &:after,
