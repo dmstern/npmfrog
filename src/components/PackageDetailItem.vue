@@ -2,7 +2,10 @@
 
 <v-flex>
   <v-card>
-    <v-card-title class="subheading">{{title.toLowerCase()}}</v-card-title>
+    <v-card-title class="subheading">
+      <v-icon>fa4-car</v-icon>
+      {{title.toLowerCase()}}
+    </v-card-title>
     <v-card-text :class="bigContent !== false ? `title` : ''">
       <slot></slot>
     </v-card-text>

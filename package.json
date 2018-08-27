@@ -39,6 +39,7 @@
     "@vue/cli-plugin-typescript": "^3.0.0-rc.5",
     "@vue/cli-service": "^3.0.0-rc.5",
     "concurrently": "^3.6.1",
+    "font-awesome": "^4.7.0",
     "node-sass": "^4.9.0",
     "sass-loader": "^7.0.1",
     "vue-cli-plugin-vuetify": "^0.1.6",
