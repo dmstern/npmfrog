@@ -16,6 +16,10 @@
                 <v-list-tile-sub-title class="package-list--keywords">
                   <v-chip v-for="keyword in item.keywords" :key="keyword" small>{{keyword}}</v-chip>
                 </v-list-tile-sub-title>
+                <v-list-tile-sub-title class="last-published-version-line">
+                  <span>{{item.distTags.latest}}</span>
+                  <span>Published <timeago :datetime="item.time.modified"></timeago></span>
+                </v-list-tile-sub-title>
               </v-list-tile-content>
 
               <v-list-tile-action>
@@ -41,7 +45,15 @@
 <style lang="scss">
 @import '../assets/variables';
 
+.v-list--three-line .v-list__tile {
+  height: auto;
+}
+
 .package-list {
+
+  .v-list__tile__content {
+    padding: .4em 0;
+  }
 
   &--keywords {
     min-height: 2em;
@@ -49,6 +61,7 @@
 
   .v-list__tile__action--stack {
     max-width: 40%;
+    align-self: flex-end;
   }
 
   &--author {

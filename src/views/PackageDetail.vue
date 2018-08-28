@@ -7,7 +7,7 @@
     <v-layout row wrap>
       <v-flex xs12 class="packageDetail__heading">
         <h1>{{ data.packageDetail.name }}</h1>
-        <div class="subheading">
+        <div class="subheading last-published-version-line">
           <span>{{data.currentPackage.version}}</span>
           <span>Published <timeago :datetime="data.packageDetail.time.modified"></timeago></span>
         </div>
@@ -280,16 +280,14 @@ pre code.hljs {
   }
 }
 
-.packageDetail__heading {
-  .subheading {
-    font-family: $monospace;
+.last-published-version-line {
+  font-family: $monospace;
 
-    > span:not(:last-child) {
-      &::after {
-        content: '•';
-        display: inline-block;
-        margin: 0 .7em;
-      }
+  > span:not(:last-child) {
+    &::after {
+      content: '•';
+      display: inline-block;
+      margin: 0 .7em;
     }
   }
 }
