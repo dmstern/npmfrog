@@ -430,7 +430,6 @@ code.hljs {
     margin-right: 2em;
   }
 
-
   &__title {
     display: flex;
     align-items: center;
@@ -443,7 +442,7 @@ code.hljs {
       fill: $color-white;
     }
   }
-  
+
   .v-input__icon--append .v-icon {
     opacity: 0;
     visibility: hidden;
@@ -455,7 +454,7 @@ code.hljs {
       visibility: visible;
       transform: scale($mdi2faScaleFactor) rotate(0);
     }
-  } 
+  }
 
   .v-input__control {
     flex-direction: row;
