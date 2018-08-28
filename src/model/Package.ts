@@ -14,7 +14,7 @@ import { IDistTags, ITimes, IVersions } from '@/model/package-meta-data';
 import { PackageMetaDataDTO } from '@/model/package-meta-data';
 
 export default class Package implements PackageMetaDataDTO {
-  public readonly distTags!: IDistTags;
+  public distTags!: IDistTags;
   public readonly time!: ITimes;
   public readonly users!: {};
   public readonly versions!: IVersions;
@@ -60,6 +60,10 @@ export default class Package implements PackageMetaDataDTO {
 
   constructor(packageMetaData: PackageMetaDataDTO) {
     Object.assign(this, packageMetaData);
+
+    if (!this.distTags) {
+      this.distTags = packageMetaData['dist-tags'];
+    }
 
     // handle different types of author:
     if (packageMetaData.author) {
