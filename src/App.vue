@@ -38,7 +38,7 @@
       fixed
     >
       <v-btn icon @click.stop="menuVisible = !menuVisible">
-        <v-icon>menu</v-icon>
+        <v-icon>{{$vuetify.icons.menu}}</v-icon>
       </v-btn>
       <router-link to="/" class="home-button">
         <v-toolbar-title>
@@ -53,7 +53,7 @@
       <v-autocomplete
         ref="searchbar"
         placeholder="Search package..."
-        prepend-inner-icon="search"
+        :prepend-inner-icon="$vuetify.icons.search"
         clearable
         full-width
         hide-selected
@@ -69,7 +69,7 @@
         :item-text="getSearchItemText"
         :flat="!hasFocus"
         :items="searchItemsFiltered"
-        append-icon="mdi-send"
+        :append-icon="$vuetify.icons.send"
         @click:append="onSearchSubmit"
         v-model="activeFilters"
         @input.native="onSearchInput"
@@ -91,8 +91,8 @@
               @input="data.parent.selectItem(data.item)"
             >
               <v-avatar>
-                <v-icon v-if="data.item.key === 'author'">account_circle</v-icon>
-                <v-icon v-if="data.item.key === 'keyword'">local_offer</v-icon>
+                <v-icon v-if="data.item.key === 'author'">{{$vuetify.icons.author}}</v-icon>
+                <v-icon v-if="data.item.key === 'keyword'">{{$vuetify.icons.tag}}</v-icon>
               </v-avatar>
               <v-list-tile-sub-title> {{ data.item.value }}</v-list-tile-sub-title>
             </v-chip>
@@ -101,19 +101,18 @@
         <template slot="item" slot-scope="data">
           <template v-if="isPackage(data.item)">
             <v-list-tile-avatar>
-              <v-icon>mdi-package-variant-closed</v-icon>
+              <v-icon>{{$vuetify.icons.package}}</v-icon>
             </v-list-tile-avatar>
             <v-list-tile-content>
               <v-list-tile-title><strong v-html="data.item.name"></strong></v-list-tile-title>
               <v-list-tile-sub-title v-html="data.item.description"></v-list-tile-sub-title>
             </v-list-tile-content>
             <v-spacer></v-spacer>
-            <v-icon>mdi-arrow-right-box</v-icon>
+            <v-icon>{{$vuetify.icons.goTo}}</v-icon>
           </template>
           <template v-else>
             <v-list-tile-avatar>
-              <v-icon v-if="data.item.key === 'author'">account_circle</v-icon>
-              <v-icon v-if="data.item.key === 'keyword'">local_offer</v-icon>
+              <v-icon v-text="$vuetify.icons[data.item.key]"></v-icon>
             </v-list-tile-avatar>
             <v-list-tile-content>
               <v-list-tile-title>
@@ -124,7 +123,7 @@
               </v-list-tile-title>
             </v-list-tile-content>
             <v-spacer></v-spacer>
-            <v-icon>mdi-arrow-top-left</v-icon>
+            <v-icon>{{$vuetify.icons.arrowTopLeft}}</v-icon>
           </template>
         </template>
       </v-autocomplete>
@@ -375,12 +374,19 @@ a {
 }
 
 .v-icon {
+  $mdi2faScaleFactor: 20/24;
+
+  &.fas,
+  &.far {
+    transform: scale($mdi2faScaleFactor);
+  }
 
   .subheading &,
   .heading &,
   .title &,
   .subtitle & {
     font-size: inherit;
+    transform: none;
   }
 }
 
@@ -443,11 +449,14 @@ code.hljs {
     visibility: hidden;
   }
 
-  .v-select.v-select--is-menu-active .v-input__icon--append .v-icon {
-    opacity: 1;
-    visibility: visible;
-    transform: initial;
-  }
+  .v-select.v-select--is-menu-active .v-input__icon--append,
+  .v-input__append-inner {
+    .v-icon {
+      opacity: 1;
+      visibility: visible;
+      transform: initial;
+    }
+  } 
 
   .v-input__control {
     flex-direction: row;

@@ -103,33 +103,33 @@
       </v-flex>
       <v-flex xs12 md5 xl4 order-xs1 order-md2 class="meta-panel">
         <v-layout row wrap>
-          <PackageDetailItem title="install" :bigContent="false" v-if="data.config.artifactory" icon="download">
+          <PackageDetailItem title="install" :bigContent="false" v-if="data.config.artifactory" :icon="$vuetify.icons.install">
             <CodeBlock :code="getInstallCode().config" language="bash"></CodeBlock>
             <CodeBlock :code="getInstallCode().install" language="bash"></CodeBlock>
           </PackageDetailItem>
-          <PackageDetailItem title="Version" icon="code-branch">
+          <PackageDetailItem title="Version" :icon="$vuetify.icons.version">
             {{data.currentPackage.version}}
           </PackageDetailItem>
-          <PackageDetailItem title="License" v-if="data.currentPackage.license" icon="balance-scale">
+          <PackageDetailItem title="License" v-if="data.currentPackage.license" :icon="$vuetify.icons.legal">
             <span>{{data.currentPackage.license}}</span>
           </PackageDetailItem>
-          <PackageDetailItem title="Repository" v-if="data.currentPackage.repository" icon="code">
+          <PackageDetailItem title="Repository" v-if="data.currentPackage.repository" :icon="$vuetify.icons.code">
             <a :href="`${data.currentPackage.repositoryUrl }`" target="_blank">
-              <v-icon v-if="data.currentPackage.repositoryNameIsBeautified">fab fa-{{data.currentPackage.repositoryName}}</v-icon>
+              <v-icon v-if="data.currentPackage.repositoryNameIsBeautified">{{$vuetify.icons[data.currentPackage.repositoryName]}}</v-icon>
               {{data.currentPackage.repositoryName}}
             </a>
           </PackageDetailItem>
-          <PackageDetailItem title="Created" icon="bolt">
+          <PackageDetailItem title="Created" :icon="$vuetify.icons.created">
             <timeago :datetime="data.packageDetail.time.created"></timeago>
           </PackageDetailItem>
-          <PackageDetailItem title="Last publish" icon="clock">
+          <PackageDetailItem title="Last publish" :icon="$vuetify.icons.updated">
             <timeago :datetime="data.packageDetail.time.modified"></timeago>
           </PackageDetailItem>
-          <PackageDetailItem title="Author" v-if="data.currentPackage.author" icon="user">
+          <PackageDetailItem title="Author" v-if="data.currentPackage.author" :icon="$vuetify.icons.author">
             <a v-if="data.currentPackage.author.email" :href="`mailto:${data.currentPackage.author.email}`">{{data.currentPackage.author.name}}</a>
             <span v-else>{{data.currentPackage.displayName}}</span>
           </PackageDetailItem>
-          <PackageDetailItem title="Keywords" :bigContent="false" v-if="data.currentPackage.keywords" icon="tags">
+          <PackageDetailItem title="Keywords" :bigContent="false" v-if="data.currentPackage.keywords" :icon="$vuetify.icons.tags">
             <v-chip v-for="keyword in data.currentPackage.keywords" :key="keyword">{{keyword}}</v-chip>
           </PackageDetailItem>
         </v-layout>
