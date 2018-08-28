@@ -353,8 +353,7 @@ a {
   text-decoration: none;
   transition: $transition-fast;
 
-  &:hover,
-  &:focus {
+  &:hover {
     opacity: .7;
   }
 
