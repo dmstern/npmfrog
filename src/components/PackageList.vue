@@ -69,6 +69,13 @@
       max-width: 100%;
       overflow: hidden;
     }
+
+    .v-icon {
+      &,
+      &.fas {
+        transform: initial;
+      }
+    }
   }
 
   & &--by {
