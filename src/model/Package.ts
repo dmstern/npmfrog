@@ -69,10 +69,12 @@ export default class Package implements PackageMetaDataDTO {
     if (packageMetaData.author) {
       if (typeof packageMetaData.author === 'string') {
         const authorParts = packageMetaData.author.split('<');
-        if (authorParts.length >= 2) {
+        if (authorParts.length === 2) {
+          const name = authorParts[0];
+          const email = authorParts[1].slice(0, authorParts[1].length - 1);
           this.author = {
-            name: authorParts[0],
-            email: authorParts[1].slice(0, authorParts[1].length - 1),
+            name,
+            email,
           };
           this.displayName = name;
         } else {
@@ -81,6 +83,8 @@ export default class Package implements PackageMetaDataDTO {
       } else {
         this.displayName = packageMetaData.author.name;
       }
+    } else {
+      this.displayName = packageMetaData.author;
     }
 
     // set repositoryUrl:
