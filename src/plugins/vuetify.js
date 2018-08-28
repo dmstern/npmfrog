@@ -7,6 +7,7 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 const icons = {
   menu: 'fas fa-bars',
   copy: 'far fa-copy',
+  copy2Clipboard: 'mdi-clipboard-arrow-left',
   gitlab: 'fab fa-gitlab',
   github: 'fab fa-github',
   search: 'fas fa-search',

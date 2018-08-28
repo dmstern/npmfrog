@@ -7,7 +7,7 @@
     v-clipboard:copy="code"
     v-clipboard:success="onCopy"
     v-clipboard:error="onError">
-    <v-icon>{{$vuetify.icons.copy}}</v-icon>
+    <v-icon>{{$vuetify.icons.copy2Clipboard}}</v-icon>
   </v-btn>
 
   <v-snackbar
