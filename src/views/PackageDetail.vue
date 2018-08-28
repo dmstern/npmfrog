@@ -108,15 +108,23 @@
             <CodeBlock :code="getInstallCode().install" language="bash"></CodeBlock>
           </PackageDetailItem>
           <PackageDetailItem title="Version" :icon="$vuetify.icons.version">
-            {{data.currentPackage.version}}
+            <span>{{data.currentPackage.version}}</span>
           </PackageDetailItem>
           <PackageDetailItem title="License" v-if="data.currentPackage.license" :icon="$vuetify.icons.legal">
             <span>{{data.currentPackage.license}}</span>
           </PackageDetailItem>
           <PackageDetailItem title="Repository" v-if="data.currentPackage.repository" :icon="$vuetify.icons.code">
             <a :href="`${data.currentPackage.repositoryUrl }`" target="_blank">
-              <v-icon v-if="data.currentPackage.repositoryNameIsBeautified">{{$vuetify.icons[data.currentPackage.repositoryName]}}</v-icon>
+              <v-icon v-if="data.currentPackage.repositoryName in $vuetify.icons">{{$vuetify.icons[data.currentPackage.repositoryName]}}</v-icon>
               {{data.currentPackage.repositoryName}}
+            </a>
+          </PackageDetailItem>
+          <PackageDetailItem title="Feedback" v-if="data.currentPackage.bugs" :icon="$vuetify.icons.contact">
+            <a :href="`${data.currentPackage.bugTrackerUrl }`" target="_blank" title="go to / report issues">
+              <v-icon>{{$vuetify.icons.bug}}</v-icon>
+            </a>
+            <a :href="`mailto:${data.currentPackage.bugs.email }`" v-if="data.currentPackage.bugs.email" target="_blank" title="write email">
+              <v-icon>{{$vuetify.icons.mail}}</v-icon>
             </a>
           </PackageDetailItem>
           <PackageDetailItem title="Created" :icon="$vuetify.icons.created">

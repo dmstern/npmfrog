@@ -26,6 +26,9 @@ const icons = {
   updated: 'far fa-clock',
   about: 'fas fa-info-circle',
   clear: 'fas fa-times',
+  bug: 'fas fa-bug',
+  contact: 'far fa-comments',
+  mail: 'far fa-envelope',
 };
 
 icons.keywords = icons.tags;

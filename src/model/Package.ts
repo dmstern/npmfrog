@@ -53,10 +53,10 @@ export default class Package implements PackageMetaDataDTO {
   public readonly displayName?: string;
   public readonly readme?: string | null;
   public readonly repositoryUrl?: string;
+  public readonly bugTrackerUrl?: string;
   public readonly dependenciesCount: number;
   public readonly scope: string | undefined;
   public readonly mainCode: string | undefined;
-  protected repositoryNameIsBeautified: boolean = false;
 
   constructor(packageMetaData: PackageMetaDataDTO) {
     Object.assign(this, packageMetaData);
@@ -88,6 +88,15 @@ export default class Package implements PackageMetaDataDTO {
       }
     }
 
+    // set bugsUrl:
+    if (packageMetaData.bugs) {
+      if (typeof packageMetaData.bugs === 'string') {
+        this.bugTrackerUrl = packageMetaData.bugs;
+      } else {
+        this.bugTrackerUrl = packageMetaData.bugs.url;
+      }
+    }
+
     // Count depenedencies:
     const dependencies = packageMetaData.dependencies;
     const devDependencies = packageMetaData.devDependencies;
@@ -102,18 +111,26 @@ export default class Package implements PackageMetaDataDTO {
     }
   }
 
-  public get repositoryName() {
+  public get repositoryName(): string | undefined {
     if (this.repositoryUrl) {
-      if (this.repositoryUrl.includes('github')) {
-        this.repositoryNameIsBeautified = true;
-        return 'github';
-      }
-      if (this.repositoryUrl.includes('gitlab')) {
-        this.repositoryNameIsBeautified = true;
-        return 'gitlab';
-      }
-      return this.repositoryUrl.split('/')[2];
+      return this.url2Name(this.repositoryUrl);
     }
+  }
+
+  public get bugTrackerName(): string | undefined {
+    if (this.bugTrackerUrl) {
+      return this.url2Name(this.bugTrackerUrl);
+    }
+  }
+
+  private url2Name(url: string): string {
+    if (url.includes('github')) {
+      return 'github';
+    }
+    if (url.includes('gitlab')) {
+      return 'gitlab';
+    }
+    return url.split('/')[2];
   }
 
 }
