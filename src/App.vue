@@ -374,6 +374,10 @@ a {
   }
 }
 
+.v-icon {
+  font-size: inherit;
+}
+
 code,
 kbd {
   &:after,
