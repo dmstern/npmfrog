@@ -375,7 +375,13 @@ a {
 }
 
 .v-icon {
-  font-size: inherit;
+
+  .subheading &,
+  .heading &,
+  .title &,
+  .subtitle & {
+    font-size: inherit;
+  }
 }
 
 code,
