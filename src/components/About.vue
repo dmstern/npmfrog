@@ -7,7 +7,7 @@
 
       <v-list-tile slot="activator">
         <v-list-tile-action>
-          <v-icon>mdi-information-outline</v-icon>
+          <v-icon>{{$vuetify.icons.about}}</v-icon>
         </v-list-tile-action>
         <v-list-tile-content>
           <v-list-tile-title>About</v-list-tile-title>

@@ -3,7 +3,7 @@
 <v-flex>
   <v-card>
     <v-card-title class="subheading">
-      <v-icon v-if="icon">fas fa-{{icon}}</v-icon>
+      <v-icon v-if="icon">{{icon}}</v-icon>
       {{title.toLowerCase()}}
     </v-card-title>
     <v-card-text :class="bigContent !== false ? `title` : ''">

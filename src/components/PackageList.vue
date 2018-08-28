@@ -23,7 +23,7 @@
                 <div class="package-list--author">
                   <span class="package-list--author-name">{{item.displayName}}</span>
                   <v-avatar size="32">
-                    <v-icon>account_circle</v-icon>
+                    <v-icon>{{$vuetify.icons.author}}</v-icon>
                   </v-avatar>
                 </div>
               </v-list-tile-action>
