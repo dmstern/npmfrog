@@ -42,73 +42,6 @@
   </div>
 </template>
 
-<style lang="scss">
-@import '../assets/variables';
-
-.v-list--three-line .v-list__tile {
-  height: auto;
-}
-
-.package-list {
-
-  .v-list__tile__content {
-    padding: .4em 0;
-  }
-
-  &--keywords {
-    min-height: 2em;
-  }
-
-  .v-list__tile__action--stack {
-    max-width: 40%;
-    align-self: flex-end;
-  }
-
-  &--author {
-    display: flex;
-    font-family: $monospace;
-    font-weight: bold;
-    font-size: $package-list--author--font-size;
-    color: $color-gray-light;
-    max-width: 100%;
-    overflow: hidden;
-
-    &-name {
-      align-self: flex-end;
-      padding-left: .8em;
-      margin-right: .8em;
-      line-height: 1rem;
-      text-overflow: ellipsis;
-      max-width: 100%;
-      overflow: hidden;
-    }
-
-    .v-icon {
-      &,
-      &.fas {
-        transform: initial;
-      }
-    }
-  }
-
-  & &--by {
-    padding-bottom: .3em;
-    color: $color-gray-light;
-    font-size: $package-list--author--font-size;
-  }
-
- .v-list__tile__sub-title {
-   .v-chip {
-     &:first-child {
-       margin-left: 0;
-     }
-   }
- }
-}
-
-</style>
-
-
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import PackageService from '@/services/PackageService';
@@ -186,3 +119,68 @@ export default class Packages extends Vue {
 }
 
 </script>
+
+<style lang="scss">
+@import '../assets/variables';
+
+.v-list--three-line .v-list__tile {
+  height: auto;
+}
+
+.package-list {
+
+  .v-list__tile__content {
+    padding: .4em 0;
+  }
+
+  &--keywords {
+    min-height: 2em;
+  }
+
+  .v-list__tile__action--stack {
+    align-self: flex-end;
+  }
+
+  &--author {
+    display: flex;
+    font-family: $monospace;
+    font-weight: bold;
+    font-size: $package-list--author--font-size;
+    color: $color-gray-light;
+    max-width: 100%;
+    overflow: hidden;
+
+    &-name {
+      align-self: flex-end;
+      padding-left: .8em;
+      margin-right: .8em;
+      line-height: 1rem;
+      text-overflow: ellipsis;
+      max-width: 100%;
+      overflow: hidden;
+    }
+
+    .v-icon {
+      &,
+      &.fas {
+        transform: initial;
+      }
+    }
+  }
+
+  & &--by {
+    padding-bottom: .3em;
+    color: $color-gray-light;
+    font-size: $package-list--author--font-size;
+  }
+
+ .v-list__tile__sub-title {
+   .v-chip {
+     &:first-child {
+       margin-left: 0;
+     }
+   }
+ }
+}
+
+</style>
