@@ -33,7 +33,8 @@
     "vue-router": "^3.0.1",
     "vue-simple-svg": "^1.3.1",
     "vue-timeago": "^5.0.0",
-    "vuetify": "^1.0.19"
+    "vuetify": "^1.0.19",
+    "url-parse": "^1.4.3"
   },
   "devDependencies": {
     "@babel/polyfill": "^7.0.0-beta.49",
