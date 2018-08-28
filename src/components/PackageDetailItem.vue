@@ -1,14 +1,12 @@
 <template>
 
 <v-flex>
-  <v-card>
+  <v-card class="PackageDetailItem">
     <v-card-title class="subheading">
       <v-icon v-if="icon">{{icon}}</v-icon>
       {{title.toLowerCase()}}
     </v-card-title>
-    <v-card-text :class="bigContent !== false ? `title` : ''">
-      <slot></slot>
-    </v-card-text>
+    <v-card-text :class="bigContent !== false ? `title` : ''"><slot></slot></v-card-text>
   </v-card>
 </v-flex>
 
@@ -23,7 +21,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 })
 export default class PackageDetailItem extends Vue {
   @Prop() private title!: string;
-  @Prop() private bigContent!: boolean | undefined;
+  @Prop() private bigContent?: boolean;
   @Prop() private icon!: string;
 
   constructor() {
@@ -33,18 +31,25 @@ export default class PackageDetailItem extends Vue {
 
 </script>
 
-<style lang="scss" scoped>
-@import '../assets/variables';
+<style lang="scss">
+@import "../assets/variables";
 
-.v-card__text {
-  padding-top: 0;
-}
+.PackageDetailItem {
+  .v-card__text {
+    padding-top: 0;
+  }
 
-.subheading {
-  font-weight: bold;
+  .subheading {
+    font-weight: bold;
 
-  .v-icon {
-    margin-right: .5em;
+    .v-icon {
+      margin-right: 0.5em;
+    }
+  }
+
+  a {
+    margin-right: 1em;
   }
 }
 </style>
+
