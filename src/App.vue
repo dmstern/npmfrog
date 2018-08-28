@@ -369,7 +369,6 @@ a {
 }
 
 .v-icon {
-  $mdi2faScaleFactor: 20/24;
 
   &.fas,
   &.far {
@@ -450,12 +449,11 @@ code.hljs {
     visibility: hidden;
   }
 
-  .v-select.v-select--is-menu-active .v-input__icon--append,
-  .v-input__append-inner {
+  .v-select.v-select--is-menu-active .v-input__icon--append {
     .v-icon {
       opacity: 1;
       visibility: visible;
-      transform: initial;
+      transform: scale($mdi2faScaleFactor) rotate(0);
     }
   } 
 

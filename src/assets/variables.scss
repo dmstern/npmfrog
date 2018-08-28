@@ -32,3 +32,5 @@ $grid-breakpoints: (
   lg: (1280px - 16px), // Desktop gets a 16dp reduction
   xl: (1920px - 16px), // https://material.io/guidelines/layout/responsive-ui.html#responsive-ui-breakpoints
 );
+
+$mdi2faScaleFactor: 20/24;
