@@ -3,11 +3,11 @@
 <div class="packageDetail__installCode">
   <pre v-highlightjs="code"><code :class="`${language} language-${language} hljs`"></code></pre>
   <v-btn flat icon v-if="clipboard !== false"
-    color="accent"
+    color="primary"
     v-clipboard:copy="code"
     v-clipboard:success="onCopy"
     v-clipboard:error="onError">
-    <v-icon>mdi-clipboard-arrow-left</v-icon>
+    <v-icon>fas fa-copy</v-icon>
   </v-btn>
 
   <v-snackbar

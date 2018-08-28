@@ -107,22 +107,22 @@
             <CodeBlock :code="getInstallCode().config" language="bash"></CodeBlock>
             <CodeBlock :code="getInstallCode().install" language="bash"></CodeBlock>
           </PackageDetailItem>
-          <PackageDetailItem title="Version" icon="code-fork">
+          <PackageDetailItem title="Version" icon="code-branch">
             {{data.currentPackage.version}}
           </PackageDetailItem>
-          <PackageDetailItem title="License" v-if="data.currentPackage.license" icon="legal">
+          <PackageDetailItem title="License" v-if="data.currentPackage.license" icon="balance-scale">
             <span>{{data.currentPackage.license}}</span>
           </PackageDetailItem>
           <PackageDetailItem title="Repository" v-if="data.currentPackage.repository" icon="code">
             <a :href="`${data.currentPackage.repositoryUrl }`" target="_blank">
-              <v-icon v-if="data.currentPackage.repositoryNameIsBeautified">fa-{{data.currentPackage.repositoryName}}</v-icon>
+              <v-icon v-if="data.currentPackage.repositoryNameIsBeautified">fab fa-{{data.currentPackage.repositoryName}}</v-icon>
               {{data.currentPackage.repositoryName}}
             </a>
           </PackageDetailItem>
           <PackageDetailItem title="Created" icon="bolt">
             <timeago :datetime="data.packageDetail.time.created"></timeago>
           </PackageDetailItem>
-          <PackageDetailItem title="Last publish" icon="clock-o">
+          <PackageDetailItem title="Last publish" icon="clock">
             <timeago :datetime="data.packageDetail.time.modified"></timeago>
           </PackageDetailItem>
           <PackageDetailItem title="Author" v-if="data.currentPackage.author" icon="user">
