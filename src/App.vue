@@ -42,11 +42,7 @@
       </v-btn>
       <router-link to="/" class="home-button">
         <v-toolbar-title>
-          <simple-svg
-            :filepath="getIcon('logo-monochrome')"
-            :width="`${btnIconSize}px`"
-            :height="`${btnIconSize}px`"
-          />
+          <img src="@/../art/logo.svg" alt="npmFrog" class="v-btn--icon">
           <span class="label hidden-sm-and-down">{{title}}</span>
         </v-toolbar-title>    
       </router-link>
@@ -412,6 +408,12 @@ kbd {
 
 code.hljs {
   white-space: pre;
+}
+
+.home-button {
+  img {
+    background-color: $color-white;
+  }
 }
 
 .v-toolbar {
