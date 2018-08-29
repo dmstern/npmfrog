@@ -1,7 +1,25 @@
 # Schoenes Module
 
 ### Install or update node.js/npm
-If not installed yet. Install node globally. The version in use in this project is *v6.9.2*, please visit [https://nodejs.org/](https://nodejs.org/). (Windows users might have to restart their machine to enable npm-commands) You can quick check if node.js is installedby typing *node -v* or *node --version* to your command line (cmd):
+
+:angry:
+:rage:
+:triumph:
+:sleepy:
+:yum:
+:mask:
+:sunglasses:
+:dizzy_face:
+:imp:
+:smiling_imp:
+:neutral_face:
+:no_mouth:
+:innocent:
+:alien:
+:yellow_heart:
+:blue_heart:
+:purple_heart:
+
 ```bash
 node -v
 ```

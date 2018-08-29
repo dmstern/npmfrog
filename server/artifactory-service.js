@@ -2,6 +2,7 @@ const axios = require("axios");
 const fs = require("fs-extra");
 const tar = require("tar");
 const showdown = require("showdown");
+var emoji = require('node-emoji')
 
 const config = require("./config-service.js");
 const repoKey = config.artifactory.repoKey;
@@ -26,8 +27,10 @@ function readme2Html(readmeFile) {
     console.error(`README file not found: ${readmeFile}`);
     throw error;
   }
+  
+  const emojifiedReadme = emoji.emojify(readme.toString());
   const converter = new showdown.Converter();
-  const html = converter.makeHtml(readme.toString());
+  const html = converter.makeHtml(emojifiedReadme);
   return html;
 }
 
