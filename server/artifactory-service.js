@@ -24,7 +24,7 @@ function readme2Html(readmeFile) {
   try {
     readme = fs.readFileSync(readmeFile);
   } catch (error) {
-    console.error(`README file not found: ${readmeFile}`);
+    console.warn(`README file not found: ${readmeFile}`);
     throw error;
   }
   
@@ -72,13 +72,12 @@ async function getPackageDetail({ scope, packageName }) { // TODO: #1 add cachin
     : await axios.get(`/${name2url({ scope, packageName })}`);
 
   const additionalCode = process.env.MOCK
-    ? await new Promise((resolve, reject) => {
+    ? await new Promise((resolve) => {
         let packageResource = `${__dirname}/mock/${packageName}.readme.md`;
         let data;
         try {
           data = readme2Html(packageResource);
         } catch (error) {
-          console.error(error);
           data = readme2Html(`${__dirname}/mock/fractal-menu-enhancer.readme.md`);
         }
         resolve({
