@@ -45,7 +45,7 @@
                   <h2>Scripts</h2>
                   <div v-for="(script, key) in data.currentPackage.scripts" :key="key">
                     <h3>{{key}}</h3>
-                    <pre v-highlightjs="script"><code></code></pre>
+                    <pre v-highlightjs="script"><code class="bash"></code></pre>
                   </div>
                 </div>
                 <div v-if="data.packageDetail.mainCode">
