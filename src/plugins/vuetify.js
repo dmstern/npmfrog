@@ -39,6 +39,7 @@ icons.keyword = icons.tag;
 icons.repository = icons.code;
 icons.modified = icons.updated;
 icons.homepage = icons.website;
+icons.crafter = icons.author;
 
 Vue.use(Vuetify, {
   iconfont: 'fa', // 'md' || 'mdi' || 'fa' || 'fa4'

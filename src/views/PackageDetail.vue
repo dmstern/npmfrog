@@ -120,7 +120,7 @@
             <span>{{data.currentPackage.license}}</span>
           </PackageDetailItem>
           <PackageDetailItem title="Website" v-if="data.currentPackage.homepage" :icon="$vuetify.icons.homepage">
-            <a :href="`${data.currentPackage.homepage}`" target="_blank">
+            <a :href="`${data.currentPackage.homepage}`" target="_blank" class="link--external">
               <v-icon>{{$vuetify.icons.externalLink}}</v-icon>
               {{data.currentPackage.homepage}}
             </a>
@@ -145,7 +145,7 @@
           <PackageDetailItem title="Last publish" :icon="$vuetify.icons.updated">
             <timeago :datetime="data.packageDetail.time.modified"></timeago>
           </PackageDetailItem>
-          <PackageDetailItem title="Author" v-if="data.currentPackage.author" :icon="$vuetify.icons.author">
+          <PackageDetailItem title="Crafters" v-if="data.currentPackage.author" :icon="$vuetify.icons.author">
             <a v-if="data.currentPackage.author.email" :href="`mailto:${data.currentPackage.author.email}`">{{data.currentPackage.author.name}}</a>
             <span v-else>{{data.currentPackage.displayName}}</span>
           </PackageDetailItem>
