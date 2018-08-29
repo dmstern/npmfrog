@@ -5,12 +5,18 @@
   </v-container>
   <v-container v-else fluid grid-list-lg>
     <v-layout row wrap>
-      <v-flex xs12 class="packageDetail__heading">
+      <v-flex xs12 md7 xl8 class="packageDetail__heading">
         <h1>{{ data.packageDetail.name }}</h1>
         <div class="subheading last-published-version-line">
           <span>{{data.currentPackage.version}}</span>
           <span>Published <timeago :datetime="data.packageDetail.time.modified"></timeago></span>
         </div>
+      </v-flex>
+      <v-flex xs12 md5 xl4>
+        <blockquote
+          v-if="data.packageDetail.description"
+          class="blockquote blockquote--beautify"
+        >{{data.packageDetail.description}}</blockquote>
       </v-flex>
     </v-layout>
     <v-layout row wrap>
@@ -289,6 +295,32 @@ pre code.hljs {
       display: inline-block;
       margin: 0 .7em;
     }
+  }
+}
+
+.blockquote--beautify {
+
+  position: relative;
+
+  &::before,
+  &::after {
+    font-size: 10em;
+    position: absolute;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    color: $color-gray-extralight;
+    opacity: .3;
+  }
+
+  &::before {
+    content: '„';
+    left: 0;
+    bottom: -60px;
+  }
+
+  &::after {
+    content: '“';
+    top: -51px;
+    transform: translateX(-1rem);
   }
 }
 
