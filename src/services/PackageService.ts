@@ -37,7 +37,7 @@ export default class PackagesService {
     const scope = packageId.scope;
     const packageName = packageId.packageName;
     const key = scope ? `${scope}/${packageName}` : packageName;
-    const cachedPackageDetails = scope ? this.packageDetails[key] : this.packageDetails[packageName];
+    const cachedPackageDetails = this.packageDetails[key];
     if (cachedPackageDetails) {
       return new Promise<Package>((fulfill, reject) => {
         fulfill(cachedPackageDetails);
