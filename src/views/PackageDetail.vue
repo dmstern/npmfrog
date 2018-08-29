@@ -103,7 +103,7 @@
       </v-flex>
       <v-flex xs12 md5 xl4 order-xs1 order-md2 class="meta-panel">
         <v-layout row wrap>
-          <PackageDetailItem title="install" :bigContent="false" v-if="data.config.artifactory" :icon="$vuetify.icons.install">
+          <PackageDetailItem title="install" :bigContent="false" v-if="data.config && data.config.artifactory" :icon="$vuetify.icons.install" :full="true">
             <CodeBlock :code="getInstallCode().config" language="bash"></CodeBlock>
             <CodeBlock :code="getInstallCode().install" language="bash"></CodeBlock>
           </PackageDetailItem>

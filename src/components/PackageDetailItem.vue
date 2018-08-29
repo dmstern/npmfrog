@@ -1,6 +1,6 @@
 <template>
 
-<v-flex>
+<v-flex :class="full ? 'full-width' : ''">
   <v-card class="PackageDetailItem">
     <v-card-title class="subheading">
       <v-icon v-if="icon">{{icon}}</v-icon>
@@ -23,6 +23,7 @@ export default class PackageDetailItem extends Vue {
   @Prop() private title!: string;
   @Prop() private bigContent?: boolean;
   @Prop() private icon!: string;
+  @Prop() private full?: boolean;
 
   constructor() {
     super();
@@ -51,5 +52,10 @@ export default class PackageDetailItem extends Vue {
     margin-right: 1em;
   }
 }
+
+.full-width {
+  width: 100%;
+}
+
 </style>
 
