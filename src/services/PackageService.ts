@@ -2,14 +2,11 @@ import BackendApi from '@/services/BackendApi';
 import { PackagesResponse } from '@/model/PackageResponse';
 import Package from '@/model/Package';
 import { SearchItem, SearchKey } from '@/model/SearchItem';
+import { PackageMetaDataDTO } from '@/model/package-meta-data';
 
 export default class PackagesService {
   public static get Instance(): PackagesService {
     return this.instance || (this.instance = new this());
-  }
-
-  public get packageNames(): string[] {
-    return this.packageNamesList;
   }
 
   public get searchItems(): Array<SearchItem|Package> {
@@ -20,33 +17,53 @@ export default class PackagesService {
 
   private request!: Promise<Package[]>;
   private packages!: Package[];
-  private packageNamesList!: string[];
   private searchItemList!: SearchItem[];
   private packageDetails!: {
-    [packageName: string]: Package,
+    [packageName: string]: {
+      packageDetail: Package,
+      currentPackage?: Package,
+    },
   };
 
   private constructor() {
     this.packages = [];
-    this.packageNamesList = [];
     this.searchItemList = [];
     this.packageDetails = {};
   }
 
-  public async getPackageDetail(packageId: {scope: string, packageName: string}): Promise<Package> {
+  public async getPackageDetail(packageId: {scope: string, packageName: string}): Promise<{
+    packageDetail: Package,
+    currentPackage?: Package,
+  }> {
     const scope = packageId.scope;
     const packageName = packageId.packageName;
     const key = scope ? `${scope}/${packageName}` : packageName;
     const cachedPackageDetails = this.packageDetails[key];
     if (cachedPackageDetails) {
-      return new Promise<Package>((fulfill, reject) => {
+      return new Promise<{
+        packageDetail: Package,
+        currentPackage?: Package,
+      }>((fulfill) => {
         fulfill(cachedPackageDetails);
       });
     }
 
-    return new Promise<Package>((fulfill, reject) => {
+    return new Promise<{
+      packageDetail: Package,
+      currentPackage?: Package,
+    }>((fulfill) => {
       BackendApi.Instance.getPackageDetail({scope, packageName}).then((response) => {
-        this.packageDetails[key] = new Package(response.data);
+        const packageDetail: Package = new Package(response.data);
+        let currentPackage: Package | undefined;
+        const currentVersionObject: string | PackageMetaDataDTO =
+          packageDetail.versions[packageDetail['dist-tags'].latest];
+        if (typeof currentVersionObject !== 'string') {
+          currentPackage = new Package(currentVersionObject);
+        }
+        this.packageDetails[key] = {
+          packageDetail,
+          currentPackage,
+        };
         return fulfill(this.packageDetails[key]);
       });
     });
@@ -54,7 +71,7 @@ export default class PackagesService {
 
   public async getPackages(): Promise<Package[]> {
     if (this.packages.length) {
-      return new Promise<Package[]>((fulfill, reject) => {
+      return new Promise<Package[]>((fulfill) => {
         fulfill(this.packages);
       });
     }
@@ -65,14 +82,9 @@ export default class PackagesService {
     return (this.request = new Promise<Package[]>((fulfill, reject) => {
       BackendApi.Instance.getPackages().then((response) => {
         const packagesResponse: PackagesResponse = response.data;
-        this.packageNamesList = Object.keys(packagesResponse).filter(
-          (key) => !key.startsWith('_'),
-        );
 
-        for (const packageName of this.packageNamesList) {
-          const modifiedPackage: Package = new Package(
-            packagesResponse[packageName],
-          );
+        for (const packageName of Object.keys(packagesResponse).filter((key) => !key.startsWith('_'))) {
+          const modifiedPackage: Package = new Package(packagesResponse[packageName]);
           this.packages.push(modifiedPackage);
 
           if (modifiedPackage.keywords) {

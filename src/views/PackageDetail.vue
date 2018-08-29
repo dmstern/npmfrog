@@ -183,14 +183,14 @@ export default class PackageDetail extends Vue {
 
   @Prop() private dataProp!: {
     packageDetail: Package | null,
-    currentPackage: Package | null,
+    currentPackage?: Package,
     currentTags: IVersions,
     versionsHistory: IVersions,
     config: Config | undefined,
   };
   private data: {
     packageDetail: Package | null,
-    currentPackage: Package | null,
+    currentPackage?: Package,
     currentTags: IVersions,
     versionsHistory: IVersions,
     config: Config | undefined,
@@ -202,7 +202,7 @@ export default class PackageDetail extends Vue {
     this.activeTab = 0;
     this.data = {
       packageDetail: null,
-      currentPackage: null,
+      currentPackage: undefined,
       currentTags: {},
       versionsHistory: {},
       config: undefined,
@@ -220,7 +220,7 @@ export default class PackageDetail extends Vue {
     this.activeTab = 0;
     this.data = {
       packageDetail: null,
-      currentPackage: null,
+      currentPackage: undefined,
       currentTags: {},
       versionsHistory: {},
       config: undefined,
@@ -245,14 +245,10 @@ export default class PackageDetail extends Vue {
       scope: Router.currentRoute.params.scope,
       packageName: Router.currentRoute.params.packageName,
     }).then((response) => {
-      this.data.packageDetail = response;
-      const currentVersionObject: string | PackageMetaDataDTO =
-        this.data.packageDetail.versions[this.data.packageDetail['dist-tags'].latest];
-      if (typeof currentVersionObject !== 'string') {
-        this.data.currentPackage = new Package(currentVersionObject);
-        this.data.currentTags = response['dist-tags'];
-        this.data.versionsHistory = response.versions;
-      }
+      this.data.packageDetail = response.packageDetail;
+      this.data.currentTags = response.packageDetail['dist-tags'];
+      this.data.versionsHistory = response.packageDetail.versions;
+      this.data.currentPackage = response.currentPackage;
     });
   }
 
