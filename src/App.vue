@@ -396,6 +396,13 @@ kbd {
   }
 }
 
+code,
+kbd {
+  &:after {
+    content: none;
+  }
+}
+
 // inline code
 :not(pre) > code.hljs {
   display: inline;
@@ -410,6 +417,20 @@ kbd {
 
 code.hljs {
   white-space: pre;
+
+  &.bash,
+  &.language-bash {
+
+    padding-left: 3em;
+
+    &::before {
+      content: "\F120";
+      font-family: "Font Awesome 5 Free";
+      transform: translateX(-2em) scale($mdi2faScaleFactor);
+      display: inline-block;
+      vertical-align: baseline;
+    }
+  }
 }
 
 .home-button {
