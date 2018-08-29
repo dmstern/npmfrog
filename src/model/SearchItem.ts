@@ -10,6 +10,6 @@ export class SearchItem {
 
 export enum SearchKey {
   KEYWORD = 'keyword',
-  AUTHOR = 'author',
+  AUTHOR = 'crafter',
   TEXT = 'text',
 }

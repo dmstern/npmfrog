@@ -359,7 +359,6 @@ a {
 
   .v-icon {
 
-    font-size: inherit;
     vertical-align: baseline;
 
     &,
@@ -382,7 +381,8 @@ a {
   .subheading &,
   .heading &,
   .title &,
-  .subtitle & {
+  .subtitle &
+  .link--external & {
     font-size: inherit;
     transform: none;
   }
