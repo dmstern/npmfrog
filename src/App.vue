@@ -358,6 +358,10 @@ a {
   }
 
   .v-icon {
+
+    font-size: inherit;
+    vertical-align: baseline;
+
     &,
     .theme--light & {
       &,

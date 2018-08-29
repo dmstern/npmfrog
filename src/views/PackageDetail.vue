@@ -119,6 +119,12 @@
           <PackageDetailItem title="License" v-if="data.currentPackage.license" :icon="$vuetify.icons.legal">
             <span>{{data.currentPackage.license}}</span>
           </PackageDetailItem>
+          <PackageDetailItem title="Website" v-if="data.currentPackage.homepage" :icon="$vuetify.icons.homepage">
+            <a :href="`${data.currentPackage.homepage}`" target="_blank">
+              <v-icon>{{$vuetify.icons.externalLink}}</v-icon>
+              {{data.currentPackage.homepage}}
+            </a>
+          </PackageDetailItem>
           <PackageDetailItem title="Repository" v-if="data.currentPackage.repository" :icon="$vuetify.icons.code">
             <a :href="`${data.currentPackage.repositoryUrl }`" target="_blank">
               <v-icon v-if="data.currentPackage.repositoryName in $vuetify.icons">{{$vuetify.icons[data.currentPackage.repositoryName]}}</v-icon>

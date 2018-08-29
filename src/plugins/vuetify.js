@@ -29,12 +29,15 @@ const icons = {
   bug: 'fas fa-bug',
   contact: 'far fa-comments',
   mail: 'far fa-envelope',
+  website: 'fas fa-globe',
+  externalLink: 'fas fa-external-link-alt',
 };
 
 icons.keywords = icons.tags;
 icons.keyword = icons.tag;
 icons.repository = icons.code;
 icons.modified = icons.updated;
+icons.homepage = icons.website;
 
 Vue.use(Vuetify, {
   iconfont: 'fa', // 'md' || 'mdi' || 'fa' || 'fa4'

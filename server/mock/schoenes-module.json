@@ -2,7 +2,7 @@
   "_id": "schoenes-module",
   "_rev": "1-0",
   "name": "schoenes-module",
-  "description": "wunderschoen",
+  "description": "wunderschoene und sehr lange beschreibung. wunderschoene und sehr lange beschreibung. wunderschoene und sehr lange beschreibung. wunderschoene und sehr lange beschreibung. wunderschoene und sehr lange beschreibung. wunderschoene und sehr lange beschreibung. wunderschoene und sehr lange beschreibung. wunderschoene und sehr lange beschreibung. wunderschoene und sehr lange beschreibung. wunderschoene und sehr lange beschreibung. ",
   "dist-tags": {
     "latest": "1.1.0"
   },
@@ -50,6 +50,7 @@
       "version": "1.1.0",
       "author": "daniel <daniel@mail.com>",
       "main": "index.js",
+      "homepage": "https://github.io/voll/schoenes-module",
       "keywords": [
         "npm",
         "test",
