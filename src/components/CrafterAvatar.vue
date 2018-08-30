@@ -39,7 +39,7 @@ export default class CrafterAvatar extends Vue {
     this.color = this.getColor();
   }
 
-  private getColor(): string {
+  private getColor(): string { // TODO: move this to crafter
     const initials = this.crafter.initials;
     const key = this.crafter.email
       ? this.crafter.email.replace(/ /g, '')
@@ -64,7 +64,7 @@ export default class CrafterAvatar extends Vue {
       const colorKey = Object.keys(colors)[colorKeyNumber];
       const color = colorKey
         .replace(
-          /(?:^|\.?)([A-Z])/g, (x, y) => '-' + y.toLowerCase()
+          /(?:^|\.?)([A-Z])/g, (x, y) => '-' + y.toLowerCase(),
         ).replace(/^-/, '');
       CrafterAvatar.colors.set(key, colorKeyNumber);
       return color;

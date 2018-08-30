@@ -3,14 +3,20 @@ import { PackagesResponse } from '@/model/PackageResponse';
 import Package from '@/model/Package';
 import { SearchItem, SearchKey } from '@/model/SearchItem';
 import { PackageMetaDataDTO } from '@/model/package-meta-data';
+import Crafter from '@/model/Crafter';
+import SearchComparable from '@/model/SearchComparable';
 
 export default class PackagesService {
   public static get Instance(): PackagesService {
     return this.instance || (this.instance = new this());
   }
 
-  public get searchItems(): Array<SearchItem|Package> {
+  public get searchItems(): SearchComparable[] {
     return this.searchItemList;
+  }
+
+  public get crafters(): Crafter[] {
+    return this.crafterList;
   }
 
   private static instance: PackagesService;
@@ -18,6 +24,7 @@ export default class PackagesService {
   private request!: Promise<Package[]>;
   private packages!: Package[];
   private searchItemList!: SearchItem[];
+  private crafterList!: Crafter[];
   private packageDetails!: {
     [packageName: string]: {
       packageDetail: Package,
@@ -28,6 +35,7 @@ export default class PackagesService {
   private constructor() {
     this.packages = [];
     this.searchItemList = [];
+    this.crafterList = [];
     this.packageDetails = {};
   }
 
@@ -93,8 +101,11 @@ export default class PackagesService {
             }
           }
           for (const crafter of modifiedPackage.crafters) {
-            if (crafter.name) {
-              this.addSearchItem(new SearchItem(SearchKey.AUTHOR, crafter.name));
+            // if (crafter.name) {
+              // this.addSearchItem(new SearchItem(SearchKey.AUTHOR, crafter.name));
+            // }
+            if (! (this.crafterList.some((currentCrafter) => currentCrafter.equals(crafter)))) {
+              this.crafterList.push(crafter);
             }
           }
         }
@@ -106,7 +117,7 @@ export default class PackagesService {
   }
 
   private addSearchItem(searchItem: SearchItem) {
-    for (const currentSearchItem of this.searchItemList) {
+    for (const currentSearchItem of this.searchItemList) { // TODO: use Array.prototype.some()
       if (currentSearchItem.key === searchItem.key
         && currentSearchItem.value === searchItem.value) {
         return;
@@ -114,4 +125,11 @@ export default class PackagesService {
     }
     this.searchItemList.push(searchItem);
   }
+
+  // private addCrafter(crafter: Crafter) {
+  //   if (this.crafterList.some((currentCrafter) => currentCrafter.equals(crafter))) {
+  //     return;
+  //   }
+  //   this.crafterList.push(crafter);
+  // }
 }

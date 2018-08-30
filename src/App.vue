@@ -86,10 +86,11 @@
               solo-inverted
               @input="data.parent.selectItem(data.item)"
             >
-              <v-avatar>
+              <CrafterAvatar v-if="isCrafter(data.item)" :crafter="data.item"></CrafterAvatar>
+              <v-avatar v-else>
                 <v-icon v-if="data.item.key in $vuetify.icons">{{$vuetify.icons[data.item.key]}}</v-icon>
               </v-avatar>
-              <v-list-tile-sub-title> {{ data.item.value }}</v-list-tile-sub-title>
+              <v-list-tile-sub-title> {{ isCrafter(data.item) ? data.item.name : data.item.value }}</v-list-tile-sub-title>
             </v-chip>
           </template>
         </template>
@@ -107,12 +108,17 @@
           </template>
           <template v-else>
             <v-list-tile-avatar>
-              <v-icon v-text="$vuetify.icons[data.item.key]"></v-icon>
+              <CrafterAvatar v-if="isCrafter(data.item)" :crafter="data.item"></CrafterAvatar>
+              <v-icon v-else v-text="$vuetify.icons[data.item.key]"></v-icon>
             </v-list-tile-avatar>
             <v-list-tile-content>
               <v-list-tile-title>
                 <span class="search--key grey--text text--darken-1">
-                  {{data.item.key === 'keyword'? '#' : `${data.item.key}:`}}
+                  {{
+                    isCrafter(data.item)
+                    ? `crafter:${data.item.name}`
+                    : data.item.key === 'keyword'? '#' : `${data.item.key}:`
+                  }}
                 </span>
                 <span v-html="data.item.value"></span>
               </v-list-tile-title>
@@ -139,10 +145,14 @@ import router from '@/router';
 import { setTimeout } from 'timers';
 import { EventBus, Events } from '@/services/event-bus';
 import About from '@/components/About.vue';
+import CrafterAvatar from '@/components/CrafterAvatar.vue';
+import Crafter from '@/model/Crafter.ts';
+import SearchComparable from '@/model/SearchComparable.ts';
 
 @Component({
   components: {
     About,
+    CrafterAvatar,
   },
 })
 export default class App extends Vue {
@@ -157,8 +167,8 @@ export default class App extends Vue {
   @Prop() private titleProp!: string;
   private menuVisible: boolean;
   private activeFilters: SearchItem[];
-  private searchItems: Array<SearchItem|Package>;
-  private searchItemsFiltered: Array<SearchItem|Package>;
+  private searchItems: SearchComparable[];
+  private searchItemsFiltered: SearchComparable[];
   private title: string = 'npmFrog';
   private clipped: boolean = true;
   private hasFocus: boolean = false;
@@ -195,30 +205,43 @@ export default class App extends Vue {
 
   private loadPackages(): void {
     PackagesService.Instance.getPackages().then((packages: Package[]) => {
-      this.searchItems = PackagesService.Instance.searchItems.concat(packages);
+      this.searchItems =
+        PackagesService.Instance.searchItems
+        .concat(PackagesService.Instance.crafters)
+        .concat(packages);
       this.filterSearchItems();
     });
   }
 
-  private getSearchItemText(item: SearchItem|Package) {
+  private getSearchItemText(item: SearchComparable) {
+    let searchText: string[] = [];
     if (item instanceof Package) {
       return [item.name, item.description, item.author].concat(item.keywords);
     }
-    const searchText = [`${item.key}:${item.value}`];
-    if (item.key === SearchKey.KEYWORD) {
-      searchText.push(`#${item.value}`);
+    if (item instanceof Crafter) {
+      return [item.name, item.email, item.url, item.initials];
     }
-    if (item.key === SearchKey.AUTHOR) {
-      searchText.push(`author:${item.value}`);
+    if (item instanceof SearchItem) {
+      searchText = [`${item.key}:${item.value}`];
+      if (item.key === SearchKey.KEYWORD) {
+        searchText.push(`#${item.value}`);
+      }
+      if (item.key === SearchKey.AUTHOR) {
+        searchText.push(`author:${item.value}`);
+      }
     }
     return searchText;
   }
 
-  private isPackage(item: SearchItem | Package): boolean {
+  private isPackage(item: SearchItem | Package | Crafter): boolean {
     return item instanceof Package;
   }
 
-  private filterSearchItems() {
+  private isCrafter(item: SearchItem | Package | Crafter): boolean {
+    return item instanceof Crafter;
+  }
+
+  private filterSearchItems(): void {
     const results = this.searchItems.filter((item) => {
       if (!this.activeFilters.length) {
         // include everything, if no filter is selected:
@@ -248,27 +271,22 @@ export default class App extends Vue {
       return filterMatchesExactly;
     });
 
+    // filter results for packages:
+    const packages: Package[] = [];
+    for (const result of this.searchItems) {
+      if (result instanceof Package) {
+        packages.push(result);
+      }
+    }
+
     const crossResults = this.searchItems.filter((item) => {
-      if (item instanceof SearchItem) {
-        for (const filteredPackage of results) {
-          if (filteredPackage instanceof Package) {
-            switch (item.key) {
-              case SearchKey.AUTHOR:
-                if (filteredPackage.crafters.some((crafter) => {
-                  return item.value === crafter.name;
-                })) {
-                  return true;
-                }
-              case SearchKey.KEYWORD:
-                if (filteredPackage.keywords && filteredPackage.keywords.indexOf(item.value) !== -1) {
-                  return true;
-                }
-            }
-          }
+      for (const filteredPackage of results) {
+        if (filteredPackage.matches(item, packages)) {
+          return true;
         }
       }
     });
-    this.searchItemsFiltered = crossResults.concat(results);
+    this.searchItemsFiltered = crossResults; // .concat(results);
     this.fireSearchFilterEvent();
   }
 

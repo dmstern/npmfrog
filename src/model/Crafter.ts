@@ -1,6 +1,9 @@
 import { IAuthor } from '@/model/package-json';
+import SearchComparable from '@/model/SearchComparable';
+import { SearchItem } from '@/model/SearchItem';
+import Package from '@/model/Package';
 
-export default class Crafter {
+export default class Crafter implements SearchComparable {
   public readonly name?: string;
   public readonly email?: string;
   public readonly url?: string;
@@ -35,6 +38,23 @@ export default class Crafter {
       }
       return this.name.charAt(0);
     }
+  }
+
+  public matches(other: SearchComparable, packages: Package[]): boolean {
+    if (other instanceof SearchItem) {
+      for (const item of packages) {
+        if (item.matches(this) && item.matches(other)) {
+          return true;
+        }
+      }
+    }
+    if (other instanceof Crafter) {
+      return other.equals(this);
+    }
+    if (other instanceof Package) {
+      return other.crafters.some((crafter) => crafter.equals(this));
+    }
+    return false;
   }
 
   public equals(other: Crafter): boolean {
