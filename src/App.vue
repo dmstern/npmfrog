@@ -166,7 +166,7 @@ export default class App extends Vue {
   @Prop() private hasFocusProp!: boolean;
   @Prop() private titleProp!: string;
   private menuVisible: boolean;
-  private activeFilters: SearchItem[];
+  private activeFilters: SearchComparable[];
   private searchItems: SearchComparable[];
   private searchItemsFiltered: SearchComparable[];
   private title: string = 'npmFrog';
@@ -242,35 +242,6 @@ export default class App extends Vue {
   }
 
   private filterSearchItems(): void {
-    const results = this.searchItems.filter((item) => {
-      if (!this.activeFilters.length) {
-        // include everything, if no filter is selected:
-        return true;
-      }
-      const filterMatchesExactly = this.activeFilters.every((filter) => {
-        if (item instanceof Package) {
-          let filterMatchesItem: boolean = false;
-          switch (filter.key) {
-            case SearchKey.AUTHOR:
-              filterMatchesItem = item.crafters.some((crafter) => filter.value === crafter.name);
-              break;
-            case SearchKey.KEYWORD:
-              if (item.keywords !== undefined) {
-                filterMatchesItem = item.keywords.indexOf(filter.value) !== -1;
-              }
-              break;
-            default:
-              filterMatchesItem = false;
-          }
-          return filterMatchesItem;
-        } else {
-          // include selected filter:
-          return filter === item;
-        }
-      });
-      return filterMatchesExactly;
-    });
-
     // filter results for packages:
     const packages: Package[] = [];
     for (const result of this.searchItems) {
@@ -279,14 +250,14 @@ export default class App extends Vue {
       }
     }
 
-    const crossResults = this.searchItems.filter((item) => {
-      for (const filteredPackage of results) {
-        if (filteredPackage.matches(item, packages)) {
-          return true;
-        }
+    this.searchItemsFiltered = this.searchItems.filter((item) => {
+      if (!this.activeFilters.length) {
+        // include everything, if no filter is selected:
+        return true;
       }
+      return this.activeFilters.every((filter) => filter.matches(item, packages));
     });
-    this.searchItemsFiltered = crossResults; // .concat(results);
+
     this.fireSearchFilterEvent();
   }
 
@@ -309,11 +280,6 @@ export default class App extends Vue {
   }
 
   private onSearchSubmit(event) {
-    const keywordFilter = this.activeFilters
-      .filter((filter) => filter.key === SearchKey.KEYWORD)
-      .map((filter) => {
-        return filter.value;
-      });
     router.push({path: '/'});
     this.$nextTick(this.fireSearchFilterEvent);
     this.$nextTick(this.$refs.searchbar.blur);
