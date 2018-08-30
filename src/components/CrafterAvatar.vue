@@ -3,8 +3,11 @@
 <div class="CrafterAvatar">
   <v-avatar
     :title="crafter.name"
-    :color="`${color} lighten-1`"
+    :color="`${color} darken-2`"
     size="32"
+    :class="`grey--text text--${
+      lightColors.indexOf(color) < 0 ? 'lighten' : 'darken'
+    }-4 body-2`"
   >{{crafter.initials}}</v-avatar>
 </div>
 
@@ -20,14 +23,23 @@ import colors from 'vuetify/es5/util/colors';
 })
 export default class CrafterAvatar extends Vue {
   private static colors: Map<string, number> = new Map<string, number>();
+  private color: string;
+  private lightColors: string[] = [
+    'lime',
+    'amber',
+    'yellow',
+    'orange',
+    'shades',
+  ];
 
   @Prop() private crafter!: Crafter;
 
   constructor() {
     super();
+    this.color = this.getColor();
   }
 
-  private get color(): string {
+  private getColor(): string {
     const initials = this.crafter.initials;
     const key = this.crafter.email
       ? this.crafter.email.replace(/ /g, '')
@@ -39,7 +51,8 @@ export default class CrafterAvatar extends Vue {
     }
 
     if (initials) {
-      let colorKeyNumber = (initials.charCodeAt(0) + initials.charCodeAt(0)) % (Object.keys(colors).length - 2);
+      let colorKeyNumber =
+        (initials.charCodeAt(0) + initials.charCodeAt(0)) % (Object.keys(colors).length - 2);
       CrafterAvatar.colors.forEach((oldKey) => {
         if (oldKey === colorKeyNumber) {
           colorKeyNumber++;
@@ -49,9 +62,10 @@ export default class CrafterAvatar extends Vue {
         }
       });
       const colorKey = Object.keys(colors)[colorKeyNumber];
-      const color = colorKey.replace(/(?:^|\.?)([A-Z])/g, (x, y) => {
-        return '-' + y.toLowerCase();
-      }).replace(/^-/, '');
+      const color = colorKey
+        .replace(
+          /(?:^|\.?)([A-Z])/g, (x, y) => '-' + y.toLowerCase()
+        ).replace(/^-/, '');
       CrafterAvatar.colors.set(key, colorKeyNumber);
       return color;
     }
@@ -61,14 +75,12 @@ export default class CrafterAvatar extends Vue {
 </script>
 
 <style lang="scss">
-
 .CrafterAvatar {
   display: inline-flex;
 
   .v-avatar {
-    text-transform: uppercase;  
+    text-transform: uppercase;
   }
 }
-
 </style>
 
