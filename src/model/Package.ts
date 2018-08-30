@@ -13,8 +13,10 @@ import {
 import { IDistTags, ITimes, IVersions } from '@/model/package-meta-data';
 import { PackageMetaDataDTO } from '@/model/package-meta-data';
 import Crafter from '@/model/Crafter';
+import SearchComparable from '@/model/SearchComparable';
+import { SearchItem } from '@/model/SearchItem';
 
-export default class Package implements PackageMetaDataDTO {
+export default class Package implements PackageMetaDataDTO, SearchComparable  {
   public readonly distTags!: IDistTags;
   public readonly time!: ITimes;
   public readonly users!: {};
@@ -95,6 +97,19 @@ export default class Package implements PackageMetaDataDTO {
     if (packageNameParts.length > 1) {
       this.scope = packageNameParts[0];
     }
+  }
+
+  public matches(other: SearchComparable): boolean {
+    if (other instanceof SearchItem) {
+      return this.keywords !== undefined && this.keywords.indexOf(other.value) > -1;
+    }
+    if (other instanceof Crafter) {
+      return this.crafters.some((crafter) => crafter.equals(other));
+    }
+    if (other instanceof Package) {
+      return other.name === this.name && other.version === this.version;
+    }
+    return false;
   }
 
   public get crafters(): Crafter[] {
