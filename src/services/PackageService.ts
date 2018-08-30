@@ -1,7 +1,7 @@
 import BackendApi from '@/services/BackendApi';
 import { PackagesResponse } from '@/model/PackageResponse';
 import Package from '@/model/Package';
-import { SearchItem, SearchKey } from '@/model/SearchItem';
+import { SearchItem } from '@/model/SearchItem';
 import { PackageMetaDataDTO } from '@/model/package-meta-data';
 import Crafter from '@/model/Crafter';
 import SearchComparable from '@/model/SearchComparable';
@@ -97,13 +97,12 @@ export default class PackagesService {
 
           if (modifiedPackage.keywords) {
             for (const keyword of modifiedPackage.keywords!) {
-              this.addSearchItem(new SearchItem(SearchKey.KEYWORD, keyword));
+              if (! this.searchItemList.some((currentSearchItem) => keyword === currentSearchItem.value)) {
+                this.searchItemList.push(new SearchItem(keyword));
+              }
             }
           }
           for (const crafter of modifiedPackage.crafters) {
-            // if (crafter.name) {
-              // this.addSearchItem(new SearchItem(SearchKey.AUTHOR, crafter.name));
-            // }
             if (! (this.crafterList.some((currentCrafter) => currentCrafter.equals(crafter)))) {
               this.crafterList.push(crafter);
             }
@@ -116,20 +115,4 @@ export default class PackagesService {
     }));
   }
 
-  private addSearchItem(searchItem: SearchItem) {
-    for (const currentSearchItem of this.searchItemList) { // TODO: use Array.prototype.some()
-      if (currentSearchItem.key === searchItem.key
-        && currentSearchItem.value === searchItem.value) {
-        return;
-      }
-    }
-    this.searchItemList.push(searchItem);
-  }
-
-  // private addCrafter(crafter: Crafter) {
-  //   if (this.crafterList.some((currentCrafter) => currentCrafter.equals(crafter))) {
-  //     return;
-  //   }
-  //   this.crafterList.push(crafter);
-  // }
 }
