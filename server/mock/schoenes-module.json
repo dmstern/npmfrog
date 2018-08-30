@@ -48,7 +48,7 @@
       "name": "schoenes-module",
       "description": "wunderschoen",
       "version": "1.1.0",
-      "author": "daniel <daniel@mail.com>",
+      "author": "daniel <mail@daniel.com>",
       "main": "index.js",
       "homepage": "https://github.io/voll/schoenes-module",
       "keywords": [
@@ -72,6 +72,9 @@
       },
       "repository": "https://github.com/bla/blubb",
       "license": "ISC",
+      "contributors": [
+        "daniel <mail@daniel.com>", "Kater Findus <findus@schweden.com>", "Alter Petterson"
+      ],
       "_id": "schoenes-module@1.1.0"
     }
   },
