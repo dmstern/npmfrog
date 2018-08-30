@@ -87,8 +87,7 @@
               @input="data.parent.selectItem(data.item)"
             >
               <v-avatar>
-                <v-icon v-if="data.item.key === 'author'">{{$vuetify.icons.author}}</v-icon>
-                <v-icon v-if="data.item.key === 'keyword'">{{$vuetify.icons.tag}}</v-icon>
+                <v-icon v-if="data.item.key in $vuetify.icons">{{$vuetify.icons[data.item.key]}}</v-icon>
               </v-avatar>
               <v-list-tile-sub-title> {{ data.item.value }}</v-list-tile-sub-title>
             </v-chip>
@@ -209,6 +208,9 @@ export default class App extends Vue {
     if (item.key === SearchKey.KEYWORD) {
       searchText.push(`#${item.value}`);
     }
+    if (item.key === SearchKey.AUTHOR) {
+      searchText.push(`author:${item.value}`);
+    }
     return searchText;
   }
 
@@ -227,7 +229,7 @@ export default class App extends Vue {
           let filterMatchesItem: boolean = false;
           switch (filter.key) {
             case SearchKey.AUTHOR:
-              filterMatchesItem = filter.value === item.displayName;
+              filterMatchesItem = item.crafters.some((crafter) => filter.value === crafter.name);
               break;
             case SearchKey.KEYWORD:
               if (item.keywords !== undefined) {
@@ -252,7 +254,9 @@ export default class App extends Vue {
           if (filteredPackage instanceof Package) {
             switch (item.key) {
               case SearchKey.AUTHOR:
-                if (item.value === filteredPackage.displayName) {
+                if (filteredPackage.crafters.some((crafter) => {
+                  return item.value === crafter.name;
+                })) {
                   return true;
                 }
               case SearchKey.KEYWORD:

@@ -25,10 +25,7 @@
               <v-list-tile-action>
                 <div class="package-list--by">crafted by</div>
                 <div class="package-list--author">
-                  <span class="package-list--author-name">{{item.displayName}}</span>
-                  <v-avatar size="32">
-                    <v-icon>{{$vuetify.icons.author}}</v-icon>
-                  </v-avatar>
+                  <CrafterAvatar v-for="(crafter, index) in item.crafters" :key="index" :crafter="crafter"></CrafterAvatar>
                 </div>
               </v-list-tile-action>
 
@@ -51,10 +48,12 @@ import Package from '@/model/Package';
 import { EventBus, Events } from '@/services/event-bus';
 import BackendApi from '@/services/BackendApi';
 import LoadingSpinner from '@/components/LoadingSpinner.vue';
+import CrafterAvatar from '@/components/CrafterAvatar.vue';
 
 @Component({
   components: {
     LoadingSpinner,
+    CrafterAvatar,
   },
 })
 export default class Packages extends Vue {
@@ -90,10 +89,19 @@ export default class Packages extends Vue {
           return true;
         }
         const pattern = new RegExp(query.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, ''), 'gi');
+        const someCrafterMatches = item.crafters.some((crafter) => {
+          if (
+            crafter.name &&
+            (crafter.name.match(pattern) ||
+            `crafter:${crafter.name}`.match(pattern) ||
+            `author:${crafter.name}`.match(pattern))
+            ) {
+              return true;
+            }
+          return false;
+        });
         return `/${item.name}`.match(pattern) ||
-          (item.displayName ? item.displayName.match(pattern) : true) ||
-          `crafter:${item.displayName}`.match(pattern) ||
-          `author:${item.displayName}`.match(pattern) ||
+          someCrafterMatches ||
           item.description && `/${item.description}`.match(pattern) ||
           item.keywords && item.keywords.some((keyword) => {
             if (`#${keyword}`.match(pattern)) {
@@ -144,28 +152,9 @@ export default class Packages extends Vue {
 
   &--author {
     display: flex;
-    font-family: $monospace;
-    font-weight: bold;
-    font-size: $package-list--author--font-size;
-    color: $color-gray-light;
-    max-width: 100%;
-    overflow: hidden;
 
-    &-name {
-      align-self: flex-end;
-      padding-left: .8em;
-      margin-right: .8em;
-      line-height: 1rem;
-      text-overflow: ellipsis;
-      max-width: 100%;
-      overflow: hidden;
-    }
-
-    .v-icon {
-      &,
-      &.fas {
-        transform: initial;
-      }
+    .CrafterAvatar {
+      margin-left: .5em;
     }
   }
 

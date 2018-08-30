@@ -92,8 +92,10 @@ export default class PackagesService {
               this.addSearchItem(new SearchItem(SearchKey.KEYWORD, keyword));
             }
           }
-          if (modifiedPackage.displayName) {
-            this.addSearchItem(new SearchItem(SearchKey.AUTHOR, modifiedPackage.displayName));
+          for (const crafter of modifiedPackage.crafters) {
+            if (crafter.name) {
+              this.addSearchItem(new SearchItem(SearchKey.AUTHOR, crafter.name));
+            }
           }
         }
         fulfill(this.packages);
