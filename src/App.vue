@@ -214,19 +214,32 @@ export default class App extends Vue {
   }
 
   private getSearchItemText(item: SearchComparable) {
-    const searchText: string[] = [];
     if (item instanceof Package) {
-      return [item.name, item.description, item.author].concat(item.keywords);
+      return [
+        item.name,
+        item.description,
+        item.author
+      ].concat(item.keywords);
     }
     if (item instanceof Crafter) {
-      return [item.name, item.email, item.url, item.initials];
+      return [
+        `author:${item.name}`,
+        `crafter:${item.name}`,
+        `contributor:${item.name}`,
+        `collaborator:${item.name}`,
+        item.name,
+        item.email,
+        item.url,
+        item.initials
+      ];
     }
     if (item instanceof SearchItem) {
-      searchText.push(`#${item.value}`);
-      searchText.push(`keyword:${item.value}`);
-      searchText.push(`tag:${item.value}`);
+      return [
+        `#${item.value}`,
+        `keyword:${item.value}`,
+        `tag:${item.value}`,
+      ];
     }
-    return searchText;
   }
 
   private isPackage(item: SearchItem | Package | Crafter): boolean {
