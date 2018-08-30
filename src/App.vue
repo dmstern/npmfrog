@@ -88,7 +88,7 @@
             >
               <CrafterAvatar v-if="isCrafter(data.item)" :crafter="data.item"></CrafterAvatar>
               <v-avatar v-else>
-                <v-icon v-if="data.item.key in $vuetify.icons">{{$vuetify.icons[data.item.key]}}</v-icon>
+                <v-icon>{{$vuetify.icons.tag}}</v-icon>
               </v-avatar>
               <v-list-tile-sub-title> {{ isCrafter(data.item) ? data.item.name : data.item.value }}</v-list-tile-sub-title>
             </v-chip>
@@ -109,7 +109,7 @@
           <template v-else>
             <v-list-tile-avatar>
               <CrafterAvatar v-if="isCrafter(data.item)" :crafter="data.item"></CrafterAvatar>
-              <v-icon v-else v-text="$vuetify.icons[data.item.key]"></v-icon>
+              <v-icon v-else v-text="$vuetify.icons.tag"></v-icon>
             </v-list-tile-avatar>
             <v-list-tile-content>
               <v-list-tile-title>
@@ -117,7 +117,7 @@
                   {{
                     isCrafter(data.item)
                     ? `crafter:${data.item.name}`
-                    : data.item.key === 'keyword'? '#' : `${data.item.key}:`
+                    : `#`
                   }}
                 </span>
                 <span v-html="data.item.value"></span>
@@ -140,7 +140,7 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import PackagesService from '@/services/PackageService';
 import Package from '@/model/Package';
-import { SearchItem, SearchKey } from '@/model/SearchItem';
+import { SearchItem } from '@/model/SearchItem';
 import router from '@/router';
 import { setTimeout } from 'timers';
 import { EventBus, Events } from '@/services/event-bus';
@@ -214,7 +214,7 @@ export default class App extends Vue {
   }
 
   private getSearchItemText(item: SearchComparable) {
-    let searchText: string[] = [];
+    const searchText: string[] = [];
     if (item instanceof Package) {
       return [item.name, item.description, item.author].concat(item.keywords);
     }
@@ -222,13 +222,9 @@ export default class App extends Vue {
       return [item.name, item.email, item.url, item.initials];
     }
     if (item instanceof SearchItem) {
-      searchText = [`${item.key}:${item.value}`];
-      if (item.key === SearchKey.KEYWORD) {
-        searchText.push(`#${item.value}`);
-      }
-      if (item.key === SearchKey.AUTHOR) {
-        searchText.push(`author:${item.value}`);
-      }
+      searchText.push(`#${item.value}`);
+      searchText.push(`keyword:${item.value}`);
+      searchText.push(`tag:${item.value}`);
     }
     return searchText;
   }
