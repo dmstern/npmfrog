@@ -73,7 +73,12 @@
       "repository": "https://github.com/bla/blubb",
       "license": "ISC",
       "contributors": [
-        "daniel <mail@daniel.com>", "Kater Findus <findus@schweden.com>", "Alter Petterson"
+        "daniel <mail@daniel.com>", "Kater Findus <findus@schweden.com>", "Alter Petterson", {
+          "name": "Anton Peter",
+          "email": "test"
+        },
+        "Anna Pfirsich <mail@blubber>",
+        "Arnold Paladin <blablabla>"
       ],
       "_id": "schoenes-module@1.1.0"
     }
