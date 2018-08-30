@@ -145,9 +145,10 @@
           <PackageDetailItem title="Last publish" :icon="$vuetify.icons.updated">
             <timeago :datetime="data.packageDetail.time.modified"></timeago>
           </PackageDetailItem>
-          <PackageDetailItem title="Crafters" v-if="data.currentPackage.author" :icon="$vuetify.icons.author">
-            <a v-if="data.currentPackage.author.email" :href="`mailto:${data.currentPackage.author.email}`">{{data.currentPackage.author.name}}</a>
-            <span v-else>{{data.currentPackage.displayName}}</span>
+          <PackageDetailItem title="Crafted by" v-if="data.currentPackage.author" :icon="$vuetify.icons.author" :bigContent="false">
+            <!-- <a v-if="data.currentPackage.author.email" :href="`mailto:${data.currentPackage.author.email}`">{{data.currentPackage.author.name}}</a>
+            <span v-else>{{data.currentPackage.displayName}}</span> -->
+            <CrafterAvatar v-for="(crafter, index) in data.currentPackage.crafters" :key="index" :crafter="crafter"></CrafterAvatar>
           </PackageDetailItem>
           <PackageDetailItem title="Keywords" :bigContent="false" v-if="data.currentPackage.keywords" :icon="$vuetify.icons.tags">
             <v-chip v-for="keyword in data.currentPackage.keywords" :key="keyword">{{keyword}}</v-chip>
@@ -171,12 +172,14 @@ import router from '@/router';
 import Config from '@/model/Config';
 import PackageDetailItem from '@/components/PackageDetailItem.vue';
 import CodeBlock from '@/components/CodeBlock.vue';
+import CrafterAvatar from '@/components/CrafterAvatar.vue';
 
 @Component({
   components: {
     LoadingSpinner,
     PackageDetailItem,
     CodeBlock,
+    CrafterAvatar,
   },
 })
 export default class PackageDetail extends Vue {

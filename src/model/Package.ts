@@ -12,6 +12,7 @@ import {
 } from '@/model/package-json';
 import { IDistTags, ITimes, IVersions } from '@/model/package-meta-data';
 import { PackageMetaDataDTO } from '@/model/package-meta-data';
+import Crafter from '@/model/Crafter';
 
 export default class Package implements PackageMetaDataDTO {
   public readonly distTags!: IDistTags;
@@ -29,7 +30,7 @@ export default class Package implements PackageMetaDataDTO {
   public readonly homepage?: string | undefined;
   public readonly bugs?: string | IBugs;
   public readonly license?: string | undefined;
-  public readonly author?: IAuthor;
+  public readonly author?: IAuthor | string;
   public readonly contributors?: string[] | IAuthor[];
   public readonly files?: string[] | undefined;
   public readonly main?: string | undefined;
@@ -50,7 +51,6 @@ export default class Package implements PackageMetaDataDTO {
   public readonly preferGlobal?: boolean | undefined;
   public readonly private?: boolean | undefined;
   public readonly publishConfig?: IPublishConfig;
-  public readonly displayName?: string;
   public readonly readme?: string | null;
   public readonly repositoryUrl?: string;
   public readonly bugTrackerUrl?: string;
@@ -63,28 +63,6 @@ export default class Package implements PackageMetaDataDTO {
 
     if (!this.distTags) {
       this.distTags = packageMetaData['dist-tags'];
-    }
-
-    // handle different types of author:
-    if (packageMetaData.author) {
-      if (typeof packageMetaData.author === 'string') {
-        const authorParts = packageMetaData.author.split('<');
-        if (authorParts.length === 2) {
-          const name = authorParts[0];
-          const email = authorParts[1].slice(0, authorParts[1].length - 1);
-          this.author = {
-            name,
-            email,
-          };
-          this.displayName = name;
-        } else {
-          this.displayName = packageMetaData.author;
-        }
-      } else {
-        this.displayName = packageMetaData.author.name;
-      }
-    } else {
-      this.displayName = packageMetaData.author;
     }
 
     // set repositoryUrl:
@@ -117,6 +95,50 @@ export default class Package implements PackageMetaDataDTO {
     if (packageNameParts.length > 1) {
       this.scope = packageNameParts[0];
     }
+  }
+
+  public get crafters(): Crafter[] {
+    const crafters: Crafter[] = [];
+    const author: Crafter | undefined = new Crafter(this.author);
+    if (author) {
+      crafters.push(author);
+    }
+    if (this.contributors) {
+      const contributors: Crafter[] = this.multipleAuthors2Crafaters(this.contributors);
+      if (contributors.some((contributor) => {
+        return contributor.equals(author);
+      })) {
+        return contributors;
+      }
+      return crafters.concat(contributors);
+    }
+    return crafters;
+  }
+
+  public matchesCrafter(pattern: RegExp): boolean {
+    for (const crafter of this.crafters) {
+      if (crafter.name) {
+        if (
+          crafter.name.match(pattern) ||
+          `crafter:${crafter.name}`.match(pattern) ||
+          `author:${crafter.name}`.match(pattern)
+        ) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  private multipleAuthors2Crafaters(authors: Array<IAuthor | string>): Crafter[] {
+    const crafters: Crafter[] = [];
+    for (const author of authors) {
+      const crafter = new Crafter(author);
+      if (crafter) {
+        crafters.push(crafter);
+      }
+    }
+    return crafters;
   }
 
   public get repositoryName(): string | undefined {
