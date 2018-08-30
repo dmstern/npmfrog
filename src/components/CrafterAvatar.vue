@@ -5,9 +5,7 @@
     :title="crafter.name"
     :color="`${color} lighten-1`"
     size="32"
-  >
-    {{crafter.initials}}
-  </v-avatar>
+  >{{crafter.initials}}</v-avatar>
 </div>
 
 </template>
