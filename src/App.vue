@@ -218,7 +218,7 @@ export default class App extends Vue {
       return [
         item.name,
         item.description,
-        item.author
+        item.author,
       ].concat(item.keywords);
     }
     if (item instanceof Crafter) {
@@ -230,7 +230,7 @@ export default class App extends Vue {
         item.name,
         item.email,
         item.url,
-        item.initials
+        item.initials,
       ];
     }
     if (item instanceof SearchItem) {
