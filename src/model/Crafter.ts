@@ -24,7 +24,9 @@ export default class Crafter implements SearchComparable {
   // private static colors: Map<string, number> = new Map<string, number>();
   private static get unusedColors(): number[] {
     if (this.unusedColorsArray.length < 1) {
-      this.unusedColorsArray = vuetifyColors;
+      for (let i; i < 17; i++) {
+        this.unusedColorsArray.push(i);
+      }
     }
     return this.unusedColorsArray;
   }
@@ -83,14 +85,6 @@ export default class Crafter implements SearchComparable {
 
   private generateColor(): string {
     const initials = this.initials;
-    // const key = this.email
-    //   ? this.email.replace(/ /g, '')
-    //   : this.name
-    //     ? this.name.replace(/ /g, '')
-    //     : '';
-    // if (key && Crafter.colors[key]) {
-    //   return Crafter.colors[key];
-    // }
 
     function generateColorKeyNumber(hash: number): number {
       let colorKeyNumber = hash % (Object.keys(vuetifyColors).length - 2);
@@ -98,24 +92,22 @@ export default class Crafter implements SearchComparable {
         colorKeyNumber >= Object.keys(vuetifyColors).length - 2
         || Crafter.unusedColors.some((color) => color === colorKeyNumber)
       ) {
-        colorKeyNumber = generateColorKeyNumber(hash + 100);
+        colorKeyNumber = generateColorKeyNumber(hash * 2);
       }
       return colorKeyNumber;
     }
 
     if (initials) {
-        (initials.charCodeAt(0) + initials.charCodeAt(0));
-      Crafter.colors.forEach((oldKey) => {
-        if (oldKey === colorKeyNumber) {
-
-        }
-      });
+      const colorKeyNumber = generateColorKeyNumber(initials.charCodeAt(0) + initials.charCodeAt(0));
       const colorKey = Object.keys(vuetifyColors)[colorKeyNumber];
       const color = colorKey
         .replace(
           /(?:^|\.?)([A-Z])/g, (x, y) => '-' + y.toLowerCase(),
         ).replace(/^-/, '');
-      Crafter.colors.push(colorKeyNumber);
+      const index = Crafter.unusedColors.indexOf(colorKeyNumber);
+      if (index > -1) {
+        Crafter.unusedColors.splice(index, 1);
+      }
       this.backgroundColor = color;
     } else {
       this.backgroundColor = 'accent';
