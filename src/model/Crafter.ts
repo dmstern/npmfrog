@@ -1,7 +1,7 @@
 import { IAuthor } from '@/model/package-json';
 import SearchComparable from '@/model/SearchComparable';
 import Package from '@/model/Package';
-import colors from 'vuetify/es5/util/colors';
+import vuetifyColors from 'vuetify/es5/util/colors';
 
 export default class Crafter implements SearchComparable {
 
@@ -19,7 +19,15 @@ export default class Crafter implements SearchComparable {
     }
   }
 
-  private static colors: Map<string, number> = new Map<string, number>();
+  private static unusedColorsArray: number[] = [];
+
+  // private static colors: Map<string, number> = new Map<string, number>();
+  private static get unusedColors(): number[] {
+    if (this.unusedColorsArray.length < 1) {
+      this.unusedColorsArray = vuetifyColors;
+    }
+    return this.unusedColorsArray;
+  }
 
   public readonly name?: string;
   public readonly email?: string;
@@ -75,32 +83,39 @@ export default class Crafter implements SearchComparable {
 
   private generateColor(): string {
     const initials = this.initials;
-    const key = this.email
-      ? this.email.replace(/ /g, '')
-      : this.name
-        ? this.name.replace(/ /g, '')
-        : '';
-    if (key && Crafter.colors[key]) {
-      return Crafter.colors[key];
+    // const key = this.email
+    //   ? this.email.replace(/ /g, '')
+    //   : this.name
+    //     ? this.name.replace(/ /g, '')
+    //     : '';
+    // if (key && Crafter.colors[key]) {
+    //   return Crafter.colors[key];
+    // }
+
+    function generateColorKeyNumber(hash: number): number {
+      let colorKeyNumber = hash % (Object.keys(vuetifyColors).length - 2);
+      if (
+        colorKeyNumber >= Object.keys(vuetifyColors).length - 2
+        || Crafter.unusedColors.some((color) => color === colorKeyNumber)
+      ) {
+        colorKeyNumber = generateColorKeyNumber(hash + 100);
+      }
+      return colorKeyNumber;
     }
 
     if (initials) {
-      let colorKeyNumber =
-        (initials.charCodeAt(0) + initials.charCodeAt(0)) % (Object.keys(colors).length - 2);
+        (initials.charCodeAt(0) + initials.charCodeAt(0));
       Crafter.colors.forEach((oldKey) => {
         if (oldKey === colorKeyNumber) {
-          colorKeyNumber++;
-          if (colorKeyNumber >= Object.keys(colors).length - 2) {
-            colorKeyNumber -= 2;
-          }
+
         }
       });
-      const colorKey = Object.keys(colors)[colorKeyNumber];
+      const colorKey = Object.keys(vuetifyColors)[colorKeyNumber];
       const color = colorKey
         .replace(
           /(?:^|\.?)([A-Z])/g, (x, y) => '-' + y.toLowerCase(),
         ).replace(/^-/, '');
-      Crafter.colors.set(key, colorKeyNumber);
+      Crafter.colors.push(colorKeyNumber);
       this.backgroundColor = color;
     } else {
       this.backgroundColor = 'accent';
