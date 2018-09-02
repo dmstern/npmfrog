@@ -25,8 +25,7 @@ function readme2Html(readmeFile) {
   try {
     readme = fs.readFileSync(readmeFile);
   } catch (error) {
-    console.warn(`README file not found: ${readmeFile}`);
-    throw error;
+    throw new Error(`README file not found: ${readmeFile}`);
   }
   
   const emojifiedReadme = emoji.emojify(readme.toString());
