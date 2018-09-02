@@ -434,6 +434,16 @@ code.hljs {
   }
 }
 
+.application .theme--dark.v-chip,
+.theme--dark .v-chip {
+  max-width: 250px;
+
+  .v-chip--removable .v-chip__content {
+    max-width: 100%;
+  }
+}
+
+
 .home-button {
   img {
     background-color: $color-white;
