@@ -114,7 +114,9 @@ export default class About extends Vue {
 
   private loadConfig() {
     DataStore.Instance.getConfig().then((response) => {
-      this.data.config = response;
+      if (response) {
+        this.data.config = response;
+      }
     });
   }
 }
