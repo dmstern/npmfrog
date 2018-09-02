@@ -24,7 +24,7 @@ export default class Crafter implements SearchComparable {
   // private static colors: Map<string, number> = new Map<string, number>();
   private static get unusedColors(): number[] {
     if (this.unusedColorsArray.length < 1) {
-      for (let i; i < 17; i++) {
+      for (let i = 0; i < 17; i++) {
         this.unusedColorsArray.push(i);
       }
     }
