@@ -7,6 +7,7 @@ var emoji = require('node-emoji')
 const config = require("./config-service.js");
 const repoKey = config.artifactory.repoKey;
 const tmpDir = `${__dirname}/../tmp`;
+const packageDetailCache = {};
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 const s = config.artifactory.https ? "s" : "";
@@ -55,7 +56,11 @@ async function fetchPackages() {
   return (request = axios.get(`/-/all`));
 }
 
-async function getPackageDetail({ scope, packageName }) { // TODO: #1 add caching object to reduce rest calls to artifactory
+async function getPackageDetail({ scope, packageName }) {
+  const latestVersionResponse = await getDistTags({ scope, packageName });
+  const latestVersion = latestVersionResponse.data.latest;
+  const key = `${scope}-${packageName}-${latestVersion}`;
+
   const packageDetailResonse = process.env.MOCK
     ? await new Promise((resolve, reject) => {
       let packageResource = `${__dirname}/mock/${packageName}.json`;
@@ -69,7 +74,13 @@ async function getPackageDetail({ scope, packageName }) { // TODO: #1 add cachin
         data: data,
       });
     })
-    : await axios.get(`/${name2url({ scope, packageName })}`);
+    : packageDetailCache[key]
+      ? await new Promise((resolve, reject) => {
+          resolve({
+            data: packageDetailCache[key],
+          });
+        })
+      : await axios.get(`/${name2url({ scope, packageName })}`);
 
   const additionalCode = process.env.MOCK
     ? await new Promise((resolve) => {
@@ -87,8 +98,6 @@ async function getPackageDetail({ scope, packageName }) { // TODO: #1 add cachin
       })
     : await new Promise(async (resolve, reject) => {
         const packageDetail = packageDetailResonse.data;
-        const latestVersionResponse = await getDistTags({ scope, packageName });
-        const latestVersion = latestVersionResponse.data.latest;
         const downloadUrl = packageDetail.versions[latestVersion].dist.tarball;
         const storageDir = `${tmpDir}/${scope}/${packageName}/${latestVersion}`;
         if (fs.existsSync(storageDir)) {
@@ -124,6 +133,7 @@ async function getPackageDetail({ scope, packageName }) { // TODO: #1 add cachin
 
   Object.assign(packageDetailResonse.data, additionalCode);
   return new Promise((resolve, reject) => {
+    packageDetailCache[key] = packageDetailResonse.data;
     resolve(packageDetailResonse);
   });
 }
@@ -148,7 +158,15 @@ function readAdditionalCode(storageDir) {
 }
 
 async function getDistTags({ scope, packageName }) {
-  return axios.get(`/-/package/${name2url({ scope, packageName })}/dist-tags`);
+  return process.env.MOCK ?
+    new Promise((resolve, reject) => {
+      resolve({
+        data: {
+          latest: "1.1.0",
+        },
+      });
+    })
+    : axios.get(`/-/package/${name2url({ scope, packageName })}/dist-tags`);
 }
 
 module.exports = {
