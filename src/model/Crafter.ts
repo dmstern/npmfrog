@@ -25,6 +25,7 @@ export default class Crafter implements SearchComparable {
   private static colors = Object.keys(vuetifyColors).filter((color) => {
     return ! forbiddenColors.some((forbidden) => forbidden === color);
   });
+  private static allCrafters: Crafter[] = [];
 
   public readonly name?: string;
   public readonly email?: string;
@@ -64,6 +65,12 @@ export default class Crafter implements SearchComparable {
     } else {
       this.name = author;
     }
+    const alreadyCreatedCrafter = Crafter.allCrafters.find((crafter) => crafter.equals(this));
+    if (alreadyCreatedCrafter) {
+      return alreadyCreatedCrafter;
+    } else {
+      Crafter.allCrafters.push(this);
+    }
   }
 
   public matches(other: SearchComparable, packages: Package[]): boolean {
@@ -82,6 +89,9 @@ export default class Crafter implements SearchComparable {
   }
 
   public equals(other: Crafter): boolean {
+    if (this.email && other.email) {
+      return this.email === other.email;
+    }
     return this.name === other.name
       && this.email === other.email
       && this.url === other.url;
