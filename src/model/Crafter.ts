@@ -1,7 +1,9 @@
 import { IAuthor } from '@/model/package-json';
 import SearchComparable from '@/model/SearchComparable';
 import Package from '@/model/Package';
-import colors from 'vuetify/es5/util/colors';
+import vuetifyColors from 'vuetify/es5/util/colors';
+
+const forbiddenColors = ['shades', 'grey', 'blueGrey'];
 
 export default class Crafter implements SearchComparable {
 
@@ -19,46 +21,34 @@ export default class Crafter implements SearchComparable {
     }
   }
 
-  public get color(): string {
-    const initials = this.initials;
-    const key = this.email
-      ? this.email.replace(/ /g, '')
-      : this.name
-        ? this.name.replace(/ /g, '')
-        : '';
-    if (key && Crafter.colors[key]) {
-      return Crafter.colors[key];
-    }
-
-    if (initials) {
-      let colorKeyNumber =
-        (initials.charCodeAt(0) + initials.charCodeAt(0)) % (Object.keys(colors).length - 2);
-      Crafter.colors.forEach((oldKey) => {
-        if (oldKey === colorKeyNumber) {
-          colorKeyNumber++;
-          if (colorKeyNumber >= Object.keys(colors).length - 2) {
-            colorKeyNumber -= 2;
-          }
-        }
-      });
-      const colorKey = Object.keys(colors)[colorKeyNumber];
-      const color = colorKey
-        .replace(
-          /(?:^|\.?)([A-Z])/g, (x, y) => '-' + y.toLowerCase(),
-        ).replace(/^-/, '');
-      Crafter.colors.set(key, colorKeyNumber);
-      return color;
-    }
-    return 'accent';
-  }
-
-  private static colors: Map<string, number> = new Map<string, number>();
+  private static lastUsedColorNumber = -1;
+  private static colors = Object.keys(vuetifyColors).filter((color) => {
+    return ! forbiddenColors.some((forbidden) => forbidden === color)
+      && ! color.startsWith('light');
+  });
+  private static allCrafters: Crafter[] = [];
 
   public readonly name?: string;
   public readonly email?: string;
   public readonly url?: string;
 
   private backgroundColor?: string;
+
+  public get color() {
+    if (this.backgroundColor) {
+      return this.backgroundColor;
+    }
+    if (Crafter.lastUsedColorNumber >= Crafter.colors.length) {
+      Crafter.lastUsedColorNumber = -1;
+    }
+    Crafter.lastUsedColorNumber++;
+    const colorKey = Crafter.colors[Crafter.lastUsedColorNumber]
+    .replace(
+      /(?:^|\.?)([A-Z])/g, (x, y) => '-' + y.toLowerCase(),
+    )
+    .replace(/^-/, '');
+    return this.backgroundColor = colorKey;
+  }
 
   constructor(author?: IAuthor | string) {
     if (author) {
@@ -75,6 +65,12 @@ export default class Crafter implements SearchComparable {
       }
     } else {
       this.name = author;
+    }
+    const alreadyCreatedCrafter = Crafter.allCrafters.find((crafter) => crafter.equals(this));
+    if (alreadyCreatedCrafter) {
+      return alreadyCreatedCrafter;
+    } else {
+      Crafter.allCrafters.push(this);
     }
   }
 
@@ -94,8 +90,12 @@ export default class Crafter implements SearchComparable {
   }
 
   public equals(other: Crafter): boolean {
+    if (this.email && other.email) {
+      return this.email === other.email;
+    }
     return this.name === other.name
       && this.email === other.email
       && this.url === other.url;
   }
+
 }
