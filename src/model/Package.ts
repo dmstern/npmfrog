@@ -59,6 +59,7 @@ export default class Package implements PackageMetaDataDTO, SearchComparable  {
   public readonly dependenciesCount: number;
   public readonly scope: string | undefined;
   public readonly mainCode: string | undefined;
+  private craftersList: Crafter[];
 
   constructor(packageMetaData: PackageMetaDataDTO) {
     Object.assign(this, packageMetaData);
@@ -97,6 +98,8 @@ export default class Package implements PackageMetaDataDTO, SearchComparable  {
     if (packageNameParts.length > 1) {
       this.scope = packageNameParts[0];
     }
+
+    this.craftersList = [];
   }
 
   public matches(other: SearchComparable): boolean {
@@ -113,21 +116,18 @@ export default class Package implements PackageMetaDataDTO, SearchComparable  {
   }
 
   public get crafters(): Crafter[] {
-    const crafters: Crafter[] = [];
-    const author: Crafter | undefined = new Crafter(this.author);
-    if (author) {
-      crafters.push(author);
+    if (this.craftersList.length) {
+      return this.craftersList;
+    }
+    if (this.author) {
+      this.craftersList.push(new Crafter(this.author));
     }
     if (this.contributors) {
-      const contributors: Crafter[] = this.multipleAuthors2Crafaters(this.contributors);
-      if (contributors.some((contributor) => {
-        return contributor.equals(author);
-      })) {
-        return contributors;
+      for (const contributor of this.contributors) {
+        this.craftersList.push(new Crafter(contributor));
       }
-      return crafters.concat(contributors);
     }
-    return crafters;
+    return this.craftersList;
   }
 
   public matchesCrafter(pattern: RegExp): boolean {
@@ -145,16 +145,6 @@ export default class Package implements PackageMetaDataDTO, SearchComparable  {
     return false;
   }
 
-  private multipleAuthors2Crafaters(authors: Array<IAuthor | string>): Crafter[] {
-    const crafters: Crafter[] = [];
-    for (const author of authors) {
-      const crafter = new Crafter(author);
-      if (crafter) {
-        crafters.push(crafter);
-      }
-    }
-    return crafters;
-  }
 
   public get repositoryName(): string | undefined {
     if (this.repositoryUrl) {
