@@ -3,6 +3,8 @@ import SearchComparable from '@/model/SearchComparable';
 import Package from '@/model/Package';
 import vuetifyColors from 'vuetify/es5/util/colors';
 
+const forbiddenColors = ['shades', 'grey', 'blueGrey'];
+
 export default class Crafter implements SearchComparable {
 
   public get initials(): string | undefined {
@@ -19,17 +21,10 @@ export default class Crafter implements SearchComparable {
     }
   }
 
-  private static unusedColorsArray: number[] = [];
-
-  // private static colors: Map<string, number> = new Map<string, number>();
-  private static get unusedColors(): number[] {
-    if (this.unusedColorsArray.length < 1) {
-      for (let i = 0; i < 17; i++) {
-        this.unusedColorsArray.push(i);
-      }
-    }
-    return this.unusedColorsArray;
-  }
+  private static lastUsedColorNumber = -1;
+  private static colors = Object.keys(vuetifyColors).filter((color) => {
+    return ! forbiddenColors.some((forbidden) => forbidden === color);
+  });
 
   public readonly name?: string;
   public readonly email?: string;
@@ -41,7 +36,16 @@ export default class Crafter implements SearchComparable {
     if (this.backgroundColor) {
       return this.backgroundColor;
     }
-    return this.backgroundColor = this.generateColor();
+    if (Crafter.lastUsedColorNumber >= Crafter.colors.length - 1) {
+      Crafter.lastUsedColorNumber = -1;
+    }
+    Crafter.lastUsedColorNumber++;
+    const colorKey = Crafter.colors[Crafter.lastUsedColorNumber]
+    .replace(
+      /(?:^|\.?)([A-Z])/g, (x, y) => '-' + y.toLowerCase(),
+    )
+    .replace(/^-/, '');
+    return this.backgroundColor = colorKey;
   }
 
   constructor(author?: IAuthor | string) {
@@ -81,38 +85,6 @@ export default class Crafter implements SearchComparable {
     return this.name === other.name
       && this.email === other.email
       && this.url === other.url;
-  }
-
-  private generateColor(): string {
-    const initials = this.initials;
-
-    function generateColorKeyNumber(hash: number): number {
-      let colorKeyNumber = hash % (Object.keys(vuetifyColors).length - 2);
-      if (
-        colorKeyNumber >= Object.keys(vuetifyColors).length - 2
-        || Crafter.unusedColors.some((color) => color === colorKeyNumber)
-      ) {
-        colorKeyNumber = generateColorKeyNumber(hash * 2);
-      }
-      return colorKeyNumber;
-    }
-
-    if (initials) {
-      const colorKeyNumber = generateColorKeyNumber(initials.charCodeAt(0) + initials.charCodeAt(0));
-      const colorKey = Object.keys(vuetifyColors)[colorKeyNumber];
-      const color = colorKey
-        .replace(
-          /(?:^|\.?)([A-Z])/g, (x, y) => '-' + y.toLowerCase(),
-        ).replace(/^-/, '');
-      const index = Crafter.unusedColors.indexOf(colorKeyNumber);
-      if (index > -1) {
-        Crafter.unusedColors.splice(index, 1);
-      }
-      this.backgroundColor = color;
-    } else {
-      this.backgroundColor = 'accent';
-    }
-    return this.backgroundColor;
   }
 
 }
