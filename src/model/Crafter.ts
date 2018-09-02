@@ -23,7 +23,8 @@ export default class Crafter implements SearchComparable {
 
   private static lastUsedColorNumber = -1;
   private static colors = Object.keys(vuetifyColors).filter((color) => {
-    return ! forbiddenColors.some((forbidden) => forbidden === color);
+    return ! forbiddenColors.some((forbidden) => forbidden === color)
+      && ! color.startsWith('light');
   });
   private static allCrafters: Crafter[] = [];
 
@@ -37,7 +38,7 @@ export default class Crafter implements SearchComparable {
     if (this.backgroundColor) {
       return this.backgroundColor;
     }
-    if (Crafter.lastUsedColorNumber >= Crafter.colors.length - 1) {
+    if (Crafter.lastUsedColorNumber >= Crafter.colors.length) {
       Crafter.lastUsedColorNumber = -1;
     }
     Crafter.lastUsedColorNumber++;
