@@ -64,9 +64,31 @@
             <v-card>
               <v-card-text v-if="data.currentPackage.dependenciesCount">
                 <h2>Dependencies</h2>
-                <v-chip small outline color="primary" v-for="(version, key) in data.currentPackage.dependencies" :key="key">{{key}}</v-chip>
+                <router-link
+                  v-for="(version, key) in data.currentPackage.dependencies"
+                  :key="key"
+                  :to="`/package/${key}`">
+                  <v-chip
+                    small
+                    outline
+                    color="primary"
+                  >
+                    {{key}}
+                  </v-chip>
+                </router-link>
                 <h2>DevDependencies</h2>
-                <v-chip small outline color="primary" v-for="(version, key) in data.currentPackage.devDependencies" :key="key">{{key}}</v-chip>
+                <router-link
+                  v-for="(version, key) in data.currentPackage.devDependencies"
+                  :key="key"
+                  :to="`/package/${key}`">
+                  <v-chip
+                    small
+                    outline
+                    color="primary"
+                  >
+                    {{key}}
+                  </v-chip>
+                </router-link>
               </v-card-text>
               <v-cart-text v-else>
                 <v-alert :value="true" type="info">
