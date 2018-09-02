@@ -43,10 +43,23 @@
               <v-card-text v-if="data.packageDetail.mainCode || data.currentPackage.scripts">
                 <div v-if="data.currentPackage.scripts">
                   <h2>Scripts</h2>
-                  <div v-for="(script, key) in data.currentPackage.scripts" :key="key">
-                    <h3>{{key}}</h3>
-                    <pre v-highlightjs="script"><code class="bash"></code></pre>
-                  </div>
+
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Command</th>
+                        <th>executes</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-for="(script, key) in data.currentPackage.scripts" :key="key">
+                        <td>
+                          <CodeBlock :code="['start', 'test', 'version'].some(task => task === key) ? `npm ${key}` : `npm run ${key}`" language="bash"></CodeBlock>
+                        </td>
+                        <td><pre v-highlightjs="script"><code class="bash"></code></pre></td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
                 <div v-if="data.packageDetail.mainCode">
                   <h2>{{data.currentPackage.main}}</h2>
