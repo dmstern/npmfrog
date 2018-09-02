@@ -81,7 +81,7 @@ export default class Packages extends Vue {
     this.loadConfig();
 
     EventBus.$on(Events.FILTER_SEARCH, async ({filters, query}) => {
-      this.packages.all = await this.loadPackages();
+      this.packages.all = await DataStore.Instance.getPackages();
       this.packages.data = this.packages.all.filter((item) => filters.indexOf(item) >= 0).filter((item) => {
         if (!query) {
           return true;
@@ -114,15 +114,12 @@ export default class Packages extends Vue {
 
   private loadConfig() {
     DataStore.Instance.getConfig().then((config) => {
-      this.artifactoryUrl = config.artifactory.host;
+      if (config) {
+        this.artifactoryUrl = config.artifactory.host;
+      }
     });
   }
 
-  private async loadPackages(): Promise<Package[]> {
-    return DataStore.Instance.getPackages().then((packages) => {
-      return packages;
-    });
-  }
 }
 
 </script>
