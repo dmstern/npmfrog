@@ -163,11 +163,10 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import Package from '@/model/Package';
-import PackagesService from '@/services/PackageService';
+import DataStore from '@/services/DataStore';
 import Router from '@/router';
 import LoadingSpinner from '@/components/LoadingSpinner.vue';
 import { PackageMetaDataDTO, IVersions } from '@/model/package-meta-data';
-import BackendApi from '@/services/BackendApi';
 import router from '@/router';
 import Config from '@/model/Config';
 import PackageDetailItem from '@/components/PackageDetailItem.vue';
@@ -238,13 +237,13 @@ export default class PackageDetail extends Vue {
   }
 
   private loadConfig() {
-    return BackendApi.Instance.getConfig().then((config) => {
-      this.data.config = config.data;
+    return DataStore.Instance.getConfig().then((config) => {
+      this.data.config = config;
     });
   }
 
   private getPackageDetails() {
-    return PackagesService.Instance.getPackageDetail({
+    return DataStore.Instance.getPackageDetail({
       scope: Router.currentRoute.params.scope,
       packageName: Router.currentRoute.params.packageName,
     }).then((response) => {

@@ -70,7 +70,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import BackendApi from '@/services/BackendApi';
+import DataStore from '@/services/DataStore';
 import Config from '@/model/Config';
 import { IPackageJSON } from '@/model/package-json';
 
@@ -107,14 +107,14 @@ export default class About extends Vue {
   }
 
   private loadMetaInfo() {
-    BackendApi.Instance.getMetaInfo().then((response) => {
-      this.data.meta = response.data;
+    DataStore.Instance.getMetaInfo().then((response) => {
+      this.data.meta = response;
     });
   }
 
   private loadConfig() {
-    BackendApi.Instance.getConfig().then((response) => {
-      this.data.config = response.data;
+    DataStore.Instance.getConfig().then((response) => {
+      this.data.config = response;
     });
   }
 }

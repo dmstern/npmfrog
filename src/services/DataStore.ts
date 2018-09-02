@@ -5,9 +5,11 @@ import { SearchItem } from '@/model/SearchItem';
 import { PackageMetaDataDTO } from '@/model/package-meta-data';
 import Crafter from '@/model/Crafter';
 import SearchComparable from '@/model/SearchComparable';
+import { IPackageJSON } from '@/model/package-json';
+import Config from '@/model/Config';
 
-export default class PackagesService {
-  public static get Instance(): PackagesService {
+export default class DataStore {
+  public static get Instance(): DataStore {
     return this.instance || (this.instance = new this());
   }
 
@@ -19,7 +21,7 @@ export default class PackagesService {
     return this.crafterList;
   }
 
-  private static instance: PackagesService;
+  private static instance: DataStore;
 
   private request!: Promise<Package[]>;
   private packages!: Package[];
@@ -31,6 +33,8 @@ export default class PackagesService {
       currentPackage?: Package,
     },
   };
+  private metaInfo!: IPackageJSON;
+  private config!: Config;
 
   private constructor() {
     this.packages = [];
@@ -113,6 +117,30 @@ export default class PackagesService {
         reject(error);
       });
     }));
+  }
+
+  public getConfig(): Promise<Config> {
+    if (this.config) {
+      return new Promise((resolve, reject) => {
+        resolve(this.config);
+      });
+    }
+    return BackendApi.Instance.getConfig().then((response) => {
+      this.config = response.data;
+      return this.config;
+    });
+  }
+
+  public getMetaInfo(): Promise<IPackageJSON> {
+    if (this.metaInfo) {
+      return new Promise((resolve, reject) => {
+        resolve(this.metaInfo);
+      });
+    }
+    return BackendApi.Instance.getMetaInfo().then((response) => {
+      this.metaInfo = response.data;
+      return this.metaInfo;
+    });
   }
 
 }
