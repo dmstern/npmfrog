@@ -466,7 +466,7 @@ code.hljs {
 .theme--dark .v-chip {
   max-width: 250px;
 
-  .v-chip--removable .v-chip__content {
+  .v-chip__content {
     max-width: 100%;
   }
 }

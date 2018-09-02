@@ -64,6 +64,9 @@
     "dist-tags": { "latest": "1.1.0" },
     "versions": { "1.1.0": "latest" },
     "author": "Erklärbär",
+    "contributors": [
+      "hier kommt ein sehr langer name für einen viel zu kurzen chip, der dann frontend-seitig gekürzt werden soll."
+    ],
     "keywords": ["fractal", "toll", "js"],
     "time": {
       "1.0.3": "2018-07-22T14:23:52.861Z",
