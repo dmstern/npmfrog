@@ -132,6 +132,23 @@
     </v-toolbar>
     <v-content>
        <router-view/> 
+         <v-snackbar
+          v-model="error.show"
+          bottom
+          right
+          auto-height
+          color="error"
+          :timeout="0"
+        >
+          {{ error.msg }}
+          <v-btn
+            dark
+            flat
+            @click="error.show = false"
+          >
+            Close
+          </v-btn>
+        </v-snackbar>
     </v-content>
   </v-app>
 </template>
@@ -143,7 +160,7 @@ import Package from '@/model/Package';
 import { SearchItem } from '@/model/SearchItem';
 import router from '@/router';
 import { setTimeout } from 'timers';
-import { EventBus, Events } from '@/services/event-bus';
+import { EventBus, Events, Errors } from '@/services/event-bus';
 import About from '@/components/About.vue';
 import CrafterAvatar from '@/components/CrafterAvatar.vue';
 import Crafter from '@/model/Crafter.ts';
@@ -174,6 +191,10 @@ export default class App extends Vue {
   private hasFocus: boolean = false;
   private btnIconSize: number = 36;
   private navItems: any[] = [];
+  private error = {
+    show: false,
+    msg: '',
+  };
 
   constructor() {
     super();
@@ -197,6 +218,13 @@ export default class App extends Vue {
     });
 
     router.afterEach(this.fireSearchFilterEvent);
+
+    EventBus.$on(Errors.SERVER_ERROR, (error) => {
+      const res = error.response;
+      this.error.show = true;
+      this.error.msg = res.data;
+    });
+
   }
 
   private get searchInput(): HTMLInputElement {

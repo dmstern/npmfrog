@@ -7,6 +7,7 @@ import Crafter from '@/model/Crafter';
 import SearchComparable from '@/model/SearchComparable';
 import { IPackageJSON } from '@/model/package-json';
 import Config from '@/model/Config';
+import { EventBus, Errors } from '@/services/event-bus';
 
 export default class DataStore {
   public static get Instance(): DataStore {
@@ -77,49 +78,51 @@ export default class DataStore {
           currentPackage,
         };
         return fulfill(this.packageDetails[key]);
+      }).catch((error) => {
+        EventBus.$emit(Errors.SERVER_ERROR, error);
+        return null;
       });
     });
   }
 
   public async getPackages(): Promise<Package[]> {
     if (this.packages.length) {
-      return new Promise<Package[]>((fulfill) => {
-        fulfill(this.packages);
+      return new Promise<Package[]>((resolve) => {
+        resolve(this.packages);
       });
     }
 
     if (this.request) {
       return this.request;
     }
-    return (this.request = new Promise<Package[]>((fulfill, reject) => {
-      BackendApi.Instance.getPackages().then((response) => {
-        const packagesResponse: PackagesResponse = response.data;
+    return (this.request = BackendApi.Instance.getPackages().then((response) => {
+      const packagesResponse: PackagesResponse = response.data;
 
-        for (const packageName of Object.keys(packagesResponse).filter((key) => !key.startsWith('_'))) {
-          const modifiedPackage: Package = new Package(packagesResponse[packageName]);
-          this.packages.push(modifiedPackage);
+      for (const packageName of Object.keys(packagesResponse).filter((key) => !key.startsWith('_'))) {
+        const modifiedPackage: Package = new Package(packagesResponse[packageName]);
+        this.packages.push(modifiedPackage);
 
-          if (modifiedPackage.keywords) {
-            for (const keyword of modifiedPackage.keywords!) {
-              if (! this.searchItemList.some((currentSearchItem) => keyword === currentSearchItem.value)) {
-                this.searchItemList.push(new SearchItem(keyword));
-              }
-            }
-          }
-          for (const crafter of modifiedPackage.crafters) {
-            if (! (this.crafterList.some((currentCrafter) => currentCrafter.equals(crafter)))) {
-              this.crafterList.push(crafter);
+        if (modifiedPackage.keywords) {
+          for (const keyword of modifiedPackage.keywords!) {
+            if (! this.searchItemList.some((currentSearchItem) => keyword === currentSearchItem.value)) {
+              this.searchItemList.push(new SearchItem(keyword));
             }
           }
         }
-        fulfill(this.packages);
-      }).catch((error) => {
-        reject(error);
-      });
+        for (const crafter of modifiedPackage.crafters) {
+          if (! (this.crafterList.some((currentCrafter) => currentCrafter.equals(crafter)))) {
+            this.crafterList.push(crafter);
+          }
+        }
+      }
+      return this.packages;
+    }).catch((error) => {
+      EventBus.$emit(Errors.SERVER_ERROR, error);
+      return [];
     }));
   }
 
-  public getConfig(): Promise<Config> {
+  public getConfig(): Promise<Config|undefined> {
     if (this.config) {
       return new Promise((resolve, reject) => {
         resolve(this.config);
@@ -128,10 +131,13 @@ export default class DataStore {
     return BackendApi.Instance.getConfig().then((response) => {
       this.config = response.data;
       return this.config;
+    }).catch((error) => {
+      EventBus.$emit(Errors.SERVER_ERROR, error);
+      return undefined;
     });
   }
 
-  public getMetaInfo(): Promise<IPackageJSON> {
+  public getMetaInfo(): Promise<IPackageJSON|undefined> {
     if (this.metaInfo) {
       return new Promise((resolve, reject) => {
         resolve(this.metaInfo);
@@ -140,6 +146,9 @@ export default class DataStore {
     return BackendApi.Instance.getMetaInfo().then((response) => {
       this.metaInfo = response.data;
       return this.metaInfo;
+    }).catch((error) => {
+      EventBus.$emit(Errors.SERVER_ERROR, error);
+      return undefined;
     });
   }
 

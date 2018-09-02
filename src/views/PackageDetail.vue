@@ -90,11 +90,11 @@
                   </v-chip>
                 </router-link>
               </v-card-text>
-              <v-cart-text v-else>
+              <v-card-text v-else>
                 <v-alert :value="true" type="info">
                   This package has no dependencies.
                 </v-alert>
-              </v-cart-text>
+              </v-card-text>
             </v-card>
           </v-tab-item>
           <v-tab-item>
