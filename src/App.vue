@@ -138,7 +138,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import PackagesService from '@/services/PackageService';
+import DataStore from '@/services/DataStore';
 import Package from '@/model/Package';
 import { SearchItem } from '@/model/SearchItem';
 import router from '@/router';
@@ -204,10 +204,10 @@ export default class App extends Vue {
   }
 
   private loadPackages(): void {
-    PackagesService.Instance.getPackages().then((packages: Package[]) => {
+    DataStore.Instance.getPackages().then((packages: Package[]) => {
       this.searchItems =
-        PackagesService.Instance.searchItems
-        .concat(PackagesService.Instance.crafters)
+        DataStore.Instance.searchItems
+        .concat(DataStore.Instance.crafters)
         .concat(packages);
       this.filterSearchItems();
     });

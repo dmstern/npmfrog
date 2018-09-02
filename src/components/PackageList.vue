@@ -41,12 +41,10 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import PackageService from '@/services/PackageService';
+import DataStore from '@/services/DataStore';
 import { PackagesResponse } from '@/model/PackageResponse';
-import PackagesService from '@/services/PackageService';
 import Package from '@/model/Package';
 import { EventBus, Events } from '@/services/event-bus';
-import BackendApi from '@/services/BackendApi';
 import LoadingSpinner from '@/components/LoadingSpinner.vue';
 import CrafterAvatar from '@/components/CrafterAvatar.vue';
 
@@ -115,13 +113,13 @@ export default class Packages extends Vue {
   }
 
   private loadConfig() {
-    BackendApi.Instance.getConfig().then((config) => {
-      this.artifactoryUrl = config.data.artifactory.host;
+    DataStore.Instance.getConfig().then((config) => {
+      this.artifactoryUrl = config.artifactory.host;
     });
   }
 
   private async loadPackages(): Promise<Package[]> {
-    return PackagesService.Instance.getPackages().then((packages) => {
+    return DataStore.Instance.getPackages().then((packages) => {
       return packages;
     });
   }
