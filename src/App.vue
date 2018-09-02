@@ -366,6 +366,10 @@ a {
       }
     }
   }
+
+  .v-chip .v-chip__content {
+    cursor: pointer;
+  }
 }
 
 .v-icon {
