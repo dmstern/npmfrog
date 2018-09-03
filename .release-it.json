@@ -1,7 +1,15 @@
 {
   "github": {
     "release": true,
-    "assets": "dist/"
+    "assets": "tmp/webui.zip"
   },
-  "buildCommand": "npm run build"
+  "src": {
+    "push": true,
+    "tag": true,
+    "commit": true
+  },
+  "buildCommand": "npm run build && npm run zip",
+  "npm": {
+    "publish": true
+  }
 }
