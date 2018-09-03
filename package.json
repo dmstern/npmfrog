@@ -5,8 +5,9 @@
   "scripts": {
     "start": "pm2 start frog-ui frog-server",
     "dev": "pm2 start frog-ui frog-server --env local",
-    "build": "vue-cli-service build",
+    "build": "npm run stop && vue-cli-service build",
     "prod": "pm2 serve --name \"frog-ui-static\" dist 8000 && pm2 start ecosystem.config.js --only frog-server",
+    "stop": "pm2 stop ecosystem.config.js frog-ui-static",
     "release": "release-it"
   },
   "dependencies": {
