@@ -1,0 +1,7 @@
+{
+  "github": {
+    "release": true,
+    "assets": "dist/"
+  },
+  "buildCommand": "npm run build"
+}
