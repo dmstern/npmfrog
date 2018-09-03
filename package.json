@@ -1,6 +1,6 @@
 {
   "name": "npmfrog",
-  "version": "1.0.0-alpha.1",
+  "version": "1.0.0-alpha.2",
   "scripts": {
     "start": "pm2 start frog-ui frog-server",
     "dev": "pm2 start frog-ui frog-server --env local",
