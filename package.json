@@ -49,7 +49,9 @@
   },
   "files": [
     "dist",
-    "server"
+    "server",
+    "ecosystem.config.js",
+    ".sample.npmfrogrc.json"
   ],
   "repository": {
     "type": "git",
