@@ -17,30 +17,14 @@ Duplicate the file `.SAMPLE.npmfrogrc.json` and rename it to `.npmfrogrc.json` (
 npm start
 ```
 
-## Frontend Scripts
-
-### Compiles and hot-reloads for development
+With local environment (no internet connection necessary):
 
 ```bash
-npm run startWebui
+npm run dev
 ```
 
-### Compiles and minifies for production
+To see the logs, run
 
 ```bash
-npm run buildWebui
-```
-
-### Lints and fixes files
-
-```bash
-npm run lintWebui
-```
-
-## Backend (Server) Scripts
-
-### Starts the node.js server
-
-```bash
-npm run startServer
+pm2 logs
 ```
