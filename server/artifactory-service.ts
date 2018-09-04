@@ -1,41 +1,53 @@
-const axios = require("axios");
-const fs = require("fs-extra");
-const tar = require("tar");
-const showdown = require("showdown");
-var emoji = require('node-emoji')
+import axios, { AxiosResponse, AxiosPromise } from 'axios';
+import * as fs from 'fs-extra';
+import * as tar from 'tar';
+import * as showdown from 'showdown';
+import * as emoji from 'node-emoji';
+import { PackagesResponse } from '../types/PackageResponse';
 
-const config = require("./config-service.js");
+import config from './config-service.js';
 const repoKey = config.artifactory.repoKey;
 const tmpDir = `${__dirname}/../tmp`;
 const packageDetailCache = {};
 
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-const s = config.artifactory.https ? "s" : "";
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+const s = config.artifactory.https ? 's' : '';
 axios.defaults.baseURL = `http${s}://${
   config.artifactory.host
 }/artifactory/api/npm/${repoKey}`;
-axios.defaults.headers.common["Authorization"] = config.artifactory.apiKey;
+axios.defaults.headers.common.Authorization = config.artifactory.apiKey;
 
 function name2url({ scope, packageName }) {
-  return `${scope ? `${scope}/` : ""}${packageName}`;
+  return `${scope ? `${scope}/` : ''}${packageName}`;
 }
 
-function readme2Html(readmeFile) {
+function createAxiosResponse(data: any): AxiosResponse<any> {
+  return {
+    data,
+    status: 200,
+    config: undefined,
+    headers: undefined,
+    request: undefined,
+    statusText: undefined,
+  };
+}
+
+function readme2Html(readmeFile): string {
   let readme;
   try {
     readme = fs.readFileSync(readmeFile);
   } catch (error) {
     throw new Error(`README file not found: ${readmeFile}`);
   }
-  
+
   const emojifiedReadme = emoji.emojify(readme.toString());
   const converter = new showdown.Converter();
   const html = converter.makeHtml(emojifiedReadme);
   return html;
 }
 
-function readMainCode(storageDir) {
-  const packageJson = require(`${storageDir}/package.json`);
+function readMainCode(storageDir): string {
+  const packageJson = fs.readJSONSync(`${storageDir}/package.json`);
   try {
     return fs.readFileSync(`${storageDir}/${packageJson.main}`).toString();
   } catch (error) {
@@ -44,46 +56,40 @@ function readMainCode(storageDir) {
   }
 }
 
-async function fetchPackages() {
+function fetchPackages(): AxiosPromise<PackagesResponse> {
   if (process.env.MOCK) {
-    return new Promise((resolve, reject) => {
-      resolve({
-        data: require(`${__dirname}/mock/packages-all.json`)
-      });
+    return new Promise<AxiosResponse>((resolve, reject) => {
+      resolve(createAxiosResponse(fs.readJSONSync(`${__dirname}/mock/packages-all.json`)));
     });
   }
-  return (request = axios.get(`/-/all`));
+  return (axios.get(`/-/all`));
 }
 
-async function getPackageDetail({ scope, packageName }) {
+async function getPackageDetail({ scope, packageName }): Promise<AxiosResponse> {
   const latestVersionResponse = await getDistTags({ scope, packageName });
   const latestVersion = latestVersionResponse.data.latest;
   const key = `${scope}-${packageName}-${latestVersion}`;
 
-  const packageDetailResonse = process.env.MOCK
-    ? await new Promise((resolve, reject) => {
-      let packageResource = `${__dirname}/mock/${packageName}.json`;
+  const packageDetailResonse: AxiosResponse = process.env.MOCK
+    ? await new Promise<AxiosResponse>((resolve, reject) => {
+      const packageResource = `${__dirname}/mock/${packageName}.json`;
       let data;
       try {
-        data = require(packageResource);
+        data = fs.readJSONSync(packageResource);
       } catch (error) {
-        data = require(`${__dirname}/mock/fractal-menu-enhancer.json`);
+        data = fs.readJSONSync(`${__dirname}/mock/fractal-menu-enhancer.json`);
       }
-      resolve({
-        data: data,
-      });
+      resolve(createAxiosResponse(data));
     })
     : packageDetailCache[key]
-      ? await new Promise((resolve, reject) => {
-          resolve({
-            data: packageDetailCache[key],
-          });
+      ? await new Promise<AxiosResponse>((resolve, reject) => {
+          resolve(createAxiosResponse(packageDetailCache[key]));
         })
       : await axios.get(`/${name2url({ scope, packageName })}`);
 
   const additionalCode = process.env.MOCK
     ? await new Promise((resolve) => {
-        let packageResource = `${__dirname}/mock/${packageName}.readme.md`;
+        const packageResource = `${__dirname}/mock/${packageName}.readme.md`;
         let data;
         try {
           data = readme2Html(packageResource);
@@ -92,7 +98,7 @@ async function getPackageDetail({ scope, packageName }) {
         }
         resolve({
           readme: data,
-          mainCode: readMainCode(`${__dirname}/..`)
+          mainCode: readMainCode(`${__dirname}/..`),
         });
       })
     : await new Promise(async (resolve, reject) => {
@@ -105,33 +111,33 @@ async function getPackageDetail({ scope, packageName }) {
           axios
             // Request package:
             .request({
-              responseType: "arraybuffer",
+              responseType: 'arraybuffer',
               url: downloadUrl,
-              method: "get",
+              method: 'get',
               headers: {
-                "Content-Type": "application/gzip"
-              }
+                'Content-Type': 'application/gzip',
+              },
             })
             // Store package in filesystem:
-            .then(result => {
+            .then((result) => {
               fs.ensureDirSync(storageDir);
               const outputFilename = `${storageDir}/${packageName}-${latestVersion}.tar.gz`;
               fs.writeFileSync(outputFilename, result.data);
               return outputFilename;
             })
             // Extract package:
-            .then(file => {
+            .then((file) => {
               const cwd = storageDir;
               return tar.x({ file, cwd }).then(() => cwd);
             })
-            .then(dir => {
+            .then((dir) => {
               resolve(readAdditionalCode(dir));
             });
         }
       });
 
   Object.assign(packageDetailResonse.data, additionalCode);
-  return new Promise((resolve, reject) => {
+  return new Promise<AxiosResponse>((resolve, reject) => {
     packageDetailCache[key] = packageDetailResonse.data;
     resolve(packageDetailResonse);
   });
@@ -146,31 +152,29 @@ function readAdditionalCode(storageDir) {
     readme = undefined;
   }
   try {
-    mainCode = readMainCode(`${storageDir}/package`)
+    mainCode = readMainCode(`${storageDir}/package`);
   } catch (error) {
     mainCode = undefined;
   }
   return {
     readme,
-    mainCode
+    mainCode,
   };
 }
 
-async function getDistTags({ scope, packageName }) {
-  return process.env.MOCK ?
-    new Promise((resolve, reject) => {
-      resolve({
-        data: {
-          latest: "1.1.0",
-        },
-      });
-    })
+function getDistTags({ scope, packageName }): AxiosPromise<any> {
+  return process.env.MOCK
+    ? new Promise<AxiosResponse>((resolve, reject) => {
+        resolve(createAxiosResponse({
+          latest: '1.1.0',
+        }));
+      })
     : axios.get(`/-/package/${name2url({ scope, packageName })}/dist-tags`);
 }
 
-module.exports = {
+export default {
   fetchPackages,
   getDistTags,
   getPackageDetail,
-  baseURL: axios.defaults.baseURL
+  baseURL: axios.defaults.baseURL,
 };

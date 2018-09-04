@@ -156,15 +156,15 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import DataStore from '@/services/DataStore';
-import Package from '@/model/Package';
-import { SearchItem } from '@/model/SearchItem';
+import Package from '../types/Package';
+import { SearchItem } from '../types/SearchItem';
 import router from '@/router';
 import { setTimeout } from 'timers';
 import { EventBus, Events, Errors } from '@/services/event-bus';
 import About from '@/components/About.vue';
 import CrafterAvatar from '@/components/CrafterAvatar.vue';
-import Crafter from '@/model/Crafter.ts';
-import SearchComparable from '@/model/SearchComparable.ts';
+import Crafter from '../types/Crafter';
+import SearchComparable from '../types/SearchComparable';
 
 @Component({
   components: {

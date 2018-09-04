@@ -197,13 +197,13 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import Package from '@/model/Package';
+import Package from '../../types/Package';
 import DataStore from '@/services/DataStore';
 import Router from '@/router';
 import LoadingSpinner from '@/components/LoadingSpinner.vue';
-import { PackageMetaDataDTO, IVersions } from '@/model/package-meta-data';
+import { PackageMetaDataDTO, IVersions } from '../../types/package-meta-data';
 import router from '@/router';
-import Config from '@/model/Config';
+import Config from '../../types/Config';
 import PackageDetailItem from '@/components/PackageDetailItem.vue';
 import CodeBlock from '@/components/CodeBlock.vue';
 import CrafterAvatar from '@/components/CrafterAvatar.vue';

@@ -1,5 +1,5 @@
-import SearchComparable from '@/model/SearchComparable';
-import Package from '@/model/Package';
+import SearchComparable from './SearchComparable';
+import Package from './Package';
 export class SearchItem implements SearchComparable {
   public value: string;
 

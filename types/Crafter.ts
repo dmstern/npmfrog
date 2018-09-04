@@ -1,6 +1,6 @@
-import { IAuthor } from '@/model/package-json';
-import SearchComparable from '@/model/SearchComparable';
-import Package from '@/model/Package';
+import { IAuthor } from './package-json';
+import SearchComparable from './SearchComparable';
+import Package from './Package';
 import vuetifyColors from 'vuetify/es5/util/colors';
 
 const forbiddenColors = ['shades', 'grey', 'blueGrey'];
@@ -63,8 +63,6 @@ export default class Crafter implements SearchComparable {
       } else {
         this.name = author.name;
       }
-    } else {
-      this.name = author;
     }
     const alreadyCreatedCrafter = Crafter.allCrafters.find((crafter) => crafter.equals(this));
     if (alreadyCreatedCrafter) {

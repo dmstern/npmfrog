@@ -1,12 +1,12 @@
 import BackendApi from '@/services/BackendApi';
-import { PackagesResponse } from '@/model/PackageResponse';
-import Package from '@/model/Package';
-import { SearchItem } from '@/model/SearchItem';
-import { PackageMetaDataDTO } from '@/model/package-meta-data';
-import Crafter from '@/model/Crafter';
-import SearchComparable from '@/model/SearchComparable';
-import { IPackageJSON } from '@/model/package-json';
-import Config from '@/model/Config';
+import { PackagesResponse } from '../../types/PackageResponse';
+import Package from '../../types/Package';
+import { SearchItem } from '../../types/SearchItem';
+import { PackageMetaDataDTO } from '../../types/package-meta-data';
+import Crafter from '../../types/Crafter';
+import SearchComparable from '../../types/SearchComparable';
+import { IPackageJSON } from '../../types/package-json';
+import Config from '../../types/Config';
 import { EventBus, Errors } from '@/services/event-bus';
 
 export default class DataStore {

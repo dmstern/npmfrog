@@ -15,7 +15,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import Crafter from '@/model/Crafter';
+import Crafter from '../../types/Crafter';
 
 @Component({
   name: 'CrafterAvatar',

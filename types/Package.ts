@@ -9,12 +9,12 @@ import {
   IPublishConfig,
   IRepository,
   IScriptsMap,
-} from '@/model/package-json';
-import { IDistTags, ITimes, IVersions } from '@/model/package-meta-data';
-import { PackageMetaDataDTO } from '@/model/package-meta-data';
-import Crafter from '@/model/Crafter';
-import SearchComparable from '@/model/SearchComparable';
-import { SearchItem } from '@/model/SearchItem';
+} from './package-json';
+import { IDistTags, ITimes, IVersions } from './package-meta-data';
+import { PackageMetaDataDTO } from './package-meta-data';
+import Crafter from './Crafter';
+import SearchComparable from './SearchComparable';
+import { SearchItem } from './SearchItem';
 
 export default class Package implements PackageMetaDataDTO, SearchComparable  {
   public readonly distTags!: IDistTags;
