@@ -7,7 +7,7 @@ import { PackagesResponse } from '../types/PackageResponse';
 
 import config from './config-service.js';
 const repoKey = config.artifactory.repoKey;
-const tmpDir = `${__dirname}/../tmp`;
+const tmpDir = `${__dirname}/tmp`;
 const packageDetailCache = {};
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
