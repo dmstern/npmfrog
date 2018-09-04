@@ -1,6 +1,6 @@
 {
   "name": "npmfrog",
-  "version": "1.0.0-alpha.3",
+  "version": "1.0.0-alpha.4",
   "scripts": {
     "start": "pm2 serve --name \"frog-ui-static\" dist/webui 8000 && pm2 start ecosystem.config.js --only frog-server",
     "dev": "npm run copy && pm2 start",
