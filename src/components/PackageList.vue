@@ -42,8 +42,8 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import DataStore from '@/services/DataStore';
-import { PackagesResponse } from '@/model/PackageResponse';
-import Package from '@/model/Package';
+import { PackagesResponse } from '../../types/PackageResponse';
+import Package from '../../types/Package';
 import { EventBus, Events } from '@/services/event-bus';
 import LoadingSpinner from '@/components/LoadingSpinner.vue';
 import CrafterAvatar from '@/components/CrafterAvatar.vue';

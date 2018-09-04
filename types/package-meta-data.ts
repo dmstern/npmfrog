@@ -1,4 +1,4 @@
-import { IPackageJSON } from '@/model/package-json';
+import { IPackageJSON } from './package-json';
 
 export interface PackageMetaDataDTO extends IPackageJSON {
 

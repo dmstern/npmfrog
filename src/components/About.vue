@@ -71,8 +71,8 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import DataStore from '@/services/DataStore';
-import Config from '@/model/Config';
-import { IPackageJSON } from '@/model/package-json';
+import Config from '../../types/Config';
+import { IPackageJSON } from '../../types/package-json';
 
 @Component({
   name: 'About',
