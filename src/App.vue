@@ -241,8 +241,11 @@ export default class App extends Vue {
     });
   }
 
-  private getSearchItemText(item: Searchable) {
-    return item.getSearchItemText();
+  private getSearchItemText(item: Searchable): string[] {
+    if ('getSearchItemText' in item) {
+      return item.getSearchItemText();
+    }
+    return [];
   }
 
   private isPackage(item: Searchable): boolean {

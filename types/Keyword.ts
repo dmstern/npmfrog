@@ -26,6 +26,12 @@ export class Keyword implements Searchable {
     return false;
   }
 
+  public matchesPattern(pattern: RegExp): boolean {
+    return this.getSearchItemText().some((text) => {
+      return text.match(pattern) != null;
+    });
+  }
+
   public getSearchItemText(): string[] {
     return [
       `#${this.value}`,

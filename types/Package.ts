@@ -115,6 +115,16 @@ export default class Package implements PackageMetaDataDTO, Searchable  {
     return false;
   }
 
+  public matchesPattern(pattern: RegExp): boolean {
+    const someCrafterMatch: boolean = this.crafters.some((crafter) => crafter.matchesPattern(pattern));
+    const nameMatch: boolean = `/${this.name}`.match(pattern) !== null;
+    const descriptionMatch: boolean = this.description !== undefined
+      && `/${this.description}`.match(pattern) !== null;
+    const someKeywordsMatch: boolean = this.keywords !== undefined
+      && this.keywords.some((keyword) => keyword.match(pattern) != null);
+    return someCrafterMatch || nameMatch || descriptionMatch || someKeywordsMatch;
+  }
+
   public getSearchItemText(): string[] {
     return [
         this.name || '',
@@ -137,22 +147,6 @@ export default class Package implements PackageMetaDataDTO, Searchable  {
     }
     return this.craftersList;
   }
-
-  public matchesCrafter(pattern: RegExp): boolean {
-    for (const crafter of this.crafters) {
-      if (crafter.name) {
-        if (
-          crafter.name.match(pattern) ||
-          `crafter:${crafter.name}`.match(pattern) ||
-          `author:${crafter.name}`.match(pattern)
-        ) {
-          return true;
-        }
-      }
-    }
-    return false;
-  }
-
 
   public get repositoryName(): string | undefined {
     if (this.repositoryUrl) {
