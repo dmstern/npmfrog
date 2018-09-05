@@ -7,7 +7,6 @@ export default abstract class Searchable {
 
   public matchesPattern(pattern: RegExp): boolean {
     return this.getSearchItemText().some((text) => {
-      console.log(text, pattern);
       return text.match(pattern) !== null;
     });
   }
