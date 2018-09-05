@@ -47,6 +47,7 @@ import Package from '../../types/Package';
 import { EventBus, Events } from '@/services/event-bus';
 import LoadingSpinner from '@/components/LoadingSpinner.vue';
 import CrafterAvatar from '@/components/CrafterAvatar.vue';
+import Searchable from '../../types/Searchable';
 
 @Component({
   components: {
@@ -80,13 +81,16 @@ export default class Packages extends Vue {
 
     this.loadConfig();
 
-    EventBus.$on(Events.FILTER_SEARCH, async ({filters, query}) => {
+    // TODO: refactor this (#14)
+    EventBus.$on(Events.FILTER_SEARCH, async ( args: { filters: Searchable[], query: string} ) => {
       this.packages.all = await DataStore.Instance.getPackages();
-      this.packages.data = this.packages.all.filter((item) => filters.indexOf(item) >= 0).filter((item) => {
-        if (!query) {
+      this.packages.data = this.packages.all
+        .filter((item) => args.filters.indexOf(item) >= 0)
+        .filter((item) => {
+        if (!args.query) {
           return true;
         }
-        const pattern = new RegExp(query.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, ''), 'gi');
+        const pattern = new RegExp(args.query.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, ''), 'gi');
         const someCrafterMatches = item.crafters.some((crafter) => {
           if (
             crafter.name &&
