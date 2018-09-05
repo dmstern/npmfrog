@@ -1,7 +1,14 @@
 import Package from './Package';
 
-export default interface Searchable {
-  matches(other: Searchable, packages: Package[]): boolean;
-  getSearchItemText(): string[];
-  matchesPattern(pattern: RegExp): boolean;
+export default abstract class Searchable {
+  public abstract matches(other: Searchable, packages: Package[]): boolean;
+
+  public abstract getSearchItemText(): string[];
+
+  public matchesPattern(pattern: RegExp): boolean {
+    return this.getSearchItemText().some((text) => {
+      console.log(text, pattern);
+      return text.match(pattern) !== null;
+    });
+  }
 }

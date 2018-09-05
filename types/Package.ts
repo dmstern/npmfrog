@@ -16,7 +16,7 @@ import Crafter from './Crafter';
 import Searchable from './Searchable';
 import { Keyword } from './Keyword';
 
-export default class Package implements PackageMetaDataDTO, Searchable  {
+export default class Package extends Searchable implements PackageMetaDataDTO  {
   public readonly distTags!: IDistTags;
   public readonly time!: ITimes;
   public readonly users!: {};
@@ -62,6 +62,7 @@ export default class Package implements PackageMetaDataDTO, Searchable  {
   private craftersList: Crafter[];
 
   constructor(packageMetaData: PackageMetaDataDTO) {
+    super();
     Object.assign(this, packageMetaData);
 
     if (!this.distTags) {

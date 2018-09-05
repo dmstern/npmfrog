@@ -1,9 +1,10 @@
 import Searchable from './Searchable';
 import Package from './Package';
-export class Keyword implements Searchable {
+export class Keyword extends Searchable {
   public value: string;
 
   constructor(value: string) {
+    super();
     this.value = value;
   }
 
@@ -24,12 +25,6 @@ export class Keyword implements Searchable {
       }
     }
     return false;
-  }
-
-  public matchesPattern(pattern: RegExp): boolean {
-    return this.getSearchItemText().some((text) => {
-      return text.match(pattern) != null;
-    });
   }
 
   public getSearchItemText(): string[] {
