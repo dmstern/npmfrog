@@ -157,7 +157,7 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import DataStore from '@/services/DataStore';
 import Package from '../types/Package';
-import { SearchItem } from '../types/SearchItem';
+import { Keyword } from '../types/Keyword';
 import router from '@/router';
 import { setTimeout } from 'timers';
 import { EventBus, Events, Errors } from '@/services/event-bus';
@@ -178,7 +178,7 @@ export default class App extends Vue {
   };
 
   @Prop() private menuVisibleProp!: boolean;
-  @Prop() private activeFiltersProp!: SearchItem[];
+  @Prop() private activeFiltersProp!: Keyword[];
   @Prop() private clippedProp!: boolean;
   @Prop() private hasFocusProp!: boolean;
   @Prop() private titleProp!: string;
@@ -245,11 +245,11 @@ export default class App extends Vue {
     return item.getSearchItemText();
   }
 
-  private isPackage(item: SearchItem | Package | Crafter): boolean {
+  private isPackage(item: Searchable): boolean {
     return item instanceof Package;
   }
 
-  private isCrafter(item: SearchItem | Package | Crafter): boolean {
+  private isCrafter(item: Searchable): boolean {
     return item instanceof Crafter;
   }
 
@@ -273,7 +273,7 @@ export default class App extends Vue {
     this.fireSearchFilterEvent();
   }
 
-  private onSearchChange(values: Array<Package|SearchItem>) {
+  private onSearchChange(values: Searchable[]) {
     this.hasFocus = true;
     for (const value of values) {
       if (value instanceof Package) {

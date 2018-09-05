@@ -1,7 +1,7 @@
 import BackendApi from '@/services/BackendApi';
 import { PackagesResponse } from '../../types/PackageResponse';
 import Package from '../../types/Package';
-import { SearchItem } from '../../types/SearchItem';
+import { Keyword } from '../../types/Keyword';
 import { PackageMetaDataDTO } from '../../types/package-meta-data';
 import Crafter from '../../types/Crafter';
 import Searchable from '../../types/Searchable';
@@ -26,7 +26,7 @@ export default class DataStore {
 
   private request!: Promise<Package[]>;
   private packages!: Package[];
-  private searchItemList!: SearchItem[];
+  private searchItemList!: Keyword[];
   private crafterList!: Crafter[];
   private packageDetails!: {
     [packageName: string]: {
@@ -105,7 +105,7 @@ export default class DataStore {
         if (modifiedPackage.keywords) {
           for (const keyword of modifiedPackage.keywords!) {
             if (! this.searchItemList.some((currentSearchItem) => keyword === currentSearchItem.value)) {
-              this.searchItemList.push(new SearchItem(keyword));
+              this.searchItemList.push(new Keyword(keyword));
             }
           }
         }

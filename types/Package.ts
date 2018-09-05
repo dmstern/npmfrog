@@ -14,7 +14,7 @@ import { IDistTags, ITimes, IVersions } from './package-meta-data';
 import { PackageMetaDataDTO } from './package-meta-data';
 import Crafter from './Crafter';
 import Searchable from './Searchable';
-import { SearchItem } from './SearchItem';
+import { Keyword } from './Keyword';
 
 export default class Package implements PackageMetaDataDTO, Searchable  {
   public readonly distTags!: IDistTags;
@@ -103,7 +103,7 @@ export default class Package implements PackageMetaDataDTO, Searchable  {
   }
 
   public matches(other: Searchable): boolean {
-    if (other instanceof SearchItem) {
+    if (other instanceof Keyword) {
       return this.keywords !== undefined && this.keywords.indexOf(other.value) > -1;
     }
     if (other instanceof Crafter) {
