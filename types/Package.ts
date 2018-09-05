@@ -115,6 +115,14 @@ export default class Package implements PackageMetaDataDTO, Searchable  {
     return false;
   }
 
+  public getSearchItemText(): string[] {
+    return [
+        this.name || '',
+        this.description || '',
+        this.author ? this.author.toString() : '',
+      ].concat(this.keywords  || []);
+  }
+
   public get crafters(): Crafter[] {
     if (this.craftersList.length) {
       return this.craftersList;

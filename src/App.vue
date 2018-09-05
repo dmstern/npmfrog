@@ -242,32 +242,7 @@ export default class App extends Vue {
   }
 
   private getSearchItemText(item: Searchable) {
-    if (item instanceof Package) {
-      return [
-        item.name,
-        item.description,
-        item.author,
-      ].concat(item.keywords);
-    }
-    if (item instanceof Crafter) {
-      return [
-        `author:${item.name}`,
-        `crafter:${item.name}`,
-        `contributor:${item.name}`,
-        `collaborator:${item.name}`,
-        item.name,
-        item.email,
-        item.url,
-        item.initials,
-      ];
-    }
-    if (item instanceof SearchItem) {
-      return [
-        `#${item.value}`,
-        `keyword:${item.value}`,
-        `tag:${item.value}`,
-      ];
-    }
+    return item.getSearchItemText();
   }
 
   private isPackage(item: SearchItem | Package | Crafter): boolean {
