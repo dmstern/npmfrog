@@ -519,6 +519,13 @@ code.hljs {
   }
 }
 
+.v-select-list {
+
+  .v-list__tile__content {
+    max-width: 500px;
+  }
+}
+
 .search--key {
   margin-right: -3px;
 }
