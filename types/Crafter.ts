@@ -5,7 +5,7 @@ import vuetifyColors from 'vuetify/es5/util/colors';
 
 const forbiddenColors = ['shades', 'grey', 'blueGrey'];
 
-export default class Crafter implements Searchable {
+export default class Crafter extends Searchable {
 
   public get initials(): string | undefined {
     if (this.name) {
@@ -51,6 +51,7 @@ export default class Crafter implements Searchable {
   }
 
   constructor(author?: IAuthor | string) {
+    super();
     if (author) {
       if (typeof author === 'string') {
         const authorParts = author.split('<');
@@ -85,12 +86,6 @@ export default class Crafter implements Searchable {
       }
     }
     return false;
-  }
-
-  public matchesPattern(pattern: RegExp): boolean {
-    return this.getSearchItemText().some((text) => {
-      return text.match(pattern) != null;
-    });
   }
 
   public getSearchItemText(): string[] {
