@@ -19,6 +19,8 @@ Duplicate the file `.SAMPLE.npmfrogrc.json` and rename it to `.npmfrogrc.json` (
 npm start
 ```
 
+Browse to npmFrog instance [http://localhost:8000](http://localhost:8000).
+
 ### Dev
 
 ```bash
