@@ -87,6 +87,26 @@ export default class Crafter implements Searchable {
     return false;
   }
 
+  public getSearchItemText(): string[] {
+    const text: string[] = [];
+    if (this.name) {
+      text.push(
+        this.name,
+        `author:${this.name}`,
+        `crafter:${this.name}`,
+        `contributor:${this.name}`,
+        `collaborator:${this.name}`,
+      );
+    }
+    text.push(
+      this.name || '',
+      this.email || '',
+      this.url || '',
+      this.initials || '',
+    );
+    return text;
+  }
+
   public equals(other: Crafter): boolean {
     if (this.email && other.email) {
       return this.email === other.email;

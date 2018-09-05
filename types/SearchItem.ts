@@ -25,4 +25,12 @@ export class SearchItem implements Searchable {
     }
     return false;
   }
+
+  public getSearchItemText(): string[] {
+    return [
+      `#${this.value}`,
+      `keyword:${this.value}`,
+      `tag:${this.value}`,
+    ];
+  }
 }
