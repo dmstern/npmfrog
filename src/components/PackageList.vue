@@ -81,7 +81,6 @@ export default class Packages extends Vue {
 
     this.loadConfig();
 
-    // TODO: refactor this (#14)
     EventBus.$on(Events.FILTER_SEARCH, async ( args: { filters: Searchable[], query: string} ) => {
       this.packages.all = await DataStore.Instance.getPackages();
       this.packages.data = this.packages.all
@@ -91,27 +90,7 @@ export default class Packages extends Vue {
           return true;
         }
         const pattern = new RegExp(args.query.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, ''), 'gi');
-        const someCrafterMatches = item.crafters.some((crafter) => {
-          if (
-            crafter.name &&
-            (crafter.name.match(pattern) ||
-            `crafter:${crafter.name}`.match(pattern) ||
-            `author:${crafter.name}`.match(pattern))
-            ) {
-              return true;
-            }
-          return false;
-        });
-        return `/${item.name}`.match(pattern) ||
-          someCrafterMatches ||
-          item.description && `/${item.description}`.match(pattern) ||
-          item.keywords && item.keywords.some((keyword) => {
-            if (`#${keyword}`.match(pattern)) {
-              return true;
-            } else {
-              return false;
-            }
-          });
+        return item.matchesPattern(pattern);
       });
     });
   }
