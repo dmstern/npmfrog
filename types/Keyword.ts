@@ -1,6 +1,6 @@
 import Searchable from './Searchable';
 import Package from './Package';
-export class SearchItem implements Searchable {
+export class Keyword implements Searchable {
   public value: string;
 
   constructor(value: string) {
@@ -8,7 +8,7 @@ export class SearchItem implements Searchable {
   }
 
   public matches(other: Searchable, packages: Package[]): boolean {
-    if (other instanceof SearchItem && other.value === this.value) {
+    if (other instanceof Keyword && other.value === this.value) {
       return true;
     }
     if (
