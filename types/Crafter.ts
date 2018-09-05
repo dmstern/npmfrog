@@ -1,11 +1,11 @@
 import { IAuthor } from './package-json';
-import SearchComparable from './SearchComparable';
+import Searchable from './Searchable';
 import Package from './Package';
 import vuetifyColors from 'vuetify/es5/util/colors';
 
 const forbiddenColors = ['shades', 'grey', 'blueGrey'];
 
-export default class Crafter implements SearchComparable {
+export default class Crafter implements Searchable {
 
   public get initials(): string | undefined {
     if (this.name) {
@@ -72,7 +72,7 @@ export default class Crafter implements SearchComparable {
     }
   }
 
-  public matches(other: SearchComparable, packages: Package[]): boolean {
+  public matches(other: Searchable, packages: Package[]): boolean {
     if (other instanceof Crafter && other.equals(this)) {
       return true;
     }

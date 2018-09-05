@@ -1,13 +1,13 @@
-import SearchComparable from './SearchComparable';
+import Searchable from './Searchable';
 import Package from './Package';
-export class SearchItem implements SearchComparable {
+export class SearchItem implements Searchable {
   public value: string;
 
   constructor(value: string) {
     this.value = value;
   }
 
-  public matches(other: SearchComparable, packages: Package[]): boolean {
+  public matches(other: Searchable, packages: Package[]): boolean {
     if (other instanceof SearchItem && other.value === this.value) {
       return true;
     }
