@@ -4,7 +4,7 @@ import Package from '../../types/Package';
 import { SearchItem } from '../../types/SearchItem';
 import { PackageMetaDataDTO } from '../../types/package-meta-data';
 import Crafter from '../../types/Crafter';
-import SearchComparable from '../../types/SearchComparable';
+import Searchable from '../../types/Searchable';
 import { IPackageJSON } from '../../types/package-json';
 import Config from '../../types/Config';
 import { EventBus, Errors } from '@/services/event-bus';
@@ -14,7 +14,7 @@ export default class DataStore {
     return this.instance || (this.instance = new this());
   }
 
-  public get searchItems(): SearchComparable[] {
+  public get searchItems(): Searchable[] {
     return this.searchItemList;
   }
 

@@ -13,10 +13,10 @@ import {
 import { IDistTags, ITimes, IVersions } from './package-meta-data';
 import { PackageMetaDataDTO } from './package-meta-data';
 import Crafter from './Crafter';
-import SearchComparable from './SearchComparable';
+import Searchable from './Searchable';
 import { SearchItem } from './SearchItem';
 
-export default class Package implements PackageMetaDataDTO, SearchComparable  {
+export default class Package implements PackageMetaDataDTO, Searchable  {
   public readonly distTags!: IDistTags;
   public readonly time!: ITimes;
   public readonly users!: {};
@@ -102,7 +102,7 @@ export default class Package implements PackageMetaDataDTO, SearchComparable  {
     this.craftersList = [];
   }
 
-  public matches(other: SearchComparable): boolean {
+  public matches(other: Searchable): boolean {
     if (other instanceof SearchItem) {
       return this.keywords !== undefined && this.keywords.indexOf(other.value) > -1;
     }

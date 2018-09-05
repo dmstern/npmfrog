@@ -164,7 +164,7 @@ import { EventBus, Events, Errors } from '@/services/event-bus';
 import About from '@/components/About.vue';
 import CrafterAvatar from '@/components/CrafterAvatar.vue';
 import Crafter from '../types/Crafter';
-import SearchComparable from '../types/SearchComparable';
+import Searchable from '../types/Searchable';
 
 @Component({
   components: {
@@ -183,9 +183,9 @@ export default class App extends Vue {
   @Prop() private hasFocusProp!: boolean;
   @Prop() private titleProp!: string;
   private menuVisible: boolean;
-  private activeFilters: SearchComparable[];
-  private searchItems: SearchComparable[];
-  private searchItemsFiltered: SearchComparable[];
+  private activeFilters: Searchable[];
+  private searchItems: Searchable[];
+  private searchItemsFiltered: Searchable[];
   private title: string = 'npmFrog';
   private clipped: boolean = true;
   private hasFocus: boolean = false;
@@ -241,7 +241,7 @@ export default class App extends Vue {
     });
   }
 
-  private getSearchItemText(item: SearchComparable) {
+  private getSearchItemText(item: Searchable) {
     if (item instanceof Package) {
       return [
         item.name,
