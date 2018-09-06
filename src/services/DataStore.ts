@@ -15,7 +15,7 @@ export default class DataStore {
   }
 
   public get searchItems(): Searchable[] {
-    return this.searchItemList;
+    return this.tagList;
   }
 
   public get crafters(): Crafter[] {
@@ -26,7 +26,7 @@ export default class DataStore {
 
   private request!: Promise<Package[]>;
   private packages!: Package[];
-  private searchItemList!: Tag[];
+  private tagList!: Tag[];
   private crafterList!: Crafter[];
   private packageDetails!: {
     [packageName: string]: {
@@ -39,7 +39,7 @@ export default class DataStore {
 
   private constructor() {
     this.packages = [];
-    this.searchItemList = [];
+    this.tagList = [];
     this.crafterList = [];
     this.packageDetails = {};
   }
@@ -102,10 +102,10 @@ export default class DataStore {
         const modifiedPackage: Package = new Package(packagesResponse[packageName]);
         this.packages.push(modifiedPackage);
 
-        if (modifiedPackage.keywords) {
-          for (const keyword of modifiedPackage.keywords!) {
-            if (! this.searchItemList.some((currentSearchItem) => keyword === currentSearchItem.value)) {
-              this.searchItemList.push(new Tag(keyword));
+        if (modifiedPackage.tags) {
+          for (const tag of modifiedPackage.tags) {
+            if (! this.tagList.some((currentTag) => tag.value === currentTag.value)) {
+              this.tagList.push(tag);
             }
           }
         }
