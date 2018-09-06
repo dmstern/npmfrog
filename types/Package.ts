@@ -117,17 +117,13 @@ export default class Package extends Searchable implements PackageMetaDataDTO  {
   }
 
   public getSearchItemText(): string[] {
-    let crafterTexts: string[] = [];
-    for (const crafter of this.crafters) {
-      crafterTexts = crafterTexts.concat(crafter.getSearchItemText());
-    }
     return [
         this.name || '',
         this.description || '',
         this.author ? this.author.toString() : '',
       ]
       .concat(this.keywords || []) // TODO: use Tag object instead.
-      .concat(crafterTexts);
+      .concat(...this.crafters.map((crafter) => crafter.getSearchItemText()));
   }
 
   public get crafters(): Crafter[] {
