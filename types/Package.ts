@@ -60,6 +60,7 @@ export default class Package extends Searchable implements PackageMetaDataDTO  {
   public readonly scope: string | undefined;
   public readonly mainCode: string | undefined;
   private craftersList: Crafter[];
+  private tagList: Tag[];
 
   constructor(packageMetaData: PackageMetaDataDTO) {
     super();
@@ -101,11 +102,12 @@ export default class Package extends Searchable implements PackageMetaDataDTO  {
     }
 
     this.craftersList = [];
+    this.tagList = [];
   }
 
   public matches(other: Searchable): boolean {
     if (other instanceof Tag) {
-      return this.keywords !== undefined && this.keywords.indexOf(other.value) > -1;
+      return this.tags.some((tag) => tag.value === other.value);
     }
     if (other instanceof Crafter) {
       return this.crafters.some((crafter) => crafter.equals(other));
@@ -122,7 +124,7 @@ export default class Package extends Searchable implements PackageMetaDataDTO  {
         this.description || '',
         this.author ? this.author.toString() : '',
       ]
-      .concat(this.keywords || []) // TODO: use Tag object instead.
+      .concat(...this.tags.map((tag) => tag.getSearchItemText()))
       .concat(...this.crafters.map((crafter) => crafter.getSearchItemText()));
   }
 
@@ -139,6 +141,16 @@ export default class Package extends Searchable implements PackageMetaDataDTO  {
       }
     }
     return this.craftersList;
+  }
+
+  public get tags(): Tag[] {
+    if (this.tagList.length) {
+      return this.tagList;
+    }
+    if (this.keywords && this.keywords.length) {
+      this.tagList.push(...this.keywords.map((keyword) => new Tag(keyword)));
+    }
+    return this.tagList;
   }
 
   public get repositoryName(): string | undefined {

@@ -1,11 +1,19 @@
 import Searchable from './Searchable';
 import Package from './Package';
 export class Tag extends Searchable {
+
+  public static allTags: Tag[] = [];
   public value: string;
 
   constructor(value: string) {
     super();
     this.value = value;
+    const alreadyCreatedTag = Tag.allTags.find((tag) => tag.value === this.value);
+    if (alreadyCreatedTag) {
+      return alreadyCreatedTag;
+    } else {
+      Tag.allTags.push(this);
+    }
   }
 
   public matches(other: Searchable, packages: Package[]): boolean {
@@ -14,8 +22,8 @@ export class Tag extends Searchable {
     }
     if (
       other instanceof Package
-      && other.keywords !== undefined
-      && other.keywords.some((keyword) => keyword === this.value)
+      && other.tags !== undefined
+      && other.tags.some((tag) => tag.value === this.value)
     ) {
       return true;
     }
