@@ -157,7 +157,7 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import DataStore from '@/services/DataStore';
 import Package from '../types/Package';
-import { Keyword } from '../types/Keyword';
+import { Tag } from '../types/Tag';
 import router from '@/router';
 import { setTimeout } from 'timers';
 import { EventBus, Events, Errors } from '@/services/event-bus';
