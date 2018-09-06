@@ -14,7 +14,7 @@ import { IDistTags, ITimes, IVersions } from './package-meta-data';
 import { PackageMetaDataDTO } from './package-meta-data';
 import Crafter from './Crafter';
 import Searchable from './Searchable';
-import { Keyword } from './Keyword';
+import { Tag } from './Tag';
 
 export default class Package extends Searchable implements PackageMetaDataDTO  {
   public readonly distTags!: IDistTags;
@@ -104,7 +104,7 @@ export default class Package extends Searchable implements PackageMetaDataDTO  {
   }
 
   public matches(other: Searchable): boolean {
-    if (other instanceof Keyword) {
+    if (other instanceof Tag) {
       return this.keywords !== undefined && this.keywords.indexOf(other.value) > -1;
     }
     if (other instanceof Crafter) {
@@ -126,7 +126,7 @@ export default class Package extends Searchable implements PackageMetaDataDTO  {
         this.description || '',
         this.author ? this.author.toString() : '',
       ]
-      .concat(this.keywords || [])
+      .concat(this.keywords || []) // TODO: use Tag object instead.
       .concat(crafterTexts);
   }
 
