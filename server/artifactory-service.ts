@@ -1,4 +1,5 @@
 import axios, { AxiosResponse, AxiosPromise } from 'axios';
+import * as path from 'path';
 import * as fs from 'fs-extra';
 import * as tar from 'tar';
 import * as showdown from 'showdown';
@@ -32,7 +33,7 @@ function createAxiosResponse(data: any): AxiosResponse<any> {
   };
 }
 
-function readme2Html(readmeFile): string {
+function readme2Html(readmeFile: string): string {
   let readme;
   try {
     readme = fs.readFileSync(readmeFile);
@@ -47,9 +48,9 @@ function readme2Html(readmeFile): string {
 }
 
 function readMainCode(storageDir): string {
-  const packageJson = fs.readJSONSync(`${storageDir}/package.json`);
+  const packageJson = fs.readJSONSync(path.join(storageDir, `package.json`));
   try {
-    return fs.readFileSync(`${storageDir}/${packageJson.main}`).toString();
+    return fs.readFileSync(path.join(storageDir, packageJson.main)).toString();
   } catch (error) {
     console.error(`MainCode file not found: ${storageDir}`);
     return null;
@@ -59,7 +60,7 @@ function readMainCode(storageDir): string {
 function fetchPackages(): AxiosPromise<PackagesResponse> {
   if (process.env.MOCK) {
     return new Promise<AxiosResponse>((resolve, reject) => {
-      resolve(createAxiosResponse(fs.readJSONSync(`${__dirname}/mock/packages-all.json`)));
+      resolve(createAxiosResponse(fs.readJSONSync(path.join(__dirname, 'mock', 'packages-all.json'))));
     });
   }
   return (axios.get(`/-/all`));
@@ -72,12 +73,12 @@ async function getPackageDetail({ scope, packageName }): Promise<AxiosResponse> 
 
   const packageDetailResonse: AxiosResponse = process.env.MOCK
     ? await new Promise<AxiosResponse>((resolve, reject) => {
-      const packageResource = `${__dirname}/mock/${packageName}.json`;
+      const packageResource = path.join(__dirname, 'mock', `${packageName}.json`);
       let data;
       try {
         data = fs.readJSONSync(packageResource);
       } catch (error) {
-        data = fs.readJSONSync(`${__dirname}/mock/fractal-menu-enhancer.json`);
+        data = fs.readJSONSync(path.join(__dirname, 'mock', 'fractal-menu-enhancer.json'));
       }
       resolve(createAxiosResponse(data));
     })
@@ -89,22 +90,22 @@ async function getPackageDetail({ scope, packageName }): Promise<AxiosResponse> 
 
   const additionalCode = process.env.MOCK
     ? await new Promise((resolve) => {
-        const packageResource = `${__dirname}/mock/${packageName}.readme.md`;
+        const packageResource = path.join(__dirname, 'mock', `${packageName}.readme.md`);
         let data;
         try {
           data = readme2Html(packageResource);
         } catch (error) {
-          data = readme2Html(`${__dirname}/mock/fractal-menu-enhancer.readme.md`);
+          data = readme2Html(path.join(__dirname, 'mock', 'fractal-menu-enhancer.readme.md'));
         }
         resolve({
           readme: data,
-          mainCode: readMainCode(`${__dirname}/..`),
+          mainCode: readMainCode(path.join(__dirname, '..', '..')),
         });
       })
     : await new Promise(async (resolve, reject) => {
         const packageDetail = packageDetailResonse.data;
         const downloadUrl = packageDetail.versions[latestVersion].dist.tarball;
-        const storageDir = `${tmpDir}/${scope}/${packageName}/${latestVersion}`;
+        const storageDir = path.join(tmpDir, scope || '', packageName, latestVersion);
         if (fs.existsSync(storageDir)) {
           resolve(readAdditionalCode(storageDir));
         } else {
@@ -121,7 +122,7 @@ async function getPackageDetail({ scope, packageName }): Promise<AxiosResponse> 
             // Store package in filesystem:
             .then((result) => {
               fs.ensureDirSync(storageDir);
-              const outputFilename = `${storageDir}/${packageName}-${latestVersion}.tar.gz`;
+              const outputFilename = path.join(storageDir, `${packageName}-${latestVersion}.tar.gz`);
               fs.writeFileSync(outputFilename, result.data);
               return outputFilename;
             })
@@ -147,12 +148,12 @@ function readAdditionalCode(storageDir) {
   let readme;
   let mainCode;
   try {
-    readme = readme2Html(`${storageDir}/package/README.md`);
+    readme = readme2Html(path.join(storageDir, 'package', 'README.md'));
   } catch (error) {
     readme = undefined;
   }
   try {
-    mainCode = readMainCode(`${storageDir}/package`);
+    mainCode = readMainCode(path.join(storageDir, 'package'));
   } catch (error) {
     mainCode = undefined;
   }
