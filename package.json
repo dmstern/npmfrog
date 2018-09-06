@@ -12,7 +12,7 @@
     "logs": "pm2 logs",
     "stop": "pm2 stop /frog-.*/",
     "pre-release": "release-it --preRelease=alpha",
-    "rc-release": "release-it --preRelease=rc --npm.tag=next"
+    "rc": "release-it --preRelease=rc --npm.tag=next"
   },
   "dependencies": {
     "axios": "^0.18.0",
