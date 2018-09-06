@@ -63,7 +63,9 @@
   "files": [
     "dist",
     "ecosystem.config.js",
-    ".sample.npmfrogrc.json"
+    ".sample.npmfrogrc.json",
+    "pm2.config.js",
+    "pm2.prod.config.js"
   ],
   "repository": {
     "type": "git",
