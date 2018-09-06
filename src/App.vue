@@ -178,7 +178,7 @@ export default class App extends Vue {
   };
 
   @Prop() private menuVisibleProp!: boolean;
-  @Prop() private activeFiltersProp!: Keyword[];
+  @Prop() private activeFiltersProp!: Searchable[];
   @Prop() private clippedProp!: boolean;
   @Prop() private hasFocusProp!: boolean;
   @Prop() private titleProp!: string;
