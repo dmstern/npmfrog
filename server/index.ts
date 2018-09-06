@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 function handleError(error, targetResponse, msg) {
-  targetResponse.status(500).send(`Error: ${msg} Please verify your server settings.`);
+  targetResponse.status(500).send(`Error: ${msg} Please verify your server settings.\n\n${error}`);
 }
 
 app.get('/packages', (req, res) => {
