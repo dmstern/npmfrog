@@ -135,7 +135,7 @@ export default class Package extends Searchable implements PackageMetaDataDTO  {
       return this.craftersList;
     }
     if (this.author) {
-      this.craftersList.push(new Crafter(this.author));
+      this.craftersList.push(new Crafter(this.author)); // TODO: avoid duplicate crafters
     }
     if (this.contributors) {
       for (const contributor of this.contributors) {
