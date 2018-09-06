@@ -89,8 +89,7 @@ export default class Packages extends Vue {
         if (!args.query) {
           return true;
         }
-        const pattern = new RegExp(args.query.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, ''), 'gi');
-        return item.matchesPattern(pattern);
+        return item.matchesPattern(args.query);
       });
     });
   }
@@ -108,16 +107,15 @@ export default class Packages extends Vue {
 </script>
 
 <style lang="scss">
-@import '../assets/variables';
+@import "../assets/variables";
 
 .v-list--three-line .v-list__tile {
   height: auto;
 }
 
 .package-list {
-
   .v-list__tile__content {
-    padding: .4em 0;
+    padding: 0.4em 0;
   }
 
   &--keywords {
@@ -132,23 +130,22 @@ export default class Packages extends Vue {
     display: flex;
 
     .CrafterAvatar {
-      margin-left: .5em;
+      margin-left: 0.5em;
     }
   }
 
   & &--by {
-    padding-bottom: .3em;
+    padding-bottom: 0.3em;
     color: $color-gray-light;
     font-size: $package-list--author--font-size;
   }
 
- .v-list__tile__sub-title {
-   .v-chip {
-     &:first-child {
-       margin-left: 0;
-     }
-   }
- }
+  .v-list__tile__sub-title {
+    .v-chip {
+      &:first-child {
+        margin-left: 0;
+      }
+    }
+  }
 }
-
 </style>

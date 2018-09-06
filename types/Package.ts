@@ -116,22 +116,18 @@ export default class Package extends Searchable implements PackageMetaDataDTO  {
     return false;
   }
 
-  public matchesPattern(pattern: RegExp): boolean {
-    const someCrafterMatch: boolean = this.crafters.some((crafter) => crafter.matchesPattern(pattern));
-    const nameMatch: boolean = `/${this.name}`.match(pattern) !== null;
-    const descriptionMatch: boolean = this.description !== undefined
-      && `/${this.description}`.match(pattern) !== null;
-    const someKeywordsMatch: boolean = this.keywords !== undefined
-      && this.keywords.some((keyword) => keyword.match(pattern) != null);
-    return someCrafterMatch || nameMatch || descriptionMatch || someKeywordsMatch;
-  }
-
   public getSearchItemText(): string[] {
+    let crafterTexts: string[] = [];
+    for (const crafter of this.crafters) {
+      crafterTexts = crafterTexts.concat(crafter.getSearchItemText());
+    }
     return [
         this.name || '',
         this.description || '',
         this.author ? this.author.toString() : '',
-      ].concat(this.keywords  || []);
+      ]
+      .concat(this.keywords || [])
+      .concat(crafterTexts);
   }
 
   public get crafters(): Crafter[] {
