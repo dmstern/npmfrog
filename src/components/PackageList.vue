@@ -1,6 +1,6 @@
 <template>
   <div class="packages">
-    <LoadingSpinner v-if="!packages.data.length" :msg="startMsg"/>
+    <LoadingSpinner v-if="packages.loading" :msg="startMsg"/>
     <v-list subheader three-line v-else class="package-list">
         <v-subheader class="title">Found {{packages.data.length}}/{{packages.all.length}} npm packages on {{artifactoryUrl}}</v-subheader>
           <template v-for="(item, index) in packages.data">
@@ -61,13 +61,13 @@ export default class Packages extends Vue {
   @Prop() private packagesProp!: {
     all: Package[],
     data: Package[],
-    searchQueryText: string,
+    loading: boolean,
   };
   private artifactoryUrl: string | undefined = this.artifactoryUrlProp;
   private packages: {
     all: Package[],
     data: Package[],
-    searchQueryText: string,
+    loading: boolean,
   } = this.packagesProp;
 
   constructor() {
@@ -76,13 +76,15 @@ export default class Packages extends Vue {
     this.packages = {
       all: [],
       data: [],
-      searchQueryText: '',
+      loading: true,
     };
 
     this.loadConfig();
 
     EventBus.$on(Events.FILTER_SEARCH, async ( args: { filters: Searchable[], query: string} ) => {
+      this.packages.loading = true;
       this.packages.all = await DataStore.Instance.getPackages();
+      this.packages.loading = false;
       this.packages.data = this.packages.all
         .filter((item) => args.filters.indexOf(item) >= 0)
         .filter((item) => {
