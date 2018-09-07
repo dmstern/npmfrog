@@ -227,7 +227,7 @@ export default class App extends Vue {
     });
 
     EventBus.$on(Events.TRIGGER_FILTER_SEARCH, (args: { filters: Searchable[], query: string }) => {
-      while(this.activeFilters.length > 0) {
+      while (this.activeFilters.length > 0) {
         this.activeFilters.pop();
       }
       this.activeFilters.push(...args.filters);
@@ -414,7 +414,7 @@ code,
 kbd {
   &:after,
   &:before {
-    letter-spacing: -1em; 
+    letter-spacing: -1em;
   }
 }
 
