@@ -317,7 +317,7 @@ export default class App extends Vue {
 
   private fireSearchFilterEvent() {
     this.$nextTick(() => {
-      EventBus.$emit(Events.FILTER_SEARCH, { filters: this.searchItemsFiltered, query: this.searchInput.value });
+      EventBus.$emit(Events.FILTER_SEARCH, { filters: this.activeFilters, query: this.searchInput.value });
     });
   }
 

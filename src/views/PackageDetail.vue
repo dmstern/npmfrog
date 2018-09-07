@@ -185,8 +185,17 @@
             <span v-else>{{data.currentPackage.displayName}}</span> -->
             <CrafterAvatar v-for="(crafter, index) in data.currentPackage.crafters" :key="index" :crafter="crafter"></CrafterAvatar>
           </PackageDetailItem>
-          <PackageDetailItem title="Keywords" :bigContent="false" v-if="data.currentPackage.keywords" :icon="$vuetify.icons.tags">
-            <v-chip v-for="keyword in data.currentPackage.keywords" :key="keyword">{{keyword}}</v-chip>
+          <PackageDetailItem title="Keywords" :bigContent="false" v-if="data.currentPackage.tags" :icon="$vuetify.icons.tags">
+            <v-chip
+              v-for="(tag, index) in data.currentPackage.tags"
+              :key="index"
+              @click="onKeywordClick(tag)"
+            >
+              {{tag.value}}
+              <v-avatar>
+                <v-icon>{{$vuetify.icons.search}}</v-icon>
+              </v-avatar>
+            </v-chip>
           </PackageDetailItem>
         </v-layout>
       </v-flex>
@@ -207,6 +216,8 @@ import Config from '../../types/Config';
 import PackageDetailItem from '@/components/PackageDetailItem.vue';
 import CodeBlock from '@/components/CodeBlock.vue';
 import CrafterAvatar from '@/components/CrafterAvatar.vue';
+import { EventBus, Events } from '@/services/event-bus';
+import { setTimeout } from 'timers';
 
 @Component({
   components: {
@@ -304,6 +315,13 @@ export default class PackageDetail extends Vue {
         install: `npm i ${this.data.packageDetail.name}`,
       };
     }
+  }
+
+  private onKeywordClick(tag) {
+    router.push(`/`);
+    this.$nextTick(() => {
+      EventBus.$emit(Events.FILTER_SEARCH, { filters: [tag] });
+    });
   }
 }
 

@@ -108,6 +108,10 @@ export default class Crafter extends Searchable {
     return text;
   }
 
+  public toString(): string {
+    return `${this.name}`;
+  }
+
   public equals(other: Crafter): boolean {
     if (this.email && other.email) {
       return this.email === other.email;

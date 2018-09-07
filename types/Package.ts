@@ -165,6 +165,10 @@ export default class Package extends Searchable implements PackageMetaDataDTO  {
     }
   }
 
+  public toString(): string {
+    return this.name;
+  }
+
   private url2Name(url: string): string {
     if (url.includes('github')) {
       return 'github';
