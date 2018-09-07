@@ -32,6 +32,7 @@ const icons = {
   website: 'fas fa-globe',
   externalLink: 'fas fa-external-link-alt',
   terminal: 'fas fa-terminal',
+  email: 'far fa-envelope',
 };
 
 icons.keywords = icons.tags;

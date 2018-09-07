@@ -181,12 +181,64 @@
             <timeago :datetime="data.packageDetail.time.modified"></timeago>
           </PackageDetailItem>
           <PackageDetailItem title="Crafted by" v-if="data.currentPackage.author" :icon="$vuetify.icons.author" :bigContent="false">
-            <!-- <a v-if="data.currentPackage.author.email" :href="`mailto:${data.currentPackage.author.email}`">{{data.currentPackage.author.name}}</a>
-            <span v-else>{{data.currentPackage.displayName}}</span> -->
-            <CrafterAvatar v-for="(crafter, index) in data.currentPackage.crafters" :key="index" :crafter="crafter"></CrafterAvatar>
+            <v-menu
+              open-on-hover
+              auto
+              v-for="(crafter, index) in data.currentPackage.crafters"
+              :key="index"
+              top
+              offset-y
+            >
+              <CrafterAvatar
+                :crafter="crafter"
+                slot="activator"
+              ></CrafterAvatar>
+              <v-card>
+                <v-list>
+                  <v-list-tile avatar>
+                    <v-list-tile-avatar>
+                       <CrafterAvatar :crafter="crafter"></CrafterAvatar>
+                    </v-list-tile-avatar>
+
+                    <v-list-tile-content>
+                      <v-list-tile-title>{{crafter.name}}</v-list-tile-title>
+                      <v-list-tile-sub-title>{{crafter.url}}</v-list-tile-sub-title>
+                    </v-list-tile-content>
+
+                  </v-list-tile>
+                </v-list>
+
+                <v-divider></v-divider>
+
+                <v-list>
+                  <v-list-tile @click="onKeywordClick(crafter)">
+                    <v-list-tile-action>
+                      <v-icon>{{$vuetify.icons.arrowTopLeft}}</v-icon>
+                    </v-list-tile-action>
+                    <v-list-tile-title>Search for packages by this crafter</v-list-tile-title>
+                  </v-list-tile>
+
+                  <a :href="`mailto:${crafter.email}`" target="_blank">
+                    <v-list-tile v-if="crafter.email">
+                      <v-list-tile-action>
+                        <v-icon>{{$vuetify.icons.email}}</v-icon>
+                      </v-list-tile-action>
+                      <v-list-tile-title>mailto:{{crafter.email}}</v-list-tile-title>
+                    </v-list-tile>
+                  </a>
+                </v-list>
+              </v-card>
+            </v-menu>
           </PackageDetailItem>
-          <PackageDetailItem title="Keywords" :bigContent="false" v-if="data.currentPackage.keywords" :icon="$vuetify.icons.tags">
-            <v-chip v-for="keyword in data.currentPackage.keywords" :key="keyword">{{keyword}}</v-chip>
+          <PackageDetailItem title="Keywords" :bigContent="false" v-if="data.currentPackage.tags" :icon="$vuetify.icons.tags">
+            <v-chip
+              v-for="(tag, index) in data.currentPackage.tags"
+              :key="index"
+              @click="onKeywordClick(tag)"
+            >
+              {{tag.value}}
+              <v-icon>{{$vuetify.icons.arrowTopLeft}}</v-icon>
+            </v-chip>
           </PackageDetailItem>
         </v-layout>
       </v-flex>
@@ -207,6 +259,8 @@ import Config from '../../types/Config';
 import PackageDetailItem from '@/components/PackageDetailItem.vue';
 import CodeBlock from '@/components/CodeBlock.vue';
 import CrafterAvatar from '@/components/CrafterAvatar.vue';
+import { EventBus, Events } from '@/services/event-bus';
+import { setTimeout } from 'timers';
 
 @Component({
   components: {
@@ -304,6 +358,13 @@ export default class PackageDetail extends Vue {
         install: `npm i ${this.data.packageDetail.name}`,
       };
     }
+  }
+
+  private onKeywordClick(tag) {
+    router.push(`/`);
+    this.$nextTick(() => {
+      EventBus.$emit(Events.TRIGGER_FILTER_SEARCH, { filters: [tag] });
+    });
   }
 }
 

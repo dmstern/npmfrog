@@ -81,12 +81,15 @@ export default class Packages extends Vue {
 
     this.loadConfig();
 
-    EventBus.$on(Events.FILTER_SEARCH, async ( args: { filters: Searchable[], query: string} ) => {
+    EventBus.$on([
+      Events.FILTER_SEARCH,
+      Events.TRIGGER_FILTER_SEARCH,
+    ], async ( args: { filters: Searchable[], query: string} ) => {
       this.packages.loading = true;
       this.packages.all = await DataStore.Instance.getPackages();
       this.packages.loading = false;
       this.packages.data = this.packages.all
-        .filter((item) => args.filters.indexOf(item) >= 0)
+        .filter((item) => args.filters.every((filter) => filter.matches(item, this.packages.all)))
         .filter((item) => {
         if (!args.query) {
           return true;

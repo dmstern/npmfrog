@@ -8,4 +8,6 @@ export default abstract class Searchable {
   public matchesPattern(pattern: string): boolean {
     return this.getSearchItemText().some((text) => text.toLowerCase().includes(pattern.toLowerCase()));
   }
+
+  public abstract toString(): string;
 }

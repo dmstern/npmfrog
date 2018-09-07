@@ -35,6 +35,10 @@ export class Tag extends Searchable {
     return false;
   }
 
+  public toString(): string {
+    return this.value;
+  }
+
   public getSearchItemText(): string[] {
     return [
       `#${this.value}`,

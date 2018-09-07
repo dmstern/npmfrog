@@ -2,7 +2,6 @@
 
 <div class="CrafterAvatar">
   <v-avatar
-    :title="crafter.name"
     :color="`${crafter.color} darken-2`"
     size="32"
     :class="`grey--text text--${
