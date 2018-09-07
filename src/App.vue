@@ -225,6 +225,10 @@ export default class App extends Vue {
       this.error.msg = res.data;
     });
 
+    EventBus.$on(Events.TRIGGER_FILTER_SEARCH, (args: { filters: Searchable[], query: string }) => {
+      this.activeFilters.push(...args.filters);
+    });
+
   }
 
   private get searchInput(): HTMLInputElement {
