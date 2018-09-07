@@ -192,9 +192,7 @@
               @click="onKeywordClick(tag)"
             >
               {{tag.value}}
-              <v-avatar>
-                <v-icon>{{$vuetify.icons.search}}</v-icon>
-              </v-avatar>
+              <v-icon>{{$vuetify.icons.arrowTopLeft}}</v-icon>
             </v-chip>
           </PackageDetailItem>
         </v-layout>
@@ -320,7 +318,7 @@ export default class PackageDetail extends Vue {
   private onKeywordClick(tag) {
     router.push(`/`);
     this.$nextTick(() => {
-      EventBus.$emit(Events.FILTER_SEARCH, { filters: [tag] });
+      EventBus.$emit(Events.TRIGGER_FILTER_SEARCH, { filters: [tag] });
     });
   }
 }
