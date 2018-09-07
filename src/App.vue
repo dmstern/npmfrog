@@ -40,12 +40,13 @@
       <v-btn icon @click.stop="menuVisible = !menuVisible">
         <v-icon>{{$vuetify.icons.menu}}</v-icon>
       </v-btn>
-      <router-link to="/" class="home-button">
-        <v-toolbar-title>
-          <img src="@/../art/logo.svg" alt="npmFrog" class="v-btn--icon">
-          <span class="label hidden-sm-and-down">{{title}}</span>
-        </v-toolbar-title>    
-      </router-link>
+      <v-toolbar-title
+        @click="goHome"
+        class="home-button"
+      >
+        <img src="@/../art/logo.svg" alt="npmFrog" class="v-btn--icon">
+        <span class="label hidden-sm-and-down">{{title}}</span>
+      </v-toolbar-title>    
       <v-autocomplete
         ref="searchbar"
         placeholder="Search package..."
@@ -226,6 +227,9 @@ export default class App extends Vue {
     });
 
     EventBus.$on(Events.TRIGGER_FILTER_SEARCH, (args: { filters: Searchable[], query: string }) => {
+      while(this.activeFilters.length > 0) {
+        this.activeFilters.pop();
+      }
       this.activeFilters.push(...args.filters);
     });
 
@@ -233,6 +237,13 @@ export default class App extends Vue {
 
   private get searchInput(): HTMLInputElement {
     return this.$refs.searchbar.$el.querySelector('input');
+  }
+
+  private goHome() {
+    router.push('/');
+    this.$nextTick(() => {
+      EventBus.$emit(Events.TRIGGER_FILTER_SEARCH, { filters: [] });
+    });
   }
 
   private loadPackages(): void {
@@ -455,6 +466,8 @@ code.hljs {
 
 
 .home-button {
+  cursor: pointer;
+
   img {
     background-color: $color-white;
   }
