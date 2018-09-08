@@ -117,11 +117,11 @@
                 <span class="search--key grey--text text--darken-1">
                   {{
                     isCrafter(data.item)
-                    ? `crafter:${data.item.name}`
+                    ? `@`
                     : `#`
                   }}
                 </span>
-                <span v-html="data.item.value"></span>
+                <span v-html="isCrafter(data.item) ? data.item.name : data.item.value"></span>
               </v-list-tile-title>
             </v-list-tile-content>
             <v-spacer></v-spacer>
@@ -407,6 +407,11 @@ a {
   .link--external & {
     font-size: inherit;
     transform: none;
+  }
+
+  .v-chip &,
+  .v-avatar & {
+    opacity: .8;
   }
 }
 

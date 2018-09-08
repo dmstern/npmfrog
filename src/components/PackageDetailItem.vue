@@ -51,6 +51,11 @@ export default class PackageDetailItem extends Vue {
   a:not([href="#"]),
   .v-avatar {
     margin-right: .5em;
+    transition: $transition-smooth;
+    
+    &:hover {
+      box-shadow: $shadow-focused;
+    }
   }
 }
 
