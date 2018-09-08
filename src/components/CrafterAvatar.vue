@@ -3,7 +3,7 @@
 <div class="CrafterAvatar">
   <v-avatar
     :color="`${crafter.color} darken-2`"
-    size="32"
+    size="36"
     :class="`grey--text text--${
       lightColors.indexOf(crafter.color) < 0 ? 'lighten' : 'darken'
     }-4 body-2`"
