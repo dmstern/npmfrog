@@ -227,10 +227,12 @@ export default class App extends Vue {
     });
 
     EventBus.$on(Events.TRIGGER_FILTER_SEARCH, (args: { filters: Searchable[], query: string }) => {
-      while (this.activeFilters.length > 0) {
-        this.activeFilters.pop();
+      if (this.$refs.searchbar && this.$refs.searchbar.selectedItems) {
+        while (this.$refs.searchbar.selectedItems.length > 0) {
+          this.$refs.searchbar.selectedItems.pop();
+        }
+        this.$refs.searchbar.selectedItems.push(...args.filters);
       }
-      this.activeFilters.push(...args.filters);
     });
 
   }
@@ -241,9 +243,7 @@ export default class App extends Vue {
 
   private goHome() {
     router.push('/');
-    this.$nextTick(() => {
-      EventBus.$emit(Events.TRIGGER_FILTER_SEARCH, { filters: [] });
-    });
+    this.$refs.searchbar.reset();
   }
 
   private loadPackages(): void {
