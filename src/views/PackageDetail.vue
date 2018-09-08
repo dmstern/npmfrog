@@ -231,14 +231,19 @@
             </v-menu>
           </PackageDetailItem>
           <PackageDetailItem title="Keywords" :bigContent="false" v-if="data.currentPackage.tags" :icon="$vuetify.icons.tags">
-            <v-chip
+            <a href="#"
+              title="Search for packages with this keyword"
               v-for="(tag, index) in data.currentPackage.tags"
               :key="index"
+            >
+
+            <v-chip
               @click="triggerSearchFilter(tag)"
             >
               {{tag.value}}
-              <v-icon>{{$vuetify.icons.arrowTopLeft}}</v-icon>
+              <v-icon right>{{$vuetify.icons.arrowTopLeft}}</v-icon>
             </v-chip>
+            </a>
           </PackageDetailItem>
         </v-layout>
       </v-flex>
