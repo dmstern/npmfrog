@@ -211,7 +211,7 @@
                 <v-divider></v-divider>
 
                 <v-list>
-                  <v-list-tile @click="onKeywordClick(crafter)">
+                  <v-list-tile @click="triggerSearchFilter(crafter)">
                     <v-list-tile-action>
                       <v-icon>{{$vuetify.icons.arrowTopLeft}}</v-icon>
                     </v-list-tile-action>
@@ -234,7 +234,7 @@
             <v-chip
               v-for="(tag, index) in data.currentPackage.tags"
               :key="index"
-              @click="onKeywordClick(tag)"
+              @click="triggerSearchFilter(tag)"
             >
               {{tag.value}}
               <v-icon>{{$vuetify.icons.arrowTopLeft}}</v-icon>
@@ -360,7 +360,7 @@ export default class PackageDetail extends Vue {
     }
   }
 
-  private onKeywordClick(tag) {
+  private triggerSearchFilter(tag) {
     router.push(`/`);
     this.$nextTick(() => {
       EventBus.$emit(Events.TRIGGER_FILTER_SEARCH, { filters: [tag] });
