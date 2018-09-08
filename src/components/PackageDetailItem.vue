@@ -48,7 +48,7 @@ export default class PackageDetailItem extends Vue {
     }
   }
 
-  a,
+  a:not([href="#"]),
   .v-avatar {
     margin-right: .5em;
   }
