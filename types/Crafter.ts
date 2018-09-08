@@ -94,6 +94,7 @@ export default class Crafter extends Searchable {
       text.push(
         this.name,
         `author:${this.name}`,
+        `@${this.name}`,
         `crafter:${this.name}`,
         `contributor:${this.name}`,
         `collaborator:${this.name}`,
