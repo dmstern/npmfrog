@@ -1,5 +1,4 @@
-npmFrog
-======
+# npmFrog
 
 A nice npmjs.org-like web interface for jFrog Artifactory
 

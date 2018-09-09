@@ -60,28 +60,41 @@ function readMainCode(storageDir): string {
 function fetchPackages(): AxiosPromise<PackagesResponse> {
   if (process.env.MOCK) {
     return new Promise<AxiosResponse>((resolve, reject) => {
-      resolve(createAxiosResponse(fs.readJSONSync(path.join(__dirname, 'mock', 'packages-all.json'))));
+      resolve(
+        createAxiosResponse(
+          fs.readJSONSync(path.join(__dirname, 'mock', 'packages-all.json')),
+        ),
+      );
     });
   }
-  return (axios.get(`/-/all`));
+  return axios.get(`/-/all`);
 }
 
-async function getPackageDetail({ scope, packageName }): Promise<AxiosResponse> {
+async function getPackageDetail({
+  scope,
+  packageName,
+}): Promise<AxiosResponse> {
   const latestVersionResponse = await getDistTags({ scope, packageName });
   const latestVersion = latestVersionResponse.data.latest;
   const key = `${scope}-${packageName}-${latestVersion}`;
 
   const packageDetailResonse: AxiosResponse = process.env.MOCK
     ? await new Promise<AxiosResponse>((resolve, reject) => {
-      const packageResource = path.join(__dirname, 'mock', `${packageName}.json`);
-      let data;
-      try {
-        data = fs.readJSONSync(packageResource);
-      } catch (error) {
-        data = fs.readJSONSync(path.join(__dirname, 'mock', 'fractal-menu-enhancer.json'));
-      }
-      resolve(createAxiosResponse(data));
-    })
+        const packageResource = path.join(
+          __dirname,
+          'mock',
+          `${packageName}.json`,
+        );
+        let data;
+        try {
+          data = fs.readJSONSync(packageResource);
+        } catch (error) {
+          data = fs.readJSONSync(
+            path.join(__dirname, 'mock', 'fractal-menu-enhancer.json'),
+          );
+        }
+        resolve(createAxiosResponse(data));
+      })
     : packageDetailCache[key]
       ? await new Promise<AxiosResponse>((resolve, reject) => {
           resolve(createAxiosResponse(packageDetailCache[key]));
@@ -90,12 +103,18 @@ async function getPackageDetail({ scope, packageName }): Promise<AxiosResponse> 
 
   const additionalCode = process.env.MOCK
     ? await new Promise((resolve) => {
-        const packageResource = path.join(__dirname, 'mock', `${packageName}.readme.md`);
+        const packageResource = path.join(
+          __dirname,
+          'mock',
+          `${packageName}.readme.md`,
+        );
         let data;
         try {
           data = readme2Html(packageResource);
         } catch (error) {
-          data = readme2Html(path.join(__dirname, 'mock', 'fractal-menu-enhancer.readme.md'));
+          data = readme2Html(
+            path.join(__dirname, 'mock', 'fractal-menu-enhancer.readme.md'),
+          );
         }
         resolve({
           readme: data,
@@ -105,7 +124,12 @@ async function getPackageDetail({ scope, packageName }): Promise<AxiosResponse> 
     : await new Promise(async (resolve, reject) => {
         const packageDetail = packageDetailResonse.data;
         const downloadUrl = packageDetail.versions[latestVersion].dist.tarball;
-        const storageDir = path.join(tmpDir, scope || '', packageName, latestVersion);
+        const storageDir = path.join(
+          tmpDir,
+          scope || '',
+          packageName,
+          latestVersion,
+        );
         if (fs.existsSync(storageDir)) {
           resolve(readAdditionalCode(storageDir));
         } else {
@@ -122,7 +146,10 @@ async function getPackageDetail({ scope, packageName }): Promise<AxiosResponse> 
             // Store package in filesystem:
             .then((result) => {
               fs.ensureDirSync(storageDir);
-              const outputFilename = path.join(storageDir, `${packageName}-${latestVersion}.tar.gz`);
+              const outputFilename = path.join(
+                storageDir,
+                `${packageName}-${latestVersion}.tar.gz`,
+              );
               fs.writeFileSync(outputFilename, result.data);
               return outputFilename;
             })
@@ -166,9 +193,11 @@ function readAdditionalCode(storageDir) {
 function getDistTags({ scope, packageName }): AxiosPromise<any> {
   return process.env.MOCK
     ? new Promise<AxiosResponse>((resolve, reject) => {
-        resolve(createAxiosResponse({
-          latest: '1.1.0',
-        }));
+        resolve(
+          createAxiosResponse({
+            latest: '1.1.0',
+          }),
+        );
       })
     : axios.get(`/-/package/${name2url({ scope, packageName })}/dist-tags`);
 }

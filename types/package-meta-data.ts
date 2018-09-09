@@ -1,7 +1,6 @@
 import { IPackageJSON } from './package-json';
 
 export interface PackageMetaDataDTO extends IPackageJSON {
-
   readonly distTags: IDistTags;
   readonly time: ITimes;
   readonly users: {};

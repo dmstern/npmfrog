@@ -1,7 +1,6 @@
 import Searchable from './Searchable';
 import Package from './Package';
 export class Tag extends Searchable {
-
   public static allTags: Tag[] = [];
   public value: string;
 
@@ -21,9 +20,9 @@ export class Tag extends Searchable {
       return true;
     }
     if (
-      other instanceof Package
-      && other.tags !== undefined
-      && other.tags.some((tag) => tag.value === this.value)
+      other instanceof Package &&
+      other.tags !== undefined &&
+      other.tags.some((tag) => tag.value === this.value)
     ) {
       return true;
     }
@@ -40,10 +39,6 @@ export class Tag extends Searchable {
   }
 
   public getSearchItemText(): string[] {
-    return [
-      `#${this.value}`,
-      `keyword:${this.value}`,
-      `tag:${this.value}`,
-    ];
+    return [`#${this.value}`, `keyword:${this.value}`, `tag:${this.value}`];
   }
 }

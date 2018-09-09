@@ -46,7 +46,7 @@
       >
         <img src="@/../art/logo.svg" alt="npmFrog" class="v-btn--icon">
         <span class="label hidden-sm-and-down">{{title}}</span>
-      </v-toolbar-title>    
+      </v-toolbar-title>
       <v-autocomplete
         ref="searchbar"
         placeholder="Search package..."
@@ -352,10 +352,10 @@ export default class App extends Vue {
 </script>
 
 <style lang="scss">
-@import 'assets/variables';
+@import "assets/variables";
 
 h1 {
-  margin-bottom: .5em; 
+  margin-bottom: 0.5em;
 }
 
 h2,
@@ -363,7 +363,7 @@ h3,
 h4,
 h5,
 h6 {
-  margin: 1em 0 .5em 0;
+  margin: 1em 0 0.5em 0;
 }
 
 a {
@@ -372,11 +372,10 @@ a {
   transition: $transition-fast;
 
   &:hover {
-    opacity: .7;
+    opacity: 0.7;
   }
 
   .v-icon {
-
     vertical-align: baseline;
 
     &,
@@ -394,7 +393,6 @@ a {
 }
 
 .v-icon {
-
   &.fas,
   &.far {
     transform: scale($mdi2faScaleFactor);
@@ -403,15 +401,14 @@ a {
   .subheading &,
   .heading &,
   .title &,
-  .subtitle &
-  .link--external & {
+  .subtitle & .link--external & {
     font-size: inherit;
     transform: none;
   }
 
   .v-chip &,
   .v-avatar & {
-    opacity: .8;
+    opacity: 0.8;
   }
 }
 
@@ -447,7 +444,6 @@ code.hljs {
 
   &.bash,
   &.language-bash {
-
     padding-left: 3em;
 
     &::before {
@@ -469,7 +465,6 @@ code.hljs {
   }
 }
 
-
 .home-button {
   cursor: pointer;
 
@@ -479,7 +474,6 @@ code.hljs {
 }
 
 .v-toolbar {
-
   &.theme--dark a {
     color: $color-link--dark;
     text-decoration: none;
@@ -487,7 +481,7 @@ code.hljs {
 
   &__content {
     height: auto !important;
-    padding: .5em;
+    padding: 0.5em;
   }
 
   &__title {
@@ -497,9 +491,9 @@ code.hljs {
   &__title {
     display: flex;
     align-items: center;
-    
+
     .label {
-      margin-left: .5em;
+      margin-left: 0.5em;
     }
 
     .simple-svg {
@@ -542,7 +536,6 @@ code.hljs {
 }
 
 .v-select-list {
-
   .v-list__tile__content {
     max-width: 500px;
   }
@@ -572,5 +565,4 @@ code.hljs {
 .subheading {
   color: $color-gray-medium;
 }
-
 </style>

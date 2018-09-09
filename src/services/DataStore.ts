@@ -30,9 +30,9 @@ export default class DataStore {
   private crafterList!: Crafter[];
   private packageDetails!: {
     [packageName: string]: {
-      packageDetail: Package,
-      currentPackage?: Package,
-    },
+      packageDetail: Package;
+      currentPackage?: Package;
+    };
   };
   private metaInfo!: IPackageJSON;
   private config!: Config;
@@ -44,9 +44,12 @@ export default class DataStore {
     this.packageDetails = {};
   }
 
-  public async getPackageDetail(packageId: {scope: string, packageName: string}): Promise<{
-    packageDetail: Package,
-    currentPackage?: Package,
+  public async getPackageDetail(packageId: {
+    scope: string;
+    packageName: string;
+  }): Promise<{
+    packageDetail: Package;
+    currentPackage?: Package;
   }> {
     const scope = packageId.scope;
     const packageName = packageId.packageName;
@@ -54,34 +57,36 @@ export default class DataStore {
     const cachedPackageDetails = this.packageDetails[key];
     if (cachedPackageDetails) {
       return new Promise<{
-        packageDetail: Package,
-        currentPackage?: Package,
+        packageDetail: Package;
+        currentPackage?: Package;
       }>((fulfill) => {
         fulfill(cachedPackageDetails);
       });
     }
 
     return new Promise<{
-      packageDetail: Package,
-      currentPackage?: Package,
+      packageDetail: Package;
+      currentPackage?: Package;
     }>((fulfill) => {
-      BackendApi.Instance.getPackageDetail({scope, packageName}).then((response) => {
-        const packageDetail: Package = new Package(response.data);
-        let currentPackage: Package | undefined;
-        const currentVersionObject: string | PackageMetaDataDTO =
-          packageDetail.versions[packageDetail['dist-tags'].latest];
-        if (typeof currentVersionObject !== 'string') {
-          currentPackage = new Package(currentVersionObject);
-        }
-        this.packageDetails[key] = {
-          packageDetail,
-          currentPackage,
-        };
-        return fulfill(this.packageDetails[key]);
-      }).catch((error) => {
-        EventBus.$emit(Errors.SERVER_ERROR, error);
-        return null;
-      });
+      BackendApi.Instance.getPackageDetail({ scope, packageName })
+        .then((response) => {
+          const packageDetail: Package = new Package(response.data);
+          let currentPackage: Package | undefined;
+          const currentVersionObject: string | PackageMetaDataDTO =
+            packageDetail.versions[packageDetail['dist-tags'].latest];
+          if (typeof currentVersionObject !== 'string') {
+            currentPackage = new Package(currentVersionObject);
+          }
+          this.packageDetails[key] = {
+            packageDetail,
+            currentPackage,
+          };
+          return fulfill(this.packageDetails[key]);
+        })
+        .catch((error) => {
+          EventBus.$emit(Errors.SERVER_ERROR, error);
+          return null;
+        });
     });
   }
 
@@ -95,61 +100,76 @@ export default class DataStore {
     if (this.request) {
       return this.request;
     }
-    return (this.request = BackendApi.Instance.getPackages().then((response) => {
-      const packagesResponse: PackagesResponse = response.data;
+    return (this.request = BackendApi.Instance.getPackages()
+      .then((response) => {
+        const packagesResponse: PackagesResponse = response.data;
 
-      for (const packageName of Object.keys(packagesResponse).filter((key) => !key.startsWith('_'))) {
-        const modifiedPackage: Package = new Package(packagesResponse[packageName]);
-        this.packages.push(modifiedPackage);
+        for (const packageName of Object.keys(packagesResponse).filter(
+          (key) => !key.startsWith('_'),
+        )) {
+          const modifiedPackage: Package = new Package(
+            packagesResponse[packageName],
+          );
+          this.packages.push(modifiedPackage);
 
-        if (modifiedPackage.tags) {
-          for (const tag of modifiedPackage.tags) {
-            if (! this.tagList.some((currentTag) => tag.value === currentTag.value)) {
-              this.tagList.push(tag);
+          if (modifiedPackage.tags) {
+            for (const tag of modifiedPackage.tags) {
+              if (
+                !this.tagList.some((currentTag) => tag.value === currentTag.value)
+              ) {
+                this.tagList.push(tag);
+              }
+            }
+          }
+          for (const crafter of modifiedPackage.crafters) {
+            if (
+              !this.crafterList.some((currentCrafter) =>
+                currentCrafter.equals(crafter),
+              )
+            ) {
+              this.crafterList.push(crafter);
             }
           }
         }
-        for (const crafter of modifiedPackage.crafters) {
-          if (! (this.crafterList.some((currentCrafter) => currentCrafter.equals(crafter)))) {
-            this.crafterList.push(crafter);
-          }
-        }
-      }
-      return this.packages;
-    }).catch((error) => {
-      EventBus.$emit(Errors.SERVER_ERROR, error);
-      return [];
-    }));
+        return this.packages;
+      })
+      .catch((error) => {
+        EventBus.$emit(Errors.SERVER_ERROR, error);
+        return [];
+      }));
   }
 
-  public getConfig(): Promise<Config|undefined> {
+  public getConfig(): Promise<Config | undefined> {
     if (this.config) {
       return new Promise((resolve, reject) => {
         resolve(this.config);
       });
     }
-    return BackendApi.Instance.getConfig().then((response) => {
-      this.config = response.data;
-      return this.config;
-    }).catch((error) => {
-      EventBus.$emit(Errors.SERVER_ERROR, error);
-      return undefined;
-    });
+    return BackendApi.Instance.getConfig()
+      .then((response) => {
+        this.config = response.data;
+        return this.config;
+      })
+      .catch((error) => {
+        EventBus.$emit(Errors.SERVER_ERROR, error);
+        return undefined;
+      });
   }
 
-  public getMetaInfo(): Promise<IPackageJSON|undefined> {
+  public getMetaInfo(): Promise<IPackageJSON | undefined> {
     if (this.metaInfo) {
       return new Promise((resolve, reject) => {
         resolve(this.metaInfo);
       });
     }
-    return BackendApi.Instance.getMetaInfo().then((response) => {
-      this.metaInfo = response.data;
-      return this.metaInfo;
-    }).catch((error) => {
-      EventBus.$emit(Errors.SERVER_ERROR, error);
-      return undefined;
-    });
+    return BackendApi.Instance.getMetaInfo()
+      .then((response) => {
+        this.metaInfo = response.data;
+        return this.metaInfo;
+      })
+      .catch((error) => {
+        EventBus.$emit(Errors.SERVER_ERROR, error);
+        return undefined;
+      });
   }
-
 }

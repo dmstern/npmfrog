@@ -1,12 +1,8 @@
-const tasks = require('./pm2.config');
+const tasks = require("./pm2.config");
 
 const runServer = tasks.runServer;
 runServer.watch = true;
 
 module.exports = {
-  apps: [
-    tasks.compileServer,
-    tasks.watchUI,
-    runServer,
-  ]
+  apps: [tasks.compileServer, tasks.watchUI, runServer]
 };
