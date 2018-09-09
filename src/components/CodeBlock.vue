@@ -43,13 +43,13 @@ export default class CodeBlock extends Vue {
     super();
   }
 
-  private onCopy() {
+  private onCopy(): void {
     this.showNotification = true;
     this.notificationColor = 'success';
     this.notificationText = 'Copied code to clipboard.';
   }
 
-  private onError() {
+  private onError(): void {
     this.showNotification = false;
     this.notificationColor = 'error';
     this.notificationText = 'Error: could not copy code to clipboard!';

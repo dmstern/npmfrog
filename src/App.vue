@@ -192,7 +192,10 @@ export default class App extends Vue {
   private hasFocus: boolean = false;
   private btnIconSize: number = 36;
   private navItems: any[] = [];
-  private error = {
+  private error: {
+    show: boolean,
+    msg: string,
+  } = {
     show: false,
     msg: '',
   };
@@ -241,7 +244,7 @@ export default class App extends Vue {
     return this.$refs.searchbar.$el.querySelector('input');
   }
 
-  private goHome() {
+  private goHome(): void {
     router.push('/');
     this.$refs.searchbar.reset();
   }
@@ -291,7 +294,7 @@ export default class App extends Vue {
     this.fireSearchFilterEvent();
   }
 
-  private onSearchChange(values: Searchable[]) {
+  private onSearchChange(values: Searchable[]): void {
     this.hasFocus = true;
     for (const value of values) {
       if (value instanceof Package) {
@@ -303,13 +306,13 @@ export default class App extends Vue {
     this.adaptContentSpacing();
   }
 
-  private onSearchEnter(event) {
+  private onSearchEnter(event: KeyboardEvent): void {
     if (event.ctrlKey) {
       this.onSearchSubmit(event);
     }
   }
 
-  private onSearchSubmit(event) {
+  private onSearchSubmit(event?: Event): void {
     router.push({path: '/'});
     this.$nextTick(this.fireSearchFilterEvent);
     this.$nextTick(this.$refs.searchbar.blur);
@@ -321,22 +324,22 @@ export default class App extends Vue {
     }, 0);
   }
 
-  private focusSearch() {
+  private focusSearch(): void {
     this.$nextTick(this.$refs.searchbar.focus);
   }
 
-  private onSearchInput(e: Event) {
+  private onSearchInput(e: Event): void {
     const target = e.target as HTMLInputElement;
     this.fireSearchFilterEvent();
   }
 
-  private fireSearchFilterEvent() {
+  private fireSearchFilterEvent(): void {
     this.$nextTick(() => {
       EventBus.$emit(Events.FILTER_SEARCH, { filters: this.activeFilters, query: this.searchInput.value });
     });
   }
 
-  private adaptContentSpacing() {
+  private adaptContentSpacing(): void {
     setTimeout(() => {
       const contentElement = document.querySelector('.v-content') as HTMLElement;
       const toolbar = document.querySelector('.v-toolbar__content') as HTMLElement;
@@ -344,7 +347,7 @@ export default class App extends Vue {
     }, 0);
   }
 
-  private getIcon(icon: string) {
+  private getIcon(icon: string): NodeRequire {
     return require(`@/../art/${icon}.svg`);
   }
 }

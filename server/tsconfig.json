@@ -5,8 +5,8 @@
     "noImplicitAny": false,
     "module": "commonjs",
     "target": "es5",
-    "lib": ["es5", "es2015", "dom", "scripthost"]
+    "lib": ["es5", "es2015", "dom", "scripthost"],
   },
   "include": ["**/*.ts"],
-  "exclude": ["node_modules", "**/*.spec.ts"]
+  "exclude": ["node_modules", "**/*.spec.ts"],
 }

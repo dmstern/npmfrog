@@ -3,6 +3,7 @@ import { PackagesResponse } from '../../types/PackageResponse';
 import { PackageMetaDataDTO } from '../../types/package-meta-data';
 import { IPackageJSON } from '../../types/package-json';
 import Config from '../../types/Config';
+import PackageId from '../../types/PackageId';
 
 export default class BackendApi {
   private static instance: BackendApi;
@@ -31,7 +32,7 @@ export default class BackendApi {
   public getPackageDetail({
     scope,
     packageName,
-  }): AxiosPromise<PackageMetaDataDTO> {
+  }: PackageId): AxiosPromise<PackageMetaDataDTO> {
     return this.get(`packageDetail/${scope ? `${scope}/` : ''}${packageName}`);
   }
 

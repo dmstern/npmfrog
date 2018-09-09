@@ -1,4 +1,5 @@
 import * as express from 'express';
+import { Response } from 'express-serve-static-core';
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 import * as morgan from 'morgan';
@@ -13,7 +14,7 @@ app.use(morgan('combined'));
 app.use(bodyParser.json());
 app.use(cors());
 
-function handleError(error, targetResponse, msg) {
+function handleError(error: Error, targetResponse: Response, msg: string): void {
   targetResponse
     .status(500)
     .send(`Error: ${msg} Please verify your server settings.\n\n${error}`);

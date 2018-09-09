@@ -8,6 +8,7 @@ import Searchable from '../../types/Searchable';
 import { IPackageJSON } from '../../types/package-json';
 import Config from '../../types/Config';
 import { EventBus, Errors } from '@/services/event-bus';
+import PackageId from 'types/PackageId';
 
 export default class DataStore {
   public static get Instance(): DataStore {
@@ -44,10 +45,7 @@ export default class DataStore {
     this.packageDetails = {};
   }
 
-  public async getPackageDetail(packageId: {
-    scope: string;
-    packageName: string;
-  }): Promise<{
+  public async getPackageDetail(packageId: PackageId): Promise<{
     packageDetail: Package;
     currentPackage?: Package;
   }> {
