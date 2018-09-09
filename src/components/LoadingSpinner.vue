@@ -34,7 +34,12 @@ import { EventBus, Errors } from '@/services/event-bus';
 })
 export default class LoadingSpinner extends Vue {
   @Prop() private msg!: string;
-  private error = {
+  private error: {
+    show: boolean,
+    msg: string,
+    status: number,
+    statusText: string,
+  } = {
     show: false,
     msg: '',
     status: 0,

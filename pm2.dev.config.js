@@ -4,5 +4,10 @@ const runServer = tasks.runServer;
 runServer.watch = true;
 
 module.exports = {
-  apps: [tasks.compileServer, tasks.watchUI, runServer]
+  apps: [
+    // tasks.tslint,
+    tasks.compileServer,
+    tasks.watchUI,
+    runServer,
+  ]
 };

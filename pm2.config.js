@@ -9,6 +9,13 @@ module.exports = {
     args: "serve",
     env_local
   },
+  // tslint: {
+  //   name: 'frog-tslint',
+  //   script: './node_modules/tslint/bin/tslint',
+  //   args: "server/**/*.ts",
+  //   restart_delay: 10000,
+  //   env_local
+  // },
   compileServer: {
     name: "frog-compile-server",
     script: "./node_modules/typescript/bin/tsc",

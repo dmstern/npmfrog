@@ -106,13 +106,13 @@ export default class About extends Vue {
     this.loadConfig();
   }
 
-  private loadMetaInfo() {
+  private loadMetaInfo(): void {
     DataStore.Instance.getMetaInfo().then((response) => {
       this.data.meta = response;
     });
   }
 
-  private loadConfig() {
+  private loadConfig(): void {
     DataStore.Instance.getConfig().then((response) => {
       if (response) {
         this.data.config = response;

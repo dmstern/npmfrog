@@ -20,8 +20,8 @@ export default class Crafter extends Searchable {
     }
   }
 
-  private static lastUsedColorNumber = -1;
-  private static colors = Object.keys(vuetifyColors).filter((color) => {
+  private static lastUsedColorNumber: number = -1;
+  private static colors: string[] = Object.keys(vuetifyColors).filter((color) => {
     return (
       !forbiddenColors.some((forbidden) => forbidden === color) &&
       !color.startsWith('light')
@@ -35,7 +35,7 @@ export default class Crafter extends Searchable {
 
   private backgroundColor?: string;
 
-  public get color() {
+  public get color(): string {
     if (this.backgroundColor) {
       return this.backgroundColor;
     }

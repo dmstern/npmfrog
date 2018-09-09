@@ -99,7 +99,7 @@ export default class Packages extends Vue {
     });
   }
 
-  private loadConfig() {
+  private loadConfig(): void {
     DataStore.Instance.getConfig().then((config) => {
       if (config) {
         this.artifactoryUrl = config.artifactory.host;

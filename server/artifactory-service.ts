@@ -5,6 +5,7 @@ import * as tar from 'tar';
 import * as showdown from 'showdown';
 import * as emoji from 'node-emoji';
 import { PackagesResponse } from '../types/PackageResponse';
+import PackageId from '../types/PackageId';
 
 import config from './config-service.js';
 const repoKey = config.artifactory.repoKey;
@@ -18,7 +19,7 @@ axios.defaults.baseURL = `http${s}://${
 }/artifactory/api/npm/${repoKey}`;
 axios.defaults.headers.common.Authorization = config.artifactory.apiKey;
 
-function name2url({ scope, packageName }) {
+function name2url({ scope, packageName }: PackageId): string {
   return `${scope ? `${scope}/` : ''}${packageName}`;
 }
 
@@ -47,7 +48,7 @@ function readme2Html(readmeFile: string): string {
   return html;
 }
 
-function readMainCode(storageDir): string {
+function readMainCode(storageDir: string): string {
   const packageJson = fs.readJSONSync(path.join(storageDir, `package.json`));
   try {
     return fs.readFileSync(path.join(storageDir, packageJson.main)).toString();
@@ -73,7 +74,7 @@ function fetchPackages(): AxiosPromise<PackagesResponse> {
 async function getPackageDetail({
   scope,
   packageName,
-}): Promise<AxiosResponse> {
+}: PackageId): Promise<AxiosResponse> {
   const latestVersionResponse = await getDistTags({ scope, packageName });
   const latestVersion = latestVersionResponse.data.latest;
   const key = `${scope}-${packageName}-${latestVersion}`;
@@ -171,7 +172,7 @@ async function getPackageDetail({
   });
 }
 
-function readAdditionalCode(storageDir) {
+function readAdditionalCode(storageDir: string): { readme: string, mainCode: string } {
   let readme;
   let mainCode;
   try {
@@ -190,7 +191,7 @@ function readAdditionalCode(storageDir) {
   };
 }
 
-function getDistTags({ scope, packageName }): AxiosPromise<any> {
+function getDistTags({ scope, packageName }: PackageId): AxiosPromise<any> {
   return process.env.MOCK
     ? new Promise<AxiosResponse>((resolve, reject) => {
         resolve(

@@ -266,6 +266,7 @@ import CodeBlock from '@/components/CodeBlock.vue';
 import CrafterAvatar from '@/components/CrafterAvatar.vue';
 import { EventBus, Events } from '@/services/event-bus';
 import { setTimeout } from 'timers';
+import Searchable from '../../types/Searchable';
 
 @Component({
   components: {
@@ -312,7 +313,7 @@ export default class PackageDetail extends Vue {
     this.init();
   }
 
-  private resetModel() {
+  private resetModel(): void {
     this.activeTab = 0;
     this.data = {
       packageDetail: null,
@@ -323,20 +324,23 @@ export default class PackageDetail extends Vue {
     };
   }
 
-  private init() {
+  private init(): void {
     Promise.all([
       this.getPackageDetails(),
       this.loadConfig(),
     ]);
   }
 
-  private loadConfig() {
+  private loadConfig(): Promise<Config | undefined> {
     return DataStore.Instance.getConfig().then((config) => {
-      this.data.config = config;
+      return this.data.config = config;
     });
   }
 
-  private getPackageDetails() {
+  private getPackageDetails(): Promise<{
+    packageDetail: Package;
+    currentPackage?: Package;
+  }> {
     return DataStore.Instance.getPackageDetail({
       scope: Router.currentRoute.params.scope,
       packageName: Router.currentRoute.params.packageName,
@@ -345,10 +349,17 @@ export default class PackageDetail extends Vue {
       this.data.currentTags = response.packageDetail['dist-tags'];
       this.data.versionsHistory = response.packageDetail.versions;
       this.data.currentPackage = response.currentPackage;
+      return {
+        packageDetail: response.packageDetail,
+        currentPackage: response.currentPackage,
+      };
     });
   }
 
-  private getInstallCode() {
+  private getInstallCode(): {
+    config: string,
+    install: string,
+  } | undefined {
     if (this.data.packageDetail && this.data.config && this.data.config.artifactory) {
       return {
         config: `npm config set ${
@@ -365,10 +376,10 @@ export default class PackageDetail extends Vue {
     }
   }
 
-  private triggerSearchFilter(tag) {
+  private triggerSearchFilter(searchable: Searchable): void {
     router.push(`/`);
     this.$nextTick(() => {
-      EventBus.$emit(Events.TRIGGER_FILTER_SEARCH, { filters: [tag] });
+      EventBus.$emit(Events.TRIGGER_FILTER_SEARCH, { filters: [searchable] });
     });
   }
 }

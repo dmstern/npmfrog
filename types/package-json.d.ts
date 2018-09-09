@@ -82,7 +82,7 @@ export interface IBugs {
 
 export interface IConfig {
   name?: string;
-  config?: Object;
+  config?: object;
 }
 
 /**
