@@ -5,7 +5,6 @@ import { IPackageJSON } from '../../types/package-json';
 import Config from '../../types/Config';
 
 export default class BackendApi {
-
   private static instance: BackendApi;
   private axios: AxiosInstance;
   private baseURL: string;
@@ -29,7 +28,10 @@ export default class BackendApi {
     return this.get('config');
   }
 
-  public getPackageDetail({scope, packageName}): AxiosPromise<PackageMetaDataDTO> {
+  public getPackageDetail({
+    scope,
+    packageName,
+  }): AxiosPromise<PackageMetaDataDTO> {
     return this.get(`packageDetail/${scope ? `${scope}/` : ''}${packageName}`);
   }
 
@@ -40,5 +42,4 @@ export default class BackendApi {
   private get(route: string): AxiosPromise<any> {
     return this.axios.get(route);
   }
-
 }

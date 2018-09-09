@@ -60,7 +60,6 @@ export default class CodeBlock extends Vue {
 </script>
 
 <style lang="scss" scoped>
-
 .packageDetail__installCode {
   display: flex;
 
@@ -70,5 +69,4 @@ export default class CodeBlock extends Vue {
     max-width: calc(100% - 52px);
   }
 }
-
 </style>

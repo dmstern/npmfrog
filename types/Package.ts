@@ -16,7 +16,7 @@ import Crafter from './Crafter';
 import Searchable from './Searchable';
 import { Tag } from './Tag';
 
-export default class Package extends Searchable implements PackageMetaDataDTO  {
+export default class Package extends Searchable implements PackageMetaDataDTO {
   public readonly distTags!: IDistTags;
   public readonly time!: ITimes;
   public readonly users!: {};
@@ -91,8 +91,12 @@ export default class Package extends Searchable implements PackageMetaDataDTO  {
     // Count depenedencies:
     const dependencies = packageMetaData.dependencies;
     const devDependencies = packageMetaData.devDependencies;
-    const dependenciesCount = dependencies ? Object.keys(dependencies).length : 0;
-    const devDependenciesCount = devDependencies ? Object.keys(devDependencies).length : 0;
+    const dependenciesCount = dependencies
+      ? Object.keys(dependencies).length
+      : 0;
+    const devDependenciesCount = devDependencies
+      ? Object.keys(devDependencies).length
+      : 0;
     this.dependenciesCount = dependenciesCount + devDependenciesCount;
 
     // set scope:
@@ -120,10 +124,10 @@ export default class Package extends Searchable implements PackageMetaDataDTO  {
 
   public getSearchItemText(): string[] {
     return [
-        this.name || '',
-        this.description || '',
-        this.author ? this.author.toString() : '',
-      ]
+      this.name || '',
+      this.description || '',
+      this.author ? this.author.toString() : '',
+    ]
       .concat(...this.tags.map((tag) => tag.getSearchItemText()))
       .concat(...this.crafters.map((crafter) => crafter.getSearchItemText()));
   }
@@ -178,5 +182,4 @@ export default class Package extends Searchable implements PackageMetaDataDTO  {
     }
     return url.split('/')[2];
   }
-
 }

@@ -14,48 +14,59 @@ app.use(bodyParser.json());
 app.use(cors());
 
 function handleError(error, targetResponse, msg) {
-  targetResponse.status(500).send(`Error: ${msg} Please verify your server settings.\n\n${error}`);
+  targetResponse
+    .status(500)
+    .send(`Error: ${msg} Please verify your server settings.\n\n${error}`);
 }
 
 app.get('/packages', (req, res) => {
-  artifactoryService.fetchPackages().then((response) => {
-    res.send(response.data);
-  }).catch((error) => {
-    handleError(error, res, `Could not get packagages from ${artifactoryService.baseURL}.`);
-  });
+  artifactoryService
+    .fetchPackages()
+    .then((response) => {
+      res.send(response.data);
+    })
+    .catch((error) => {
+      handleError(
+        error,
+        res,
+        `Could not get packagages from ${artifactoryService.baseURL}.`,
+      );
+    });
 });
 
 app.get('/package/:scope?/:packageName/dist-tags', (req, res) => {
-  artifactoryService.getDistTags(req.params).then((response) => {
-    res.send(response.data);
-  }).catch((error) => {
-    handleError(
-      error,
-      res,
-      `Could not get dist-tags for package "${
-        req.params.scope}/${req.params.packageName
-      }
-      " from ${
-        artifactoryService.baseURL
-      }.`);
-  });
+  artifactoryService
+    .getDistTags(req.params)
+    .then((response) => {
+      res.send(response.data);
+    })
+    .catch((error) => {
+      handleError(
+        error,
+        res,
+        `Could not get dist-tags for package "${req.params.scope}/${
+          req.params.packageName
+        }
+      " from ${artifactoryService.baseURL}.`,
+      );
+    });
 });
 
 app.get('/packageDetail/:scope?/:packageName', (req, res) => {
-  artifactoryService.getPackageDetail(req.params).then((response) => {
-    res.send(response.data);
-  }).catch((error) => {
-    handleError(
-      error,
-      res,
-      `Could not get package details for package "${
-        req.params.scope
-      }/${
-        req.params.packageName
-      }" from ${
-        artifactoryService.baseURL
-      }.`);
-  });
+  artifactoryService
+    .getPackageDetail(req.params)
+    .then((response) => {
+      res.send(response.data);
+    })
+    .catch((error) => {
+      handleError(
+        error,
+        res,
+        `Could not get package details for package "${req.params.scope}/${
+          req.params.packageName
+        }" from ${artifactoryService.baseURL}.`,
+      );
+    });
 });
 
 app.get('/config', (req, res) => {

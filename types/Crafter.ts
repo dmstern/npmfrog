@@ -6,7 +6,6 @@ import vuetifyColors from 'vuetify/es5/util/colors';
 const forbiddenColors = ['shades', 'grey', 'blueGrey'];
 
 export default class Crafter extends Searchable {
-
   public get initials(): string | undefined {
     if (this.name) {
       let nameParts = this.name.split(', ');
@@ -23,8 +22,10 @@ export default class Crafter extends Searchable {
 
   private static lastUsedColorNumber = -1;
   private static colors = Object.keys(vuetifyColors).filter((color) => {
-    return ! forbiddenColors.some((forbidden) => forbidden === color)
-      && ! color.startsWith('light');
+    return (
+      !forbiddenColors.some((forbidden) => forbidden === color) &&
+      !color.startsWith('light')
+    );
   });
   private static allCrafters: Crafter[] = [];
 
@@ -43,11 +44,9 @@ export default class Crafter extends Searchable {
     }
     Crafter.lastUsedColorNumber++;
     const colorKey = Crafter.colors[Crafter.lastUsedColorNumber]
-    .replace(
-      /(?:^|\.?)([A-Z])/g, (x, y) => '-' + y.toLowerCase(),
-    )
-    .replace(/^-/, '');
-    return this.backgroundColor = colorKey;
+      .replace(/(?:^|\.?)([A-Z])/g, (x, y) => '-' + y.toLowerCase())
+      .replace(/^-/, '');
+    return (this.backgroundColor = colorKey);
   }
 
   constructor(author?: IAuthor | string) {
@@ -57,7 +56,9 @@ export default class Crafter extends Searchable {
         const authorParts = author.split('<');
         if (authorParts.length === 2) {
           this.name = authorParts[0].trim();
-          this.email = authorParts[1].slice(0, authorParts[1].length - 1).trim();
+          this.email = authorParts[1]
+            .slice(0, authorParts[1].length - 1)
+            .trim();
         } else {
           this.name = author;
         }
@@ -65,7 +66,9 @@ export default class Crafter extends Searchable {
         this.name = author.name;
       }
     }
-    const alreadyCreatedCrafter = Crafter.allCrafters.find((crafter) => crafter.equals(this));
+    const alreadyCreatedCrafter = Crafter.allCrafters.find((crafter) =>
+      crafter.equals(this),
+    );
     if (alreadyCreatedCrafter) {
       return alreadyCreatedCrafter;
     } else {
@@ -77,7 +80,10 @@ export default class Crafter extends Searchable {
     if (other instanceof Crafter && other.equals(this)) {
       return true;
     }
-    if (other instanceof Package && other.crafters.some((crafter) => crafter.equals(this))) {
+    if (
+      other instanceof Package &&
+      other.crafters.some((crafter) => crafter.equals(this))
+    ) {
       return true;
     }
     for (const item of packages) {
@@ -117,9 +123,10 @@ export default class Crafter extends Searchable {
     if (this.email && other.email) {
       return this.email === other.email;
     }
-    return this.name === other.name
-      && this.email === other.email
-      && this.url === other.url;
+    return (
+      this.name === other.name &&
+      this.email === other.email &&
+      this.url === other.url
+    );
   }
-
 }

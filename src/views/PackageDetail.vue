@@ -376,7 +376,7 @@ export default class PackageDetail extends Vue {
 </script>
 
 <style lang="scss">
-@import '../assets/variables';
+@import "../assets/variables";
 
 pre code.hljs {
   margin-bottom: 1em;
@@ -396,38 +396,36 @@ pre code.hljs {
 
   > span:not(:last-child) {
     &::after {
-      content: '•';
+      content: "•";
       display: inline-block;
-      margin: 0 .7em;
+      margin: 0 0.7em;
     }
   }
 }
 
 .blockquote--beautify {
-
   position: relative;
 
   &::before,
   &::after {
     font-size: 10em;
     position: absolute;
-    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-family: Georgia, "Times New Roman", Times, serif;
     color: $color-gray-extralight;
-    opacity: .3;
+    opacity: 0.3;
   }
 
   &::before {
-    content: '„';
+    content: "„";
     left: 0;
     bottom: -60px;
   }
 
   &::after {
-    content: '“';
+    content: "“";
     top: -51px;
     transform: translateX(-1rem);
   }
 }
-
 </style>
 

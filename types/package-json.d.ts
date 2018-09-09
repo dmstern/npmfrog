@@ -1,5 +1,4 @@
 export interface IPackageJSON {
-
   readonly name: string;
 
   readonly version?: string;
@@ -10,25 +9,25 @@ export interface IPackageJSON {
 
   readonly homepage?: string;
 
-  readonly bugs?: string|IBugs;
+  readonly bugs?: string | IBugs;
 
   readonly license?: string;
 
   readonly author?: IAuthor | string;
 
-  readonly contributors?: string[]|IAuthor[];
+  readonly contributors?: string[] | IAuthor[];
 
   readonly files?: string[];
 
   readonly main?: string;
 
-  readonly bin?: string|IBinMap;
+  readonly bin?: string | IBinMap;
 
-  readonly man?: string|string[];
+  readonly man?: string | string[];
 
   readonly directories?: IDirectories;
 
-  readonly repository?: string|IRepository;
+  readonly repository?: string | IRepository;
 
   readonly scripts?: IScriptsMap;
 
@@ -55,7 +54,6 @@ export interface IPackageJSON {
   readonly private?: boolean;
 
   readonly publishConfig?: IPublishConfig;
-
 }
 
 /**

@@ -56,6 +56,6 @@ export default class LoadingSpinner extends Vue {
 
 <style lang="scss">
 .v-alert .heading {
-  margin-top: 0; 
+  margin-top: 0;
 }
 </style>
