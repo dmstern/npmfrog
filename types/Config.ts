@@ -3,5 +3,7 @@ export default interface Config {
     host: string;
     repoKey: string;
     https: boolean;
+    apiKey: string;
   };
+  companyScope: string;
 }

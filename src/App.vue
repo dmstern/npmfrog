@@ -24,7 +24,7 @@
             value="true"
           >
             <v-list-tile-action>
-              <v-icon v-html="item.icon"></v-icon>
+              <v-icon>{{$vuetify.icons[item.icon]}}</v-icon>
             </v-list-tile-action>
             <v-list-tile-content>
               <v-list-tile-title v-text="item.title"></v-list-tile-title>
@@ -170,6 +170,7 @@ import About from '@/components/About.vue';
 import CrafterAvatar from '@/components/CrafterAvatar.vue';
 import Crafter from '../types/Crafter';
 import Searchable from '../types/Searchable';
+import * as vuetify from './plugins/vuetify';
 
 @Component({
   components: {
@@ -197,8 +198,8 @@ export default class App extends Vue {
   private btnIconSize: number = 36;
   private navItems: Array<{ icon: string, title: string, target: string }> = [
     {
-      icon: 'email',
-      title: 'howto',
+      icon: 'howto',
+      title: 'HowTo',
       target: 'howto',
     },
   ];
@@ -466,6 +467,14 @@ code.hljs {
       display: inline-block;
       vertical-align: baseline;
     }
+  }
+
+  .caption {
+    display: block;
+    background-color: rgba(255, 255, 255, 0.13);
+    padding: 6px;
+    margin: -40px -6px 0 -6px;
+    border-bottom: 1px solid rgba(100, 100, 100, 0.2);
   }
 }
 
