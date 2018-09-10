@@ -10,11 +10,12 @@
     "compile": "npm run lint && cd server && tsc",
     "build": "npm run compile && npm run copy && vue-cli-service build --dest dist/webui",
     "zip": "bestzip tmp/webui.zip dist/*",
-    "logs": "pm2 logs",
+    "logs": "pm2 logs /frog-.*/",
     "stop": "pm2 stop /frog-.*/",
     "pre-release": "release-it --preRelease=alpha",
     "rc": "release-it --preRelease=rc --npm.tag=next"
   },
+  "bin": "./cli.js",
   "dependencies": {
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
@@ -68,7 +69,8 @@
     "ecosystem.config.js",
     ".sample.npmfrogrc.json",
     "pm2.config.js",
-    "pm2.prod.config.js"
+    "pm2.prod.config.js",
+    "cli.js"
   ],
   "repository": {
     "type": "git",

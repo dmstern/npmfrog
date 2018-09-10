@@ -2,6 +2,8 @@ const env_local = {
   MOCK: true
 };
 
+const log_date_format = "DD-MM-YYYY HH:mm:ss";
+
 module.exports = {
   watchUI: {
     name: "frog-ui",
@@ -27,11 +29,14 @@ module.exports = {
     name: "frog-server",
     script: "index.js",
     cwd: "dist/server/",
+    log: '../../frog-server.log',
     env_local
   },
   serveUIStatic: {
     name: "frog-ui-static",
     script: "serve",
+    log: './frog-ui.log',
+    log_date_format,
     env: {
       PM2_SERVE_PATH: "dist/webui",
       PM2_SERVE_PORT: 8000
