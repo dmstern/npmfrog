@@ -18,7 +18,7 @@
         <router-link
           v-for="(item, i) in navItems"
           :key="i"
-          :to="item.target"
+          :to="`/${item.target}`"
         >
           <v-list-tile
             value="true"
