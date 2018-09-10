@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Home from './views/Home.vue';
 import PackageDetail from './views/PackageDetail.vue';
+import HowTo from './views/HowTo.vue';
 
 Vue.use(Router);
 
@@ -16,6 +17,11 @@ export default new Router({
       path: '/package/:scope?/:packageName',
       name: 'packageDetail',
       component: PackageDetail,
+    },
+    {
+      path: '/howto/',
+      name: 'howto',
+      component: HowTo,
     },
   ],
 });

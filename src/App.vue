@@ -15,18 +15,22 @@
           </v-toolbar-title>
         </v-list-tile>
 
-        <v-list-tile
-          value="true"
+        <router-link
           v-for="(item, i) in navItems"
           :key="i"
+          :to="item.target"
         >
-          <v-list-tile-action>
-            <v-icon v-html="item.icon"></v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title v-text="item.title"></v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
+          <v-list-tile
+            value="true"
+          >
+            <v-list-tile-action>
+              <v-icon v-html="item.icon"></v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title v-text="item.title"></v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </router-link>
         <About />
       </v-list>
     </v-navigation-drawer>
@@ -191,7 +195,13 @@ export default class App extends Vue {
   private clipped: boolean = true;
   private hasFocus: boolean = false;
   private btnIconSize: number = 36;
-  private navItems: any[] = [];
+  private navItems: Array<{ icon: string, title: string, target: string }> = [
+    {
+      icon: 'email',
+      title: 'howto',
+      target: 'howto',
+    },
+  ];
   private error: {
     show: boolean,
     msg: string,
@@ -370,7 +380,7 @@ h6 {
 }
 
 a {
-  display: inline-block;
+  // display: inline-block;
   text-decoration: none;
   transition: $transition-fast;
 
