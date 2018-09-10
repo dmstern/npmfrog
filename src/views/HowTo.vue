@@ -103,17 +103,18 @@ export default class HowTo extends Vue {
 
 .v-list.link-list {
   background-color: transparent;
-}
 
-a[target="_blank"] {
+  a[target="_blank"] {
 
-  &::before {
-    content: "↗";
-    display: inline-block;
-    vertical-align: baseline;
-    margin-right: .7em;
-    font-weight: bold;
+    &::before {
+      content: "↗";
+      display: inline-block;
+      vertical-align: baseline;
+      margin-right: .7em;
+      font-weight: bold;
+    }
   }
 }
+
 
 </style>
