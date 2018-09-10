@@ -78,6 +78,7 @@ app.get('/config', (req, res) => {
         repoKey: config.artifactory.repoKey,
         https: config.artifactory.https,
       },
+      companyScope: config.companyScope,
     });
   } catch (error) {
     handleError(error, res, `Could not get npmFrog config from server.`);

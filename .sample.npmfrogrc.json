@@ -4,5 +4,6 @@
     "apiKey": "<YOUR_ARTIFACTORY_API_KEY>",
     "repoKey": "npm",
     "https": false
-  }
+  },
+  "companyScope": "<YOUR_DEFAULT_COMPANY_SCOPE_WITHOUT_AT>"
 }

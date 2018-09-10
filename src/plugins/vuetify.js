@@ -25,6 +25,7 @@ const icons = {
   created: 'fas fa-bolt',
   updated: 'far fa-clock',
   about: 'fas fa-info-circle',
+  howto: 'far fa-question-circle',
   clear: 'fas fa-times',
   bug: 'fas fa-bug',
   contact: 'far fa-comments',

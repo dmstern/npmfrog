@@ -99,7 +99,9 @@ export default class About extends Vue {
           host: '',
           repoKey: '',
           https: false,
+          apiKey: '',
         },
+        companyScope: '',
       },
     };
     this.loadMetaInfo();

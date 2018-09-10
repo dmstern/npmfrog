@@ -15,18 +15,22 @@
           </v-toolbar-title>
         </v-list-tile>
 
-        <v-list-tile
-          value="true"
+        <router-link
           v-for="(item, i) in navItems"
           :key="i"
+          :to="`/${item.target}`"
         >
-          <v-list-tile-action>
-            <v-icon v-html="item.icon"></v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title v-text="item.title"></v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
+          <v-list-tile
+            value="true"
+          >
+            <v-list-tile-action>
+              <v-icon>{{$vuetify.icons[item.icon]}}</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title v-text="item.title"></v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </router-link>
         <About />
       </v-list>
     </v-navigation-drawer>
@@ -166,6 +170,7 @@ import About from '@/components/About.vue';
 import CrafterAvatar from '@/components/CrafterAvatar.vue';
 import Crafter from '../types/Crafter';
 import Searchable from '../types/Searchable';
+import * as vuetify from './plugins/vuetify';
 
 @Component({
   components: {
@@ -191,7 +196,13 @@ export default class App extends Vue {
   private clipped: boolean = true;
   private hasFocus: boolean = false;
   private btnIconSize: number = 36;
-  private navItems: any[] = [];
+  private navItems: Array<{ icon: string, title: string, target: string }> = [
+    {
+      icon: 'howto',
+      title: 'HowTo',
+      target: 'howto',
+    },
+  ];
   private error: {
     show: boolean,
     msg: string,
@@ -370,7 +381,7 @@ h6 {
 }
 
 a {
-  display: inline-block;
+  // display: inline-block;
   text-decoration: none;
   transition: $transition-fast;
 
@@ -456,6 +467,14 @@ code.hljs {
       display: inline-block;
       vertical-align: baseline;
     }
+  }
+
+  .caption {
+    display: block;
+    background-color: rgba(255, 255, 255, 0.13);
+    padding: 6px;
+    margin: -40px -6px 0 -6px;
+    border-bottom: 1px solid rgba(100, 100, 100, 0.2);
   }
 }
 
