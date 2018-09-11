@@ -62,7 +62,6 @@
         chips
         deletable-chips
         multiple
-        :autofocus="$router.currentRoute.name === 'home'"
         persistent-hint
         return-object
         suffix="/"
@@ -93,7 +92,7 @@
             >
               <CrafterAvatar v-if="isCrafter(data.item)" :crafter="data.item"></CrafterAvatar>
               <v-avatar v-else>
-                <v-icon>{{$vuetify.icons.tag}}</v-icon>
+                <v-icon color="primary">{{$vuetify.icons.tag}}</v-icon>
               </v-avatar>
               <v-list-tile-sub-title> {{ isCrafter(data.item) ? data.item.name : data.item.value }}</v-list-tile-sub-title>
             </v-chip>
@@ -102,10 +101,13 @@
         <template slot="item" slot-scope="data">
           <template v-if="isPackage(data.item)">
             <v-list-tile-avatar>
-              <v-icon>{{$vuetify.icons.package}}</v-icon>
+              <v-icon color="accent">{{$vuetify.icons.package}}</v-icon>
             </v-list-tile-avatar>
             <v-list-tile-content>
-              <v-list-tile-title><strong v-html="data.item.name"></strong></v-list-tile-title>
+              <v-list-tile-title>
+                <span class="search--key grey--text">package:</span>
+                <strong v-html="data.item.name"></strong>
+              </v-list-tile-title>
               <v-list-tile-sub-title v-html="data.item.description"></v-list-tile-sub-title>
             </v-list-tile-content>
             <v-spacer></v-spacer>
@@ -114,17 +116,19 @@
           <template v-else>
             <v-list-tile-avatar>
               <CrafterAvatar v-if="isCrafter(data.item)" :crafter="data.item"></CrafterAvatar>
-              <v-icon v-else v-text="$vuetify.icons.tag"></v-icon>
+              <v-icon
+                v-else
+                v-text="$vuetify.icons.tag"
+                color="primary"
+              ></v-icon>
             </v-list-tile-avatar>
             <v-list-tile-content>
               <v-list-tile-title>
-                <span class="search--key grey--text text--darken-1">
-                  {{
+                <span class="search--key grey--text">{{
                     isCrafter(data.item)
                     ? `@`
                     : `#`
-                  }}
-                </span>
+                  }}</span>
                 <span v-html="isCrafter(data.item) ? data.item.name : data.item.value"></span>
               </v-list-tile-title>
             </v-list-tile-content>
@@ -420,10 +424,6 @@ a {
     transform: none;
   }
 
-  .v-chip &,
-  .v-avatar & {
-    opacity: 0.8;
-  }
 }
 
 code,
@@ -561,10 +561,6 @@ code.hljs {
   .v-list__tile__content {
     max-width: 500px;
   }
-}
-
-.search--key {
-  margin-right: -3px;
 }
 
 .v-text-field {

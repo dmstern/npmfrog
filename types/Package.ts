@@ -124,7 +124,8 @@ export default class Package extends Searchable implements PackageMetaDataDTO {
 
   public getSearchItemText(): string[] {
     return [
-      this.name || '',
+      this.name,
+      `package:${this.name}`,
       this.description || '',
       this.author ? this.author.toString() : '',
     ]
