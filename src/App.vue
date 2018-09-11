@@ -62,7 +62,6 @@
         chips
         deletable-chips
         multiple
-        :autofocus="$router.currentRoute.name === 'home'"
         persistent-hint
         return-object
         suffix="/"
