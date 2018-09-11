@@ -28,6 +28,9 @@
             Version: {{data.meta.version}}
           </p>
           <p>
+            <ExternalLink href="https://github.com/dmstern/npmfrog/releases" text="Changelog"></ExternalLink>
+          </p>
+          <p>
             This tool requests meta data of npm packages that were published to jFrog's npm registry on {{data.config.artifactory.host}} for integration into another front-end project or for deployment as a back-end dependency.
             It and aims to display them in a way that should help front-end developers to discover the best in-house javascript solutions to solve a specific problem.
           </p>
@@ -37,12 +40,12 @@
           </p>
           <h2 class="subheading">Technologies</h2>
           <ul>
-            <li><a href="https://vuejs.org" target="_blank">Vue.js</a></li>
-            <li><a href="https://www.typescriptlang.org/" target="_blank">TypeScript</a></li>
-            <li><a href="http://vuetifyjs.com" target="_blank">Vuetify</a></li>
-            <li><a href="https://nodejs.org/" target="_blank">node.js</a></li>
-            <li><a href="http://expressjs.com/" target="_blank">Express</a></li>
-            <li><a href="https://github.com/axios/axios" target="_blank">Axios</a></li>
+            <li><ExternalLink href="https://vuejs.org" text="Vue.js"></ExternalLink></li>
+            <li><ExternalLink href="https://www.typescriptlang.org/" text="TypeScript"></ExternalLink></li>
+            <li><ExternalLink href="http://vuetifyjs.com" text="Vuetify"></ExternalLink></li>
+            <li><ExternalLink href="https://nodejs.org/" text="node.js"></ExternalLink></li>
+            <li><ExternalLink href="http://expressjs.com/" text="Express"></ExternalLink></li>
+            <li><ExternalLink href="https://github.com/axios/axios" text="Axios"></ExternalLink></li>
           </ul>
           <br>
           <v-divider />
@@ -73,9 +76,13 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import DataStore from '@/services/DataStore';
 import Config from '../../types/Config';
 import { IPackageJSON } from '../../types/package-json';
+import ExternalLink from './ExternalLink.vue';
 
 @Component({
   name: 'About',
+  components: {
+    ExternalLink,
+  },
 })
 export default class About extends Vue {
   @Prop() private dialogOpen!: boolean;
@@ -126,9 +133,19 @@ export default class About extends Vue {
 </script>
 
 <style lang="scss" scoped>
+
 blockquote {
   padding-top: 0;
   margin: 0;
 }
+
+ul {
+  list-style: none;
+
+  li {
+    margin-left: -1em;
+  }
+}
+
 </style>
 

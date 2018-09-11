@@ -13,6 +13,7 @@ const icons = {
   search: 'fas fa-search',
   send: 'fas fa-share-square',
   arrowTopLeft: 'mdi-arrow-top-left',
+  arrowTopRight: 'mdi-arrow-top-right',
   goTo: 'fas fa-arrow-circle-right',
   tag: 'fas fa-tag',
   tags: 'fas fa-tags',
