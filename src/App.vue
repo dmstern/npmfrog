@@ -241,7 +241,10 @@ export default class App extends Vue {
     EventBus.$on(Errors.SERVER_ERROR, (error) => {
       const res = error.response;
       this.error.show = true;
-      this.error.msg = res.data;
+      console.log(error);
+      if (res) {
+        this.error.msg = res.data;
+      }
     });
 
     EventBus.$on(Events.TRIGGER_FILTER_SEARCH, (args: { filters: Searchable[], query: string }) => {
@@ -584,3 +587,4 @@ code.hljs {
   color: $color-gray-medium;
 }
 </style>
+–
