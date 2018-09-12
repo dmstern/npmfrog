@@ -5,7 +5,7 @@
       scrollable
     >
 
-      <v-list-tile slot="activator" color="primary">
+      <v-list-tile slot="activator" color="primary" class="v-list__tile--link">
         <v-list-tile-action>
           <v-icon>{{$vuetify.icons.about}}</v-icon>
         </v-list-tile-action>
@@ -133,6 +133,10 @@ export default class About extends Vue {
 </script>
 
 <style lang="scss" scoped>
+
+.v-dialog__container {
+  display: block !important;
+}
 
 blockquote {
   padding-top: 0;

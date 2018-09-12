@@ -393,8 +393,8 @@ h6 {
   margin: 1em 0 0.5em 0;
 }
 
-a {
-  // display: inline-block;
+a,
+.v-list__tile--link {
   text-decoration: none;
   transition: $transition-fast;
 
