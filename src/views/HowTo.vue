@@ -88,7 +88,6 @@ export default class HowTo extends Vue {
   constructor() {
     super();
     DataStore.Instance.getConfig().then((response) => {
-      console.log(response);
       if (response) {
         this.data.artifactoryUrl = `http${
           response.artifactory.https ? 's' : ''
