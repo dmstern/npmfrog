@@ -51,9 +51,12 @@ export default class LoadingSpinner extends Vue {
     EventBus.$on(Errors.SERVER_ERROR, (error) => {
       const res = error.response;
       this.error.show = true;
-      this.error.msg = res.data;
-      this.error.status = res.status;
-      this.error.statusText = res.statusText;
+      console.log(error);
+      if (res) {
+        this.error.msg = res.data;
+        this.error.status = res.status;
+        this.error.statusText = res.statusText;
+      }
     });
   }
 }
