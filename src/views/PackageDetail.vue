@@ -202,7 +202,7 @@
 
                     <v-list-tile-content>
                       <v-list-tile-title>{{crafter.name}}</v-list-tile-title>
-                      <v-list-tile-sub-title>{{crafter.url}}</v-list-tile-sub-title>
+                      <v-list-tile-sub-title v-if="crafter.url"><ExternalLink :href="crafter.url" :icon="$vuetify.icons.website"></ExternalLink></v-list-tile-sub-title>
                     </v-list-tile-content>
 
                   </v-list-tile>
@@ -264,6 +264,7 @@ import Config from '../../types/Config';
 import PackageDetailItem from '@/components/PackageDetailItem.vue';
 import CodeBlock from '@/components/CodeBlock.vue';
 import CrafterAvatar from '@/components/CrafterAvatar.vue';
+import ExternalLink from '@/components/ExternalLink.vue';
 import { EventBus, Events } from '@/services/event-bus';
 import { setTimeout } from 'timers';
 import Searchable from '../../types/Searchable';
@@ -274,6 +275,7 @@ import Searchable from '../../types/Searchable';
     PackageDetailItem,
     CodeBlock,
     CrafterAvatar,
+    ExternalLink,
   },
 })
 export default class PackageDetail extends Vue {
