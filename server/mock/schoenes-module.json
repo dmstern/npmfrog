@@ -73,7 +73,7 @@
       "repository": "https://github.com/bla/blubb",
       "license": "ISC",
       "contributors": [
-        "daniel <mail@daniel.com>", "Kater Findus <findus@schweden.com>", "Alter Petterson", {
+        "daniel <mail@daniel.com>", "Kater Findus <findus@schweden.com> (http://pettersson.com)", "Alter Petterson", {
           "name": "Anton Peter",
           "email": "test"
         },
