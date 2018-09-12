@@ -250,11 +250,10 @@ export default class App extends Vue {
     });
 
     EventBus.$on(Events.TRIGGER_FILTER_SEARCH, (args: { filters: Searchable[], query: string }) => {
-      if (this.$refs.searchbar && this.$refs.searchbar.selectedItems) {
-        while (this.$refs.searchbar.selectedItems.length > 0) {
-          this.$refs.searchbar.selectedItems.pop();
+      if (this.$refs.searchbar) {
+        for (const filter of args.filters) {
+          this.$refs.searchbar.selectItem(filter);
         }
-        this.$refs.searchbar.selectedItems.push(...args.filters);
       }
     });
 
