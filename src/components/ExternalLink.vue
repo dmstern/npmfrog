@@ -4,7 +4,7 @@
     target="_blank"
     :title="title"
   >
-    <v-icon>{{$vuetify.icons.arrowTopRight}}</v-icon>
+    <v-icon>{{icon || $vuetify.icons.arrowTopRight}}</v-icon>
     {{text || href}}
   </a>
 </template>
@@ -19,6 +19,7 @@ export default class ExternalLink extends Vue {
   @Prop() private title?: string;
   @Prop() private href!: string;
   @Prop() private text?: string;
+  @Prop() private icon?: string;
 }
 </script>
 
