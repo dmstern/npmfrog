@@ -42,7 +42,7 @@
         <v-icon>{{$vuetify.icons.menu}}</v-icon>
       </v-btn>
       <v-toolbar-title
-        @click="goHome"
+        @click="$router.push('/')"
         class="home-button"
       >
         <img src="@/../art/logo.svg" alt="npmFrog" class="v-btn--icon">
@@ -251,33 +251,17 @@ export default class App extends Vue {
 
     EventBus.$on(Events.TRIGGER_FILTER_SEARCH, (args: { filters: Searchable[], query: string }) => {
       if (this.$refs.searchbar && this.$refs.searchbar.selectedItems) {
-        this.clearSearchBar();
+        while (this.$refs.searchbar.selectedItems.length > 0) {
+          this.$refs.searchbar.selectedItems.pop();
+        }
         this.$refs.searchbar.selectedItems.push(...args.filters);
       }
     });
 
   }
 
-  private clearSearchBar(): void {
-    while (this.$refs.searchbar.selectedItems.length > 0) {
-      this.$refs.searchbar.selectedItems.pop();
-    }
-    while (this.activeFilters.length > 0) {
-      this.activeFilters.pop();
-    }
-    this.$nextTick(() => {
-      this.hasFocus = false;
-    });
-    this.fireSearchFilterEvent();
-  }
-
   private get searchInput(): HTMLInputElement {
     return this.$refs.searchbar.$el.querySelector('input');
-  }
-
-  private goHome(): void {
-    router.push('/');
-    this.clearSearchBar();
   }
 
   private loadPackages(): void {
