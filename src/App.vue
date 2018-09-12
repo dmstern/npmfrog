@@ -249,13 +249,17 @@ export default class App extends Vue {
 
     EventBus.$on(Events.TRIGGER_FILTER_SEARCH, (args: { filters: Searchable[], query: string }) => {
       if (this.$refs.searchbar && this.$refs.searchbar.selectedItems) {
-        while (this.$refs.searchbar.selectedItems.length > 0) {
-          this.$refs.searchbar.selectedItems.pop();
-        }
+        this.clearSearchBar();
         this.$refs.searchbar.selectedItems.push(...args.filters);
       }
     });
 
+  }
+
+  private clearSearchBar() : void {
+    while (this.$refs.searchbar.selectedItems.length > 0) {
+      this.$refs.searchbar.selectedItems.pop();
+    }
   }
 
   private get searchInput(): HTMLInputElement {
@@ -264,7 +268,7 @@ export default class App extends Vue {
 
   private goHome(): void {
     router.push('/');
-    this.$refs.searchbar.reset();
+    this.clearSearchBar();
   }
 
   private loadPackages(): void {
