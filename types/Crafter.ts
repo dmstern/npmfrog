@@ -29,7 +29,7 @@ export default class Crafter extends Searchable {
   });
   private static allCrafters: Crafter[] = [];
 
-  public readonly name?: string;
+  public readonly name: string;
   public readonly email?: string;
   public readonly url?: string;
 
@@ -64,7 +64,11 @@ export default class Crafter extends Searchable {
         }
       } else {
         this.name = author.name;
+        this.email = author.email;
+        this.url = author.url;
       }
+    } else {
+      this.name = 'Unknown';
     }
     const alreadyCreatedCrafter = Crafter.allCrafters.find((crafter) =>
       crafter.equals(this),
