@@ -262,6 +262,13 @@ export default class App extends Vue {
     while (this.$refs.searchbar.selectedItems.length > 0) {
       this.$refs.searchbar.selectedItems.pop();
     }
+    while (this.activeFilters.length > 0) {
+      this.activeFilters.pop();
+    }
+    this.$nextTick(() => {
+      this.hasFocus = false;
+    });
+    this.fireSearchFilterEvent();
   }
 
   private get searchInput(): HTMLInputElement {
