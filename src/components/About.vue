@@ -5,7 +5,7 @@
       scrollable
     >
 
-      <v-list-tile slot="activator">
+      <v-list-tile slot="activator" color="primary">
         <v-list-tile-action>
           <v-icon>{{$vuetify.icons.about}}</v-icon>
         </v-list-tile-action>

@@ -15,22 +15,19 @@
           </v-toolbar-title>
         </v-list-tile>
 
-        <router-link
+        <v-list-tile
+          value="true"
           v-for="(item, i) in navItems"
           :key="i"
-          :to="`/${item.target}`"
+          @click="$router.push(`/${item.target}`)"
         >
-          <v-list-tile
-            value="true"
-          >
-            <v-list-tile-action>
-              <v-icon>{{$vuetify.icons[item.icon]}}</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-content>
-              <v-list-tile-title v-text="item.title"></v-list-tile-title>
-            </v-list-tile-content>
-          </v-list-tile>
-        </router-link>
+          <v-list-tile-action>
+            <v-icon>{{$vuetify.icons[item.icon]}}</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title v-text="item.title"></v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
         <About />
       </v-list>
     </v-navigation-drawer>
@@ -202,6 +199,11 @@ export default class App extends Vue {
   private btnIconSize: number = 36;
   private navItems: Array<{ icon: string, title: string, target: string }> = [
     {
+      icon: 'home',
+      title: 'Home',
+      target: '',
+    },
+    {
       icon: 'howto',
       title: 'HowTo',
       target: 'howto',
@@ -256,7 +258,7 @@ export default class App extends Vue {
 
   }
 
-  private clearSearchBar() : void {
+  private clearSearchBar(): void {
     while (this.$refs.searchbar.selectedItems.length > 0) {
       this.$refs.searchbar.selectedItems.pop();
     }
@@ -400,24 +402,23 @@ a {
     opacity: 0.7;
   }
 
-  .v-icon {
-    vertical-align: baseline;
-
-    &,
-    .theme--light & {
-      &,
-      .application & {
-        color: inherit;
-      }
-    }
-  }
-
   .v-chip .v-chip__content {
     cursor: pointer;
   }
 }
 
 .v-icon {
+
+  vertical-align: baseline;
+
+  &,
+  .theme--light & {
+    &,
+    .application & {
+      color: inherit;
+    }
+  }
+
   &.fas,
   &.far {
     transform: scale($mdi2faScaleFactor);
