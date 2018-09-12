@@ -75,7 +75,8 @@
       "contributors": [
         "daniel <mail@daniel.com>", "Kater Findus <findus@schweden.com> (http://pettersson.com)", "Alter Petterson", {
           "name": "Anton Peter",
-          "email": "test"
+          "email": "test",
+          "url": "http://www.google.de"
         },
         "Anna Pfirsich <mail@blubber>",
         "Arnold Paladin <blablabla>"
