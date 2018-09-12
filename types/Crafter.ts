@@ -2,6 +2,7 @@ import { IAuthor } from './package-json';
 import Searchable from './Searchable';
 import Package from './Package';
 import vuetifyColors from 'vuetify/es5/util/colors';
+import * as parseAuthors from 'parse-authors';
 
 const forbiddenColors = ['shades', 'grey', 'blueGrey'];
 
@@ -29,9 +30,9 @@ export default class Crafter extends Searchable {
   });
   private static allCrafters: Crafter[] = [];
 
-  public readonly name: string;
-  public readonly email?: string;
-  public readonly url?: string;
+  public readonly name: string = '';
+  public readonly email: string = '';
+  public readonly url: string = '';
 
   private backgroundColor?: string;
 
@@ -53,22 +54,11 @@ export default class Crafter extends Searchable {
     super();
     if (author) {
       if (typeof author === 'string') {
-        const authorParts = author.split('<');
-        if (authorParts.length === 2) {
-          this.name = authorParts[0].trim();
-          this.email = authorParts[1]
-            .slice(0, authorParts[1].length - 1)
-            .trim();
-        } else {
-          this.name = author;
-        }
+        const authorObject = parseAuthors(author)[0];
+        Object.assign(this, authorObject);
       } else {
-        this.name = author.name;
-        this.email = author.email;
-        this.url = author.url;
+        Object.assign(this, author);
       }
-    } else {
-      this.name = 'Unknown';
     }
     const alreadyCreatedCrafter = Crafter.allCrafters.find((crafter) =>
       crafter.equals(this),
