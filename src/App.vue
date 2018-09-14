@@ -412,6 +412,15 @@ a,
   &.fas,
   &.far {
     transform: scale($mdi2faScaleFactor);
+
+    .v-btn--floating & {
+
+      &::before {
+        display: inline-block;
+        margin-top: 50%;
+        transform: translateY(-50%);
+      }
+    }
   }
 
   .subheading &,

@@ -35,6 +35,18 @@
               v-bind:key="index"
             ></v-divider>
           </template>
+          <v-btn
+            fixed
+            dark
+            fab
+            bottom
+            right
+            color="accent"
+            @click="$router.push('/howto')"
+            title="Publish a new package"
+          >
+            <v-icon>{{$vuetify.icons.upload}}</v-icon>
+          </v-btn>
         </v-list>
   </div>
 </template>
@@ -119,6 +131,8 @@ export default class Packages extends Vue {
 }
 
 .package-list {
+  padding-bottom: 88px;
+
   .v-list__tile__content {
     padding: 0.4em 0;
   }

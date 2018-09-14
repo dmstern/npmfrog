@@ -36,6 +36,7 @@ const icons = {
   terminal: 'fas fa-terminal',
   email: 'far fa-envelope',
   home: 'fas fa-home',
+  upload: 'fas fa-upload',
 };
 
 icons.keywords = icons.tags;
