@@ -40,6 +40,11 @@ module.exports = {
     env: {
       PM2_SERVE_PATH: "dist/webui",
       PM2_SERVE_PORT: 8000
+    },
+    env_local: {
+      PM2_SERVE_PATH: "dist/webui",
+      PM2_SERVE_PORT: 8000,
+      MOCK: env_local.MOCK,
     }
   }
 };
