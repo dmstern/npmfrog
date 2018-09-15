@@ -5,7 +5,7 @@
     :title="title"
   >
     <img :src="img" v-if="img">
-    <v-icon v-else>{{icon || $vuetify.icons.arrowTopRight}}</v-icon>
+    <v-icon v-else>{{icon || $vuetify.icons.externalLink}}</v-icon>
     {{text || href}}
   </a>
 </template>
