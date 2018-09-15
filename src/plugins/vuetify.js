@@ -37,6 +37,7 @@ const icons = {
   email: 'far fa-envelope',
   home: 'fas fa-home',
   upload: 'fas fa-upload',
+  transfer: 'fas fa-exchange-alt',
 };
 
 icons.keywords = icons.tags;
