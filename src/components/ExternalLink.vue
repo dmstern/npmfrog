@@ -4,7 +4,8 @@
     target="_blank"
     :title="title"
   >
-    <v-icon>{{icon || $vuetify.icons.arrowTopRight}}</v-icon>
+    <img :src="img" v-if="img">
+    <v-icon v-else>{{icon || $vuetify.icons.arrowTopRight}}</v-icon>
     {{text || href}}
   </a>
 </template>
@@ -20,6 +21,7 @@ export default class ExternalLink extends Vue {
   @Prop() private href!: string;
   @Prop() private text?: string;
   @Prop() private icon?: string;
+  @Prop() private img?: string;
 }
 </script>
 
@@ -28,6 +30,11 @@ export default class ExternalLink extends Vue {
 .v-icon {
   font-size: inherit;
   line-height: inherit;
+}
+
+img {
+  width: auto;
+  height: 1em;
 }
 
 </style>

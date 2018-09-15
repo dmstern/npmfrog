@@ -39,14 +39,56 @@
             If you discover any bugs or would like to have a feature being added, feel free to file an <a :href="data.meta.bugs.url" target="_blank">issue</a> or contribute to this project.
           </p>
           <h2 class="subheading">Technologies</h2>
-          <ul>
-            <li><ExternalLink href="https://vuejs.org" text="Vue.js"></ExternalLink></li>
-            <li><ExternalLink href="https://www.typescriptlang.org/" text="TypeScript"></ExternalLink></li>
-            <li><ExternalLink href="http://vuetifyjs.com" text="Vuetify"></ExternalLink></li>
-            <li><ExternalLink href="https://nodejs.org/" text="node.js"></ExternalLink></li>
-            <li><ExternalLink href="http://expressjs.com/" text="Express"></ExternalLink></li>
-            <li><ExternalLink href="https://github.com/axios/axios" text="Axios"></ExternalLink></li>
-          </ul>
+          <v-list>
+            <v-list-tile>
+              <v-list-tile-avatar>
+                <img :src="require('@/assets/img/vue.png')">
+              </v-list-tile-avatar>
+              <v-list-tile-content>
+                <ExternalLink href="https://vuejs.org" text="Vue.js"></ExternalLink>
+              </v-list-tile-content>
+            </v-list-tile>
+            <v-list-tile>
+              <v-list-tile-avatar>
+                <img :src="require('@/assets/img/ts.png')">
+              </v-list-tile-avatar>
+              <v-list-tile-content>
+              <ExternalLink href="https://www.typescriptlang.org/" text="TypeScript"></ExternalLink>
+              </v-list-tile-content>
+            </v-list-tile>
+            <v-list-tile>
+              <v-list-tile-avatar>
+                <img :src="require('@/assets/img/vuetify.svg')">
+              </v-list-tile-avatar>
+              <v-list-tile-content>
+              <ExternalLink href="http://vuetifyjs.com" text="Vuetify"></ExternalLink>
+              </v-list-tile-content>
+            </v-list-tile>
+            <v-list-tile>
+              <v-list-tile-avatar>
+                <img :src="require('@/assets/img/node-icon.png')">
+              </v-list-tile-avatar>
+              <v-list-tile-content>
+              <ExternalLink href="https://nodejs.org/" text="node.js"></ExternalLink>
+              </v-list-tile-content>
+            </v-list-tile>
+            <v-list-tile>
+              <v-list-tile-avatar>
+                <img :src="require('@/assets/img/express.png')">
+              </v-list-tile-avatar>
+              <v-list-tile-content>
+              <ExternalLink href="http://expressjs.com/" text="Express"></ExternalLink>
+              </v-list-tile-content>
+            </v-list-tile>
+            <v-list-tile>
+              <v-list-tile-avatar>
+                <v-icon>{{$vuetify.icons.transfer}}</v-icon>
+              </v-list-tile-avatar>
+              <v-list-tile-content>
+              <ExternalLink href="https://github.com/axios/axios" text="Axios"></ExternalLink>
+              </v-list-tile-content>
+            </v-list-tile>
+          </v-list>
           <br>
           <v-divider />
           <p>
