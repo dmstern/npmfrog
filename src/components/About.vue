@@ -35,8 +35,8 @@
             It and aims to display them in a way that should help front-end developers to discover the best in-house javascript solutions to solve a specific problem.
           </p>
           <p>
-            It's code is developed as open source and published on <a :href="data.meta.repository.url" target="_blank">GitHub</a>.
-            If you discover any bugs or would like to have a feature being added, feel free to file an <a :href="data.meta.bugs.url" target="_blank">issue</a> or contribute to this project.
+            It's code is developed as open source and published on <ExternalLink :href="data.meta.repository.url" text="GitHub"></ExternalLink>.
+            If you discover any bugs or would like to have a feature being added, feel free to file an <ExternalLink :href="data.meta.bugs.url" text="issue"></ExternalLink> or contribute to this project.
           </p>
           <h2 class="subheading">Technologies</h2>
           <v-list>
