@@ -27,6 +27,13 @@
       <v-list :class="`link-list`">
         <v-list-tile><ExternalLink href="https://docs.npmjs.com/files/package.json#publishconfig"></ExternalLink></v-list-tile>
       </v-list>
+      <h2>Login to Artifactory</h2>
+      <pre v-highlightjs="`npm login --registry=${data.artifactoryUrl}`"><code class="bash"></code></pre>
+      <p>You'll get prompted to enter your username and password of your inhouse <a :href="data.artifactoryUrl" target="_blank">artifactory instance</a>.</p>
+      <v-subheader>More info:</v-subheader>
+      <v-list :class="`link-list`">
+        <v-list-tile><ExternalLink href="https://docs.npmjs.com/cli/adduser"></ExternalLink></v-list-tile>
+      </v-list>
       <h2>Define files that should be included in your npm package</h2>
       <pre v-highlightjs><code class="json">
       <span class="caption">package.json (example)</span>
