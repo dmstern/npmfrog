@@ -38,6 +38,9 @@ const icons = {
   home: 'fas fa-home',
   upload: 'fas fa-upload',
   transfer: 'fas fa-exchange-alt',
+  newspaper: 'far fa-newspaper',
+  new: 'mdi-new-box',
+  bullhorn: 'fas fa-bullhorn',
 };
 
 icons.keywords = icons.tags;
@@ -46,6 +49,7 @@ icons.repository = icons.code;
 icons.modified = icons.updated;
 icons.homepage = icons.website;
 icons.crafter = icons.author;
+icons.changelog = icons.newspaper;
 
 Vue.use(Vuetify, {
   iconfont: 'fa', // 'md' || 'mdi' || 'fa' || 'fa4'

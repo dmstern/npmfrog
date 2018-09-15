@@ -28,14 +28,14 @@
             Version: {{data.meta.version}}
           </p>
           <p>
-            <ExternalLink href="https://github.com/dmstern/npmfrog/releases" text="Changelog"></ExternalLink>
+            <ExternalLink href="https://github.com/dmstern/npmfrog/releases" text="Changelog" :icon="$vuetify.icons.changelog"></ExternalLink>
           </p>
           <p>
             This tool requests meta data of npm packages that were published to jFrog's npm registry on {{data.config.artifactory.host}} for integration into another front-end project or for deployment as a back-end dependency.
             It and aims to display them in a way that should help front-end developers to discover the best in-house javascript solutions to solve a specific problem.
           </p>
           <p>
-            It's code is developed as open source and published on <ExternalLink :href="data.meta.repository.url" text="GitHub"></ExternalLink>.
+            It's code is developed as open source and published on <ExternalLink :href="data.meta.repository.url" text="GitHub" :icon="$vuetify.icons.github"></ExternalLink>.
             If you discover any bugs or would like to have a feature being added, feel free to file an <ExternalLink :href="data.meta.bugs.url" text="issue"></ExternalLink> or contribute to this project.
           </p>
           <h2 class="subheading">Technologies</h2>
@@ -93,7 +93,7 @@
           <v-divider />
           <p>
             Created with 🦄 and ☕ in 2018 by <a href="https://github.com/dmstern" target="_blank">Daniel Morgenstern</a> for ]init[ Pixelschubser Unit<br/>
-            Logo icons designed by Freepik and Dimitry Miroliubov from <a href="//www.flaticon.com" target="_blank">Flaticon</a>
+            Logo icons designed by Freepik and Dimitry Miroliubov from <ExternalLink href="//www.flaticon.com" text="Flaticon"></ExternalLink>
           </p>
         </v-card-text>
 
