@@ -25,3 +25,4 @@ frog-*.log
 *.sw*
 
 .npmfrogrc.json
+.backend
