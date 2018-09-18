@@ -19,8 +19,13 @@ axios.defaults.baseURL = `http${s}://${
 }/artifactory/api/npm/${repoKey}`;
 axios.defaults.headers.common.Authorization = config.artifactory.apiKey;
 
+interface AdditionalCode {
+  readme: string;
+  mainCode: string | undefined;
+}
+
 function name2url({ scope, packageName }: PackageId): string {
-  return `${scope ? `${scope}/` : ''}${packageName}`;
+  return `${scope && scope !== 'undefined' ? `${scope}/` : ''}${packageName}`;
 }
 
 function createAxiosResponse(data: any): AxiosResponse<any> {
@@ -74,12 +79,13 @@ function fetchPackages(): AxiosPromise<PackagesResponse> {
 async function getPackageDetail({
   scope,
   packageName,
+  version,
 }: PackageId): Promise<AxiosResponse> {
   const latestVersionResponse = await getDistTags({ scope, packageName });
-  const latestVersion = latestVersionResponse.data.latest;
-  const key = `${scope}-${packageName}-${latestVersion}`;
+  const currentVersion = version || latestVersionResponse.data.latest;
+  const key = `${scope}-${packageName}-${currentVersion}`;
 
-  const packageDetailResonse: AxiosResponse = process.env.MOCK
+  const packageDetailResponse: AxiosResponse = process.env.MOCK
     ? await new Promise<AxiosResponse>((resolve, reject) => {
         const packageResource = path.join(
           __dirname,
@@ -102,8 +108,8 @@ async function getPackageDetail({
         })
       : await axios.get(`/${name2url({ scope, packageName })}`);
 
-  const additionalCode = process.env.MOCK
-    ? await new Promise((resolve) => {
+  const additionalCode: AdditionalCode = process.env.MOCK
+    ? await new Promise<AdditionalCode>((resolve) => {
         const packageResource = path.join(
           __dirname,
           'mock',
@@ -122,14 +128,14 @@ async function getPackageDetail({
           mainCode: readMainCode(path.join(__dirname, '..', '..')),
         });
       })
-    : await new Promise(async (resolve, reject) => {
-        const packageDetail = packageDetailResonse.data;
-        const downloadUrl = packageDetail.versions[latestVersion].dist.tarball;
+    : await new Promise<AdditionalCode> (async (resolve, reject) => {
+        const packageDetail = packageDetailResponse.data;
+        const downloadUrl = packageDetail.versions[currentVersion].dist.tarball;
         const storageDir = path.join(
           tmpDir,
           scope || '',
           packageName,
-          latestVersion,
+          currentVersion,
         );
         if (fs.existsSync(storageDir)) {
           resolve(readAdditionalCode(storageDir));
@@ -149,7 +155,7 @@ async function getPackageDetail({
               fs.ensureDirSync(storageDir);
               const outputFilename = path.join(
                 storageDir,
-                `${packageName}-${latestVersion}.tar.gz`,
+                `${packageName}-${currentVersion}.tar.gz`,
               );
               fs.writeFileSync(outputFilename, result.data);
               return outputFilename;
@@ -165,14 +171,15 @@ async function getPackageDetail({
         }
       });
 
-  Object.assign(packageDetailResonse.data, additionalCode);
+  Object.assign(packageDetailResponse.data, additionalCode);
+  
   return new Promise<AxiosResponse>((resolve, reject) => {
-    packageDetailCache[key] = packageDetailResonse.data;
-    resolve(packageDetailResonse);
+    packageDetailCache[key] = packageDetailResponse.data;
+    resolve(packageDetailResponse);
   });
 }
 
-function readAdditionalCode(storageDir: string): { readme: string, mainCode: string } {
+function readAdditionalCode(storageDir: string): AdditionalCode {
   let readme;
   let mainCode;
   try {

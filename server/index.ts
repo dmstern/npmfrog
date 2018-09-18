@@ -53,7 +53,7 @@ app.get('/package/:scope?/:packageName/dist-tags', (req, res) => {
     });
 });
 
-app.get('/packageDetail/:scope?/:packageName', (req, res) => {
+app.get('/packageDetail/:scope/:packageName/:version?', (req, res) => {
   artifactoryService
     .getPackageDetail(req.params)
     .then((response) => {
