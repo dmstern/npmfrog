@@ -72,7 +72,7 @@ export default class DataStore {
           const packageDetail: Package = new Package(response.data);
           let currentPackage: Package | undefined;
           const currentVersionObject: string | PackageMetaDataDTO =
-            packageDetail.versions[packageDetail['dist-tags'].latest];
+            packageDetail.versions[version || packageDetail['dist-tags'].latest];
           if (typeof currentVersionObject !== 'string') {
             currentPackage = new Package(currentVersionObject);
           }

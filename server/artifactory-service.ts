@@ -25,7 +25,7 @@ interface AdditionalCode {
 }
 
 function name2url({ scope, packageName }: PackageId): string {
-  return `${scope ? `${scope}/` : ''}${packageName}`;
+  return `${scope && scope !== 'undefined' ? `${scope}/` : ''}${packageName}`;
 }
 
 function createAxiosResponse(data: any): AxiosResponse<any> {
@@ -81,12 +81,11 @@ async function getPackageDetail({
   packageName,
   version,
 }: PackageId): Promise<AxiosResponse> {
-  console.log('=============version', version);
   const latestVersionResponse = await getDistTags({ scope, packageName });
   const currentVersion = version || latestVersionResponse.data.latest;
   const key = `${scope}-${packageName}-${currentVersion}`;
 
-  const packageDetailResonse: AxiosResponse = process.env.MOCK
+  const packageDetailResponse: AxiosResponse = process.env.MOCK
     ? await new Promise<AxiosResponse>((resolve, reject) => {
         const packageResource = path.join(
           __dirname,
@@ -130,7 +129,7 @@ async function getPackageDetail({
         });
       })
     : await new Promise<AdditionalCode> (async (resolve, reject) => {
-        const packageDetail = packageDetailResonse.data;
+        const packageDetail = packageDetailResponse.data;
         const downloadUrl = packageDetail.versions[currentVersion].dist.tarball;
         const storageDir = path.join(
           tmpDir,
@@ -172,10 +171,11 @@ async function getPackageDetail({
         }
       });
 
-  Object.assign(packageDetailResonse.data, additionalCode);
+  Object.assign(packageDetailResponse.data, additionalCode);
+  
   return new Promise<AxiosResponse>((resolve, reject) => {
-    packageDetailCache[key] = packageDetailResonse.data;
-    resolve(packageDetailResonse);
+    packageDetailCache[key] = packageDetailResponse.data;
+    resolve(packageDetailResponse);
   });
 }
 

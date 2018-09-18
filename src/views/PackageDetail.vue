@@ -9,14 +9,14 @@
         <h1>{{ data.packageDetail.name }}</h1>
         <div class="subheading last-published-version-line">
           <span>{{data.currentPackage.version}}</span>
-          <span>Published <timeago :datetime="data.packageDetail.time.modified"></timeago></span>
+          <span>Published <timeago :datetime="data.packageDetail.time[data.currentPackage.version]"></timeago></span>
         </div>
       </v-flex>
       <v-flex xs12 md5 xl4>
         <blockquote
-          v-if="data.packageDetail.description"
+          v-if="data.currentPackage.description"
           class="blockquote blockquote--beautify"
-        >{{data.packageDetail.description}}</blockquote>
+        >{{data.currentPackage.description}}</blockquote>
       </v-flex>
     </v-layout>
     <v-layout row wrap>
@@ -118,7 +118,7 @@
                   <v-list-tile
                     v-for="(version, tag) in data.currentTags"
                     :key="tag"
-                    @click="tag === 'latest' ? setVersion() : setVersion(version)"
+                    @click="setVersion(version)"
                   >
                     <v-list-tile-content>
                       <v-list-tile-title v-text="version"></v-list-tile-title>
@@ -186,7 +186,7 @@
             <timeago :datetime="data.packageDetail.time.created"></timeago>
           </PackageDetailItem>
           <PackageDetailItem title="Last publish" :icon="$vuetify.icons.updated">
-            <timeago :datetime="data.packageDetail.time.modified"></timeago>
+            <timeago :datetime="data.packageDetail.time[data.currentPackage.version]"></timeago>
           </PackageDetailItem>
           <PackageDetailItem title="Crafted by" v-if="data.currentPackage.author" :icon="$vuetify.icons.author" :bigContent="false">
             <v-menu
@@ -294,6 +294,7 @@ export default class PackageDetail extends Vue {
     currentTags: IVersions,
     versionsHistory: IVersions,
     config: Config | undefined,
+    currentVersion: string,
   };
   private data: {
     packageDetail: Package | null,
@@ -301,9 +302,9 @@ export default class PackageDetail extends Vue {
     currentTags: IVersions,
     versionsHistory: IVersions,
     config: Config | undefined,
+    currentVersion: string,
   } = this.dataProp;
   private activeTab: number;
-  private currentVersion?: string;
 
   constructor() {
     super();
@@ -314,6 +315,7 @@ export default class PackageDetail extends Vue {
       currentTags: {},
       versionsHistory: {},
       config: undefined,
+      currentVersion: '',
     };
     router.afterEach((route) => {
       if (route.name === 'packageDetail') {
@@ -330,11 +332,12 @@ export default class PackageDetail extends Vue {
     this.data.config = undefined;
     this.data.currentTags = {};
     this.data.versionsHistory = {};
-    this.data.packageDetail = null;
   }
 
   private resetCurrentPackage(): void {
     this.data.currentPackage = undefined;
+    this.data.packageDetail = null;
+    this.data.currentVersion = '';
   }
 
   private init(): void {
@@ -344,12 +347,10 @@ export default class PackageDetail extends Vue {
     ]);
   }
 
-  private setVersion(version?: string): void {
-    this.currentVersion = version;
+  private setVersion(version: string): void {
+    this.data.currentVersion = version;
     this.resetCurrentPackage();
-    this.getPackageDetails().then((response) => {
-      console.log(response.currentPackage ? response.currentPackage.version : '');
-    });
+    Promise.resolve(this.getPackageDetails(version));
   }
 
   private loadConfig(): Promise<Config | undefined> {
@@ -358,19 +359,22 @@ export default class PackageDetail extends Vue {
     });
   }
 
-  private getPackageDetails(): Promise<{
+  private getPackageDetails(version?: string): Promise<{
     packageDetail: Package;
     currentPackage?: Package;
   }> {
     return DataStore.Instance.getPackageDetail({
       scope: Router.currentRoute.params.scope,
       packageName: Router.currentRoute.params.packageName,
-      version: this.currentVersion,
+      version,
     }).then((response) => {
       this.data.packageDetail = response.packageDetail;
       this.data.currentTags = response.packageDetail['dist-tags'];
       this.data.versionsHistory = response.packageDetail.versions;
       this.data.currentPackage = response.currentPackage;
+      if (typeof this.data.currentTags.latest === 'string') {
+        this.data.currentVersion = this.data.currentTags.latest;
+      }
       return {
         packageDetail: response.packageDetail,
         currentPackage: response.currentPackage,
