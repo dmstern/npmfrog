@@ -327,16 +327,14 @@ export default class PackageDetail extends Vue {
   private resetModel(): void {
     this.activeTab = 0;
     this.resetCurrentPackage();
+    this.data.config = undefined;
+    this.data.currentTags = {};
+    this.data.data.versionsHistory = {};
+    this.data.packageDetail = null;
   }
 
   private resetCurrentPackage(): void {
-    this.data = {
-      packageDetail: null,
-      currentPackage: undefined,
-      currentTags: {},
-      versionsHistory: {},
-      config: undefined,
-    };
+    this.data.currentPackage = undefined;
   }
 
   private init(): void {
