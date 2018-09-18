@@ -3,7 +3,7 @@
   <v-container v-if="!data.packageDetail">
     <LoadingSpinner msg="Loading package details..."/>
   </v-container>
-  <v-container v-else fluid grid-list-lg>
+  <v-container v-else fluid grid-list-lg :class="isOld() ? 'isOld' : ''">
     <v-layout row wrap>
       <v-flex xs12 md7 xl8 class="packageDetail__heading">
         <h1>{{ data.packageDetail.name }}</h1>
@@ -294,7 +294,6 @@ export default class PackageDetail extends Vue {
     currentTags: IVersions,
     versionsHistory: IVersions,
     config: Config | undefined,
-    currentVersion: string,
   };
   private data: {
     packageDetail: Package | null,
@@ -302,7 +301,6 @@ export default class PackageDetail extends Vue {
     currentTags: IVersions,
     versionsHistory: IVersions,
     config: Config | undefined,
-    currentVersion: string,
   } = this.dataProp;
   private activeTab: number;
 
@@ -315,7 +313,6 @@ export default class PackageDetail extends Vue {
       currentTags: {},
       versionsHistory: {},
       config: undefined,
-      currentVersion: '',
     };
     router.afterEach((route) => {
       if (route.name === 'packageDetail') {
@@ -337,7 +334,6 @@ export default class PackageDetail extends Vue {
   private resetCurrentPackage(): void {
     this.data.currentPackage = undefined;
     this.data.packageDetail = null;
-    this.data.currentVersion = '';
   }
 
   private init(): void {
@@ -348,7 +344,6 @@ export default class PackageDetail extends Vue {
   }
 
   private setVersion(version: string): void {
-    this.data.currentVersion = version;
     this.resetCurrentPackage();
     Promise.resolve(this.getPackageDetails(version));
   }
@@ -372,9 +367,6 @@ export default class PackageDetail extends Vue {
       this.data.currentTags = response.packageDetail['dist-tags'];
       this.data.versionsHistory = response.packageDetail.versions;
       this.data.currentPackage = response.currentPackage;
-      if (typeof this.data.currentTags.latest === 'string') {
-        this.data.currentVersion = this.data.currentTags.latest;
-      }
       return {
         packageDetail: response.packageDetail,
         currentPackage: response.currentPackage,
@@ -408,6 +400,15 @@ export default class PackageDetail extends Vue {
       EventBus.$emit(Events.TRIGGER_FILTER_SEARCH, { filters: [searchable] });
     });
   }
+
+  private isOld(): boolean | undefined {
+    if (!this.data.packageDetail || !this.data.currentPackage) {
+      return false;
+    }
+    return typeof this.data.packageDetail.distTags.latest === 'string'
+      && this.data.currentPackage.version !== this.data.packageDetail.distTags.latest;
+  }
+
 }
 
 </script>
@@ -417,6 +418,21 @@ export default class PackageDetail extends Vue {
 
 pre code.hljs {
   margin-bottom: 1em;
+}
+
+.isOld {
+  background: url(../assets/img/paper.jpg);
+  opacity: .9;
+
+  .v-card,
+  .v-tabs__bar,
+  .v-list {
+    background: rgba(255, 255, 255, .5);
+
+    .v-list {
+      background-color: transparent;
+    }
+  }
 }
 
 .version-list {
