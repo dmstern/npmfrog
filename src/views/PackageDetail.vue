@@ -115,7 +115,11 @@
               <v-card-text>
                 <h2>Current Tags</h2>
                 <v-list>
-                  <v-list-tile v-for="(version, tag) in data.currentTags" :key="tag">
+                  <v-list-tile
+                    v-for="(version, tag) in data.currentTags"
+                    :key="tag"
+                    @click="tag === 'latest' ? setVersion() : setVersion(version)"
+                  >
                     <v-list-tile-content>
                       <v-list-tile-title v-text="version"></v-list-tile-title>
                     </v-list-tile-content>
@@ -126,7 +130,11 @@
                 </v-list>
                 <h2>Version History</h2>
                 <v-list>
-                  <v-list-tile v-for="(historicPackage, version) in data.versionsHistory" :key="version">
+                  <v-list-tile
+                    v-for="(historicPackage, version) in data.versionsHistory"
+                    :key="version"
+                    @click="setVersion(version)"
+                  >
                     <v-list-tile-content>
                       <v-list-tile-title v-text="version"></v-list-tile-title>
                     </v-list-tile-content>
@@ -295,6 +303,7 @@ export default class PackageDetail extends Vue {
     config: Config | undefined,
   } = this.dataProp;
   private activeTab: number;
+  private currentVersion?: string;
 
   constructor() {
     super();
@@ -317,6 +326,10 @@ export default class PackageDetail extends Vue {
 
   private resetModel(): void {
     this.activeTab = 0;
+    this.resetCurrentPackage();
+  }
+
+  private resetCurrentPackage(): void {
     this.data = {
       packageDetail: null,
       currentPackage: undefined,
@@ -333,6 +346,14 @@ export default class PackageDetail extends Vue {
     ]);
   }
 
+  private setVersion(version?: string): void {
+    this.currentVersion = version;
+    this.resetCurrentPackage();
+    this.getPackageDetails().then((response) => {
+      console.log(response.currentPackage.version);
+    });
+  }
+
   private loadConfig(): Promise<Config | undefined> {
     return DataStore.Instance.getConfig().then((config) => {
       return this.data.config = config;
@@ -346,6 +367,7 @@ export default class PackageDetail extends Vue {
     return DataStore.Instance.getPackageDetail({
       scope: Router.currentRoute.params.scope,
       packageName: Router.currentRoute.params.packageName,
+      version: this.currentVersion,
     }).then((response) => {
       this.data.packageDetail = response.packageDetail;
       this.data.currentTags = response.packageDetail['dist-tags'];

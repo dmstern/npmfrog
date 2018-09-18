@@ -74,10 +74,12 @@ function fetchPackages(): AxiosPromise<PackagesResponse> {
 async function getPackageDetail({
   scope,
   packageName,
+  version,
 }: PackageId): Promise<AxiosResponse> {
+  console.log('=============version', version);
   const latestVersionResponse = await getDistTags({ scope, packageName });
-  const latestVersion = latestVersionResponse.data.latest;
-  const key = `${scope}-${packageName}-${latestVersion}`;
+  const currentVersion = version || latestVersionResponse.data.latest;
+  const key = `${scope}-${packageName}-${currentVersion}`;
 
   const packageDetailResonse: AxiosResponse = process.env.MOCK
     ? await new Promise<AxiosResponse>((resolve, reject) => {
@@ -124,12 +126,12 @@ async function getPackageDetail({
       })
     : await new Promise(async (resolve, reject) => {
         const packageDetail = packageDetailResonse.data;
-        const downloadUrl = packageDetail.versions[latestVersion].dist.tarball;
+        const downloadUrl = packageDetail.versions[currentVersion].dist.tarball;
         const storageDir = path.join(
           tmpDir,
           scope || '',
           packageName,
-          latestVersion,
+          currentVersion,
         );
         if (fs.existsSync(storageDir)) {
           resolve(readAdditionalCode(storageDir));
@@ -149,7 +151,7 @@ async function getPackageDetail({
               fs.ensureDirSync(storageDir);
               const outputFilename = path.join(
                 storageDir,
-                `${packageName}-${latestVersion}.tar.gz`,
+                `${packageName}-${currentVersion}.tar.gz`,
               );
               fs.writeFileSync(outputFilename, result.data);
               return outputFilename;
