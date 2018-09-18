@@ -329,7 +329,7 @@ export default class PackageDetail extends Vue {
     this.resetCurrentPackage();
     this.data.config = undefined;
     this.data.currentTags = {};
-    this.data.data.versionsHistory = {};
+    this.data.versionsHistory = {};
     this.data.packageDetail = null;
   }
 
@@ -348,7 +348,7 @@ export default class PackageDetail extends Vue {
     this.currentVersion = version;
     this.resetCurrentPackage();
     this.getPackageDetails().then((response) => {
-      console.log(response.currentPackage.version);
+      console.log(response.currentPackage ? response.currentPackage.version : '');
     });
   }
 
