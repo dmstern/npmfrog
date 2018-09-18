@@ -19,6 +19,11 @@ axios.defaults.baseURL = `http${s}://${
 }/artifactory/api/npm/${repoKey}`;
 axios.defaults.headers.common.Authorization = config.artifactory.apiKey;
 
+interface AdditionalCode {
+  readme: string;
+  mainCode: string | undefined;
+}
+
 function name2url({ scope, packageName }: PackageId): string {
   return `${scope ? `${scope}/` : ''}${packageName}`;
 }
@@ -104,8 +109,8 @@ async function getPackageDetail({
         })
       : await axios.get(`/${name2url({ scope, packageName })}`);
 
-  const additionalCode = process.env.MOCK
-    ? await new Promise((resolve) => {
+  const additionalCode: AdditionalCode = process.env.MOCK
+    ? await new Promise<AdditionalCode>((resolve) => {
         const packageResource = path.join(
           __dirname,
           'mock',
@@ -124,7 +129,7 @@ async function getPackageDetail({
           mainCode: readMainCode(path.join(__dirname, '..', '..')),
         });
       })
-    : await new Promise(async (resolve, reject) => {
+    : await new Promise<AdditionalCode> (async (resolve, reject) => {
         const packageDetail = packageDetailResonse.data;
         const downloadUrl = packageDetail.versions[currentVersion].dist.tarball;
         const storageDir = path.join(
@@ -174,7 +179,7 @@ async function getPackageDetail({
   });
 }
 
-function readAdditionalCode(storageDir: string): { readme: string, mainCode: string } {
+function readAdditionalCode(storageDir: string): AdditionalCode {
   let readme;
   let mainCode;
   try {
