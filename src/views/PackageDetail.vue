@@ -3,20 +3,28 @@
   <v-container v-if="!data.packageDetail">
     <LoadingSpinner msg="Loading package details..."/>
   </v-container>
-  <v-container v-else fluid grid-list-lg>
+  <v-container v-else fluid grid-list-lg :class="isOld() ? 'isOld' : ''">
     <v-layout row wrap>
       <v-flex xs12 md7 xl8 class="packageDetail__heading">
+        <v-alert
+          v-if="isOld()"
+          v-model="showAlert"
+          dismissible
+          type="info"
+        >
+          You are displaying an old version of this package. To see the newest version, click on "latest" under "versions".
+        </v-alert>
         <h1>{{ data.packageDetail.name }}</h1>
         <div class="subheading last-published-version-line">
           <span>{{data.currentPackage.version}}</span>
-          <span>Published <timeago :datetime="data.packageDetail.time.modified"></timeago></span>
+          <span>Published <timeago :datetime="data.packageDetail.time[data.currentPackage.version]"></timeago></span>
         </div>
       </v-flex>
       <v-flex xs12 md5 xl4>
         <blockquote
-          v-if="data.packageDetail.description"
+          v-if="data.currentPackage.description"
           class="blockquote blockquote--beautify"
-        >{{data.packageDetail.description}}</blockquote>
+        >{{data.currentPackage.description}}</blockquote>
       </v-flex>
     </v-layout>
     <v-layout row wrap>
@@ -115,7 +123,11 @@
               <v-card-text>
                 <h2>Current Tags</h2>
                 <v-list>
-                  <v-list-tile v-for="(version, tag) in data.currentTags" :key="tag">
+                  <v-list-tile
+                    v-for="(version, tag) in data.currentTags"
+                    :key="tag"
+                    @click="setVersion(version)"
+                  >
                     <v-list-tile-content>
                       <v-list-tile-title v-text="version"></v-list-tile-title>
                     </v-list-tile-content>
@@ -126,7 +138,11 @@
                 </v-list>
                 <h2>Version History</h2>
                 <v-list>
-                  <v-list-tile v-for="(historicPackage, version) in data.versionsHistory" :key="version">
+                  <v-list-tile
+                    v-for="(historicPackage, version) in data.versionsHistory"
+                    :key="version"
+                    @click="setVersion(version)"
+                  >
                     <v-list-tile-content>
                       <v-list-tile-title v-text="version"></v-list-tile-title>
                     </v-list-tile-content>
@@ -178,7 +194,7 @@
             <timeago :datetime="data.packageDetail.time.created"></timeago>
           </PackageDetailItem>
           <PackageDetailItem title="Last publish" :icon="$vuetify.icons.updated">
-            <timeago :datetime="data.packageDetail.time.modified"></timeago>
+            <timeago :datetime="data.packageDetail.time[data.currentPackage.version]"></timeago>
           </PackageDetailItem>
           <PackageDetailItem title="Crafted by" v-if="data.currentPackage.author" :icon="$vuetify.icons.author" :bigContent="false">
             <v-menu
@@ -295,6 +311,7 @@ export default class PackageDetail extends Vue {
     config: Config | undefined,
   } = this.dataProp;
   private activeTab: number;
+  private showAlert: boolean = false;
 
   constructor() {
     super();
@@ -317,13 +334,15 @@ export default class PackageDetail extends Vue {
 
   private resetModel(): void {
     this.activeTab = 0;
-    this.data = {
-      packageDetail: null,
-      currentPackage: undefined,
-      currentTags: {},
-      versionsHistory: {},
-      config: undefined,
-    };
+    this.resetCurrentPackage();
+    this.data.config = undefined;
+    this.data.currentTags = {};
+    this.data.versionsHistory = {};
+  }
+
+  private resetCurrentPackage(): void {
+    this.data.currentPackage = undefined;
+    this.data.packageDetail = null;
   }
 
   private init(): void {
@@ -333,19 +352,25 @@ export default class PackageDetail extends Vue {
     ]);
   }
 
+  private setVersion(version: string): void {
+    this.resetCurrentPackage();
+    Promise.resolve(this.getPackageDetails(version));
+  }
+
   private loadConfig(): Promise<Config | undefined> {
     return DataStore.Instance.getConfig().then((config) => {
       return this.data.config = config;
     });
   }
 
-  private getPackageDetails(): Promise<{
+  private getPackageDetails(version?: string): Promise<{
     packageDetail: Package;
     currentPackage?: Package;
   }> {
     return DataStore.Instance.getPackageDetail({
       scope: Router.currentRoute.params.scope,
       packageName: Router.currentRoute.params.packageName,
+      version,
     }).then((response) => {
       this.data.packageDetail = response.packageDetail;
       this.data.currentTags = response.packageDetail['dist-tags'];
@@ -384,6 +409,17 @@ export default class PackageDetail extends Vue {
       EventBus.$emit(Events.TRIGGER_FILTER_SEARCH, { filters: [searchable] });
     });
   }
+
+  private isOld(): boolean | undefined {
+    if (!this.data.packageDetail || !this.data.currentPackage) {
+      return false;
+    }
+    const isOld = typeof this.data.packageDetail.distTags.latest === 'string'
+      && this.data.currentPackage.version !== this.data.packageDetail.distTags.latest;
+    this.showAlert = isOld;
+    return isOld;
+  }
+
 }
 
 </script>
@@ -393,6 +429,21 @@ export default class PackageDetail extends Vue {
 
 pre code.hljs {
   margin-bottom: 1em;
+}
+
+.isOld {
+  background: url(../assets/img/paper.jpg);
+  opacity: .9;
+
+  .v-card,
+  .v-tabs__bar,
+  .v-list {
+    background: rgba(255, 255, 255, .5);
+
+    .v-list {
+      background-color: transparent;
+    }
+  }
 }
 
 .version-list {

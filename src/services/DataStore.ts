@@ -51,7 +51,8 @@ export default class DataStore {
   }> {
     const scope = packageId.scope;
     const packageName = packageId.packageName;
-    const key = scope ? `${scope}/${packageName}` : packageName;
+    const version = packageId.version;
+    const key = `${scope ? `${scope}/${packageName}` : packageName}@${version}`;
     const cachedPackageDetails = this.packageDetails[key];
     if (cachedPackageDetails) {
       return new Promise<{
@@ -66,12 +67,12 @@ export default class DataStore {
       packageDetail: Package;
       currentPackage?: Package;
     }>((fulfill) => {
-      BackendApi.Instance.getPackageDetail({ scope, packageName })
+      BackendApi.Instance.getPackageDetail({ scope, packageName, version })
         .then((response) => {
           const packageDetail: Package = new Package(response.data);
           let currentPackage: Package | undefined;
           const currentVersionObject: string | PackageMetaDataDTO =
-            packageDetail.versions[packageDetail['dist-tags'].latest];
+            packageDetail.versions[version || packageDetail['dist-tags'].latest];
           if (typeof currentVersionObject !== 'string') {
             currentPackage = new Package(currentVersionObject);
           }
