@@ -16,7 +16,7 @@ export default class DataStore {
   }
 
   public get searchItems(): Searchable[] {
-    return this.tagList;
+    return [...this.tagList, ...this.crafterList, ...this.packages];
   }
 
   public get crafters(): Crafter[] {
