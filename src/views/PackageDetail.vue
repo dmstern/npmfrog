@@ -227,7 +227,7 @@
                 <v-divider></v-divider>
 
                 <v-list>
-                  <v-list-tile @click="triggerSearchFilter(crafter)">
+                  <v-list-tile v-if="inSearchableList(crafter)" @click="triggerSearchFilter(crafter)">
                     <v-list-tile-action>
                       <v-icon>{{$vuetify.icons.arrowTopLeft}}</v-icon>
                     </v-list-tile-action>
@@ -247,19 +247,23 @@
             </v-menu>
           </PackageDetailItem>
           <PackageDetailItem title="Keywords" :bigContent="false" v-if="data.currentPackage.tags" :icon="$vuetify.icons.tags">
-            <a href="#"
-              title="Search for packages with this keyword"
+            <div
               v-for="(tag, index) in data.currentPackage.tags"
               :key="index"
+              style="display: inline"
             >
-
-            <v-chip
-              @click="triggerSearchFilter(tag)"
-            >
-              {{tag.value}}
-              <v-icon right>{{$vuetify.icons.arrowTopLeft}}</v-icon>
-            </v-chip>
-            </a>
+              <a
+                href="#"
+                v-if="inSearchableList(tag)"
+                title="Search for packages with this keyword"
+              >
+                <v-chip @click="triggerSearchFilter(tag)">
+                  {{tag.value}}
+                  <v-icon right>{{$vuetify.icons.arrowTopLeft}}</v-icon>
+                </v-chip>
+               </a>
+               <v-chip v-else>{{tag.value}}</v-chip>
+            </div>
           </PackageDetailItem>
         </v-layout>
       </v-flex>
@@ -401,6 +405,10 @@ export default class PackageDetail extends Vue {
         install: `npm i ${this.data.packageDetail.name}`,
       };
     }
+  }
+
+  private inSearchableList(searchableItem: Searchable): boolean {
+    return DataStore.Instance.searchItems.some((searchable) => searchable === searchableItem);
   }
 
   private triggerSearchFilter(searchable: Searchable): void {

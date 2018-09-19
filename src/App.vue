@@ -265,10 +265,7 @@ export default class App extends Vue {
 
   private loadPackages(): void {
     DataStore.Instance.getPackages().then((packages: Package[]) => {
-      this.searchItems =
-        DataStore.Instance.searchItems
-        .concat(DataStore.Instance.crafters)
-        .concat(packages);
+      this.searchItems = DataStore.Instance.searchItems;
       this.filterSearchItems();
     });
   }
