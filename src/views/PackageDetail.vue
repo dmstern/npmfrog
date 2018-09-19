@@ -423,7 +423,8 @@ export default class PackageDetail extends Vue {
       return false;
     }
     const isOld = typeof this.data.packageDetail.distTags.latest === 'string'
-      && this.data.currentPackage.version !== this.data.packageDetail.distTags.latest;
+      && this.data.currentPackage.version !== undefined
+      && this.data.currentPackage.version < this.data.packageDetail.distTags.latest;
     this.showAlert = isOld;
     return isOld;
   }
