@@ -139,7 +139,7 @@
                 <h2>Version History</h2>
                 <v-list>
                   <v-list-tile
-                    v-for="(historicPackage, version) in data.versionsHistory"
+                    v-for="version in Object.keys(data.versionsHistory)"
                     :key="version"
                     @click="setVersion(version)"
                   >
