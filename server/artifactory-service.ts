@@ -172,7 +172,7 @@ async function getPackageDetail({
       });
 
   Object.assign(packageDetailResponse.data, additionalCode);
-  
+
   return new Promise<AxiosResponse>((resolve, reject) => {
     packageDetailCache[key] = packageDetailResponse.data;
     resolve(packageDetailResponse);
