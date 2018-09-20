@@ -139,7 +139,7 @@
                 <h2>Version History</h2>
                 <v-list>
                   <v-list-tile
-                    v-for="version in Object.keys(data.versionsHistory).sort().reverse()"
+                    v-for="version in Object.keys(data.versionsHistory).sort((a, b) => data.packageDetail.time[a] < data.packageDetail.time[b] ? 1 : -1)"
                     :key="version"
                     @click="setVersion(version)"
                   >
