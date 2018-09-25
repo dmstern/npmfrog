@@ -13,7 +13,6 @@
 </template>
 
 <script lang="ts">
-
 import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component({
@@ -29,11 +28,10 @@ export default class PackageDetailItem extends Vue {
     super();
   }
 }
-
 </script>
 
 <style lang="scss">
-@import "../assets/variables";
+@import '../assets/variables';
 
 .PackageDetailItem {
   .v-card__text {
@@ -48,7 +46,7 @@ export default class PackageDetailItem extends Vue {
     }
   }
 
-  a:not([href="#"]),
+  a:not([href='#']),
   .v-avatar {
     margin-right: 0.5em;
     transition: $transition-smooth;
@@ -63,4 +61,3 @@ export default class PackageDetailItem extends Vue {
   width: 100%;
 }
 </style>
-

@@ -279,7 +279,6 @@ import DataStore from '@/services/DataStore';
 import Router from '@/router';
 import LoadingSpinner from '@/components/LoadingSpinner.vue';
 import { PackageMetaDataDTO, IVersions } from '../../types/package-meta-data';
-import router from '@/router';
 import Config from '../../types/Config';
 import PackageDetailItem from '@/components/PackageDetailItem.vue';
 import CodeBlock from '@/components/CodeBlock.vue';
@@ -299,20 +298,20 @@ import Searchable from '../../types/Searchable';
   },
 })
 export default class PackageDetail extends Vue {
-
-  @Prop() private dataProp!: {
-    packageDetail: Package | null,
-    currentPackage?: Package,
-    currentTags: IVersions,
-    versionsHistory: IVersions,
-    config: Config | undefined,
+  @Prop()
+  private dataProp!: {
+    packageDetail: Package | null;
+    currentPackage?: Package;
+    currentTags: IVersions;
+    versionsHistory: IVersions;
+    config: Config | undefined;
   };
   private data: {
-    packageDetail: Package | null,
-    currentPackage?: Package,
-    currentTags: IVersions,
-    versionsHistory: IVersions,
-    config: Config | undefined,
+    packageDetail: Package | null;
+    currentPackage?: Package;
+    currentTags: IVersions;
+    versionsHistory: IVersions;
+    config: Config | undefined;
   } = this.dataProp;
   private activeTab: number;
   private showAlert: boolean = false;
@@ -327,7 +326,7 @@ export default class PackageDetail extends Vue {
       versionsHistory: {},
       config: undefined,
     };
-    router.afterEach((route) => {
+    Router.afterEach(route => {
       if (route.name === 'packageDetail') {
         this.resetModel();
         this.init();
@@ -350,10 +349,7 @@ export default class PackageDetail extends Vue {
   }
 
   private init(): void {
-    Promise.all([
-      this.getPackageDetails(),
-      this.loadConfig(),
-    ]);
+    Promise.all([this.getPackageDetails(), this.loadConfig()]);
   }
 
   private setVersion(version: string): void {
@@ -362,12 +358,14 @@ export default class PackageDetail extends Vue {
   }
 
   private loadConfig(): Promise<Config | undefined> {
-    return DataStore.Instance.getConfig().then((config) => {
-      return this.data.config = config;
+    return DataStore.Instance.getConfig().then(config => {
+      return (this.data.config = config);
     });
   }
 
-  private getPackageDetails(version?: string): Promise<{
+  private getPackageDetails(
+    version?: string,
+  ): Promise<{
     packageDetail: Package;
     currentPackage?: Package;
   }> {
@@ -375,7 +373,7 @@ export default class PackageDetail extends Vue {
       scope: Router.currentRoute.params.scope,
       packageName: Router.currentRoute.params.packageName,
       version,
-    }).then((response) => {
+    }).then(response => {
       this.data.packageDetail = response.packageDetail;
       this.data.currentTags = response.packageDetail['dist-tags'];
       this.data.versionsHistory = response.packageDetail.versions;
@@ -387,32 +385,38 @@ export default class PackageDetail extends Vue {
     });
   }
 
-  private getInstallCode(): {
-    config: string,
-    install: string,
-  } | undefined {
-    if (this.data.packageDetail && this.data.config && this.data.config.artifactory) {
+  private getInstallCode():
+    | {
+        config: string;
+        install: string;
+      }
+    | undefined {
+    if (
+      this.data.packageDetail &&
+      this.data.config &&
+      this.data.config.artifactory
+    ) {
       return {
         config: `npm config set ${
           this.data.packageDetail.scope
-        ? this.data.packageDetail.scope + ':'
-        : ''
+            ? this.data.packageDetail.scope + ':'
+            : ''
         }registry http://${
           this.data.config.artifactory.host
-        }/artifactory/api/npm/${
-          this.data.config.artifactory.repoKey
-        }/`,
+        }/artifactory/api/npm/${this.data.config.artifactory.repoKey}/`,
         install: `npm i ${this.data.packageDetail.name}`,
       };
     }
   }
 
   private inSearchableList(searchableItem: Searchable): boolean {
-    return DataStore.Instance.searchItems.some((searchable) => searchable === searchableItem);
+    return DataStore.Instance.searchItems.some(
+      searchable => searchable === searchableItem,
+    );
   }
 
   private triggerSearchFilter(searchable: Searchable): void {
-    router.push(`/`);
+    Router.push(`/`);
     this.$nextTick(() => {
       EventBus.$emit(Events.TRIGGER_FILTER_SEARCH, { filters: [searchable] });
     });
@@ -422,19 +426,19 @@ export default class PackageDetail extends Vue {
     if (!this.data.packageDetail || !this.data.currentPackage) {
       return false;
     }
-    const isOld = typeof this.data.packageDetail.distTags.latest === 'string'
-      && this.data.currentPackage.version !== undefined
-      && this.data.currentPackage.version < this.data.packageDetail.distTags.latest;
+    const isOld =
+      typeof this.data.packageDetail.distTags.latest === 'string' &&
+      this.data.currentPackage.version !== undefined &&
+      this.data.currentPackage.version <
+        this.data.packageDetail.distTags.latest;
     this.showAlert = isOld;
     return isOld;
   }
-
 }
-
 </script>
 
 <style lang="scss">
-@import "../assets/variables";
+@import '../assets/variables';
 
 pre code.hljs {
   margin-bottom: 1em;
@@ -442,12 +446,12 @@ pre code.hljs {
 
 .isOld {
   background: url(../assets/img/paper.jpg);
-  opacity: .9;
+  opacity: 0.9;
 
   .v-card,
   .v-tabs__bar,
   .v-list {
-    background: rgba(255, 255, 255, .5);
+    background: rgba(255, 255, 255, 0.5);
 
     .v-list {
       background-color: transparent;
@@ -469,7 +473,7 @@ pre code.hljs {
 
   > span:not(:last-child) {
     &::after {
-      content: "•";
+      content: '•';
       display: inline-block;
       margin: 0 0.7em;
     }
@@ -483,22 +487,21 @@ pre code.hljs {
   &::after {
     font-size: 10em;
     position: absolute;
-    font-family: Georgia, "Times New Roman", Times, serif;
+    font-family: Georgia, 'Times New Roman', Times, serif;
     color: $color-gray-extralight;
     opacity: 0.3;
   }
 
   &::before {
-    content: "„";
+    content: '„';
     left: 0;
     bottom: -60px;
   }
 
   &::after {
-    content: "“";
+    content: '“';
     top: -51px;
     transform: translateX(-1rem);
   }
 }
 </style>
-

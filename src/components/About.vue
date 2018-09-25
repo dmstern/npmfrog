@@ -128,14 +128,15 @@ import ExternalLink from './ExternalLink.vue';
 })
 export default class About extends Vue {
   @Prop() private dialogOpen!: boolean;
-  @Prop() private dataProp!: {
-    meta: IPackageJSON | undefined,
-    config: Config,
+  @Prop()
+  private dataProp!: {
+    meta: IPackageJSON | undefined;
+    config: Config;
   };
   private dialog: boolean = this.dialogOpen;
   private data: {
-    meta: IPackageJSON | undefined,
-    config: Config,
+    meta: IPackageJSON | undefined;
+    config: Config;
   } = this.dataProp;
 
   constructor() {
@@ -158,24 +159,22 @@ export default class About extends Vue {
   }
 
   private loadMetaInfo(): void {
-    DataStore.Instance.getMetaInfo().then((response) => {
+    DataStore.Instance.getMetaInfo().then(response => {
       this.data.meta = response;
     });
   }
 
   private loadConfig(): void {
-    DataStore.Instance.getConfig().then((response) => {
+    DataStore.Instance.getConfig().then(response => {
       if (response) {
         this.data.config = response;
       }
     });
   }
 }
-
 </script>
 
 <style lang="scss" scoped>
-
 .v-dialog__container {
   display: block !important;
 }
@@ -192,6 +191,4 @@ ul {
     margin-left: -1em;
   }
 }
-
 </style>
-

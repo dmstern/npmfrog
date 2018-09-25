@@ -1,4 +1,4 @@
-import BackendApi from '@/services/BackendApi';
+import BackendApi from './BackendApi';
 import { PackagesResponse } from '../../types/PackageResponse';
 import Package from '../../types/Package';
 import { Tag } from '../../types/Tag';
@@ -7,8 +7,8 @@ import Crafter from '../../types/Crafter';
 import Searchable from '../../types/Searchable';
 import { IPackageJSON } from '../../types/package-json';
 import Config from '../../types/Config';
-import { EventBus, Errors } from '@/services/event-bus';
-import PackageId from 'types/PackageId';
+import { EventBus, Errors } from './event-bus';
+import PackageId from '../../types/PackageId';
 
 export default class DataStore {
   public static get Instance(): DataStore {
@@ -45,7 +45,9 @@ export default class DataStore {
     this.packageDetails = {};
   }
 
-  public async getPackageDetail(packageId: PackageId): Promise<{
+  public async getPackageDetail(
+    packageId: PackageId,
+  ): Promise<{
     packageDetail: Package;
     currentPackage?: Package;
   }> {
@@ -58,7 +60,7 @@ export default class DataStore {
       return new Promise<{
         packageDetail: Package;
         currentPackage?: Package;
-      }>((fulfill) => {
+      }>(fulfill => {
         fulfill(cachedPackageDetails);
       });
     }
@@ -66,13 +68,15 @@ export default class DataStore {
     return new Promise<{
       packageDetail: Package;
       currentPackage?: Package;
-    }>((fulfill) => {
+    }>(fulfill => {
       BackendApi.Instance.getPackageDetail({ scope, packageName, version })
-        .then((response) => {
+        .then(response => {
           const packageDetail: Package = new Package(response.data);
           let currentPackage: Package | undefined;
           const currentVersionObject: string | PackageMetaDataDTO =
-            packageDetail.versions[version || packageDetail['dist-tags'].latest];
+            packageDetail.versions[
+              version || packageDetail['dist-tags'].latest
+            ];
           if (typeof currentVersionObject !== 'string') {
             currentPackage = new Package(currentVersionObject);
           }
@@ -82,7 +86,7 @@ export default class DataStore {
           };
           return fulfill(this.packageDetails[key]);
         })
-        .catch((error) => {
+        .catch(error => {
           EventBus.$emit(Errors.SERVER_ERROR, error);
           return null;
         });
@@ -91,7 +95,7 @@ export default class DataStore {
 
   public async getPackages(): Promise<Package[]> {
     if (this.packages.length) {
-      return new Promise<Package[]>((resolve) => {
+      return new Promise<Package[]>(resolve => {
         resolve(this.packages);
       });
     }
@@ -100,11 +104,11 @@ export default class DataStore {
       return this.request;
     }
     return (this.request = BackendApi.Instance.getPackages()
-      .then((response) => {
+      .then(response => {
         const packagesResponse: PackagesResponse = response.data;
 
         for (const packageName of Object.keys(packagesResponse).filter(
-          (key) => !key.startsWith('_'),
+          key => !key.startsWith('_'),
         )) {
           const modifiedPackage: Package = new Package(
             packagesResponse[packageName],
@@ -114,7 +118,7 @@ export default class DataStore {
           if (modifiedPackage.tags) {
             for (const tag of modifiedPackage.tags) {
               if (
-                !this.tagList.some((currentTag) => tag.value === currentTag.value)
+                !this.tagList.some(currentTag => tag.value === currentTag.value)
               ) {
                 this.tagList.push(tag);
               }
@@ -122,7 +126,7 @@ export default class DataStore {
           }
           for (const crafter of modifiedPackage.crafters) {
             if (
-              !this.crafterList.some((currentCrafter) =>
+              !this.crafterList.some(currentCrafter =>
                 currentCrafter.equals(crafter),
               )
             ) {
@@ -132,7 +136,7 @@ export default class DataStore {
         }
         return this.packages;
       })
-      .catch((error) => {
+      .catch(error => {
         EventBus.$emit(Errors.SERVER_ERROR, error);
         return [];
       }));
@@ -145,11 +149,11 @@ export default class DataStore {
       });
     }
     return BackendApi.Instance.getConfig()
-      .then((response) => {
+      .then(response => {
         this.config = response.data;
         return this.config;
       })
-      .catch((error) => {
+      .catch(error => {
         EventBus.$emit(Errors.SERVER_ERROR, error);
         return undefined;
       });
@@ -162,11 +166,11 @@ export default class DataStore {
       });
     }
     return BackendApi.Instance.getMetaInfo()
-      .then((response) => {
+      .then(response => {
         this.metaInfo = response.data;
         return this.metaInfo;
       })
-      .catch((error) => {
+      .catch(error => {
         EventBus.$emit(Errors.SERVER_ERROR, error);
         return undefined;
       });

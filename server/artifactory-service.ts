@@ -109,7 +109,7 @@ async function getPackageDetail({
       : await axios.get(`/${name2url({ scope, packageName })}`);
 
   const additionalCode: AdditionalCode = process.env.MOCK
-    ? await new Promise<AdditionalCode>((resolve) => {
+    ? await new Promise<AdditionalCode>(resolve => {
         const packageResource = path.join(
           __dirname,
           'mock',
@@ -128,7 +128,7 @@ async function getPackageDetail({
           mainCode: readMainCode(path.join(__dirname, '..', '..')),
         });
       })
-    : await new Promise<AdditionalCode> (async (resolve, reject) => {
+    : await new Promise<AdditionalCode>(async (resolve, reject) => {
         const packageDetail = packageDetailResponse.data;
         const downloadUrl = packageDetail.versions[currentVersion].dist.tarball;
         const storageDir = path.join(
@@ -151,7 +151,7 @@ async function getPackageDetail({
               },
             })
             // Store package in filesystem:
-            .then((result) => {
+            .then(result => {
               fs.ensureDirSync(storageDir);
               const outputFilename = path.join(
                 storageDir,
@@ -161,11 +161,11 @@ async function getPackageDetail({
               return outputFilename;
             })
             // Extract package:
-            .then((file) => {
+            .then(file => {
               const cwd = storageDir;
               return tar.x({ file, cwd }).then(() => cwd);
             })
-            .then((dir) => {
+            .then(dir => {
               resolve(readAdditionalCode(dir));
             });
         }

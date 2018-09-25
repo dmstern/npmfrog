@@ -35,10 +35,10 @@ import { EventBus, Errors } from '@/services/event-bus';
 export default class LoadingSpinner extends Vue {
   @Prop() private msg!: string;
   private error: {
-    show: boolean,
-    msg: string,
-    status: number,
-    statusText: string,
+    show: boolean;
+    msg: string;
+    status: number;
+    statusText: string;
   } = {
     show: false,
     msg: '',
@@ -48,7 +48,7 @@ export default class LoadingSpinner extends Vue {
 
   constructor() {
     super();
-    EventBus.$on(Errors.SERVER_ERROR, (error) => {
+    EventBus.$on(Errors.SERVER_ERROR, error => {
       const res = error.response;
       this.error.show = true;
       console.log(error);

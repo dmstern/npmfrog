@@ -25,7 +25,6 @@
 </template>
 
 <script lang="ts">
-
 import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component({
@@ -54,9 +53,7 @@ export default class CodeBlock extends Vue {
     this.notificationColor = 'error';
     this.notificationText = 'Error: could not copy code to clipboard!';
   }
-
 }
-
 </script>
 
 <style lang="scss" scoped>

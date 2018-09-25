@@ -25,7 +25,6 @@ export default class ExternalLink extends Vue {
 </script>
 
 <style lang="scss" scoped>
-
 .v-icon {
   font-size: inherit;
   line-height: inherit;
@@ -35,5 +34,4 @@ img {
   width: auto;
   height: 1em;
 }
-
 </style>

@@ -1,16 +1,16 @@
 // Colors:
 $color-black: #000;
 $color-gray-dark: #222;
-$color-gray-medium: rgba(0,0,0,.6);
+$color-gray-medium: rgba(0, 0, 0, 0.6);
 $color-gray-light: #888;
-$color-gray-extralight: #DDD;
+$color-gray-extralight: #ddd;
 $color-search-author: orange;
 $color-search-keyword: green;
-$color-white: #FFF;
+$color-white: #fff;
 $color-code: #bd4147;
 
 $color-link--dark: $color-white;
-$color-light-transparent: transparentize($color-gray-dark, .5);
+$color-light-transparent: transparentize($color-gray-dark, 0.5);
 
 // Spaces:
 $package-list--avatar--width: 25;
@@ -18,7 +18,7 @@ $md-app-content-padding: 16px;
 
 // Fonts:
 $package-list--author--font-size: 0.8em;
-$monospace: "Fira Mono", "Roboto Mono", Consolas, Courier, Monospace;
+$monospace: 'Fira Mono', 'Roboto Mono', Consolas, Courier, Monospace;
 
 //Transitions:
 $transition-smooth: all 500ms ease-in-out;
@@ -29,10 +29,17 @@ $grid-breakpoints: (
   xs: 0,
   sm: 600px,
   md: 960px,
-  lg: (1280px - 16px), // Desktop gets a 16dp reduction
-  xl: (1920px - 16px), // https://material.io/guidelines/layout/responsive-ui.html#responsive-ui-breakpoints
+  lg: (
+    1280px - 16px,
+  ),
+  // Desktop gets a 16dp reduction xl: (
+      1920px - 16px,
+    ),
+  // https: //
+    material.io/guidelines/layout/responsive-ui.html#responsive-ui-breakpoints,
 );
 
 $mdi2faScaleFactor: 20/24;
 
-$shadow-focused: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+$shadow-focused: 0 3px 1px -2px rgba(0, 0, 0, 0.2),
+  0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);

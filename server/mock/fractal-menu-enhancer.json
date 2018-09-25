@@ -27,7 +27,8 @@
       ],
       "main": "src/main.js",
       "dist": {
-        "tarball": "https://artifactory.init.de:443/artifactory/api/npm/npm/@init/fractal-menu-enhancer/-/@init/fractal-menu-enhancer-0.3.1.tgz",
+        "tarball":
+          "https://artifactory.init.de:443/artifactory/api/npm/npm/@init/fractal-menu-enhancer/-/@init/fractal-menu-enhancer-0.3.1.tgz",
         "shasum": "b4eea22a9750d89ea8a5b912756d627664dab144"
       },
       "dependencies": {
@@ -95,7 +96,8 @@
       ],
       "main": "src/main.js",
       "dist": {
-        "tarball": "https://artifactory.init.de:443/artifactory/api/npm/npm/@init/fractal-menu-enhancer/-/@init/fractal-menu-enhancer-0.3.2.tgz",
+        "tarball":
+          "https://artifactory.init.de:443/artifactory/api/npm/npm/@init/fractal-menu-enhancer/-/@init/fractal-menu-enhancer-0.3.2.tgz",
         "shasum": "c7a91cb51947b45608afa1aca89e33a61dde9494"
       },
       "dependencies": {
@@ -162,7 +164,8 @@
       ],
       "main": "src/main.js",
       "dist": {
-        "tarball": "https://artifactory.init.de:443/artifactory/api/npm/npm/@init/fractal-menu-enhancer/-/@init/fractal-menu-enhancer-0.3.0.tgz",
+        "tarball":
+          "https://artifactory.init.de:443/artifactory/api/npm/npm/@init/fractal-menu-enhancer/-/@init/fractal-menu-enhancer-0.3.0.tgz",
         "shasum": "2e9becaf4c5cfb6f3b9786d8dc4b65876460bbbd"
       },
       "dependencies": {

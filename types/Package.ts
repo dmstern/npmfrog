@@ -10,8 +10,12 @@ import {
   IRepository,
   IScriptsMap,
 } from './package-json';
-import { IDistTags, ITimes, IVersions } from './package-meta-data';
-import { PackageMetaDataDTO } from './package-meta-data';
+import {
+  IDistTags,
+  ITimes,
+  IVersions,
+  PackageMetaDataDTO,
+} from './package-meta-data';
 import Crafter from './Crafter';
 import Searchable from './Searchable';
 import { Tag } from './Tag';
@@ -72,20 +76,18 @@ export default class Package extends Searchable implements PackageMetaDataDTO {
 
     // set repositoryUrl:
     if (packageMetaData.repository) {
-      if (typeof packageMetaData.repository === 'string') {
-        this.repositoryUrl = packageMetaData.repository;
-      } else {
-        this.repositoryUrl = packageMetaData.repository.url;
-      }
+      this.repositoryUrl =
+        typeof packageMetaData.repository === 'string'
+          ? packageMetaData.repository
+          : packageMetaData.repository.url;
     }
 
     // set bugsUrl:
     if (packageMetaData.bugs) {
-      if (typeof packageMetaData.bugs === 'string') {
-        this.bugTrackerUrl = packageMetaData.bugs;
-      } else {
-        this.bugTrackerUrl = packageMetaData.bugs.url;
-      }
+      this.bugTrackerUrl =
+        typeof packageMetaData.bugs === 'string'
+          ? packageMetaData.bugs
+          : packageMetaData.bugs.url;
     }
 
     // Count depenedencies:
@@ -111,10 +113,10 @@ export default class Package extends Searchable implements PackageMetaDataDTO {
 
   public matches(other: Searchable): boolean {
     if (other instanceof Tag) {
-      return this.tags.some((tag) => tag.value === other.value);
+      return this.tags.some(tag => tag.value === other.value);
     }
     if (other instanceof Crafter) {
-      return this.crafters.some((crafter) => crafter.equals(other));
+      return this.crafters.some(crafter => crafter.equals(other));
     }
     if (other instanceof Package) {
       return other.name === this.name && other.version === this.version;
@@ -129,8 +131,8 @@ export default class Package extends Searchable implements PackageMetaDataDTO {
       this.description || '',
       this.author ? this.author.toString() : '',
     ]
-      .concat(...this.tags.map((tag) => tag.getSearchItemText()))
-      .concat(...this.crafters.map((crafter) => crafter.getSearchItemText()));
+      .concat(...this.tags.map(tag => tag.getSearchItemText()))
+      .concat(...this.crafters.map(crafter => crafter.getSearchItemText()));
   }
 
   public get crafters(): Crafter[] {
@@ -153,7 +155,7 @@ export default class Package extends Searchable implements PackageMetaDataDTO {
       return this.tagList;
     }
     if (this.keywords && this.keywords.length) {
-      this.tagList.push(...this.keywords.map((keyword) => new Tag(keyword)));
+      this.tagList.push(...this.keywords.map(keyword => new Tag(keyword)));
     }
     return this.tagList;
   }

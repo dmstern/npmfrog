@@ -70,16 +70,17 @@ import Searchable from '../../types/Searchable';
 export default class Packages extends Vue {
   @Prop() private startMsg!: string;
   @Prop() private artifactoryUrlProp!: string;
-  @Prop() private packagesProp!: {
-    all: Package[],
-    data: Package[],
-    loading: boolean,
+  @Prop()
+  private packagesProp!: {
+    all: Package[];
+    data: Package[];
+    loading: boolean;
   };
   private artifactoryUrl: string | undefined = this.artifactoryUrlProp;
   private packages: {
-    all: Package[],
-    data: Package[],
-    loading: boolean,
+    all: Package[];
+    data: Package[];
+    loading: boolean;
   } = this.packagesProp;
 
   constructor() {
@@ -93,38 +94,40 @@ export default class Packages extends Vue {
 
     this.loadConfig();
 
-    EventBus.$on([
-      Events.FILTER_SEARCH,
-      Events.TRIGGER_FILTER_SEARCH,
-    ], async ( args: { filters: Searchable[], query: string} ) => {
-      this.packages.loading = true;
-      this.packages.all = await DataStore.Instance.getPackages();
-      this.packages.loading = false;
-      this.packages.data = this.packages.all
-        .filter((item) => args.filters.every((filter) => filter.matches(item, this.packages.all)))
-        .filter((item) => {
-        if (!args.query) {
-          return true;
-        }
-        return item.matchesPattern(args.query);
-      });
-    });
+    EventBus.$on(
+      [Events.FILTER_SEARCH, Events.TRIGGER_FILTER_SEARCH],
+      async (args: { filters: Searchable[]; query: string }) => {
+        this.packages.loading = true;
+        this.packages.all = await DataStore.Instance.getPackages();
+        this.packages.loading = false;
+        this.packages.data = this.packages.all
+          .filter(item =>
+            args.filters.every(filter =>
+              filter.matches(item, this.packages.all),
+            ),
+          )
+          .filter(item => {
+            if (!args.query) {
+              return true;
+            }
+            return item.matchesPattern(args.query);
+          });
+      },
+    );
   }
 
   private loadConfig(): void {
-    DataStore.Instance.getConfig().then((config) => {
+    DataStore.Instance.getConfig().then(config => {
       if (config) {
         this.artifactoryUrl = config.artifactory.host;
       }
     });
   }
-
 }
-
 </script>
 
 <style lang="scss">
-@import "../assets/variables";
+@import '../assets/variables';
 
 .v-list--three-line .v-list__tile {
   height: auto;
