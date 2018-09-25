@@ -181,7 +181,7 @@ import * as vuetify from './plugins/vuetify';
 })
 export default class App extends Vue {
   public $refs!: {
-    searchbar: any,
+    searchbar: any;
   };
 
   @Prop() private menuVisibleProp!: boolean;
@@ -197,7 +197,7 @@ export default class App extends Vue {
   private clipped: boolean = true;
   private hasFocus: boolean = false;
   private btnIconSize: number = 36;
-  private navItems: Array<{ icon: string, title: string, target: string }> = [
+  private navItems: Array<{ icon: string; title: string; target: string }> = [
     {
       icon: 'home',
       title: 'Home',
@@ -210,8 +210,8 @@ export default class App extends Vue {
     },
   ];
   private error: {
-    show: boolean,
-    msg: string,
+    show: boolean;
+    msg: string;
   } = {
     show: false,
     msg: '',
@@ -226,12 +226,18 @@ export default class App extends Vue {
     this.adaptContentSpacing();
     this.searchItemsFiltered = [];
     window.onresize = this.adaptContentSpacing;
-    window.addEventListener('keypress', (e) => {
-      if (String.fromCharCode(e.keyCode) === '/' || String.fromCharCode(e.keyCode) === '#') {
+    window.addEventListener('keypress', e => {
+      if (
+        String.fromCharCode(e.keyCode) === '/' ||
+        String.fromCharCode(e.keyCode) === '#'
+      ) {
         if (!this.searchInput || e.target !== this.searchInput) {
           this.focusSearch();
           setTimeout(() => {
-            this.searchInput.value = this.searchInput.value.slice(0, this.searchInput.value.length - 1);
+            this.searchInput.value = this.searchInput.value.slice(
+              0,
+              this.searchInput.value.length - 1,
+            );
             this.searchInput.dispatchEvent(new Event('input'));
           }, 0);
         }
@@ -240,7 +246,7 @@ export default class App extends Vue {
 
     router.afterEach(this.fireSearchFilterEvent);
 
-    EventBus.$on(Errors.SERVER_ERROR, (error) => {
+    EventBus.$on(Errors.SERVER_ERROR, error => {
       const res = error.response;
       this.error.show = true;
       console.log(error);
@@ -249,14 +255,16 @@ export default class App extends Vue {
       }
     });
 
-    EventBus.$on(Events.TRIGGER_FILTER_SEARCH, (args: { filters: Searchable[], query: string }) => {
-      if (this.$refs.searchbar) {
-        for (const filter of args.filters) {
-          this.$refs.searchbar.selectItem(filter);
+    EventBus.$on(
+      Events.TRIGGER_FILTER_SEARCH,
+      (args: { filters: Searchable[]; query: string }) => {
+        if (this.$refs.searchbar) {
+          for (const filter of args.filters) {
+            this.$refs.searchbar.selectItem(filter);
+          }
         }
-      }
-    });
-
+      },
+    );
   }
 
   private get searchInput(): HTMLInputElement {
@@ -294,12 +302,12 @@ export default class App extends Vue {
       }
     }
 
-    this.searchItemsFiltered = this.searchItems.filter((item) => {
+    this.searchItemsFiltered = this.searchItems.filter(item => {
       if (!this.activeFilters.length) {
         // include everything, if no filter is selected:
         return true;
       }
-      return this.activeFilters.every((filter) => filter.matches(item, packages));
+      return this.activeFilters.every(filter => filter.matches(item, packages));
     });
 
     this.fireSearchFilterEvent();
@@ -324,7 +332,7 @@ export default class App extends Vue {
   }
 
   private onSearchSubmit(event?: Event): void {
-    router.push({path: '/'});
+    router.push({ path: '/' });
     this.$nextTick(this.fireSearchFilterEvent);
     this.$nextTick(this.$refs.searchbar.blur);
 
@@ -346,14 +354,21 @@ export default class App extends Vue {
 
   private fireSearchFilterEvent(): void {
     this.$nextTick(() => {
-      EventBus.$emit(Events.FILTER_SEARCH, { filters: this.activeFilters, query: this.searchInput.value });
+      EventBus.$emit(Events.FILTER_SEARCH, {
+        filters: this.activeFilters,
+        query: this.searchInput.value,
+      });
     });
   }
 
   private adaptContentSpacing(): void {
     setTimeout(() => {
-      const contentElement = document.querySelector('.v-content') as HTMLElement;
-      const toolbar = document.querySelector('.v-toolbar__content') as HTMLElement;
+      const contentElement = document.querySelector(
+        '.v-content',
+      ) as HTMLElement;
+      const toolbar = document.querySelector(
+        '.v-toolbar__content',
+      ) as HTMLElement;
       contentElement.style.padding = `${toolbar.offsetHeight}px 0 0`;
     }, 0);
   }
@@ -362,11 +377,10 @@ export default class App extends Vue {
     return require(`@/../art/${icon}.svg`);
   }
 }
-
 </script>
 
 <style lang="scss">
-@import "assets/variables";
+@import 'assets/variables';
 
 h1 {
   margin-bottom: 0.5em;
@@ -395,7 +409,6 @@ a,
 }
 
 .v-icon {
-
   vertical-align: baseline;
 
   &,
@@ -411,7 +424,6 @@ a,
     transform: scale($mdi2faScaleFactor);
 
     .v-btn--floating & {
-
       &::before {
         display: inline-block;
         margin-top: 50%;
@@ -427,7 +439,6 @@ a,
     font-size: inherit;
     transform: none;
   }
-
 }
 
 code,
@@ -465,8 +476,8 @@ code.hljs {
     padding-left: 3em;
 
     &::before {
-      content: "\F120";
-      font-family: "Font Awesome 5 Free";
+      content: '\F120';
+      font-family: 'Font Awesome 5 Free';
       transform: translateX(-2em) scale($mdi2faScaleFactor);
       display: inline-block;
       vertical-align: baseline;
