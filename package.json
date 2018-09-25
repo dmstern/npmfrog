@@ -23,14 +23,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "pretty-quick && git add ."
     }
-  },
-  "lint-staged": {
-    "*.{js,json,css,md,ts,vue}": [
-      "prettier --write",
-      "git add"
-    ]
   },
   "bin": "./cli.js",
   "dependencies": {
@@ -78,9 +72,9 @@
     "cross-env": "^5.2.0",
     "eslint": "^5.5.0",
     "husky": "^1.0.0-rc.15",
-    "lint-staged": "^7.3.0",
     "node-sass": "^4.9.0",
     "nodemon": "^1.18.4",
+    "pretty-quick": "^1.7.0",
     "release-it": "^7.6.0",
     "sass-loader": "^7.0.1",
     "tslint": "^5.11.0",
