@@ -463,8 +463,8 @@ pre code.hljs {
   list-style: none;
 
   li {
-    width: 100%;
     display: flex;
+    width: 100%;
   }
 }
 
@@ -485,17 +485,17 @@ pre code.hljs {
 
   &::before,
   &::after {
-    font-size: 10em;
     position: absolute;
-    font-family: Georgia, 'Times New Roman', Times, serif;
     color: $color-gray-extralight;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 10em;
     opacity: 0.3;
   }
 
   &::before {
     content: '„';
-    left: 0;
     bottom: -60px;
+    left: 0;
   }
 
   &::after {
