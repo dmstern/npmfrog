@@ -1,4 +1,5 @@
 {
   "editor.formatOnSave": true,
-  "vueStyle.formatOnSave": true
+  "vueStyle.formatOnSave": true,
+  "prettier.disableLanguages": []
 }
