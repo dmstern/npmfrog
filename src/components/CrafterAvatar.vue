@@ -33,7 +33,6 @@ export default class CrafterAvatar extends Vue {
   constructor() {
     super();
   }
-
 }
 </script>
 
@@ -46,4 +45,3 @@ export default class CrafterAvatar extends Vue {
   }
 }
 </style>
-

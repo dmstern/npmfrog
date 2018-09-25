@@ -54,9 +54,9 @@ icons.changelog = icons.newspaper;
 Vue.use(Vuetify, {
   iconfont: 'fa', // 'md' || 'mdi' || 'fa' || 'fa4'
   theme: {
-    primary: "#D63B09",
-    secondary: "#FF7043",
+    primary: '#D63B09',
+    secondary: '#FF7043',
     accent: colors.lightGreen.darken2,
   },
-  icons
+  icons,
 });

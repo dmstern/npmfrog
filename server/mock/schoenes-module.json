@@ -2,7 +2,8 @@
   "_id": "schoenes-module",
   "_rev": "1-0",
   "name": "schoenes-module",
-  "description": "wunderschoene und sehr lange beschreibung. wunderschoene und sehr lange beschreibung. wunderschoene und sehr lange beschreibung. wunderschoene und sehr lange beschreibung. wunderschoene und sehr lange beschreibung. wunderschoene und sehr lange beschreibung. wunderschoene und sehr lange beschreibung. wunderschoene und sehr lange beschreibung. wunderschoene und sehr lange beschreibung. wunderschoene und sehr lange beschreibung. ",
+  "description":
+    "wunderschoene und sehr lange beschreibung. wunderschoene und sehr lange beschreibung. wunderschoene und sehr lange beschreibung. wunderschoene und sehr lange beschreibung. wunderschoene und sehr lange beschreibung. wunderschoene und sehr lange beschreibung. wunderschoene und sehr lange beschreibung. wunderschoene und sehr lange beschreibung. wunderschoene und sehr lange beschreibung. wunderschoene und sehr lange beschreibung. ",
   "dist-tags": {
     "latest": "1.1.0"
   },
@@ -14,7 +15,8 @@
       "author": "daniel",
       "main": "index.js",
       "dist": {
-        "tarball": "https://artifactory.init.de:443/artifactory/api/npm/npm/schoenes-module/-/schoenes-module-1.0.3.tgz",
+        "tarball":
+          "https://artifactory.init.de:443/artifactory/api/npm/npm/schoenes-module/-/schoenes-module-1.0.3.tgz",
         "shasum": "6f6597cfd1b4421a0aa622e81640b9859fd3817a"
       },
       "license": "ISC",
@@ -34,7 +36,8 @@
       "author": "daniel",
       "main": "index.js",
       "dist": {
-        "tarball": "https://artifactory.init.de:443/artifactory/api/npm/npm/schoenes-module/-/schoenes-module-1.0.4.tgz",
+        "tarball":
+          "https://artifactory.init.de:443/artifactory/api/npm/npm/schoenes-module/-/schoenes-module-1.0.4.tgz",
         "shasum": "87332249266589df2ef96122144fd7562db7e9c7"
       },
       "license": "ISC",
@@ -51,13 +54,10 @@
       "author": "daniel <mail@daniel.com>",
       "main": "index.js",
       "homepage": "https://github.io/voll/schoenes-module",
-      "keywords": [
-        "npm",
-        "test",
-        "quatsch"
-      ],
+      "keywords": ["npm", "test", "quatsch"],
       "dist": {
-        "tarball": "https://artifactory.init.de:443/artifactory/api/npm/npm/schoenes-module/-/schoenes-module-1.1.0.tgz",
+        "tarball":
+          "https://artifactory.init.de:443/artifactory/api/npm/npm/schoenes-module/-/schoenes-module-1.1.0.tgz",
         "shasum": "21e612003e0e344818d40670d40729f750e3347b"
       },
       "dependencies": {
@@ -73,7 +73,10 @@
       "repository": "https://github.com/bla/blubb",
       "license": "ISC",
       "contributors": [
-        "daniel <mail@daniel.com>", "Kater Findus <findus@schweden.com> (http://pettersson.com)", "Alter Petterson", {
+        "daniel <mail@daniel.com>",
+        "Kater Findus <findus@schweden.com> (http://pettersson.com)",
+        "Alter Petterson",
+        {
           "name": "Anton Peter",
           "email": "test",
           "url": "http://www.google.de"

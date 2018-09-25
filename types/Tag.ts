@@ -7,7 +7,7 @@ export class Tag extends Searchable {
   constructor(value: string) {
     super();
     this.value = value;
-    const alreadyCreatedTag = Tag.allTags.find((tag) => tag.value === this.value);
+    const alreadyCreatedTag = Tag.allTags.find(tag => tag.value === this.value);
     if (alreadyCreatedTag) {
       return alreadyCreatedTag;
     } else {
@@ -22,7 +22,7 @@ export class Tag extends Searchable {
     if (
       other instanceof Package &&
       other.tags !== undefined &&
-      other.tags.some((tag) => tag.value === this.value)
+      other.tags.some(tag => tag.value === this.value)
     ) {
       return true;
     }

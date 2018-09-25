@@ -6,7 +6,7 @@ export default abstract class Searchable {
   public abstract getSearchItemText(): string[];
 
   public matchesPattern(pattern: string): boolean {
-    return this.getSearchItemText().some((text) =>
+    return this.getSearchItemText().some(text =>
       text.toLowerCase().includes(pattern.toLowerCase()),
     );
   }

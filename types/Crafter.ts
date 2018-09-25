@@ -1,6 +1,7 @@
 import { IAuthor } from './package-json';
 import Searchable from './Searchable';
 import Package from './Package';
+// tslint:disable-next-line:no-submodule-imports
 import vuetifyColors from 'vuetify/es5/util/colors';
 import * as parseAuthors from 'parse-authors';
 
@@ -22,9 +23,9 @@ export default class Crafter extends Searchable {
   }
 
   private static lastUsedColorNumber: number = -1;
-  private static colors: string[] = Object.keys(vuetifyColors).filter((color) => {
+  private static colors: string[] = Object.keys(vuetifyColors).filter(color => {
     return (
-      !forbiddenColors.some((forbidden) => forbidden === color) &&
+      !forbiddenColors.some(forbidden => forbidden === color) &&
       !color.startsWith('light')
     );
   });
@@ -60,7 +61,7 @@ export default class Crafter extends Searchable {
         Object.assign(this, author);
       }
     }
-    const alreadyCreatedCrafter = Crafter.allCrafters.find((crafter) =>
+    const alreadyCreatedCrafter = Crafter.allCrafters.find(crafter =>
       crafter.equals(this),
     );
     if (alreadyCreatedCrafter) {
@@ -76,7 +77,7 @@ export default class Crafter extends Searchable {
     }
     if (
       other instanceof Package &&
-      other.crafters.some((crafter) => crafter.equals(this))
+      other.crafters.some(crafter => crafter.equals(this))
     ) {
       return true;
     }

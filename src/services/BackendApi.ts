@@ -40,7 +40,9 @@ export default class BackendApi {
     packageName,
     version,
   }: PackageId): AxiosPromise<PackageMetaDataDTO> {
-    return this.get(`packageDetail/${scope}/${packageName}${version ? `/${version}` : ''}`);
+    return this.get(
+      `packageDetail/${scope}/${packageName}${version ? `/${version}` : ''}`,
+    );
   }
 
   public getMetaInfo(): AxiosPromise<IPackageJSON> {

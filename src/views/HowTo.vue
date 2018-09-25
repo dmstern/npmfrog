@@ -75,7 +75,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import DataStore from '@/services/DataStore';
+import DataStore from '../services/DataStore';
 import ExternalLink from '../components/ExternalLink.vue';
 
 @Component({
@@ -85,8 +85,8 @@ import ExternalLink from '../components/ExternalLink.vue';
 })
 export default class HowTo extends Vue {
   private data: {
-    artifactoryUrl: string,
-    companyScope: string,
+    artifactoryUrl: string;
+    companyScope: string;
   } = {
     artifactoryUrl: '',
     companyScope: '',
@@ -94,13 +94,11 @@ export default class HowTo extends Vue {
 
   constructor() {
     super();
-    DataStore.Instance.getConfig().then((response) => {
+    DataStore.Instance.getConfig().then(response => {
       if (response) {
         this.data.artifactoryUrl = `http${
           response.artifactory.https ? 's' : ''
-        }://${
-          response.artifactory.host
-        }/artifactory/api/npm/${
+        }://${response.artifactory.host}/artifactory/api/npm/${
           response.artifactory.repoKey
         }/`;
         this.data.companyScope = response.companyScope;
@@ -111,10 +109,7 @@ export default class HowTo extends Vue {
 </script>
 
 <style lang="scss">
-
 .v-list.link-list {
   background-color: transparent;
 }
-
-
 </style>
