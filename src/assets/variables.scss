@@ -25,6 +25,8 @@ $transition-smooth: all 500ms ease-in-out;
 $transition-fast: all 150ms ease-in-out;
 
 // Media queries:
+// https: // material.io/guidelines/layout/responsive-ui.html#responsive-ui-breakpoints,
+// Desktop gets a 16dp reduction
 $grid-breakpoints: (
   xs: 0,
   sm: 600px,
@@ -32,14 +34,12 @@ $grid-breakpoints: (
   lg: (
     1280px - 16px,
   ),
-  // Desktop gets a 16dp reduction xl: (
-      1920px - 16px,
-    ),
-  // https: //
-    material.io/guidelines/layout/responsive-ui.html#responsive-ui-breakpoints,
+  xl: (
+    1920px - 16px,
+  ),
 );
 
 $mdi2faScaleFactor: 20/24;
 
-$shadow-focused: 0 3px 1px -2px rgba(0, 0, 0, 0.2),
-  0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+$shadow-focused: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+  0 1px 5px 0 rgba(0, 0, 0, 0.12);
