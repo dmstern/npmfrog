@@ -9,7 +9,7 @@
       </p>
       <h2>Configure artifactory as an npm registry for your company</h2>
       <h3>Alternative 1) Globally</h3>
-      <CodeBlock :code="`npm set registry ${data.companyScope ? `@${data.companyScope}:` : ''}${data.artifactoryUrl}`" language="bash"></CodeBlock>
+      <CodeBlock :code="`npm set ${data.companyScope ? `@${data.companyScope}:` : ''}registry ${data.artifactoryUrl}`" language="bash"></CodeBlock>
       <v-subheader>More info:</v-subheader>
       <v-list :class="`link-list`">
         <v-list-tile><ExternalLink href="https://docs.npmjs.com/cli/config"></ExternalLink></v-list-tile>
