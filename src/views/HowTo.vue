@@ -3,13 +3,13 @@
     <v-container>
       <h1>HowTo publish packages</h1>
       <h2>(For new packages) initialize an npm module</h2>
-        <pre v-highlightjs><code class="bash">npm init</code></pre>
+        <CodeBlock code="npm init" language="bash"></CodeBlock>
       <p>
         This will create a <code class="hljs">package.json</code> file for your new module. If you already have one, proceed with the next step.
       </p>
       <h2>Configure artifactory as an npm registry for your company</h2>
       <h3>Alternative 1) Globally</h3>
-      <pre v-highlightjs v-if="data.artifactoryUrl"><code class="bash">npm set registry {{data.companyScope ? `@${data.companyScope}:` : ''}}{{data.artifactoryUrl}}</code></pre>
+      <CodeBlock :code="`npm set registry ${data.companyScope ? `@${data.companyScope}:` : ''}${data.artifactoryUrl}`" language="bash"></CodeBlock>
       <v-subheader>More info:</v-subheader>
       <v-list :class="`link-list`">
         <v-list-tile><ExternalLink href="https://docs.npmjs.com/cli/config"></ExternalLink></v-list-tile>
@@ -28,7 +28,7 @@
         <v-list-tile><ExternalLink href="https://docs.npmjs.com/files/package.json#publishconfig"></ExternalLink></v-list-tile>
       </v-list>
       <h2>Login to Artifactory</h2>
-      <pre v-highlightjs="`npm login --registry=${data.artifactoryUrl}`"><code class="bash"></code></pre>
+      <CodeBlock :code="`npm login --registry=${data.artifactoryUrl}`" language="bash"></CodeBlock>
       <p>You'll get prompted to enter your username and password of your inhouse <a :href="data.artifactoryUrl" target="_blank">artifactory instance</a>.</p>
       <v-subheader>More info:</v-subheader>
       <v-list :class="`link-list`">
@@ -44,20 +44,22 @@
     "index.js"
   ]</code></pre>
       <h2>Commit everything</h2>
-      <pre v-highlightjs><code class="bash">git commit</code></pre>
+      <CodeBlock code="git commit" language="bash"></CodeBlock>
       <h2>Create a new version of your package</h2>
-      <pre v-highlightjs><code class="bash">npm version [&lt;newversion&gt; | major | minor | patch ]
+      <pre v-highlightjs><code class="bash">npm version [&lt;newversion&gt; | major | minor | patch ] [-m "VERSION_MESSAGE"]
 
 'npm [-v | --version]' to print npm version
 'npm view &lt;pkg&gt; version' to view a package's published version
 'npm ls' to inspect current package/dependency versions</code></pre>
+      <v-subheader>Example:</v-subheader>
+      <CodeBlock code='npm version minor -m "CR 534 new features"' language="bash"></CodeBlock>
       <v-subheader>More info:</v-subheader> 
       <v-list :class="`link-list`">
         <v-list-tile><ExternalLink href="https://docs.npmjs.com/cli/version"></ExternalLink></v-list-tile>
         <v-list-tile><ExternalLink text="semver.org" href="https://semver.org/"></ExternalLink></v-list-tile>
       </v-list>
       <h2>Publish package</h2>
-      <pre v-highlightjs><code class="bash">npm publish</code></pre>
+      <CodeBlock code="npm publish" language="bash"></CodeBlock>
       <v-subheader>More info:</v-subheader> 
       <v-list :class="`link-list`">
         <v-list-tile><ExternalLink  href="https://docs.npmjs.com/cli/publish"></ExternalLink></v-list-tile>
@@ -77,10 +79,12 @@
 import { Component, Vue } from 'vue-property-decorator';
 import DataStore from '../services/DataStore';
 import ExternalLink from '../components/ExternalLink.vue';
+import CodeBlock from '../components/CodeBlock.vue';
 
 @Component({
   components: {
     ExternalLink,
+    CodeBlock,
   },
 })
 export default class HowTo extends Vue {
@@ -96,11 +100,9 @@ export default class HowTo extends Vue {
     super();
     DataStore.Instance.getConfig().then(response => {
       if (response) {
-        this.data.artifactoryUrl = `http${
-          response.artifactory.https ? 's' : ''
-        }://${response.artifactory.host}/artifactory/api/npm/${
-          response.artifactory.repoKey
-        }/`;
+        this.data.artifactoryUrl = `http${response.artifactory.https ? 's' : ''}://${
+          response.artifactory.host
+        }/artifactory/api/npm/${response.artifactory.repoKey}/`;
         this.data.companyScope = response.companyScope;
       }
     });
