@@ -29,13 +29,13 @@ module.exports = {
     name: 'frog-server',
     script: 'index.js',
     cwd: 'dist/server/',
-    log: '../../frog-server.log',
+    log: '../../logs/frog-server.log',
     env_local,
   },
   serveUIStatic: {
     name: 'frog-ui-static',
     script: 'serve',
-    log: './frog-ui.log',
+    log: './logs/frog-ui.log',
     log_date_format,
     env: {
       PM2_SERVE_PATH: 'dist/webui',

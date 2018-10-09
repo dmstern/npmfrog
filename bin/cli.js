@@ -1,12 +1,18 @@
 #!/usr/bin/env node
-
+//==============================================================
 const exec = require('child_process').exec;
 const path = require('path');
-const pm2Config = require('./pm2.config');
+console.log('__dirname', __dirname);
+const pm2Config = require('../pm2.config');
 const port = pm2Config.serveUIStatic.env.PM2_SERVE_PORT;
 const logFiles = {
-  ui: path.join(__dirname, pm2Config.runServer.cwd || '', pm2Config.runServer.log),
-  server: path.join(__dirname, pm2Config.serveUIStatic.cwd || '', pm2Config.serveUIStatic.log),
+  ui: path.join(__dirname, '..', pm2Config.runServer.cwd || '', pm2Config.runServer.log),
+  server: path.join(
+    __dirname,
+    '..',
+    pm2Config.serveUIStatic.cwd || '',
+    pm2Config.serveUIStatic.log,
+  ),
 };
 const startCommand = 'run prod';
 const programm = 'npmfrog';
