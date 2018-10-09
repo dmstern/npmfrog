@@ -1,7 +1,6 @@
 {
   "github": {
-    "release": true,
-    "assets": "dist.zip"
+    "release": true
   },
   "src": {
     "push": true,
