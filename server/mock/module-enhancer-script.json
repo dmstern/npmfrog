@@ -1,34 +1,34 @@
 {
-  "_id": "@init/fractal-menu-enhancer",
+  "_id": "@company/module-enhancer-script",
   "_rev": "1-0",
-  "name": "@init/fractal-menu-enhancer",
+  "name": "@company/module-enhancer-script",
   "description": "Adds extra functionality to the fractal menu",
   "dist-tags": {
     "latest": "0.3.2"
   },
   "versions": {
     "0.3.1": {
-      "name": "@init/fractal-menu-enhancer",
+      "name": "@company/module-enhancer-script",
       "description": "Adds extra functionality to the fractal menu",
       "version": "0.3.1",
       "author": {
-        "name": "Krüger, Steffen (ext)",
-        "email": "Steffen.Krueger.ext@init.de"
+        "name": "Cooper, Sheldon",
+        "email": "sheldon.cooper@bigbang.com"
       },
       "repository": {
         "type": "git",
-        "url": "https://gitlab.init.de/dmorgenstern/fractal-menu-enhancer"
+        "url": "https://gitlab.company.com/user/module-enhancer-script"
       },
       "contributors": [
         {
-          "name": "Morgenstern, Daniel (init)",
-          "email": "daniel.morgenstern@init.de"
+          "name": "Stinson, Barney",
+          "email": "barney.stinson@himym.com"
         }
       ],
       "main": "src/main.js",
       "dist": {
         "tarball":
-          "https://artifactory.init.de:443/artifactory/api/npm/npm/@init/fractal-menu-enhancer/-/@init/fractal-menu-enhancer-0.3.1.tgz",
+          "https://artifactory.example.com:443/artifactory/api/npm/npm/@example/module-enhancer-script/-/@company/module-enhancer-script-0.3.1.tgz",
         "shasum": "b4eea22a9750d89ea8a5b912756d627664dab144"
       },
       "dependencies": {
@@ -62,7 +62,7 @@
       "scripts": {
         "pretest": "prettier --write \"src/*.{js,scss}\"",
         "test": "stylelint src/*.scss",
-        "css": "node-sass src/style.scss build/fractal-menu-enhancer.css",
+        "css": "node-sass src/style.scss build/module-enhancer-script.css",
         "js": "webpack",
         "prebuild": "npm run test",
         "build": "npm run css && npm run js",
@@ -71,33 +71,33 @@
         "version": "git add ."
       },
       "publishConfig": {
-        "registry": "https://artifactory.init.de/artifactory/api/npm/npm-local/"
+        "registry": "https://artifactory.example.com/artifactory/api/npm/npm-local/"
       },
-      "_id": "@init/fractal-menu-enhancer@0.3.1"
+      "_id": "@company/module-enhancer-script@0.3.1"
     },
     "0.3.2": {
-      "name": "@init/fractal-menu-enhancer",
+      "name": "@company/module-enhancer-script",
       "description": "Adds extra functionality to the fractal menu",
       "version": "0.3.2",
       "author": {
-        "name": "Krüger, Steffen (ext)",
-        "email": "Steffen.Krueger.ext@init.de"
+        "name": "Cooper, Sheldon",
+        "email": "sheldon.cooper@bigbang.com"
       },
       "repository": {
         "type": "git",
-        "url": "https://gitlab.init.de/dmorgenstern/fractal-menu-enhancer"
+        "url": "https://gitlab.example.com/myusername/module-enhancer-script"
       },
       "contributors": [
         {
-          "name": "Morgenstern, Daniel (init)",
-          "email": "daniel.morgenstern@init.de"
+          "name": "Stinson, Barney",
+          "email": "barney.stinson@himym.com"
         },
         "daniel <mail@daniel.com>"
       ],
       "main": "src/main.js",
       "dist": {
         "tarball":
-          "https://artifactory.init.de:443/artifactory/api/npm/npm/@init/fractal-menu-enhancer/-/@init/fractal-menu-enhancer-0.3.2.tgz",
+          "https://artifactory.example.com:443/artifactory/api/npm/npm/@company/module-enhancer-script/-/@company/module-enhancer-script-0.3.2.tgz",
         "shasum": "c7a91cb51947b45608afa1aca89e33a61dde9494"
       },
       "dependencies": {
@@ -131,7 +131,7 @@
       "scripts": {
         "pretest": "prettier --write \"src/*.{js,scss}\"",
         "test": "stylelint src/*.scss",
-        "css": "node-sass src/style.scss build/fractal-menu-enhancer.css",
+        "css": "node-sass src/style.scss build/module-enhancer-script.css",
         "js": "webpack",
         "prebuild": "npm run test",
         "build": "npm run css && npm run js",
@@ -140,32 +140,32 @@
         "version": "git add ."
       },
       "publishConfig": {
-        "registry": "https://artifactory.init.de/artifactory/api/npm/npm-local/"
+        "registry": "https://artifactory.example.com/artifactory/api/npm/npm-local/"
       },
-      "_id": "@init/fractal-menu-enhancer@0.3.2"
+      "_id": "@company/module-enhancer-script@0.3.2"
     },
     "0.3.0": {
-      "name": "@init/fractal-menu-enhancer",
+      "name": "@company/module-enhancer-script",
       "description": "Adds extra functionality to the fractal menu",
       "version": "0.3.0",
       "author": {
-        "name": "Krüger, Steffen (ext)",
-        "email": "Steffen.Krueger.ext@init.de"
+        "name": "Cooper, Sheldon",
+        "email": "sheldon.cooper@bigbang.com"
       },
       "repository": {
         "type": "git",
-        "url": "https://gitlab.init.de/dmorgenstern/fractal-menu-enhancer"
+        "url": "https://gitlab.example.com/myusername/module-enhancer-script"
       },
       "contributors": [
         {
-          "name": "Morgenstern, Daniel (init)",
-          "email": "daniel.morgenstern@init.de"
+          "name": "Stinson, Barney",
+          "email": "barney.stinson@himym.com"
         }
       ],
       "main": "src/main.js",
       "dist": {
         "tarball":
-          "https://artifactory.init.de:443/artifactory/api/npm/npm/@init/fractal-menu-enhancer/-/@init/fractal-menu-enhancer-0.3.0.tgz",
+          "https://artifactory.example.com:443/artifactory/api/npm/npm/@company/module-enhancer-script/-/@company/module-enhancer-script-0.3.0.tgz",
         "shasum": "2e9becaf4c5cfb6f3b9786d8dc4b65876460bbbd"
       },
       "dependencies": {
@@ -199,7 +199,7 @@
       "scripts": {
         "pretest": "prettier --write \"src/*.{js,scss}\"",
         "test": "stylelint src/*.scss",
-        "css": "node-sass src/style.scss build/fractal-menu-enhancer.css",
+        "css": "node-sass src/style.scss build/module-enhancer-script.css",
         "js": "webpack",
         "prebuild": "npm run test",
         "build": "npm run css && npm run js",
@@ -208,14 +208,14 @@
         "version": "git add ."
       },
       "publishConfig": {
-        "registry": "https://artifactory.init.de/artifactory/api/npm/npm-local/"
+        "registry": "https://artifactory.example.com/artifactory/api/npm/npm-local/"
       },
-      "_id": "@init/fractal-menu-enhancer@0.3.0"
+      "_id": "@company/module-enhancer-script@0.3.0"
     }
   },
   "author": {
-    "name": "Krüger, Steffen (ext)",
-    "email": "Steffen.Krueger.ext@init.de"
+    "name": "Cooper, Sheldon",
+    "email": "sheldon.cooper@bigbang.com"
   },
   "time": {
     "0.3.1": "2018-07-22T13:40:13.185Z",
@@ -226,14 +226,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://gitlab.init.de/dmorgenstern/fractal-menu-enhancer"
+    "url": "https://gitlab.example.com/myusername/module-enhancer-script"
   },
   "users": {},
   "keywords": ["fractal", "search", "js", "prototype"],
   "contributors": [
     {
-      "name": "Morgenstern, Daniel (init)",
-      "email": "daniel.morgenstern@init.de"
+      "name": "Stinson, Barney",
+      "email": "barney.stinson@himym.com"
     },
     "daniel <mail@daniel.com>"
   ]

@@ -14,9 +14,7 @@ const packageDetailCache = {};
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 const s = config.artifactory.https ? 's' : '';
-axios.defaults.baseURL = `http${s}://${
-  config.artifactory.host
-}/artifactory/api/npm/${repoKey}`;
+axios.defaults.baseURL = `http${s}://${config.artifactory.host}/artifactory/api/npm/${repoKey}`;
 axios.defaults.headers.common.Authorization = config.artifactory.apiKey;
 
 interface AdditionalCode {
@@ -67,9 +65,7 @@ function fetchPackages(): AxiosPromise<PackagesResponse> {
   if (process.env.MOCK) {
     return new Promise<AxiosResponse>((resolve, reject) => {
       resolve(
-        createAxiosResponse(
-          fs.readJSONSync(path.join(__dirname, 'mock', 'packages-all.json')),
-        ),
+        createAxiosResponse(fs.readJSONSync(path.join(__dirname, 'mock', 'packages-all.json'))),
       );
     });
   }
@@ -87,18 +83,12 @@ async function getPackageDetail({
 
   const packageDetailResponse: AxiosResponse = process.env.MOCK
     ? await new Promise<AxiosResponse>((resolve, reject) => {
-        const packageResource = path.join(
-          __dirname,
-          'mock',
-          `${packageName}.json`,
-        );
+        const packageResource = path.join(__dirname, 'mock', `${packageName}.json`);
         let data;
         try {
           data = fs.readJSONSync(packageResource);
         } catch (error) {
-          data = fs.readJSONSync(
-            path.join(__dirname, 'mock', 'fractal-menu-enhancer.json'),
-          );
+          data = fs.readJSONSync(path.join(__dirname, 'mock', 'module-enhancer-script.json'));
         }
         resolve(createAxiosResponse(data));
       })
@@ -110,18 +100,12 @@ async function getPackageDetail({
 
   const additionalCode: AdditionalCode = process.env.MOCK
     ? await new Promise<AdditionalCode>(resolve => {
-        const packageResource = path.join(
-          __dirname,
-          'mock',
-          `${packageName}.readme.md`,
-        );
+        const packageResource = path.join(__dirname, 'mock', `${packageName}.readme.md`);
         let data;
         try {
           data = readme2Html(packageResource);
         } catch (error) {
-          data = readme2Html(
-            path.join(__dirname, 'mock', 'fractal-menu-enhancer.readme.md'),
-          );
+          data = readme2Html(path.join(__dirname, 'mock', 'module-enhancer-script.readme.md'));
         }
         resolve({
           readme: data,
@@ -131,12 +115,7 @@ async function getPackageDetail({
     : await new Promise<AdditionalCode>(async (resolve, reject) => {
         const packageDetail = packageDetailResponse.data;
         const downloadUrl = packageDetail.versions[currentVersion].dist.tarball;
-        const storageDir = path.join(
-          tmpDir,
-          scope || '',
-          packageName,
-          currentVersion,
-        );
+        const storageDir = path.join(tmpDir, scope || '', packageName, currentVersion);
         if (fs.existsSync(storageDir)) {
           resolve(readAdditionalCode(storageDir));
         } else {

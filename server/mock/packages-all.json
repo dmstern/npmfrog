@@ -1,14 +1,14 @@
 {
   "_updated": 1532272070591,
-  "schoenes-module": {
-    "_id": "schoenes-module",
+  "beautiful-module": {
+    "_id": "beautiful-module",
     "_rev": "1-0",
-    "name": "schoenes-module",
-    "description": "wunderschoen",
+    "name": "beautiful-module",
+    "description": "beautiful",
     "dist-tags": { "latest": "1.1.0" },
     "keywords": ["npm", "test", "quatsch"],
     "versions": { "1.1.0": "latest" },
-    "author": "Erklärbär",
+    "author": "Mickey Mouse",
     "time": {
       "1.0.3": "2018-07-22T14:23:52.861Z",
       "1.0.4": "2018-07-22T14:24:57.989Z",
@@ -19,14 +19,14 @@
     "users": {},
     "license": "ISC"
   },
-  "abgefahrenes-module": {
-    "_id": "abgefahrenes-module",
+  "awesome-module": {
+    "_id": "awesome-module",
     "_rev": "1-0",
-    "name": "abgefahrenes-module",
-    "description": "Mega abgefahren, alter!",
+    "name": "awesome-module",
+    "description": "This is so awesome!",
     "dist-tags": { "latest": "1.1.0" },
     "versions": { "1.1.0": "latest" },
-    "author": "Erklärbär",
+    "author": "Mickey Mouse",
     "time": {
       "1.0.3": "2018-07-22T14:23:52.861Z",
       "1.0.4": "2018-07-22T14:24:57.989Z",
@@ -37,15 +37,15 @@
     "users": {},
     "license": "ISC"
   },
-  "tolles-module": {
-    "_id": "tolles-module",
+  "wonderful-module": {
+    "_id": "wonderful-module",
     "_rev": "1-0",
-    "name": "tolles-module",
-    "description": "Einfach nur total tolls",
+    "name": "wonderful-module",
+    "description": "This is wonderful",
     "dist-tags": { "latest": "1.1.0" },
     "versions": { "1.1.0": "latest" },
-    "author": "Erklärbär",
-    "keywords": ["fractal", "toll", "lustig", "prototype"],
+    "author": "Mickey Mouse",
+    "keywords": ["fractal", "nice", "funny", "prototype"],
     "time": {
       "1.0.3": "2018-07-22T14:23:52.861Z",
       "1.0.4": "2018-07-22T14:24:57.989Z",
@@ -56,18 +56,18 @@
     "users": {},
     "license": "ISC"
   },
-  "lustiges-module": {
-    "_id": "lustiges-module",
+  "funny-module": {
+    "_id": "funny-module",
     "_rev": "1-0",
-    "name": "lustiges-module",
-    "description": "superlustig",
+    "name": "funny-module",
+    "description": "very funny",
     "dist-tags": { "latest": "1.1.0" },
     "versions": { "1.1.0": "latest" },
-    "author": "Erklärbär",
+    "author": "Mickey Mouse",
     "contributors": [
-      "hier kommt ein sehr langer name für einen viel zu kurzen chip, der dann frontend-seitig gekürzt werden soll."
+      "This is a very long name for a contributor that should be shotened by the frontend."
     ],
-    "keywords": ["fractal", "toll", "js"],
+    "keywords": ["fractal", "nice", "js"],
     "time": {
       "1.0.3": "2018-07-22T14:23:52.861Z",
       "1.0.4": "2018-07-22T14:24:57.989Z",
@@ -78,16 +78,16 @@
     "users": {},
     "license": "ISC"
   },
-  "@init/fractal-menu-enhancer": {
-    "_id": "@init/fractal-menu-enhancer",
+  "@company/module-enhancer-script": {
+    "_id": "@company/module-enhancer-script",
     "_rev": "1-0",
-    "name": "@init/fractal-menu-enhancer",
+    "name": "@company/module-enhancer-script",
     "description": "Adds extra functionality to the fractal menu",
     "dist-tags": { "latest": "0.3.2" },
     "versions": { "0.3.2": "latest" },
     "author": {
-      "name": "Krüger, Steffen (ext)",
-      "email": "Steffen.Krueger.ext@init.de"
+      "name": "Donald Duck",
+      "email": "donald.duck@disney.com"
     },
     "time": {
       "0.3.1": "2018-07-22T13:40:13.185Z",
@@ -98,14 +98,14 @@
     },
     "repository": {
       "type": "git",
-      "url": "https://gitlab.init.de/dmorgenstern/fractal-menu-enhancer"
+      "url": "https://gitlab.company.com/myusername/module-enhancer-script"
     },
     "users": {},
     "keywords": ["fractal", "search", "js", "prototype"],
     "contributors": [
       {
-        "name": "Morgenstern, Daniel (init)",
-        "email": "daniel.morgenstern@init.de"
+        "name": "Mickey Mouse",
+        "email": "mickey.mouse@example.com"
       }
     ]
   }

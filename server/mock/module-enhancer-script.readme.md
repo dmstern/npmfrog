@@ -1,28 +1,37 @@
-# Schoenes Module
+# My Prototyp
+
+## Direct Links
+
+- [Installation](#install)
+- [Taskrunner (npm/grunt)](#taskrunner)
+- [Process Manager (pm2)](#pm2)
+- [Contribution](https://gitlab.company.com/project/blob/develop/CONTRIBUTING.md)
+
+## Fractal
+
+Official Documentation: [http://fractal.build/guide](http://fractal.build/guide)
+
+## And here comes the awesome javascript
+
+```js
+var variable = 'Beispieltext';
+alert(typeof variable); // ergibt "string" (die Funktion "alert" gibt den ihr übergebenen Parameter in einem Fenster aus)
+
+variable = new String('Beispieltext');
+alert(typeof variable); // ergibt "object"
+```
+
+## Install Front-end Tools (for Windows)
 
 ### Install or update node.js/npm
 
-:angry:
-:rage:
-:triumph:
-:sleepy:
-:yum:
-:mask:
-:sunglasses:
-:dizzy_face:
-:imp:
-:smiling_imp:
-:neutral_face:
-:no_mouth:
-:innocent:
-:alien:
-:yellow_heart:
-:blue_heart:
-:purple_heart:
+If not installed yet. Install node globally. The version in use in this project is _v6.9.2_, please visit [https://nodejs.org/](https://nodejs.org/). (Windows users might have to restart their machine to enable npm-commands) You can quick check if node.js is installedby typing _node -v_ or _node --version_ to your command line (cmd):
 
 ```bash
 node -v
 ```
+
+Node includes the npm package ecosystem, with access to hundreds of thousands of packages. You can now install any package for your project. Available packages see here: [https://www.npmjs.com/](https://www.npmjs.com/). As usual you can check whether npm has been installed:
 
 ```bash
 npm -v
@@ -160,13 +169,13 @@ npm run pm2 -- l
 Start or restart default fractal server:
 
 ```bash
-npm run pm2 -- start BBK
+npm run pm2 -- start project
 ```
 
 Show server logs:
 
 ```bash
-npm run pm2 -- logs BBK
+npm run pm2 -- logs project
 ```
 
 This is a following command. To stop following logs use `ctrl + c` twice.
