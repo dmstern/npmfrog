@@ -8,7 +8,7 @@ const logFiles = {
   ui: path.join(__dirname, pm2Config.runServer.cwd || '', pm2Config.runServer.log),
   server: path.join(__dirname, pm2Config.serveUIStatic.cwd || '', pm2Config.serveUIStatic.log),
 };
-const startCommand = 'prod';
+const startCommand = 'run prod';
 const programm = 'npmfrog';
 const firstArg = process.argv[2];
 const command = firstArg === 'stop' ? 'stop' : startCommand;
