@@ -2,9 +2,9 @@
   "name": "npmfrog",
   "version": "1.0.0-rc.10",
   "scripts": {
-    "start": "pm2 start pm2.prod.config.js",
+    "prod": "pm2 start pm2.prod.config.js",
     "dev": "npm run copy && pm2 start pm2.dev.config.js",
-    "dev-local": "npm run copy && pm2 start pm2.dev.config.js --env local",
+    "start": "npm run copy && pm2 start pm2.dev.config.js --env local",
     "ps": "pm2 l",
     "webui": "vue-cli-service serve",
     "server": "cd dist/server && nodemon .",
