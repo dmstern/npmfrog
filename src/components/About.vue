@@ -31,7 +31,7 @@
             <ExternalLink href="https://github.com/dmstern/npmfrog/releases" text="Changelog" :icon="$vuetify.icons.changelog"></ExternalLink>
           </p>
           <p>
-            This tool requests meta data of npm packages that were published to jFrog's npm registry on {{data.config.artifactory.host}} for integration into another front-end project or for deployment as a back-end dependency.
+            This tool requests meta data of npm packages that were published to jFrog's npm registry on <ExternalLink :href="`http${data.config.artifactory.https? 's' : ''}://${data.config.artifactory.host}`" :text="data.config.artifactory.host"></ExternalLink> for integration into another front-end project or for deployment as a back-end dependency.
             It and aims to display them in a way that should help front-end developers to discover the best in-house javascript solutions to solve a specific problem.
           </p>
           <p>
