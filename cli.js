@@ -8,14 +8,15 @@ const logFiles = {
   ui: path.join(__dirname, pm2Config.runServer.cwd || '', pm2Config.runServer.log),
   server: path.join(__dirname, pm2Config.serveUIStatic.cwd || '', pm2Config.serveUIStatic.log),
 };
+const startCommand = 'prod';
 const programm = 'npmfrog';
 const firstArg = process.argv[2];
-const command = firstArg === 'stop' ? 'stop' : 'start';
+const command = firstArg === 'stop' ? 'stop' : startCommand;
 
 exec(`npm ${command}`, { cwd: __dirname }, (error, stdout, stderr) => {
   console.log(`${stdout}`);
   console.error(`${stderr}`);
-  if (command === 'start') {
+  if (command === startCommand) {
     console.log(`Running npmFrog in background on http://localhost:${port}`);
     console.log(`To stop npmFrog, run \`${programm} stop\``);
     console.log(`Logs can be found in ${logFiles.server} and ${logFiles.ui} .`);

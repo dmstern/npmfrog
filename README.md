@@ -24,10 +24,10 @@ Browse to npmFrog instance [http://localhost:8000](http://localhost:8000).
 npm run dev
 ```
 
-With local environment (without internet connection):
+With local environment (no internet connection needed):
 
 ```bash
-npm run dev-local
+npm start
 ```
 
 To see the logs, run
