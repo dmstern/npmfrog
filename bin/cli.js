@@ -2,7 +2,6 @@
 //==============================================================
 const exec = require('child_process').exec;
 const path = require('path');
-console.log('__dirname', __dirname);
 const pm2Config = require('../pm2.config');
 const port = pm2Config.serveUIStatic.env.PM2_SERVE_PORT;
 const logFiles = {
