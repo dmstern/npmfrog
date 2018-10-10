@@ -10,7 +10,7 @@
     "server": "cd dist/server && nodemon .",
     "server:local": "cross-env MOCK=true npm run server",
     "copy": "cp-cli server/mock dist/server/mock",
-    "lint": "vue-cli-service lint && tslint src/**/*.ts types/**/*.ts server/**/*.ts",
+    "lint": "vue-cli-service lint && tslint src/**/*.ts types/**/*.ts server/**/*.ts bin/*.ts",
     "prettier": "prettier src/**/* types/**/* server/**/* --write",
     "compile": "npm run lint && tsc bin/cli.ts && cd server && tsc",
     "compile:watch": "cd server && tsc --watch",
