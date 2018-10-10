@@ -2,52 +2,64 @@
   <div class="packages">
     <LoadingSpinner v-if="packages.loading" :msg="startMsg"/>
     <v-list subheader three-line v-else class="package-list">
-          <v-subheader class="title" v-if="config">Found {{packages.data.length}}/{{packages.all.length}} npm packages on &nbsp;<ExternalLink :href="`http${config.artifactory.https? 's' : ''}://${config.artifactory.host}`" :text="config.artifactory.host"></ExternalLink></v-subheader>
-          <template v-for="(item, index) in packages.data">
-            <v-list-tile
-              :key='item.name'
-              avatar
-              ripple
-              @click="$router.push(`package/${item.name}`)"
-            >
-              <v-list-tile-content>
-                <v-list-tile-title class="font-weight-medium">{{ item.name }}</v-list-tile-title>
-                <v-list-tile-sub-title>{{item.description}}</v-list-tile-sub-title>
-                <v-list-tile-sub-title class="package-list--keywords">
-                  <v-chip v-for="keyword in item.keywords" :key="keyword" small>{{keyword}}</v-chip>
-                </v-list-tile-sub-title>
-                <v-list-tile-sub-title class="last-published-version-line">
-                  <span>{{item.distTags.latest}}</span>
-                  <span>Published <timeago :datetime="item.time.modified"></timeago></span>
-                </v-list-tile-sub-title>
-              </v-list-tile-content>
+      <v-subheader 
+        class="title"
+        v-if="config">Found {{packages.data.length}}/{{packages.all.length}} npm packages on &nbsp;
+        <ExternalLink
+          :href="`http${config.artifactory.https? 's' : ''}://${config.artifactory.host}`"
+          :text="config.artifactory.host">
+        </ExternalLink>
+      </v-subheader>
+      <template v-for="(item, index) in packages.data">
+        <v-list-tile
+          :key='item.name'
+          avatar
+          ripple
+          @click="$router.push(`package/${item.name}`)"
+        >
+          <v-list-tile-content>
+            <v-list-tile-title class="font-weight-medium">{{ item.name }}</v-list-tile-title>
+            <v-list-tile-sub-title>{{item.description}}</v-list-tile-sub-title>
+            <v-list-tile-sub-title class="package-list--keywords">
+              <v-chip v-for="keyword in item.keywords" :key="keyword" small>{{keyword}}</v-chip>
+            </v-list-tile-sub-title>
+            <v-list-tile-sub-title class="last-published-version-line">
+              <span>{{item.distTags.latest}}</span>
+              <span>Published <timeago :datetime="item.time.modified"></timeago></span>
+            </v-list-tile-sub-title>
+          </v-list-tile-content>
 
-              <v-list-tile-action>
-                <div class="package-list--by">crafted by</div>
-                <div class="package-list--author">
-                  <CrafterAvatar v-for="(crafter, index) in item.crafters" :key="index" :crafter="crafter"></CrafterAvatar>
-                </div>
-              </v-list-tile-action>
+          <v-list-tile-action>
+            <div class="package-list--by">crafted by</div>
+            <div class="package-list--author">
+              <CrafterAvatar
+                v-for="(crafter, index) in item.crafters"
+                :key="index"
+                :crafter="crafter">
+              </CrafterAvatar>
+            </div>
+          </v-list-tile-action>
 
-            </v-list-tile>
-            <v-divider
-              v-if="index + 1 < packages.data.length"
-              v-bind:key="index"
-            ></v-divider>
-          </template>
-          <v-btn
-            fixed
-            dark
-            fab
-            bottom
-            right
-            color="accent"
-            @click="$router.push('/howto')"
-            title="Publish a new package"
-          >
-            <v-icon>{{$vuetify.icons.upload}}</v-icon>
-          </v-btn>
-        </v-list>
+        </v-list-tile>
+        <v-divider
+          v-if="index + 1 < packages.data.length"
+          v-bind:key="index"
+        >
+        </v-divider>
+      </template>
+      <v-btn
+        fixed
+        dark
+        fab
+        bottom
+        right
+        color="accent"
+        @click="$router.push('/howto')"
+        title="Publish a new package"
+      >
+        <v-icon>{{$vuetify.icons.upload}}</v-icon>
+      </v-btn>
+    </v-list>
   </div>
 </template>
 
