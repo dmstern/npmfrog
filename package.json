@@ -86,8 +86,11 @@
     ".sample.npmfrogrc.json",
     "pm2.config.js",
     "pm2.prod.config.js",
-    "bin/cli.js"
+    "bin"
   ],
+  "bin": {
+    "npmfrog": "bin/cli.js"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/dmstern/npmfrog"
