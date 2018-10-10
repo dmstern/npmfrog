@@ -4,6 +4,7 @@ node_modules
 /tmp
 /package-cache
 /dist.zip
+/bin/cli.js
 
 # local env files
 .env.local

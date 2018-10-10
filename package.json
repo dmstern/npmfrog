@@ -12,7 +12,7 @@
     "copy": "cp-cli server/mock dist/server/mock",
     "lint": "vue-cli-service lint && tslint src/**/*.ts types/**/*.ts server/**/*.ts",
     "prettier": "prettier src/**/* types/**/* server/**/* --write",
-    "compile": "npm run lint && cd server && tsc",
+    "compile": "npm run lint && tsc bin/cli.ts && cd server && tsc",
     "compile:watch": "cd server && tsc --watch",
     "build": "npm run compile && npm run copy && vue-cli-service build --dest dist/webui",
     "logs": "pm2 logs /frog-.*/",
@@ -86,7 +86,7 @@
     ".sample.npmfrogrc.json",
     "pm2.config.js",
     "pm2.prod.config.js",
-    "bin"
+    "bin/cli.js"
   ],
   "bin": {
     "npmfrog": "bin/cli.js"

@@ -1,7 +1,10 @@
 #!/usr/bin/env node
-//==============================================================
-const exec = require('child_process').exec;
-const path = require('path');
+// =============================================================
+
+import * as childProcess from 'child_process';
+const exec = childProcess.exec;
+import * as path from 'path';
+// tslint:disable-next-line:no-var-requires
 const pm2Config = require('../pm2.config');
 const port = pm2Config.serveUIStatic.env.PM2_SERVE_PORT;
 const logFiles = {
