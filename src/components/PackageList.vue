@@ -103,11 +103,7 @@ export default class Packages extends Vue {
         this.packages.all = await DataStore.Instance.getPackages();
         this.packages.loading = false;
         this.packages.data = this.packages.all
-          .filter(item =>
-            args.filters.every(filter =>
-              filter.matches(item, this.packages.all),
-            ),
-          )
+          .filter(item => args.filters.every(filter => filter.matches(item, this.packages.all)))
           .filter(item => {
             if (!args.query) {
               return true;
