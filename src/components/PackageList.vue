@@ -2,7 +2,7 @@
   <div class="packages">
     <LoadingSpinner v-if="packages.loading" :msg="startMsg"/>
     <v-list subheader three-line v-else class="package-list">
-        <v-subheader class="title">Found {{packages.data.length}}/{{packages.all.length}} npm packages on {{artifactoryUrl}}</v-subheader>
+          <v-subheader class="title" v-if="config">Found {{packages.data.length}}/{{packages.all.length}} npm packages on &nbsp;<ExternalLink :href="`http${config.artifactory.https? 's' : ''}://${config.artifactory.host}`" :text="config.artifactory.host"></ExternalLink></v-subheader>
           <template v-for="(item, index) in packages.data">
             <v-list-tile
               :key='item.name'
@@ -59,24 +59,26 @@ import Package from '../../types/Package';
 import { EventBus, Events } from '@/services/event-bus';
 import LoadingSpinner from '@/components/LoadingSpinner.vue';
 import CrafterAvatar from '@/components/CrafterAvatar.vue';
+import ExternalLink from '@/components/ExternalLink.vue';
 import Searchable from '../../types/Searchable';
+import Config from 'types/Config';
 
 @Component({
   components: {
     LoadingSpinner,
     CrafterAvatar,
+    ExternalLink,
   },
 })
 export default class Packages extends Vue {
   @Prop() private startMsg!: string;
-  @Prop() private artifactoryUrlProp!: string;
   @Prop()
   private packagesProp!: {
     all: Package[];
     data: Package[];
     loading: boolean;
   };
-  private artifactoryUrl: string | undefined = this.artifactoryUrlProp;
+  private config: Config | {};
   private packages: {
     all: Package[];
     data: Package[];
@@ -85,7 +87,7 @@ export default class Packages extends Vue {
 
   constructor() {
     super();
-    this.artifactoryUrl = '';
+    this.config = {};
     this.packages = {
       all: [],
       data: [],
@@ -119,7 +121,7 @@ export default class Packages extends Vue {
   private loadConfig(): void {
     DataStore.Instance.getConfig().then(config => {
       if (config) {
-        this.artifactoryUrl = config.artifactory.host;
+        Object.assign(this.config, config);
       }
     });
   }
