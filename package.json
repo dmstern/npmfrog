@@ -22,7 +22,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "pretty-quick && git add ."
+      "pre-commit": "pretty-quick"
     }
   },
   "dependencies": {
