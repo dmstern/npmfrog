@@ -27,3 +27,4 @@ logs
 
 .npmfrogrc.json
 .backend
+npmfrog*.tgz
