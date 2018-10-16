@@ -16,7 +16,7 @@
           :text="config.artifactory.host">
         </ExternalLink>
       </v-subheader>
-      <template v-for="(item, index) in packages.data">
+      <template v-for="(item, index) in packages.data.sort((a, b) => a.time.modified < b.time.modified ? 1 : -1)">
         <v-list-tile
           :key='item.name'
           avatar
