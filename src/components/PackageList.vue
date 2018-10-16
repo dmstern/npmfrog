@@ -6,7 +6,13 @@
         class="title"
         v-if="config">Found {{packages.data.length}}/{{packages.all.length}} npm packages on &nbsp;
         <ExternalLink
-          :href="`http${config.artifactory.https? 's' : ''}://${config.artifactory.host}`"
+          :href="`http${
+              config.artifactory.https? 's' : ''
+            }://${
+              config.artifactory.host
+            }/artifactory/webapp/#/artifacts/browse/tree/General/${
+              config.artifactory.repoKey
+            }`"
           :text="config.artifactory.host">
         </ExternalLink>
       </v-subheader>
