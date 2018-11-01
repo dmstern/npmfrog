@@ -118,7 +118,7 @@ async function getPackageDetail({
     : await new Promise<AdditionalCode>(async (resolve, reject) => {
         const packageDetail = packageDetailResponse.data;
         const downloadUrl = packageDetail.versions[currentVersion].dist.tarball;
-        const storageDir = path.join(tmpDir, scope || '', packageName, currentVersion);
+        const storageDir = path.join(tmpDir, scope, packageName, currentVersion);
         if (fs.existsSync(storageDir)) {
           readAdditionalCode(storageDir).then(response => {
             resolve(response);
@@ -203,9 +203,24 @@ function getDistTags({ scope, packageName }: PackageId): AxiosPromise<any> {
     : axios.get(`/-/package/${name2url({ scope, packageName })}/dist-tags`);
 }
 
+async function getFileContent(packageId: PackageId, filepath: string): Promise<string> {
+  const versionResponse = await getDistTags(packageId);
+  const version = versionResponse.data.latest;
+  const absPath = path.join(
+    tmpDir,
+    packageId.scope,
+    packageId.packageName,
+    version,
+    'package',
+    filepath,
+  );
+  return fs.readFileSync(absPath).toString();
+}
+
 export default {
   fetchPackages,
   getDistTags,
   getPackageDetail,
   baseURL: axios.defaults.baseURL,
+  getFileContent,
 };
