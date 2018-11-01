@@ -46,6 +46,7 @@ export const icons = {
   file: 'far fa-file',
   fileTxt: 'far fa-file-alt',
   fileImage: 'far fa-file-image',
+  fileVideo: 'far fa-file-video',
   readme: 'fab fa-readme',
   npm: 'fab fa-npm',
   nodeJS: 'fab fa-node-js',
@@ -97,6 +98,19 @@ icons.woff = icons.font;
 icons.woff2 = icons.font;
 icons.otf = icons.font;
 icons.map = icons.copy;
+icons.mp4 = icons.fileVideo;
+icons.mpeg = icons.fileVideo;
+icons.mpg = icons.fileVideo;
+icons.mp2 = icons.fileVideo;
+icons.mpe = icons.fileVideo;
+icons.mpv = icons.fileVideo;
+icons.m2v = icons.fileVideo;
+icons.webm = icons.fileVideo;
+icons.flv = icons.fileVideo;
+icons.avi = icons.fileVideo;
+icons.wmv = icons.fileVideo;
+icons.m4p = icons.fileVideo;
+icons.m4v = icons.fileVideo;
 
 Vue.use(Vuetify, {
   iconfont: 'fa', // 'md' || 'mdi' || 'fa' || 'fa4'
