@@ -79,6 +79,7 @@
                     activatable
                     item-key="name"
                     open-on-click
+                    transition
                   >
                     <template slot="prepend" slot-scope="{ item, open, leaf }">
                       <v-icon v-if="item.children">
