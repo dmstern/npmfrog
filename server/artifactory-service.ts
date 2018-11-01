@@ -205,12 +205,11 @@ function getDistTags({ scope, packageName }: PackageId): AxiosPromise<any> {
 
 async function getFileContent(packageId: PackageId, filepath: string): Promise<string> {
   const versionResponse = await getDistTags(packageId);
-  const version = versionResponse.data.latest;
   const absPath = path.join(
     tmpDir,
     packageId.scope,
     packageId.packageName,
-    version,
+    packageId.version,
     'package',
     filepath,
   );

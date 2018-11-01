@@ -62,11 +62,15 @@ app.get('/packageDetail/:scope/:packageName/:version?', (req, res) => {
     });
 });
 
-app.get('/packageDetail/:scope/:packageName/files/:path', (req, res) => {
+app.get('/packageDetail/:scope/:packageName/:version/files/:path', (req, res) => {
   try {
     artifactoryService
       .getFileContent(
-        { scope: req.params.scope, packageName: req.params.packageName },
+        {
+          scope: req.params.scope,
+          packageName: req.params.packageName,
+          version: req.params.version,
+        },
         req.params.path,
       )
       .then(response => {
