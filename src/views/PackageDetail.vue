@@ -460,7 +460,7 @@ export default class PackageDetail extends Vue {
     }
 
     const parts: string[] = filename.split('.');
-    const extension: string = parts.length ? parts[parts.length -1] : '';
+    const extension: string = parts.length ? parts[parts.length - 1] : '';
     const extensionIcon = icons[extension];
     return extensionIcon || icons.file;
   }
