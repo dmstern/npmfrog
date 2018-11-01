@@ -4,7 +4,7 @@ import colors from 'vuetify/es5/util/colors';
 import 'vuetify/dist/vuetify.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
-const icons = {
+export const icons = {
   menu: 'fas fa-bars',
   copy: 'far fa-copy',
   copy2Clipboard: 'mdi-clipboard-arrow-left',
@@ -25,7 +25,7 @@ const icons = {
   code: 'fas fa-code',
   created: 'fas fa-bolt',
   updated: 'far fa-clock',
-  about: 'fas fa-info-circle',
+  info: 'fas fa-info-circle',
   howto: 'far fa-question-circle',
   clear: 'fas fa-times',
   bug: 'fas fa-bug',
@@ -44,6 +44,22 @@ const icons = {
   folder: 'far fa-folder',
   folderOpen: 'far fa-folder-open',
   file: 'far fa-file',
+  fileTxt: 'far fa-file-alt',
+  fileImage: 'far fa-file-image',
+  readme: 'fab fa-readme',
+  npm: 'fab fa-npm',
+  nodeJS: 'fab fa-node-js',
+  js: 'fab fa-js-square',
+  html: 'far fa-file-code',
+  css: 'fab fa-css3-alt',
+  archive: 'far fa-file-archive',
+  json: 'mdi-json',
+  git: 'fab fa-git-square',
+  babel: 'mdi-babel',
+  ts: 'mdi-language-typescript',
+  sass: 'fab fa-sass',
+  md: 'mdi-markdown',
+  font: 'fas fa-font',
 };
 
 icons.keywords = icons.tags;
@@ -53,6 +69,34 @@ icons.modified = icons.updated;
 icons.homepage = icons.website;
 icons.crafter = icons.author;
 icons.changelog = icons.newspaper;
+icons.packageJson = icons.nodeJS;
+icons.markup = icons.html;
+icons.tgz = icons.archive;
+icons.gz = icons.archive;
+icons.tar = icons.archive;
+icons.zip = icons.archive;
+icons.scss = icons.sass;
+icons.about = icons.info;
+icons.jpg = icons.fileImage;
+icons.png = icons.fileImage;
+icons.svg = icons.fileImage;
+icons.peng = icons.fileImage;
+icons.jpeg = icons.fileImage;
+icons.bmp = icons.fileImage;
+icons.gif = icons.fileImage;
+icons.ico = icons.fileImage;
+icons.ttf = icons.font;
+icons.pfb = icons.font;
+icons.pfa = icons.font;
+icons.afm = icons.font;
+icons.dfont = icons.font;
+icons.ttc = icons.font;
+icons.pfm = icons.font;
+icons.eot = icons.font;
+icons.woff = icons.font;
+icons.woff2 = icons.font;
+icons.otf = icons.font;
+icons.map = icons.copy;
 
 Vue.use(Vuetify, {
   iconfont: 'fa', // 'md' || 'mdi' || 'fa' || 'fa4'

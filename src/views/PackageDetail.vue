@@ -31,7 +31,7 @@
       <v-flex xs12 md7 xl8 order-xs2 order-md1>
         <v-tabs v-model="activeTab">
           <v-tab>README</v-tab>
-          <v-tab>Main Code</v-tab>
+          <v-tab>Code</v-tab>
           <v-tab>{{data.currentPackage.dependenciesCount}} Dependencies</v-tab>
           <v-tab>{{Object.keys(data.packageDetail.versions).length}} Versions</v-tab>
           <v-tab-item class="readme">
@@ -85,7 +85,7 @@
                         {{ open ? $vuetify.icons.folderOpen : $vuetify.icons.folder }}
                       </v-icon>
                       <v-icon v-else>
-                        {{ $vuetify.icons.file }}
+                        {{ getFileIcon(item.name) }}
                       </v-icon>
                     </template>
                   </v-treeview>
@@ -304,6 +304,7 @@ import ExternalLink from '@/components/ExternalLink.vue';
 import { EventBus, Events } from '@/services/event-bus';
 import { setTimeout } from 'timers';
 import Searchable from '../../types/Searchable';
+import { icons } from '../plugins/vuetify';
 
 @Component({
   components: {
@@ -437,6 +438,33 @@ export default class PackageDetail extends Vue {
     });
   }
 
+  private getFileIcon(filename: string): string {
+    if (filename.toLowerCase().includes('readme')) {
+      return icons.info;
+    }
+
+    if (filename.toLowerCase() === 'package.json') {
+      return icons.packageJson;
+    }
+
+    if (filename.toLowerCase().startsWith('.npm')) {
+      return icons.npm;
+    }
+
+    if (filename.toLowerCase().startsWith('.git')) {
+      return icons.git;
+    }
+
+    if (filename.toLowerCase().startsWith('.babel')) {
+      return icons.babel;
+    }
+
+    const parts: string[] = filename.split('.');
+    const extension: string = parts.length ? parts[parts.length -1] : '';
+    const extensionIcon = icons[extension];
+    return extensionIcon || icons.file;
+  }
+
   private isOld(): boolean | undefined {
     if (!this.data.packageDetail || !this.data.currentPackage) {
       return false;
@@ -454,17 +482,25 @@ export default class PackageDetail extends Vue {
 <style lang="scss">
 @import '../assets/variables';
 
-.v-treeview-node:not(.v-treeview-node--leaf) .v-treeview-node__content {
-  margin-left: 8px;
-}
+.v-treeview-node {
+  &:not(.v-treeview-node--leaf) .v-treeview-node__content {
+    margin-left: 8px;
+  }
 
-.v-icon.fas,
-.v-icon.far {
-  &.v-treeview-node__toggle {
-    transform: rotate(-0.25turn) scale($mdi2faScaleFactor);
+  .v-treeview-node__content {
+    .v-icon {
+      width: 30px;
+    }
+  }
 
-    &--open {
-      transform: rotate(0) scale($mdi2faScaleFactor);
+  .v-icon.fas,
+  .v-icon.far {
+    &.v-treeview-node__toggle {
+      transform: rotate(-0.25turn) scale($mdi2faScaleFactor);
+
+      &--open {
+        transform: rotate(0) scale($mdi2faScaleFactor);
+      }
     }
   }
 }
