@@ -44,6 +44,14 @@ export default class BackendApi {
     return this.get(`packageDetail/${scope}/${packageName}${version ? `/${version}` : ''}`);
   }
 
+  public getFileContent(packageId: PackageId, filepath: string): AxiosPromise<PackageMetaDataDTO> {
+    return this.get(
+      `packageDetail/${packageId.scope}/${packageId.packageName}${
+        packageId.version ? `/${packageId.version}` : ''
+      }/files/${filepath}`,
+    );
+  }
+
   public getMetaInfo(): AxiosPromise<IPackageJSON> {
     return this.get(`meta`);
   }
