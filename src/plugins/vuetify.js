@@ -41,6 +41,9 @@ const icons = {
   newspaper: 'far fa-newspaper',
   new: 'mdi-new-box',
   bullhorn: 'fas fa-bullhorn',
+  folder: 'far fa-folder',
+  folderOpen: 'far fa-folder-open',
+  file: 'far fa-file',
 };
 
 icons.keywords = icons.tags;

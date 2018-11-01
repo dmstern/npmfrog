@@ -69,9 +69,26 @@
                     </tbody>
                   </table>
                 </div>
-                <div v-if="data.packageDetail.mainCode">
-                  <h2>{{data.currentPackage.main}}</h2>
-                  <pre v-highlightjs="data.packageDetail.mainCode"><code></code></pre>
+                <div v-if="data.packageDetail.fileList">
+                  <h2>Files</h2>
+                  <!-- <pre v-highlightjs="data.packageDetail.mainCode"><code></code></pre> -->
+                  <v-treeview
+                    v-model="data.tree"
+                    :open="data.open"
+                    :items="data.packageDetail.fileList"
+                    activatable
+                    item-key="name"
+                    open-on-click
+                  >
+                    <template slot="prepend" slot-scope="{ item, open, leaf }">
+                      <v-icon v-if="item.children">
+                        {{ open ? $vuetify.icons.folderOpen : $vuetify.icons.folder }}
+                      </v-icon>
+                      <v-icon v-else>
+                        {{ $vuetify.icons.file }}
+                      </v-icon>
+                    </template>
+                  </v-treeview>
                 </div>
               </v-card-text>
               <v-card-text v-else>
@@ -305,6 +322,8 @@ export default class PackageDetail extends Vue {
     currentTags: IVersions;
     versionsHistory: IVersions;
     config: Config | undefined;
+    tree: any[];
+    open: any[];
   };
   private data: {
     packageDetail: Package | null;
@@ -312,6 +331,8 @@ export default class PackageDetail extends Vue {
     currentTags: IVersions;
     versionsHistory: IVersions;
     config: Config | undefined;
+    tree: any[];
+    open: any[];
   } = this.dataProp;
   private activeTab: number;
   private showAlert: boolean = false;
@@ -325,6 +346,8 @@ export default class PackageDetail extends Vue {
       currentTags: {},
       versionsHistory: {},
       config: undefined,
+      tree: [],
+      open: ['public'],
     };
     Router.afterEach(route => {
       if (route.name === 'packageDetail') {
@@ -391,28 +414,20 @@ export default class PackageDetail extends Vue {
         install: string;
       }
     | undefined {
-    if (
-      this.data.packageDetail &&
-      this.data.config &&
-      this.data.config.artifactory
-    ) {
+    if (this.data.packageDetail && this.data.config && this.data.config.artifactory) {
       return {
         config: `npm config set ${
-          this.data.packageDetail.scope
-            ? this.data.packageDetail.scope + ':'
-            : ''
-        }registry http://${
-          this.data.config.artifactory.host
-        }/artifactory/api/npm/${this.data.config.artifactory.repoKey}/`,
+          this.data.packageDetail.scope ? this.data.packageDetail.scope + ':' : ''
+        }registry http://${this.data.config.artifactory.host}/artifactory/api/npm/${
+          this.data.config.artifactory.repoKey
+        }/`,
         install: `npm i ${this.data.packageDetail.name}`,
       };
     }
   }
 
   private inSearchableList(searchableItem: Searchable): boolean {
-    return DataStore.Instance.searchItems.some(
-      searchable => searchable === searchableItem,
-    );
+    return DataStore.Instance.searchItems.some(searchable => searchable === searchableItem);
   }
 
   private triggerSearchFilter(searchable: Searchable): void {
@@ -429,8 +444,7 @@ export default class PackageDetail extends Vue {
     const isOld =
       typeof this.data.packageDetail.distTags.latest === 'string' &&
       this.data.currentPackage.version !== undefined &&
-      this.data.currentPackage.version <
-        this.data.packageDetail.distTags.latest;
+      this.data.currentPackage.version < this.data.packageDetail.distTags.latest;
     this.showAlert = isOld;
     return isOld;
   }
@@ -439,6 +453,21 @@ export default class PackageDetail extends Vue {
 
 <style lang="scss">
 @import '../assets/variables';
+
+.v-treeview-node:not(.v-treeview-node--leaf) .v-treeview-node__content {
+  margin-left: 8px;
+}
+
+.v-icon.fas,
+.v-icon.far {
+  &.v-treeview-node__toggle {
+    transform: rotate(-0.25turn) scale($mdi2faScaleFactor);
+
+    &--open {
+      transform: rotate(0) scale($mdi2faScaleFactor);
+    }
+  }
+}
 
 pre code.hljs {
   margin-bottom: 1em;
