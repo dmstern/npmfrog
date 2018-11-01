@@ -17,7 +17,8 @@ export default class BackendApi {
     } catch (e) {
       cloudPort = undefined;
     }
-    this.baseURL = `//${document.location.hostname}:${cloudPort || '30001'}`;
+    this.baseURL = `//${document.location ? document.location.hostname : 'localhost'}:${cloudPort ||
+      '30001'}`;
     this.axios = axios.create({
       baseURL: this.baseURL,
     });
@@ -40,9 +41,7 @@ export default class BackendApi {
     packageName,
     version,
   }: PackageId): AxiosPromise<PackageMetaDataDTO> {
-    return this.get(
-      `packageDetail/${scope}/${packageName}${version ? `/${version}` : ''}`,
-    );
+    return this.get(`packageDetail/${scope}/${packageName}${version ? `/${version}` : ''}`);
   }
 
   public getMetaInfo(): AxiosPromise<IPackageJSON> {
