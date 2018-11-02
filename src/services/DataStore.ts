@@ -74,9 +74,7 @@ export default class DataStore {
           const packageDetail: Package = new Package(response.data);
           let currentPackage: Package | undefined;
           const currentVersionObject: string | PackageMetaDataDTO =
-            packageDetail.versions[
-              version || packageDetail['dist-tags'].latest
-            ];
+            packageDetail.versions[version || packageDetail['dist-tags'].latest];
           if (typeof currentVersionObject !== 'string') {
             currentPackage = new Package(currentVersionObject);
           }
@@ -110,26 +108,18 @@ export default class DataStore {
         for (const packageName of Object.keys(packagesResponse).filter(
           key => !key.startsWith('_'),
         )) {
-          const modifiedPackage: Package = new Package(
-            packagesResponse[packageName],
-          );
+          const modifiedPackage: Package = new Package(packagesResponse[packageName]);
           this.packages.push(modifiedPackage);
 
           if (modifiedPackage.tags) {
             for (const tag of modifiedPackage.tags) {
-              if (
-                !this.tagList.some(currentTag => tag.value === currentTag.value)
-              ) {
+              if (!this.tagList.some(currentTag => tag.value === currentTag.value)) {
                 this.tagList.push(tag);
               }
             }
           }
           for (const crafter of modifiedPackage.crafters) {
-            if (
-              !this.crafterList.some(currentCrafter =>
-                currentCrafter.equals(crafter),
-              )
-            ) {
+            if (!this.crafterList.some(currentCrafter => currentCrafter.equals(crafter))) {
               this.crafterList.push(crafter);
             }
           }
@@ -174,5 +164,11 @@ export default class DataStore {
         EventBus.$emit(Errors.SERVER_ERROR, error);
         return undefined;
       });
+  }
+
+  public getFileContent(packageId: PackageId, filepath: string): Promise<string> {
+    return BackendApi.Instance.getFileContent(packageId, filepath).then(response => {
+      return response.data;
+    });
   }
 }
