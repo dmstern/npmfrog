@@ -399,7 +399,10 @@ export default class PackageDetail extends Vue {
     });
   }
 
-  private selectedCode() {
+  private selectedCode(): {
+    id: string,
+    name: string,
+  } | undefined {
     if (!this.data.activeFile.length) {
       return undefined;
     }

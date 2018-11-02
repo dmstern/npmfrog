@@ -59,7 +59,7 @@ export default class Package extends Searchable implements PackageMetaDataDTO {
   public readonly scope: string | undefined;
   public readonly mainCode: string | undefined;
   public readonly fileList?: Array<{
-    id: number;
+    id: string;
     name: string;
     path: string;
   }>;
