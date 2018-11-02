@@ -10,12 +10,7 @@ import {
   IRepository,
   IScriptsMap,
 } from './package-json';
-import {
-  IDistTags,
-  ITimes,
-  IVersions,
-  PackageMetaDataDTO,
-} from './package-meta-data';
+import { IDistTags, ITimes, IVersions, PackageMetaDataDTO } from './package-meta-data';
 import Crafter from './Crafter';
 import Searchable from './Searchable';
 import { Tag } from './Tag';
@@ -63,6 +58,11 @@ export default class Package extends Searchable implements PackageMetaDataDTO {
   public readonly dependenciesCount: number;
   public readonly scope: string | undefined;
   public readonly mainCode: string | undefined;
+  public readonly fileList?: Array<{
+    id: number;
+    name: string;
+    path: string;
+  }>;
   private craftersList: Crafter[];
   private tagList: Tag[];
 
@@ -85,20 +85,14 @@ export default class Package extends Searchable implements PackageMetaDataDTO {
     // set bugsUrl:
     if (packageMetaData.bugs) {
       this.bugTrackerUrl =
-        typeof packageMetaData.bugs === 'string'
-          ? packageMetaData.bugs
-          : packageMetaData.bugs.url;
+        typeof packageMetaData.bugs === 'string' ? packageMetaData.bugs : packageMetaData.bugs.url;
     }
 
     // Count depenedencies:
     const dependencies = packageMetaData.dependencies;
     const devDependencies = packageMetaData.devDependencies;
-    const dependenciesCount = dependencies
-      ? Object.keys(dependencies).length
-      : 0;
-    const devDependenciesCount = devDependencies
-      ? Object.keys(devDependencies).length
-      : 0;
+    const dependenciesCount = dependencies ? Object.keys(dependencies).length : 0;
+    const devDependenciesCount = devDependencies ? Object.keys(devDependencies).length : 0;
     this.dependenciesCount = dependenciesCount + devDependenciesCount;
 
     // set scope:
