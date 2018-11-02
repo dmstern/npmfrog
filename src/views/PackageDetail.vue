@@ -71,8 +71,8 @@
                 </div>
                 <div v-if="data.packageDetail.fileList">
                   <h2>Files</h2>
-                  <!-- <pre v-highlightjs="data.packageDetail.mainCode"><code></code></pre> -->
                   <v-treeview
+                    :active.sync="data.activeFile"
                     v-model="data.tree"
                     :open="data.open"
                     :items="data.packageDetail.fileList"
@@ -90,6 +90,10 @@
                       </v-icon>
                     </template>
                   </v-treeview>
+                  <pre v-highlightjs v-if="selectedCode()" :key="selectedCode().id"><code>
+                    <span class="caption">{{selectedCode().name}}</span>
+                    {{data.activeCode}}
+                  </code></pre>
                 </div>
               </v-card-text>
               <v-card-text v-else>
@@ -306,6 +310,7 @@ import { EventBus, Events } from '@/services/event-bus';
 import { setTimeout } from 'timers';
 import Searchable from '../../types/Searchable';
 import { icons } from '../plugins/vuetify';
+import { close } from 'fs';
 
 @Component({
   components: {
@@ -326,6 +331,8 @@ export default class PackageDetail extends Vue {
     config: Config | undefined;
     tree: any[];
     open: any[];
+    activeFile: any[];
+    activeCode: string;
   };
   private data: {
     packageDetail: Package | null;
@@ -335,6 +342,8 @@ export default class PackageDetail extends Vue {
     config: Config | undefined;
     tree: any[];
     open: any[];
+    activeFile: any[];
+    activeCode: string;
   } = this.dataProp;
   private activeTab: number;
   private showAlert: boolean = false;
@@ -350,6 +359,8 @@ export default class PackageDetail extends Vue {
       config: undefined,
       tree: [],
       open: ['public'],
+      activeFile: [],
+      activeCode: '',
     };
     Router.afterEach(route => {
       if (route.name === 'packageDetail') {
@@ -386,6 +397,34 @@ export default class PackageDetail extends Vue {
     return DataStore.Instance.getConfig().then(config => {
       return (this.data.config = config);
     });
+  }
+
+  private selectedCode() {
+    if (!this.data.activeFile.length) {
+      return undefined;
+    }
+
+    const name = this.data.activeFile[0];
+
+    if (this.data.packageDetail && this.data.packageDetail.fileList) {
+      const currentFile = this.data.packageDetail.fileList.find(file => file.name === name);
+      if (currentFile) {
+        const code = DataStore.Instance.getFileContent(
+          {
+            scope: this.data.currentPackage ? this.data.currentPackage.scope : undefined,
+            packageName: Router.currentRoute.params.packageName,
+            version: this.data.currentPackage ? this.data.currentPackage.version : undefined,
+          },
+          `${currentFile.path}${currentFile.name}`,
+        ).then(content => {
+          this.data.activeCode = content;
+        });
+        return {
+          id: currentFile.id,
+          name: currentFile.name,
+        };
+      }
+    }
   }
 
   private getPackageDetails(
