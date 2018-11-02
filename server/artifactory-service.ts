@@ -180,7 +180,7 @@ async function readAdditionalCode(storageDir: string): Promise<AdditionalCode> {
     mainCode = undefined;
   }
   try {
-    fileList = await getFiles(path.join(storageDir, 'package'));
+    fileList = await getFiles(storageDir, 'package', false);
   } catch {
     fileList = [];
   }
