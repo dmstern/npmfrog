@@ -4,9 +4,8 @@ import * as fs from 'fs';
 
 const readdir = promisify(fs.readdir);
 const stat = promisify(fs.stat);
-let id = 0;
 
-function generateId() {
+function generateId(): string {
   return (
     '_' +
     Math.random()
