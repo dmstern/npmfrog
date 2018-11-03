@@ -1,12 +1,11 @@
 <template>
 
-<div class="CrafterAvatar">
+<div :class="`CrafterAvatar grey--text text--${
+      lightColors.indexOf(crafter.color) < 0 ? 'lighten' : 'darken'
+    }-4 body-2`">
   <v-avatar
     :color="`${crafter.color} darken-2`"
     size="36"
-    :class="`grey--text text--${
-      lightColors.indexOf(crafter.color) < 0 ? 'lighten' : 'darken'
-    }-4 body-2`"
   >{{crafter.initials}}</v-avatar>
 </div>
 
@@ -20,13 +19,7 @@ import Crafter from '../../types/Crafter';
   name: 'CrafterAvatar',
 })
 export default class CrafterAvatar extends Vue {
-  private lightColors: string[] = [
-    'lime',
-    'amber',
-    'yellow',
-    'orange',
-    'shades',
-  ];
+  private lightColors: string[] = ['lime', 'amber', 'yellow', 'orange', 'shades'];
 
   @Prop() private crafter!: Crafter;
 

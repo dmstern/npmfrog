@@ -15,39 +15,31 @@ app.use(bodyParser.json());
 app.use(cors());
 
 function handleError(error: Error, targetResponse: Response, msg: string): void {
-  targetResponse
-    .status(500)
-    .send(`Error: ${msg} Please verify your server settings.\n\n${error}`);
+  targetResponse.status(500).send(`Error: ${msg} Please verify your server settings.\n\n${error}`);
 }
 
 app.get('/packages', (req, res) => {
   artifactoryService
     .fetchPackages()
-    .then((response) => {
+    .then(response => {
       res.send(response.data);
     })
-    .catch((error) => {
-      handleError(
-        error,
-        res,
-        `Could not get packagages from ${artifactoryService.baseURL}.`,
-      );
+    .catch(error => {
+      handleError(error, res, `Could not get packagages from ${artifactoryService.baseURL}.`);
     });
 });
 
 app.get('/package/:scope?/:packageName/dist-tags', (req, res) => {
   artifactoryService
     .getDistTags(req.params)
-    .then((response) => {
+    .then(response => {
       res.send(response.data);
     })
-    .catch((error) => {
+    .catch(error => {
       handleError(
         error,
         res,
-        `Could not get dist-tags for package "${req.params.scope}/${
-          req.params.packageName
-        }
+        `Could not get dist-tags for package "${req.params.scope}/${req.params.packageName}
       " from ${artifactoryService.baseURL}.`,
       );
     });
@@ -56,10 +48,10 @@ app.get('/package/:scope?/:packageName/dist-tags', (req, res) => {
 app.get('/packageDetail/:scope/:packageName/:version?', (req, res) => {
   artifactoryService
     .getPackageDetail(req.params)
-    .then((response) => {
+    .then(response => {
       res.send(response.data);
     })
-    .catch((error) => {
+    .catch(error => {
       handleError(
         error,
         res,
@@ -68,6 +60,25 @@ app.get('/packageDetail/:scope/:packageName/:version?', (req, res) => {
         }" from ${artifactoryService.baseURL}.`,
       );
     });
+});
+
+app.get('/packageDetail/:scope/:packageName/:version/files/:path', (req, res) => {
+  try {
+    artifactoryService
+      .getFileContent(
+        {
+          scope: req.params.scope,
+          packageName: req.params.packageName,
+          version: req.params.version,
+        },
+        req.params.path,
+      )
+      .then(response => {
+        res.send(response);
+      });
+  } catch (error) {
+    handleError(error, res, `Could not get file content from ${req.params.path}.`);
+  }
 });
 
 app.get('/config', (req, res) => {

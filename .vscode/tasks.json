@@ -11,6 +11,21 @@
         "kind": "build",
         "isDefault": true
       }
+    },
+    {
+      "type": "npm",
+      "script": "compile:watch",
+      "problemMatcher": []
+    },
+    {
+      "type": "npm",
+      "script": "webui",
+      "problemMatcher": []
+    },
+    {
+      "type": "npm",
+      "script": "server",
+      "problemMatcher": []
     }
   ]
 }

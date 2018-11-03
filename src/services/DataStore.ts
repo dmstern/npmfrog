@@ -37,12 +37,21 @@ export default class DataStore {
   };
   private metaInfo!: IPackageJSON;
   private config!: Config;
+  private fileContentPromises: {
+    [key: string]: Promise<string>;
+  };
+
+  private fileContentCache: {
+    [key: string]: string;
+  };
 
   private constructor() {
     this.packages = [];
     this.tagList = [];
     this.crafterList = [];
     this.packageDetails = {};
+    this.fileContentPromises = {};
+    this.fileContentCache = {};
   }
 
   public async getPackageDetail(
@@ -74,9 +83,7 @@ export default class DataStore {
           const packageDetail: Package = new Package(response.data);
           let currentPackage: Package | undefined;
           const currentVersionObject: string | PackageMetaDataDTO =
-            packageDetail.versions[
-              version || packageDetail['dist-tags'].latest
-            ];
+            packageDetail.versions[version || packageDetail['dist-tags'].latest];
           if (typeof currentVersionObject !== 'string') {
             currentPackage = new Package(currentVersionObject);
           }
@@ -110,26 +117,18 @@ export default class DataStore {
         for (const packageName of Object.keys(packagesResponse).filter(
           key => !key.startsWith('_'),
         )) {
-          const modifiedPackage: Package = new Package(
-            packagesResponse[packageName],
-          );
+          const modifiedPackage: Package = new Package(packagesResponse[packageName]);
           this.packages.push(modifiedPackage);
 
           if (modifiedPackage.tags) {
             for (const tag of modifiedPackage.tags) {
-              if (
-                !this.tagList.some(currentTag => tag.value === currentTag.value)
-              ) {
+              if (!this.tagList.some(currentTag => tag.value === currentTag.value)) {
                 this.tagList.push(tag);
               }
             }
           }
           for (const crafter of modifiedPackage.crafters) {
-            if (
-              !this.crafterList.some(currentCrafter =>
-                currentCrafter.equals(crafter),
-              )
-            ) {
+            if (!this.crafterList.some(currentCrafter => currentCrafter.equals(crafter))) {
               this.crafterList.push(crafter);
             }
           }
@@ -174,5 +173,21 @@ export default class DataStore {
         EventBus.$emit(Errors.SERVER_ERROR, error);
         return undefined;
       });
+  }
+
+  public async getFileContent(packageId: PackageId, filepath: string): Promise<string> {
+    const key = `${packageId.scope}${packageId.packageName}${packageId.version}${filepath}`;
+    return this.fileContentCache[key]
+      ? new Promise<string>(resolve => {
+          resolve(this.fileContentCache[key]);
+        })
+      : this.fileContentPromises[key] ||
+          (this.fileContentPromises[key] = BackendApi.Instance.getFileContent(
+            packageId,
+            filepath,
+          ).then(response => {
+            this.fileContentCache[key] = response.data;
+            return response.data;
+          }));
   }
 }

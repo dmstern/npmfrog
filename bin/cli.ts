@@ -8,13 +8,8 @@ import * as path from 'path';
 const pm2Config = require('../pm2.config');
 const port = pm2Config.serveUIStatic.env.PM2_SERVE_PORT;
 const logFiles = {
-  ui: path.join(__dirname, '..', pm2Config.runServer.cwd || '', pm2Config.runServer.log),
-  server: path.join(
-    __dirname,
-    '..',
-    pm2Config.serveUIStatic.cwd || '',
-    pm2Config.serveUIStatic.log,
-  ),
+  ui: path.join(__dirname, '..', pm2Config.serveUIStatic.cwd || '', pm2Config.serveUIStatic.log),
+  server: path.join(__dirname, '..', pm2Config.runServer.cwd || '', pm2Config.runServer.log),
 };
 const startCommand = 'run prod';
 const programm = 'npmfrog';

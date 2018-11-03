@@ -17,7 +17,8 @@ export default class BackendApi {
     } catch (e) {
       cloudPort = undefined;
     }
-    this.baseURL = `//${document.location.hostname}:${cloudPort || '30001'}`;
+    this.baseURL = `//${document.location ? document.location.hostname : 'localhost'}:${cloudPort ||
+      '30001'}`;
     this.axios = axios.create({
       baseURL: this.baseURL,
     });
@@ -40,8 +41,14 @@ export default class BackendApi {
     packageName,
     version,
   }: PackageId): AxiosPromise<PackageMetaDataDTO> {
+    return this.get(`packageDetail/${scope}/${packageName}${version ? `/${version}` : ''}`);
+  }
+
+  public getFileContent(packageId: PackageId, filepath: string): AxiosPromise<string> {
     return this.get(
-      `packageDetail/${scope}/${packageName}${version ? `/${version}` : ''}`,
+      `packageDetail/${packageId.scope}/${packageId.packageName}${
+        packageId.version ? `/${packageId.version}` : ''
+      }/files/${filepath}`,
     );
   }
 

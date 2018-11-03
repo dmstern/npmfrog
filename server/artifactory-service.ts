@@ -6,6 +6,7 @@ import * as showdown from 'showdown';
 import * as emoji from 'node-emoji';
 import { PackagesResponse } from '../types/PackageResponse';
 import PackageId from '../types/PackageId';
+import getFiles from './fileLister';
 
 import config from './config-service.js';
 const repoKey = config.artifactory.repoKey;
@@ -20,6 +21,7 @@ axios.defaults.headers.common.Authorization = config.artifactory.apiKey;
 interface AdditionalCode {
   readme: string;
   mainCode: string | undefined;
+  fileList;
 }
 
 function name2url({ scope, packageName }: PackageId): string {
@@ -110,14 +112,17 @@ async function getPackageDetail({
         resolve({
           readme: data,
           mainCode: readMainCode(path.join(__dirname, '..', '..')),
+          fileList: [],
         });
       })
     : await new Promise<AdditionalCode>(async (resolve, reject) => {
         const packageDetail = packageDetailResponse.data;
         const downloadUrl = packageDetail.versions[currentVersion].dist.tarball;
-        const storageDir = path.join(tmpDir, scope || '', packageName, currentVersion);
+        const storageDir = path.join(tmpDir, scope, packageName, currentVersion);
         if (fs.existsSync(storageDir)) {
-          resolve(readAdditionalCode(storageDir));
+          readAdditionalCode(storageDir).then(response => {
+            resolve(response);
+          });
         } else {
           axios
             // Request package:
@@ -145,7 +150,9 @@ async function getPackageDetail({
               return tar.x({ file, cwd }).then(() => cwd);
             })
             .then(dir => {
-              resolve(readAdditionalCode(dir));
+              readAdditionalCode(dir).then(response => {
+                resolve(response);
+              });
             });
         }
       });
@@ -158,9 +165,10 @@ async function getPackageDetail({
   });
 }
 
-function readAdditionalCode(storageDir: string): AdditionalCode {
+async function readAdditionalCode(storageDir: string): Promise<AdditionalCode> {
   let readme;
   let mainCode;
+  let fileList;
   try {
     readme = readme2Html(path.join(storageDir, 'package', 'README.md'));
   } catch (error) {
@@ -171,9 +179,15 @@ function readAdditionalCode(storageDir: string): AdditionalCode {
   } catch (error) {
     mainCode = undefined;
   }
+  try {
+    fileList = await getFiles(storageDir, 'package', false);
+  } catch {
+    fileList = [];
+  }
   return {
     readme,
     mainCode,
+    fileList,
   };
 }
 
@@ -189,9 +203,23 @@ function getDistTags({ scope, packageName }: PackageId): AxiosPromise<any> {
     : axios.get(`/-/package/${name2url({ scope, packageName })}/dist-tags`);
 }
 
+async function getFileContent(packageId: PackageId, filepath: string): Promise<string> {
+  const versionResponse = await getDistTags(packageId);
+  const absPath = path.join(
+    tmpDir,
+    packageId.scope,
+    packageId.packageName,
+    packageId.version,
+    'package',
+    filepath,
+  );
+  return fs.readFileSync(absPath).toString();
+}
+
 export default {
   fetchPackages,
   getDistTags,
   getPackageDetail,
   baseURL: axios.defaults.baseURL,
+  getFileContent,
 };

@@ -1,28 +1,30 @@
 <template>
-  <v-container fluid>
-    <v-alert
-      v-if="error.show"
-      :value="true"
-      type="error"
-      >
-      <h3 class="heading">
-        {{error.status}}
-        {{error.statusText}}
-      </h3>
-      {{error.msg}}
-    </v-alert>
+  <div class="loading-spinner">
+    <v-container fluid>
+      <v-alert
+        v-if="error.show"
+        :value="true"
+        type="error"
+        >
+        <h3 class="heading">
+          {{error.status}}
+          {{error.statusText}}
+        </h3>
+        {{error.msg}}
+      </v-alert>
 
-    <div 
-      v-else
-      class="text-xs-center"
-    >
-      <v-progress-circular 
-          indeterminate
-          color="secondary"
-        ></v-progress-circular>
-      <div class="loading-message">{{msg}}</div>
-    </div>
-  </v-container>
+      <div 
+        v-else
+        class="text-xs-center"
+      >
+        <v-progress-circular 
+            indeterminate
+            color="secondary"
+          ></v-progress-circular>
+        <div class="loading-message">{{msg}}</div>
+      </div>
+    </v-container>
+  </div>
 </template>
 
 <script lang="ts">

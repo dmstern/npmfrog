@@ -31,7 +31,7 @@
       <v-flex xs12 md7 xl8 order-xs2 order-md1>
         <v-tabs v-model="activeTab">
           <v-tab>README</v-tab>
-          <v-tab>Main Code</v-tab>
+          <v-tab>Code</v-tab>
           <v-tab>{{data.currentPackage.dependenciesCount}} Dependencies</v-tab>
           <v-tab>{{Object.keys(data.packageDetail.versions).length}} Versions</v-tab>
           <v-tab-item class="readme">
@@ -69,9 +69,42 @@
                     </tbody>
                   </table>
                 </div>
-                <div v-if="data.packageDetail.mainCode">
-                  <h2>{{data.currentPackage.main}}</h2>
-                  <pre v-highlightjs="data.packageDetail.mainCode"><code></code></pre>
+                <div v-if="data.packageDetail.fileList">
+                  <h2>Files</h2>
+                  <div
+                     @click="selectCode"
+                  >
+                    <v-treeview
+                      :active.sync="data.activeFile"
+                      v-model="data.tree"
+                      :open="data.open"
+                      :items="data.packageDetail.fileList"
+                      activatable
+                      item-key="id"
+                      open-on-click
+                      transition
+                    >
+                      <template slot="prepend" slot-scope="{ item, open, leaf }">
+                        <v-icon v-if="item.children">
+                          {{ open ? $vuetify.icons.folderOpen : $vuetify.icons.folder }}
+                        </v-icon>
+                        <v-icon v-else>
+                          {{ getFileIcon(item.name) }}
+                        </v-icon>
+                      </template>
+                    </v-treeview>
+                  </div>
+                  <LoadingSpinner
+                    class="transition"
+                    :class="isLoadingCode? 'visible' : 'hidden'"
+                  ></LoadingSpinner>
+                  <pre
+                    class="file-content transition"
+                    v-highlightjs
+                    :class="(data.activeTreeItem.name && !isLoadingCode)? 'visible' : 'hidden'" :key="data.activeTreeItem.id"
+                  ><code>
+                    <span class="caption">{{data.activeTreeItem.name}}</span>{{data.activeCode}}</code>
+                  </pre>
                 </div>
               </v-card-text>
               <v-card-text v-else>
@@ -284,9 +317,12 @@ import PackageDetailItem from '@/components/PackageDetailItem.vue';
 import CodeBlock from '@/components/CodeBlock.vue';
 import CrafterAvatar from '@/components/CrafterAvatar.vue';
 import ExternalLink from '@/components/ExternalLink.vue';
-import { EventBus, Events } from '@/services/event-bus';
-import { setTimeout } from 'timers';
+import { EventBus, Events, Errors } from '@/services/event-bus';
+import { setTimeout, clearTimeout } from 'timers';
 import Searchable from '../../types/Searchable';
+import { icons } from '../plugins/vuetify';
+import { close } from 'fs';
+import TreeItem from '../../types/TreeItem';
 
 @Component({
   components: {
@@ -305,6 +341,11 @@ export default class PackageDetail extends Vue {
     currentTags: IVersions;
     versionsHistory: IVersions;
     config: Config | undefined;
+    tree: any[];
+    open: any[];
+    activeFile: any[];
+    activeCode?: string;
+    activeTreeItem: TreeItem;
   };
   private data: {
     packageDetail: Package | null;
@@ -312,8 +353,14 @@ export default class PackageDetail extends Vue {
     currentTags: IVersions;
     versionsHistory: IVersions;
     config: Config | undefined;
+    tree: any[];
+    open: any[];
+    activeFile: any[];
+    activeTreeItem?: TreeItem;
+    activeCode?: string;
   } = this.dataProp;
   private activeTab: number;
+  private isLoadingCode: boolean;
   private showAlert: boolean = false;
 
   constructor() {
@@ -325,7 +372,17 @@ export default class PackageDetail extends Vue {
       currentTags: {},
       versionsHistory: {},
       config: undefined,
+      tree: [],
+      open: ['public'],
+      activeFile: [],
+      activeCode: '',
+      activeTreeItem: {
+        id: '',
+        name: '',
+        path: '',
+      },
     };
+    this.isLoadingCode = false;
     Router.afterEach(route => {
       if (route.name === 'packageDetail') {
         this.resetModel();
@@ -363,6 +420,82 @@ export default class PackageDetail extends Vue {
     });
   }
 
+  private selectCode(event: Event): void {
+    const target = event.target as HTMLElement;
+    const label = target.classList.contains('v-icon')
+      ? (target.nextSibling as HTMLElement)
+      : target;
+    const clickedLabel = label.innerHTML;
+
+    if (!this.data.activeFile.length) {
+      this.resetActiveCode();
+      return;
+    }
+
+    const id = this.data.activeFile[0];
+
+    if (this.data.packageDetail && this.data.packageDetail.fileList) {
+      const currentFile = this.findFile(this.data.packageDetail.fileList, id);
+      if (currentFile && !currentFile.children && currentFile.name === clickedLabel) {
+        this.toggleLoading(true);
+        const timeout = global.setTimeout(() => {
+          if (!this.data.activeCode) {
+            this.toggleLoading(false);
+            EventBus.$emit(Errors.TIMEOUT_ERROR, new Error('Timeout Error. No code found.'));
+          }
+        }, 30000);
+        const code = DataStore.Instance.getFileContent(
+          {
+            scope: this.data.currentPackage ? this.data.currentPackage.scope : undefined,
+            packageName: Router.currentRoute.params.packageName,
+            version: this.data.currentPackage ? this.data.currentPackage.version : undefined,
+          },
+          encodeURIComponent(`${currentFile.path}/${currentFile.name}`),
+        )
+          .then(content => {
+            this.data.activeCode = content;
+            this.data.activeTreeItem = currentFile;
+            this.toggleLoading(false);
+            global.clearTimeout(timeout);
+          })
+          .catch(error => {
+            this.toggleLoading(false);
+            EventBus.$emit(Errors.SERVER_ERROR, error);
+            global.clearTimeout(timeout);
+          });
+      }
+    }
+  }
+
+  private resetActiveCode(): void {
+    this.data.activeTreeItem = {
+      id: '',
+      path: '',
+      name: '',
+    };
+    this.data.activeCode = undefined;
+  }
+
+  private toggleLoading(on: boolean): void {
+    this.isLoadingCode = on;
+    if (on) {
+      this.resetActiveCode();
+    }
+  }
+
+  private findFile(treeItems: TreeItem[], id: string): TreeItem | undefined {
+    for (const item of treeItems) {
+      if (item.id === id) {
+        return item;
+      } else if (item.children) {
+        const file = this.findFile(item.children, id);
+        if (file) {
+          return file;
+        }
+      }
+    }
+  }
+
   private getPackageDetails(
     version?: string,
   ): Promise<{
@@ -391,28 +524,20 @@ export default class PackageDetail extends Vue {
         install: string;
       }
     | undefined {
-    if (
-      this.data.packageDetail &&
-      this.data.config &&
-      this.data.config.artifactory
-    ) {
+    if (this.data.packageDetail && this.data.config && this.data.config.artifactory) {
       return {
         config: `npm config set ${
-          this.data.packageDetail.scope
-            ? this.data.packageDetail.scope + ':'
-            : ''
-        }registry http://${
-          this.data.config.artifactory.host
-        }/artifactory/api/npm/${this.data.config.artifactory.repoKey}/`,
+          this.data.packageDetail.scope ? this.data.packageDetail.scope + ':' : ''
+        }registry http://${this.data.config.artifactory.host}/artifactory/api/npm/${
+          this.data.config.artifactory.repoKey
+        }/`,
         install: `npm i ${this.data.packageDetail.name}`,
       };
     }
   }
 
   private inSearchableList(searchableItem: Searchable): boolean {
-    return DataStore.Instance.searchItems.some(
-      searchable => searchable === searchableItem,
-    );
+    return DataStore.Instance.searchItems.some(searchable => searchable === searchableItem);
   }
 
   private triggerSearchFilter(searchable: Searchable): void {
@@ -422,6 +547,33 @@ export default class PackageDetail extends Vue {
     });
   }
 
+  private getFileIcon(filename: string): string {
+    if (filename.toLowerCase().includes('readme')) {
+      return icons.info;
+    }
+
+    if (filename.toLowerCase() === 'package.json') {
+      return icons.packageJson;
+    }
+
+    if (filename.toLowerCase().startsWith('.npm')) {
+      return icons.npm;
+    }
+
+    if (filename.toLowerCase().startsWith('.git')) {
+      return icons.git;
+    }
+
+    if (filename.toLowerCase().startsWith('.babel')) {
+      return icons.babel;
+    }
+
+    const parts: string[] = filename.split('.');
+    const extension: string = parts.length ? parts[parts.length - 1] : '';
+    const extensionIcon = icons[extension];
+    return extensionIcon || icons.file;
+  }
+
   private isOld(): boolean | undefined {
     if (!this.data.packageDetail || !this.data.currentPackage) {
       return false;
@@ -429,8 +581,7 @@ export default class PackageDetail extends Vue {
     const isOld =
       typeof this.data.packageDetail.distTags.latest === 'string' &&
       this.data.currentPackage.version !== undefined &&
-      this.data.currentPackage.version <
-        this.data.packageDetail.distTags.latest;
+      this.data.currentPackage.version < this.data.packageDetail.distTags.latest;
     this.showAlert = isOld;
     return isOld;
   }
@@ -439,6 +590,52 @@ export default class PackageDetail extends Vue {
 
 <style lang="scss">
 @import '../assets/variables';
+
+.v-treeview-node {
+  &:not(.v-treeview-node--leaf) .v-treeview-node__content {
+    margin-left: 8px;
+  }
+
+  .v-treeview-node__content {
+    .v-icon {
+      width: 30px;
+    }
+  }
+
+  .v-icon.fas,
+  .v-icon.far {
+    &.v-treeview-node__toggle {
+      transform: rotate(-0.25turn) scale($mdi2faScaleFactor);
+
+      &--open {
+        transform: rotate(0) scale($mdi2faScaleFactor);
+      }
+    }
+  }
+}
+
+.transition {
+  transition: $transition-smooth;
+}
+
+.visible {
+  visibility: visible;
+  opacity: 1;
+  height: auto;
+}
+
+.hidden {
+  visibility: hidden !important;
+  opacity: 0 !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.file-content,
+.loading-spinner {
+  margin-top: 2rem;
+}
 
 pre code.hljs {
   margin-bottom: 1em;

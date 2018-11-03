@@ -4,7 +4,7 @@
     <v-list subheader three-line v-else class="package-list">
       <v-subheader 
         class="title"
-        v-if="config">Found {{packages.data.length}}/{{packages.all.length}} npm packages on &nbsp;
+        v-if="config && config.artifactory">Found {{packages.data.length}}/{{packages.all.length}} npm packages on &nbsp;
         <ExternalLink
           :href="`http${
               config.artifactory.https? 's' : ''
