@@ -70,7 +70,7 @@ export default class CodeBlock extends Vue {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import '../assets/variables';
 
 .code-block {
@@ -82,11 +82,11 @@ export default class CodeBlock extends Vue {
     max-width: calc(100% - 52px);
     min-height: 4em;
   }
-}
 
-.v-toolbar {
-  background: $color-code-bg;
-  border-bottom: 1px solid lighten($color-code-bg, 5%);
+  .v-btn {
+    margin: 0;
+    margin-top: -3px;
+  }
 }
 
 .has-title {
@@ -94,7 +94,18 @@ export default class CodeBlock extends Vue {
     width: 0;
 
     .v-btn {
-      transform: translate(-120%, -115%);
+      background-color: $color-white;
+      transform: translate(-120%, -120%);
+      margin-top: 0;
+    }
+  }
+
+  .v-toolbar {
+    background: $color-code-bg;
+    border-bottom: 1px solid lighten($color-code-bg, 5%);
+
+    &__content {
+      padding: 1em;
     }
   }
 

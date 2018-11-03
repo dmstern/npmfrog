@@ -403,6 +403,11 @@ a,
   }
 }
 
+td,
+th {
+  vertical-align: top;
+}
+
 .v-icon {
   vertical-align: baseline;
 
@@ -436,9 +441,8 @@ a,
   }
 }
 
-pre {
-  white-space: pre-wrap;
-  word-break: break-all;
+table.package-detail__scripts {
+  width: 100%;
 }
 
 code,
@@ -473,7 +477,7 @@ kbd {
 }
 
 code.hljs {
-  white-space: pre;
+  white-space: pre-wrap;
 
   &.bash,
   &.language-bash {
