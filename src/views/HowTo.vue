@@ -101,20 +101,23 @@ export default class HowTo extends Vue {
         this.data.companyScope = response.companyScope;
       }
     });
-    this.data.codes.push((url) => {
-      return `...
+    this.data.codes.push(
+      url => {
+        return `...
   "publishConfig": {
     "registry": "${url}"
   }
-  ...`
-    }, () => {
-      return `"files": [
+  ...`;
+      },
+      () => {
+        return `"files": [
     "assets"
     "dist",
     "cli.js"
     "index.js"
-  ]`
-    });
+  ]`;
+      },
+    );
   }
 }
 </script>
