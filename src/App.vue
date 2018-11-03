@@ -146,7 +146,7 @@
           color="error"
           :timeout="0"
         >
-          {{ error.msg }}
+          <span class="error__message" v-html="error.msg"></span>
           <v-btn
             dark
             flat
@@ -227,10 +227,7 @@ export default class App extends Vue {
     this.searchItemsFiltered = [];
     window.onresize = this.adaptContentSpacing;
     window.addEventListener('keypress', e => {
-      if (
-        String.fromCharCode(e.keyCode) === '/' ||
-        String.fromCharCode(e.keyCode) === '#'
-      ) {
+      if (String.fromCharCode(e.keyCode) === '/' || String.fromCharCode(e.keyCode) === '#') {
         if (!this.searchInput || e.target !== this.searchInput) {
           this.focusSearch();
           setTimeout(() => {
@@ -246,25 +243,28 @@ export default class App extends Vue {
 
     router.afterEach(this.fireSearchFilterEvent);
 
-    EventBus.$on(Errors.SERVER_ERROR, error => {
-      const res = error.response;
+    const anyError: string[] = Object.keys(Errors).map(error => Errors[error]);
+
+    EventBus.$on(anyError, error => {
       this.error.show = true;
-      console.log(error);
-      if (res) {
-        this.error.msg = res.data;
+      console.error('feehler');
+      if (error.response && error.response.data && typeof error.response.data === 'string') {
+        const message: string = error.response.data;
+        this.error.msg = message.includes('<body>')
+          ? message.substring(message.indexOf('<body>') + 6, message.indexOf('</body>'))
+          : message;
+      } else {
+        this.error.msg = error.toString();
       }
     });
 
-    EventBus.$on(
-      Events.TRIGGER_FILTER_SEARCH,
-      (args: { filters: Searchable[]; query: string }) => {
-        if (this.$refs.searchbar) {
-          for (const filter of args.filters) {
-            this.$refs.searchbar.selectItem(filter);
-          }
+    EventBus.$on(Events.TRIGGER_FILTER_SEARCH, (args: { filters: Searchable[]; query: string }) => {
+      if (this.$refs.searchbar) {
+        for (const filter of args.filters) {
+          this.$refs.searchbar.selectItem(filter);
         }
-      },
-    );
+      }
+    });
   }
 
   private get searchInput(): HTMLInputElement {
@@ -363,12 +363,8 @@ export default class App extends Vue {
 
   private adaptContentSpacing(): void {
     setTimeout(() => {
-      const contentElement = document.querySelector(
-        '.v-content',
-      ) as HTMLElement;
-      const toolbar = document.querySelector(
-        '.v-toolbar__content',
-      ) as HTMLElement;
+      const contentElement = document.querySelector('.v-content') as HTMLElement;
+      const toolbar = document.querySelector('.v-toolbar__content') as HTMLElement;
       contentElement.style.padding = `${toolbar.offsetHeight}px 0 0`;
     }, 0);
   }
@@ -441,6 +437,10 @@ a,
   }
 }
 
+pre {
+  white-space: pre-wrap;
+}
+
 code,
 kbd {
   &:after,
@@ -454,6 +454,10 @@ kbd {
   &:after {
     content: none;
   }
+}
+
+.error__message {
+  max-width: calc(100% - 60px);
 }
 
 // inline code
