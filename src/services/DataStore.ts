@@ -37,12 +37,9 @@ export default class DataStore {
   };
   private metaInfo!: IPackageJSON;
   private config!: Config;
-  private fileContentPromises:
-    | {
-        key: string;
-        promise: Promise<string>;
-      }
-    | {};
+  private fileContentPromises: {
+    [key: string]: Promise<string>;
+  };
 
   private constructor() {
     this.packages = [];
