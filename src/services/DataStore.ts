@@ -37,12 +37,19 @@ export default class DataStore {
   };
   private metaInfo!: IPackageJSON;
   private config!: Config;
+  private fileContentPromises:
+    | {
+        key: string;
+        promise: Promise<string>;
+      }
+    | {};
 
   private constructor() {
     this.packages = [];
     this.tagList = [];
     this.crafterList = [];
     this.packageDetails = {};
+    this.fileContentPromises = {};
   }
 
   public async getPackageDetail(
@@ -166,9 +173,15 @@ export default class DataStore {
       });
   }
 
-  public getFileContent(packageId: PackageId, filepath: string): Promise<string> {
-    return BackendApi.Instance.getFileContent(packageId, filepath).then(response => {
-      return response.data;
-    });
+  public async getFileContent(packageId: PackageId, filepath: string): Promise<string> {
+    const key = `${packageId.scope}${packageId.packageName}${packageId.version}${filepath}`;
+    return (
+      this.fileContentPromises[key] ||
+      (this.fileContentPromises[key] = BackendApi.Instance.getFileContent(packageId, filepath).then(
+        response => {
+          return response.data;
+        },
+      ))
+    );
   }
 }
