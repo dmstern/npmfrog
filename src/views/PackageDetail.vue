@@ -599,7 +599,7 @@ export default class PackageDetail extends Vue {
       svg: 'svg',
       ftl: 'xml',
       sh: 'bash',
-    }
+    };
     const parts = filename.split('.');
     if (parts.length > 0) {
       const extension = parts[parts.length - 1];
