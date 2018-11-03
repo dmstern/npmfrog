@@ -101,7 +101,7 @@
                   <pre
                     class="file-content transition"
                     v-highlightjs
-                    :class="(data.activeCode && !isLoadingCode)? 'visible' : 'hidden'" :key="data.activeTreeItem.id"
+                    :class="(data.activeTreeItem.name && !isLoadingCode)? 'visible' : 'hidden'" :key="data.activeTreeItem.id"
                   ><code>
                     <span class="caption">{{data.activeTreeItem.name}}</span>{{data.activeCode}}</code>
                   </pre>
@@ -427,13 +427,13 @@ export default class PackageDetail extends Vue {
       : target;
     const clickedLabel = label.innerHTML;
 
-    this.data.activeTreeItem = {
-      id: '',
-      path: '',
-      name: '',
-    };
-    this.data.activeCode = undefined;
     if (!this.data.activeFile.length) {
+      this.data.activeTreeItem = {
+        id: '',
+        path: '',
+        name: '',
+      };
+      this.data.activeCode = undefined;
       return;
     }
 
@@ -474,6 +474,14 @@ export default class PackageDetail extends Vue {
 
   private toggleLoading(on: boolean): void {
     this.isLoadingCode = on;
+    if (on) {
+      this.data.activeTreeItem = {
+        id: '',
+        path: '',
+        name: '',
+      };
+      this.data.activeCode = undefined;
+    }
   }
 
   private findFile(treeItems: TreeItem[], id: string): TreeItem | undefined {
@@ -608,7 +616,7 @@ export default class PackageDetail extends Vue {
 }
 
 .transition {
-  transition: all 500ms ease-in-out;
+  transition: $transition-smooth;
 }
 
 .visible {
@@ -618,14 +626,16 @@ export default class PackageDetail extends Vue {
 }
 
 .hidden {
-  visibility: hidden;
-  opacity: 0;
-  height: 0;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 .file-content,
 .loading-spinner {
-  margin-top: 1.5em;
+  margin-top: 2rem;
 }
 
 pre code.hljs {
