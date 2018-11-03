@@ -14,6 +14,7 @@ import { IDistTags, ITimes, IVersions, PackageMetaDataDTO } from './package-meta
 import Crafter from './Crafter';
 import Searchable from './Searchable';
 import { Tag } from './Tag';
+import TreeItem from './TreeItem';
 
 export default class Package extends Searchable implements PackageMetaDataDTO {
   public readonly distTags!: IDistTags;
@@ -58,11 +59,7 @@ export default class Package extends Searchable implements PackageMetaDataDTO {
   public readonly dependenciesCount: number;
   public readonly scope: string | undefined;
   public readonly mainCode: string | undefined;
-  public readonly fileList?: Array<{
-    id: string;
-    name: string;
-    path: string;
-  }>;
+  public readonly fileList?: TreeItem[];
   private craftersList: Crafter[];
   private tagList: Tag[];
 
