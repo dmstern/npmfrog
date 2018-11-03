@@ -63,6 +63,10 @@ export const icons = {
   font: 'fas fa-font',
   license: 'fas fa-file-contract',
   configFile: 'fas fa-clipboard-check',
+  gulp: 'fab fa-gulp',
+  grunt: 'fab fa-grunt',
+  webpack: 'mdi-webpack',
+  fingerUp: 'far fa-hand-point-up',
 };
 
 icons.keywords = icons.tags;
