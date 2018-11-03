@@ -428,12 +428,7 @@ export default class PackageDetail extends Vue {
     const clickedLabel = label.innerHTML;
 
     if (!this.data.activeFile.length) {
-      this.data.activeTreeItem = {
-        id: '',
-        path: '',
-        name: '',
-      };
-      this.data.activeCode = undefined;
+      this.resetActiveCode();
       return;
     }
 
@@ -472,15 +467,19 @@ export default class PackageDetail extends Vue {
     }
   }
 
+  private resetActiveCode(): void {
+    this.data.activeTreeItem = {
+      id: '',
+      path: '',
+      name: '',
+    };
+    this.data.activeCode = undefined;
+  }
+
   private toggleLoading(on: boolean): void {
     this.isLoadingCode = on;
     if (on) {
-      this.data.activeTreeItem = {
-        id: '',
-        path: '',
-        name: '',
-      };
-      this.data.activeCode = undefined;
+      this.resetActiveCode();
     }
   }
 
