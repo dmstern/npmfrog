@@ -438,6 +438,7 @@ a,
 
 pre {
   white-space: pre-wrap;
+  word-break: break-all;
 }
 
 code,
@@ -456,7 +457,7 @@ kbd {
 }
 
 .error__message {
-  max-width: calc(100% - 60px);
+  max-width: calc(100% - 80px);
 }
 
 // inline code
