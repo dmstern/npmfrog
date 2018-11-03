@@ -128,7 +128,7 @@ export default class Packages extends Vue {
             }
             return item.matchesPattern(args.query);
           })
-          .sort((a, b) => a.time.modified < b.time.modified ? 1 : -1);
+          .sort((a, b) => (a.time.modified < b.time.modified ? 1 : -1));
       },
     );
   }
