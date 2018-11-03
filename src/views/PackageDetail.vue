@@ -104,6 +104,7 @@
                     class="file-content transition"
                     :class="(data.activeTreeItem.name && !isLoadingCode)? 'visible' : 'hidden'"
                     :key="data.activeTreeItem.id"
+                    :language="getLanguage(data.activeTreeItem.name)"
                   ></CodeBlock>
                 </div>
               </v-card-text>
@@ -580,6 +581,33 @@ export default class PackageDetail extends Vue {
     const extension: string = parts.length ? parts[parts.length - 1] : '';
     const extensionIcon = icons[extension];
     return extensionIcon || icons.file;
+  }
+
+  private getLanguage(filename: string): string {
+    const languages = {
+      js: 'javascript',
+      ts: 'typescript',
+      jsx: 'javascript',
+      md: 'markdown',
+      css: 'css',
+      html: 'html',
+      htm: 'html',
+      scss: 'scss',
+      hbs: 'handlebars',
+      xml: 'xml',
+      json: 'json',
+      svg: 'svg',
+      ftl: 'xml',
+      sh: 'bash',
+    }
+    const parts = filename.split('.');
+    if (parts.length > 0) {
+      const extension = parts[parts.length - 1];
+      if (languages[extension]) {
+        return languages[extension];
+      }
+    }
+    return 'javascript';
   }
 
   private isOld(): boolean | undefined {

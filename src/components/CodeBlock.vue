@@ -80,6 +80,7 @@ export default class CodeBlock extends Vue {
     flex-grow: 1;
     align-self: flex-end;
     max-width: calc(100% - 52px);
+    min-height: 4em;
   }
 }
 
