@@ -312,8 +312,8 @@ import PackageDetailItem from '@/components/PackageDetailItem.vue';
 import CodeBlock from '@/components/CodeBlock.vue';
 import CrafterAvatar from '@/components/CrafterAvatar.vue';
 import ExternalLink from '@/components/ExternalLink.vue';
-import { EventBus, Events } from '@/services/event-bus';
-import { setTimeout } from 'timers';
+import { EventBus, Events, Errors } from '@/services/event-bus';
+import { setTimeout, clearTimeout } from 'timers';
 import Searchable from '../../types/Searchable';
 import { icons } from '../plugins/vuetify';
 import { close } from 'fs';
@@ -421,9 +421,25 @@ export default class PackageDetail extends Vue {
     const id = this.data.activeFile[0];
 
     if (this.data.packageDetail && this.data.packageDetail.fileList) {
-      const currentFile = this.data.packageDetail.fileList.find(file => file.id === id);
-      if (currentFile) {
+      const currentFile = this.findFile(this.data.packageDetail.fileList, id);
+      if (currentFile && !currentFile.children) {
         this.isLoadingCode = true;
+        const timeout = (): NodeJS.Timer => {
+          if (!this.data.activeCode) {
+            this.isLoadingCode = false;
+            EventBus.$emit(Errors.TIMEOUT_ERROR, new Error('Timeout Error. No code found.'));
+            console.log('timeout');
+          }
+          return {
+            ref: () => {
+              console.log('ref');
+            },
+            unref: () => {
+              console.log('unref');
+            },
+          };
+        };
+        global.setTimeout(timeout, 3000);
         const code = DataStore.Instance.getFileContent(
           {
             scope: this.data.currentPackage ? this.data.currentPackage.scope : undefined,
@@ -431,11 +447,30 @@ export default class PackageDetail extends Vue {
             version: this.data.currentPackage ? this.data.currentPackage.version : undefined,
           },
           `${currentFile.path}${currentFile.name}`,
-        ).then(content => {
-          this.data.activeCode = content;
-          this.data.activeTreeItem = currentFile;
-          this.isLoadingCode = false;
-        });
+        )
+          .then(content => {
+            this.data.activeCode = content;
+            this.data.activeTreeItem = currentFile;
+            this.isLoadingCode = false;
+            global.clearTimeout(timeout());
+          })
+          .catch(error => {
+            this.isLoadingCode = false;
+            EventBus.$emit(Errors.SERVER_ERROR, error);
+          });
+      }
+    }
+  }
+
+  private findFile(treeItems: TreeItem[], id: string): TreeItem | undefined {
+    for (const item of treeItems) {
+      if (item.id === id) {
+        return item;
+      } else if (item.children) {
+        const file = this.findFile(item.children, id);
+        if (file) {
+          return file;
+        }
       }
     }
   }
