@@ -413,7 +413,10 @@ export default class PackageDetail extends Vue {
 
   private selectCode(event: Event): void {
     const target = event.target as HTMLElement;
-    const clickedLabel = target.innerHTML;
+    const label = target.classList.contains('v-icon')
+      ? (target.nextSibling as HTMLElement)
+      : target;
+    const clickedLabel = label.innerHTML;
 
     this.data.activeTreeItem = undefined;
     this.data.activeCode = undefined;
@@ -425,8 +428,6 @@ export default class PackageDetail extends Vue {
 
     if (this.data.packageDetail && this.data.packageDetail.fileList) {
       const currentFile = this.findFile(this.data.packageDetail.fileList, id);
-      // console.log('found name', currentFile? currentFile.name : '');
-      // console.log('clickedLabel', clickedLabel);
       if (currentFile && !currentFile.children && currentFile.name === clickedLabel) {
         this.isLoadingCode = true;
         const timeout = global.setTimeout(() => {
