@@ -8,4 +8,5 @@ export enum Events {
 
 export enum Errors {
   SERVER_ERROR = 'server-error',
+  TIMEOUT_ERROR = 'timeout-error',
 }
