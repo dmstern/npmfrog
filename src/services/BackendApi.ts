@@ -48,7 +48,7 @@ export default class BackendApi {
     return this.get(
       `packageDetail/${packageId.scope}/${packageId.packageName}${
         packageId.version ? `/${packageId.version}` : ''
-      }/files${filepath}`,
+      }/files/${filepath}`,
     );
   }
 
