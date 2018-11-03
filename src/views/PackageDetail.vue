@@ -580,7 +580,7 @@ export default class PackageDetail extends Vue {
     const extensionIcon = icons[extension];
     if (extensionIcon) {
       return extensionIcon;
-    };
+    }
 
     if (filename.toLowerCase().includes('config')) {
       return icons.configFile;
