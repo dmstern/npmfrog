@@ -98,13 +98,13 @@
                     class="transition"
                     :class="isLoadingCode? 'visible' : 'hidden'"
                   ></LoadingSpinner>
-                  <pre
+                  <CodeBlock
+                    :code="data.activeCode"
+                    :title="data.activeTreeItem.name"
                     class="file-content transition"
-                    v-highlightjs
-                    :class="(data.activeTreeItem.name && !isLoadingCode)? 'visible' : 'hidden'" :key="data.activeTreeItem.id"
-                  ><code>
-                    <span class="caption">{{data.activeTreeItem.name}}</span>{{data.activeCode}}</code>
-                  </pre>
+                    :class="(data.activeTreeItem.name && !isLoadingCode)? 'visible' : 'hidden'"
+                    :key="data.activeTreeItem.id"
+                  ></CodeBlock>
                 </div>
               </v-card-text>
               <v-card-text v-else>
@@ -453,7 +453,15 @@ export default class PackageDetail extends Vue {
           encodeURIComponent(`${currentFile.path}/${currentFile.name}`),
         )
           .then(content => {
-            this.data.activeCode = content;
+            if (typeof content === 'string') {
+              this.data.activeCode = content;
+            } else {
+              try {
+                this.data.activeCode = JSON.stringify(content, null, 2);
+              } catch (error) {
+                this.data.activeCode = 'Error: Could not display file content.';
+              }
+            }
             this.data.activeTreeItem = currentFile;
             this.toggleLoading(false);
             global.clearTimeout(timeout);

@@ -16,13 +16,13 @@
         <v-list-tile><ExternalLink href="https://docs.npmjs.com/misc/config#registry"></ExternalLink></v-list-tile>
       </v-list>
       <h3>Alternative 2) Only for your npm package</h3>
-      <pre v-highlightjs v-if="data.artifactoryUrl"><code class="json">
-      <span class="caption">package.json</span>
-  ...
-  "publishConfig": {
-    "registry": "{{data.artifactoryUrl}}"
-  }
-  ...</code></pre>
+      <CodeBlock
+        :key="data.artifactoryUrl"
+        v-if="data.artifactoryUrl"
+        title="package.json"
+        language="json"
+        :code="data.codes[0](data.artifactoryUrl)"
+      ></CodeBlock>
       <v-subheader>More info:</v-subheader> 
       <v-list :class="`link-list`">
         <v-list-tile><ExternalLink href="https://docs.npmjs.com/files/package.json#publishconfig"></ExternalLink></v-list-tile>
@@ -35,14 +35,7 @@
         <v-list-tile><ExternalLink href="https://docs.npmjs.com/cli/adduser"></ExternalLink></v-list-tile>
       </v-list>
       <h2>Define files that should be included in your npm package</h2>
-      <pre v-highlightjs><code class="json">
-      <span class="caption">package.json (example)</span>
-  "files": [
-    "assets"
-    "dist",
-    "cli.js"
-    "index.js"
-  ]</code></pre>
+      <CodeBlock :title="`package.json (example)`" :code="data.codes[1]()" :language="`json`"></CodeBlock>
       <h2>Commit everything</h2>
       <CodeBlock code="git commit" language="bash"></CodeBlock>
       <h2>Create a new version of your package</h2>
@@ -91,9 +84,11 @@ export default class HowTo extends Vue {
   private data: {
     artifactoryUrl: string;
     companyScope: string;
+    codes: any[];
   } = {
     artifactoryUrl: '',
     companyScope: '',
+    codes: [],
   };
 
   constructor() {
@@ -105,6 +100,20 @@ export default class HowTo extends Vue {
         }/artifactory/api/npm/${response.artifactory.repoKey}/`;
         this.data.companyScope = response.companyScope;
       }
+    });
+    this.data.codes.push((url) => {
+      return `...
+  "publishConfig": {
+    "registry": "${url}"
+  }
+  ...`
+    }, () => {
+      return `"files": [
+    "assets"
+    "dist",
+    "cli.js"
+    "index.js"
+  ]`
     });
   }
 }
