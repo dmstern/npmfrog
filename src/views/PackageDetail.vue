@@ -442,7 +442,7 @@ export default class PackageDetail extends Vue {
             packageName: Router.currentRoute.params.packageName,
             version: this.data.currentPackage ? this.data.currentPackage.version : undefined,
           },
-          `${currentFile.path}${currentFile.name}`,
+          encodeURIComponent(`${currentFile.path}/${currentFile.name}`),
         )
           .then(content => {
             this.data.activeCode = content;
