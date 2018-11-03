@@ -559,6 +559,22 @@ export default class PackageDetail extends Vue {
       return icons.license;
     }
 
+    if (filename.toLowerCase().includes('webpack')) {
+      return icons.webpack;
+    }
+
+    if (filename.toLowerCase().includes('gulp')) {
+      return icons.gulp;
+    }
+
+    if (filename.toLowerCase().includes('lint')) {
+      return icons.fingerUp;
+    }
+
+    if (filename.toLowerCase().includes('grunt')) {
+      return icons.grunt;
+    }
+
     if (filename.toLowerCase() === 'package.json') {
       return icons.packageJson;
     }
