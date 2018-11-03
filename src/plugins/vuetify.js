@@ -61,6 +61,8 @@ export const icons = {
   sass: 'fab fa-sass',
   md: 'mdi-markdown',
   font: 'fas fa-font',
+  license: 'fas fa-file-contract',
+  configFile: 'fas fa-clipboard-check',
 };
 
 icons.keywords = icons.tags;
@@ -111,6 +113,11 @@ icons.avi = icons.fileVideo;
 icons.wmv = icons.fileVideo;
 icons.m4p = icons.fileVideo;
 icons.m4v = icons.fileVideo;
+icons.yml = icons.configFile;
+icons.yaml = icons.yml;
+icons.hbs = icons.html;
+icons.nunj = icons.html;
+icons.ftl = icons.html;
 
 Vue.use(Vuetify, {
   iconfont: 'fa', // 'md' || 'mdi' || 'fa' || 'fa4'

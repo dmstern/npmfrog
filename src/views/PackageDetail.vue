@@ -29,13 +29,13 @@
     </v-layout>
     <v-layout row wrap>
       <v-flex xs12 md7 xl8 order-xs2 order-md1>
-        <v-tabs v-model="activeTab">
-          <v-tab>README</v-tab>
-          <v-tab>Code</v-tab>
-          <v-tab>{{data.currentPackage.dependenciesCount}} Dependencies</v-tab>
-          <v-tab>{{Object.keys(data.packageDetail.versions).length}} Versions</v-tab>
-          <v-tab-item class="readme">
-            <v-card>
+        <v-card>
+          <v-tabs v-model="activeTab">
+            <v-tab>README</v-tab>
+            <v-tab>Code</v-tab>
+            <v-tab>{{data.currentPackage.dependenciesCount}} Dependencies</v-tab>
+            <v-tab>{{Object.keys(data.packageDetail.versions).length}} Versions</v-tab>
+            <v-tab-item class="readme">
               <v-card-text>
                 <div v-highlightjs v-if="data.packageDetail.readme" :key="data.packageDetail.readme" v-html="data.packageDetail.readme"></div>
                 <div v-else>
@@ -44,15 +44,13 @@
                   </v-alert>
                 </div>
               </v-card-text>
-            </v-card>
-          </v-tab-item>
-          <v-tab-item>
-            <v-card>
+            </v-tab-item>
+            <v-tab-item>
               <v-card-text v-if="data.packageDetail.mainCode || data.currentPackage.scripts">
                 <div v-if="data.currentPackage.scripts">
                   <h2>Scripts</h2>
 
-                  <table>
+                  <table class="package-detail__scripts">
                     <thead>
                       <tr>
                         <th>Command</th>
@@ -113,10 +111,8 @@
                   Nothing to show...
                 </v-alert>
               </v-card-text>
-            </v-card>
-          </v-tab-item>
-          <v-tab-item>
-            <v-card>
+            </v-tab-item>
+            <v-tab-item>
               <v-card-text v-if="data.currentPackage.dependenciesCount">
                 <h2>Dependencies</h2>
                 <router-link
@@ -150,10 +146,8 @@
                   This package has no dependencies.
                 </v-alert>
               </v-card-text>
-            </v-card>
-          </v-tab-item>
-          <v-tab-item>
-            <v-card>
+            </v-tab-item>
+            <v-tab-item>
               <v-card-text>
                 <h2>Current Tags</h2>
                 <v-list>
@@ -188,9 +182,9 @@
                   </v-list-tile>
                 </v-list>
               </v-card-text>
-            </v-card>
-          </v-tab-item>
-        </v-tabs>
+            </v-tab-item>
+          </v-tabs>
+        </v-card>
       </v-flex>
       <v-flex xs12 md5 xl4 order-xs1 order-md2 class="meta-panel">
         <v-layout row wrap>
@@ -561,6 +555,10 @@ export default class PackageDetail extends Vue {
       return icons.info;
     }
 
+    if (filename.toLowerCase().includes('license')) {
+      return icons.license;
+    }
+
     if (filename.toLowerCase() === 'package.json') {
       return icons.packageJson;
     }
@@ -580,7 +578,15 @@ export default class PackageDetail extends Vue {
     const parts: string[] = filename.split('.');
     const extension: string = parts.length ? parts[parts.length - 1] : '';
     const extensionIcon = icons[extension];
-    return extensionIcon || icons.file;
+    if (extensionIcon) {
+      return extensionIcon;
+    };
+
+    if (filename.toLowerCase().includes('config')) {
+      return icons.configFile;
+    }
+
+    return icons.file;
   }
 
   private getLanguage(filename: string): string {
@@ -599,6 +605,8 @@ export default class PackageDetail extends Vue {
       svg: 'svg',
       ftl: 'xml',
       sh: 'bash',
+      yml: 'yaml',
+      yaml: 'yaml',
     };
     const parts = filename.split('.');
     if (parts.length > 0) {
