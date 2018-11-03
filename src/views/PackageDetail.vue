@@ -430,7 +430,7 @@ export default class PackageDetail extends Vue {
     this.data.activeTreeItem = {
       id: '',
       path: '',
-      name: ''
+      name: '',
     };
     this.data.activeCode = undefined;
     if (!this.data.activeFile.length) {
