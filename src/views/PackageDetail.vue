@@ -71,29 +71,35 @@
                 </div>
                 <div v-if="data.packageDetail.fileList">
                   <h2>Files</h2>
-                  <v-treeview
-                    :active.sync="data.activeFile"
-                    v-model="data.tree"
-                    :open="data.open"
-                    :items="data.packageDetail.fileList"
-                    activatable
-                    item-key="name"
-                    open-on-click
-                    transition
+                  <div
+                     @click="selectCode()"
                   >
-                    <template slot="prepend" slot-scope="{ item, open, leaf }">
-                      <v-icon v-if="item.children">
-                        {{ open ? $vuetify.icons.folderOpen : $vuetify.icons.folder }}
-                      </v-icon>
-                      <v-icon v-else>
-                        {{ getFileIcon(item.name) }}
-                      </v-icon>
-                    </template>
-                  </v-treeview>
-                  <pre v-highlightjs v-if="selectedCode()" :key="selectedCode().id"><code>
-                    <span class="caption">{{selectedCode().name}}</span>
-                    {{data.activeCode}}
-                  </code></pre>
+                    <v-treeview
+                      :active.sync="data.activeFile"
+                      v-model="data.tree"
+                      :open="data.open"
+                      :items="data.packageDetail.fileList"
+                      activatable
+                      item-key="id"
+                      open-on-click
+                      transition
+                    >
+                      <template slot="prepend" slot-scope="{ item, open, leaf }">
+                        <v-icon v-if="item.children">
+                          {{ open ? $vuetify.icons.folderOpen : $vuetify.icons.folder }}
+                        </v-icon>
+                        <v-icon v-else>
+                          {{ getFileIcon(item.name) }}
+                        </v-icon>
+                      </template>
+                    </v-treeview>
+                  </div> 
+                  <LoadingSpinner
+                    v-if="isLoadingCode"
+                  ></LoadingSpinner>
+                  <pre v-highlightjs v-if="data.activeTreeItem && !isLoadingCode" :key="data.activeTreeItem.id"><code>
+                    <span class="caption">{{data.activeTreeItem.name}}</span>{{data.activeCode}}</code>
+                  </pre>
                 </div>
               </v-card-text>
               <v-card-text v-else>
@@ -311,6 +317,7 @@ import { setTimeout } from 'timers';
 import Searchable from '../../types/Searchable';
 import { icons } from '../plugins/vuetify';
 import { close } from 'fs';
+import TreeItem from '../../types/TreeItem';
 
 @Component({
   components: {
@@ -332,7 +339,8 @@ export default class PackageDetail extends Vue {
     tree: any[];
     open: any[];
     activeFile: any[];
-    activeCode: string;
+    activeCode?: string;
+    activeTreeItem: TreeItem;
   };
   private data: {
     packageDetail: Package | null;
@@ -343,9 +351,11 @@ export default class PackageDetail extends Vue {
     tree: any[];
     open: any[];
     activeFile: any[];
-    activeCode: string;
+    activeTreeItem?: TreeItem;
+    activeCode?: string;
   } = this.dataProp;
   private activeTab: number;
+  private isLoadingCode: boolean;
   private showAlert: boolean = false;
 
   constructor() {
@@ -361,7 +371,9 @@ export default class PackageDetail extends Vue {
       open: ['public'],
       activeFile: [],
       activeCode: '',
+      activeTreeItem: undefined,
     };
+    this.isLoadingCode = false;
     Router.afterEach(route => {
       if (route.name === 'packageDetail') {
         this.resetModel();
@@ -399,21 +411,23 @@ export default class PackageDetail extends Vue {
     });
   }
 
-  private selectedCode():
-    | {
-        id: string;
-        name: string;
-      }
-    | undefined {
+  private onTreeItemClick(): void {
+    this.$nextTick(this.selectCode);
+  }
+
+  private selectCode(): void {
+    this.data.activeTreeItem = undefined;
+    this.data.activeCode = undefined;
     if (!this.data.activeFile.length) {
-      return undefined;
+      return;
     }
 
-    const name = this.data.activeFile[0];
+    const id = this.data.activeFile[0];
 
     if (this.data.packageDetail && this.data.packageDetail.fileList) {
-      const currentFile = this.data.packageDetail.fileList.find(file => file.name === name);
+      const currentFile = this.data.packageDetail.fileList.find(file => file.id === id);
       if (currentFile) {
+        this.isLoadingCode = true;
         const code = DataStore.Instance.getFileContent(
           {
             scope: this.data.currentPackage ? this.data.currentPackage.scope : undefined,
@@ -423,11 +437,9 @@ export default class PackageDetail extends Vue {
           `${currentFile.path}${currentFile.name}`,
         ).then(content => {
           this.data.activeCode = content;
+          this.data.activeTreeItem = currentFile;
+          this.isLoadingCode = false;
         });
-        return {
-          id: currentFile.id,
-          name: currentFile.name,
-        };
       }
     }
   }
