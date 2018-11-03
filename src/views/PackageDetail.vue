@@ -93,11 +93,16 @@
                         </v-icon>
                       </template>
                     </v-treeview>
-                  </div> 
+                  </div>
                   <LoadingSpinner
-                    v-if="isLoadingCode"
+                    class="transition"
+                    :class="isLoadingCode? 'visible' : 'hidden'"
                   ></LoadingSpinner>
-                  <pre v-highlightjs v-if="data.activeTreeItem && !isLoadingCode" :key="data.activeTreeItem.id"><code>
+                  <pre
+                    class="file-content transition"
+                    v-highlightjs
+                    :class="(data.activeCode && !isLoadingCode)? 'visible' : 'hidden'" :key="data.activeTreeItem.id"
+                  ><code>
                     <span class="caption">{{data.activeTreeItem.name}}</span>{{data.activeCode}}</code>
                   </pre>
                 </div>
@@ -371,7 +376,11 @@ export default class PackageDetail extends Vue {
       open: ['public'],
       activeFile: [],
       activeCode: '',
-      activeTreeItem: undefined,
+      activeTreeItem: {
+        id: '',
+        name: '',
+        path: '',
+      },
     };
     this.isLoadingCode = false;
     Router.afterEach(route => {
@@ -418,7 +427,11 @@ export default class PackageDetail extends Vue {
       : target;
     const clickedLabel = label.innerHTML;
 
-    this.data.activeTreeItem = undefined;
+    this.data.activeTreeItem = {
+      id: '',
+      path: '',
+      name: ''
+    };
     this.data.activeCode = undefined;
     if (!this.data.activeFile.length) {
       return;
@@ -429,10 +442,10 @@ export default class PackageDetail extends Vue {
     if (this.data.packageDetail && this.data.packageDetail.fileList) {
       const currentFile = this.findFile(this.data.packageDetail.fileList, id);
       if (currentFile && !currentFile.children && currentFile.name === clickedLabel) {
-        this.isLoadingCode = true;
+        this.toggleLoading(true);
         const timeout = global.setTimeout(() => {
           if (!this.data.activeCode) {
-            this.isLoadingCode = false;
+            this.toggleLoading(false);
             EventBus.$emit(Errors.TIMEOUT_ERROR, new Error('Timeout Error. No code found.'));
           }
         }, 30000);
@@ -447,16 +460,20 @@ export default class PackageDetail extends Vue {
           .then(content => {
             this.data.activeCode = content;
             this.data.activeTreeItem = currentFile;
-            this.isLoadingCode = false;
+            this.toggleLoading(false);
             global.clearTimeout(timeout);
           })
           .catch(error => {
-            this.isLoadingCode = false;
+            this.toggleLoading(false);
             EventBus.$emit(Errors.SERVER_ERROR, error);
             global.clearTimeout(timeout);
           });
       }
     }
+  }
+
+  private toggleLoading(on: boolean): void {
+    this.isLoadingCode = on;
   }
 
   private findFile(treeItems: TreeItem[], id: string): TreeItem | undefined {
@@ -588,6 +605,27 @@ export default class PackageDetail extends Vue {
       }
     }
   }
+}
+
+.transition {
+  transition: all 500ms ease-in-out;
+}
+
+.visible {
+  visibility: visible;
+  opacity: 1;
+  height: auto;
+}
+
+.hidden {
+  visibility: hidden;
+  opacity: 0;
+  height: 0;
+}
+
+.file-content,
+.loading-spinner {
+  margin-top: 1.5em;
 }
 
 pre code.hljs {

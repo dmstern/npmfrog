@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid>
+  <v-container fluid class="laoding-spinner">
     <v-alert
       v-if="error.show"
       :value="true"
