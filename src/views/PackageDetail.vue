@@ -411,10 +411,6 @@ export default class PackageDetail extends Vue {
     });
   }
 
-  private onTreeItemClick(): void {
-    this.$nextTick(this.selectCode);
-  }
-
   private selectCode(): void {
     this.data.activeTreeItem = undefined;
     this.data.activeCode = undefined;
