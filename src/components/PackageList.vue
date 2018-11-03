@@ -16,7 +16,7 @@
           :text="config.artifactory.host">
         </ExternalLink>
       </v-subheader>
-      <template v-for="(item, index) in packages.data.sort((a, b) => a.time.modified < b.time.modified ? 1 : -1)">
+      <template v-for="(item, index) in packages.data">
         <v-list-tile
           :key='item.name'
           avatar
@@ -127,7 +127,8 @@ export default class Packages extends Vue {
               return true;
             }
             return item.matchesPattern(args.query);
-          });
+          })
+          .sort((a, b) => a.time.modified < b.time.modified ? 1 : -1);
       },
     );
   }
