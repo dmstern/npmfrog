@@ -247,7 +247,6 @@ export default class App extends Vue {
 
     EventBus.$on(anyError, error => {
       this.error.show = true;
-      console.error('feehler');
       if (error.response && error.response.data && typeof error.response.data === 'string') {
         const message: string = error.response.data;
         this.error.msg = message.includes('<body>')
