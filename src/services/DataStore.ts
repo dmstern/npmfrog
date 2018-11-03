@@ -41,12 +41,17 @@ export default class DataStore {
     [key: string]: Promise<string>;
   };
 
+  private fileContentCache: {
+    [key: string]: string;
+  };
+
   private constructor() {
     this.packages = [];
     this.tagList = [];
     this.crafterList = [];
     this.packageDetails = {};
     this.fileContentPromises = {};
+    this.fileContentCache = {};
   }
 
   public async getPackageDetail(
@@ -172,13 +177,17 @@ export default class DataStore {
 
   public async getFileContent(packageId: PackageId, filepath: string): Promise<string> {
     const key = `${packageId.scope}${packageId.packageName}${packageId.version}${filepath}`;
-    return (
-      this.fileContentPromises[key] ||
-      (this.fileContentPromises[key] = BackendApi.Instance.getFileContent(packageId, filepath).then(
-        response => {
-          return response.data;
-        },
-      ))
-    );
+    return this.fileContentCache[key]
+      ? new Promise<string>(resolve => {
+          resolve(this.fileContentCache[key]);
+        })
+      : this.fileContentPromises[key] ||
+          (this.fileContentPromises[key] = BackendApi.Instance.getFileContent(
+            packageId,
+            filepath,
+          ).then(response => {
+            this.fileContentCache[key] = response.data;
+            return response.data;
+          }));
   }
 }
