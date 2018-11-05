@@ -661,7 +661,7 @@ export default class PackageDetail extends Vue {
 @import '../assets/variables';
 
 .v-treeview-node {
-  &:not(.v-treeview-node--leaf) .v-treeview-node__content {
+  &:not(.v-treeview-node--leaf) > .v-treeview-node__root > .v-treeview-node__content {
     margin-left: 8px;
   }
 
