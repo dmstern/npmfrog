@@ -414,6 +414,7 @@ export default class PackageDetail extends Vue {
 
   private setVersion(version: string): void {
     this.resetCurrentPackage();
+    this.resetActiveCode();
     Promise.resolve(this.getPackageDetails(version));
   }
 
