@@ -191,6 +191,14 @@
           <PackageDetailItem title="install" :bigContent="false" v-if="data.config && data.config.artifactory" :icon="$vuetify.icons.install" :full="true">
             <CodeBlock :code="getInstallCode().config" language="bash"></CodeBlock>
             <CodeBlock :code="getInstallCode().install" language="bash"></CodeBlock>
+            <v-btn
+              color="success"
+              class="v-btn--standalone"
+              :href="data.versionsHistory[data.currentPackage.version].dist.tarball"
+            >
+              <v-icon left dark>{{$vuetify.icons.download}}</v-icon>
+              <span>Direct Download</span>
+            </v-btn>
           </PackageDetailItem>
           <PackageDetailItem title="Version" :icon="$vuetify.icons.version">
             <span>{{data.currentPackage.version}}</span>
@@ -671,6 +679,12 @@ export default class PackageDetail extends Vue {
         transform: rotate(0) scale($mdi2faScaleFactor);
       }
     }
+  }
+}
+
+.v-btn--standalone {
+  .v-card & {
+    margin-left: 0;
   }
 }
 
