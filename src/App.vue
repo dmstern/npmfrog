@@ -436,7 +436,7 @@ th {
   .heading &,
   .title &,
   .subtitle & .link--external &,
-  .v-btn:not(.v-btn--icon) & {
+  .v-btn:not(.v-btn--icon):not(.v-btn--floating) & {
     font-size: 1.2em;
   }
 }
