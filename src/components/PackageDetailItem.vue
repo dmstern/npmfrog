@@ -49,10 +49,13 @@ export default class PackageDetailItem extends Vue {
   a:not([href='#']),
   .v-avatar {
     margin-right: 0.5em;
-    transition: $transition-smooth;
+    transition: $transition-fast;
+  }
 
+  .v-avatar {
     &:hover {
-      box-shadow: $shadow-focused;
+      box-shadow: $shadow-floating;
+      transform: scale(1.1);
     }
   }
 }
