@@ -32,7 +32,7 @@
           </p>
           <p>
             This tool requests meta data of npm packages that were published to jFrog's npm registry on <ExternalLink :href="`http${data.config.artifactory.https? 's' : ''}://${data.config.artifactory.host}`" :text="data.config.artifactory.host"></ExternalLink> for integration into another front-end project or for deployment as a back-end dependency.
-            It and aims to display them in a way that should help front-end developers to discover the best in-house javascript solutions to solve a specific problem.
+            It aims to display them in a way that should help front-end developers to discover the best in-house javascript solutions to solve a specific problem.
           </p>
           <p>
             It's code is developed as open source and published on <ExternalLink :href="data.meta.repository.url" text="GitHub" :icon="$vuetify.icons.github"></ExternalLink>.
