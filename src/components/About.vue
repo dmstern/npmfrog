@@ -1,8 +1,8 @@
 <template>
     <v-dialog
       v-model="dialog"
-      width="500"
       scrollable
+      width="70%"
     >
 
       <v-list-tile slot="activator" color="primary" class="v-list__tile--link">
