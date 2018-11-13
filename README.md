@@ -7,6 +7,18 @@ The latter lacks of a good UI for web devlopers, so npmFrog will present you the
 
 It's free and open source.
 
+![Screenshot](art/screenshot-list.png)
+
+![Screenshot](art/screenshot-search.png)
+
+![Screenshot](art/screenshot-detail.png)
+
+![Screenshot](art/screenshot-crafter.png)
+
+![Screenshot](art/screenshot-scripts.png)
+
+![Screenshot](art/screenshot-files.png)
+
 ## Installation
 
 ```bash
