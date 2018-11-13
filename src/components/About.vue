@@ -3,9 +3,10 @@
       v-model="dialog"
       scrollable
       width="70%"
+      :key="status()"
     >
 
-      <v-list-tile slot="activator" color="primary" class="v-list__tile--link">
+      <v-list-tile slot="activator" color="primary" class="v-list__tile--link" @click="open()">
         <v-list-tile-action>
           <v-icon>{{$vuetify.icons.about}}</v-icon>
         </v-list-tile-action>
@@ -104,7 +105,7 @@
           <v-btn
             color="primary"
             flat
-            @click="dialog = false"
+            @click="close()"
           >
             Close
           </v-btn>
@@ -119,6 +120,7 @@ import DataStore from '@/services/DataStore';
 import Config from '../../types/Config';
 import { IPackageJSON } from '../../types/package-json';
 import ExternalLink from './ExternalLink.vue';
+import Router from '../router';
 
 @Component({
   name: 'About',
@@ -141,7 +143,7 @@ export default class About extends Vue {
 
   constructor() {
     super();
-    this.dialog = false;
+    this.dialog = Router.currentRoute.hash === '#about';
     this.data = {
       meta: undefined,
       config: {
@@ -170,6 +172,22 @@ export default class About extends Vue {
         this.data.config = response;
       }
     });
+  }
+
+  private open(): void {
+    Router.push('#about');
+    this.dialog = true;
+  }
+
+  private close(): void {
+    this.dialog = false;
+  }
+
+  private status(): boolean {
+    if (!this.dialog) {
+      Router.push(Router.currentRoute.path);
+    }
+    return this.dialog;
   }
 }
 </script>
