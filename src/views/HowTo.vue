@@ -37,7 +37,7 @@
       <h2>Define files that should be included in your npm package</h2>
       <CodeBlock :title="`package.json (example)`" :code="data.codes[1]()" :language="`json`"></CodeBlock>
       <h2>Commit everything</h2>
-      <CodeBlock code="git commit" language="bash"></CodeBlock>
+      <CodeBlock :code="data.codes[2]()" language="bash"></CodeBlock>
       <h2>Create a new version of your package</h2>
       <pre v-highlightjs><code class="bash">npm version [&lt;newversion&gt; | major | minor | patch ] [-m "VERSION_MESSAGE"]
 
@@ -116,6 +116,9 @@ export default class HowTo extends Vue {
     "cli.js"
     "index.js"
   ]`;
+      },
+      () => {
+        return `git commit -am "<some descriptive message>"`;
       },
     );
   }
