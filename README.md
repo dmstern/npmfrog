@@ -2,6 +2,18 @@
 
 A nice npmjs.org-like web interface for jFrog Artifactory
 
+![Screenshot](art/screenshot-list.png)
+
+![Screenshot](art/screenshot-search.png)
+
+![Screenshot](art/screenshot-detail.png)
+
+![Screenshot](art/screenshot-crafter.png)
+
+![Screenshot](art/screenshot-scripts.png)
+
+![Screenshot](art/screenshot-files.png)
+
 ## Installation
 
 ```bash
