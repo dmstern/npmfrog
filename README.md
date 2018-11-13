@@ -13,7 +13,7 @@ It's free and open source.
 npm i -g npmfrog
 ```
 
-Duplicate the file `.SAMPLE.npmfrogrc.json` and rename it to `.npmfrogrc.json` (you either leave it in the project directory or put it in your home directory).
+Duplicate the file `.SAMPLE.npmfrogrc.json` and rename it to `.npmfrogrc.json` (either leave it in the project directory or put it in your home directory).
 
 ## Usage
 
