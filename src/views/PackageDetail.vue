@@ -401,6 +401,7 @@ export default class PackageDetail extends Vue {
     this.data.config = undefined;
     this.data.currentTags = {};
     this.data.versionsHistory = {};
+    this.resetActiveCode();
   }
 
   private resetCurrentPackage(): void {
