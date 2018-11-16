@@ -5,9 +5,7 @@ import Config from '../types/Config';
 
 const homedir = os.homedir();
 
-const configFile = process.env.MOCK
-  ? '.sample.npmfrogrc.json'
-  : '.npmfrogrc.json';
+const configFile = process.env.MOCK ? '.sample.npmfrogrc.json' : '.npmfrogrc.json';
 let config: Config;
 
 try {

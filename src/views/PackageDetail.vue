@@ -98,12 +98,8 @@
                     </v-treeview>
                   </div>
                   <v-alert
-                    :value="data.activeTreeItem && data.activeTreeItem.size && (
-                      (
-                        (data.activeTreeItem.size > maxSizeToShowContent) ||
-                        !isHighlightableType(data.activeTreeItem)
-                      )
-                    )"
+                    v-if="data.activeTreeItem && data.activeTreeItem.size"
+                    :value="(data.activeTreeItem.size > maxSizeToShowContent) || !isHighlightableType(data.activeTreeItem)"
                     type="warning"
                   >
                     <h3>
@@ -112,7 +108,7 @@
                       >
                         This file is too big to show it's content (> {{maxSizeToShowContent / 1000}} kB).
                       </span>
-                      <span v-if="!isHighlightableType(data.activeTreeItem)">This filetype ({{data.activeTreeItem.type}}) is not supported.</span>
+                      <span v-if="!isHighlightableType(data.activeTreeItem)">This filetype ({{`${data.activeTreeItem.type}`}}) is not supported.</span>
                     </h3>
                     But you can download it here: <ExternalLink :href="`${baseUrl}/packageDetail/${
                       data.currentPackage ? data.currentPackage.scope : undefined
@@ -131,7 +127,7 @@
                     :class="(data.activeTreeItem.name && !isLoadingCode)? 'visible' : 'hidden'"
                     :key="data.activeTreeItem.id"
                     :language="getLanguage(data.activeTreeItem.name)"
-                    v-if="data.activeCode !== undefined && data.activeTreeItem.type && isHighlightableType(data.activeTreeItem)"
+                    v-if="data.activeCode !== undefined && isHighlightableType(data.activeTreeItem)"
                   ></CodeBlock>
                 </div>
               </v-card-text>
@@ -526,10 +522,11 @@ export default class PackageDetail extends Vue {
 
   private isHighlightableType(item: TreeItem): boolean {
     return (
-      item.type !== undefined &&
-      (item.type.endsWith('json') ||
-        item.type.endsWith('application/javascript') ||
-        item.type.startsWith('text'))
+      item.type === null ||
+      (item.type !== undefined &&
+        (item.type.endsWith('json') ||
+          item.type.endsWith('application/javascript') ||
+          item.type.startsWith('text')))
     );
   }
 
