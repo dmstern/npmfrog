@@ -525,12 +525,12 @@ export default class PackageDetail extends Vue {
   }
 
   private isHighlightableType(item: TreeItem): boolean {
-    return item.type !== undefined &&
-      (
-        item.type.endsWith('json') ||
+    return (
+      item.type !== undefined &&
+      (item.type.endsWith('json') ||
         item.type.endsWith('application/javascript') ||
-        item.type.startsWith('text')
-      );
+        item.type.startsWith('text'))
+    );
   }
 
   private resetActiveCode(): void {
