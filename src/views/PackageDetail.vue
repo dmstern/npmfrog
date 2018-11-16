@@ -90,8 +90,36 @@
                           {{ getFileIcon(item.name) }}
                         </v-icon>
                       </template>
+                      <template slot="append" slot-scope="{ item }" v-if="item.size !== undefined">
+                        <v-list-tile-action>
+                          {{ fileSize(item.size) }}
+                        </v-list-tile-action>
+                      </template>
                     </v-treeview>
                   </div>
+                  <v-alert
+                    :value="data.activeTreeItem && data.activeTreeItem.size && (
+                      (
+                        (data.activeTreeItem.size > maxSizeToShowContent) ||
+                        !isHighlightableType(data.activeTreeItem)
+                      )
+                    )"
+                    type="warning"
+                  >
+                    <h3>
+                      <span
+                        v-if="data.activeTreeItem.size > maxSizeToShowContent"
+                      >
+                        This file is too big to show it's content (> {{maxSizeToShowContent / 1000}} kB).
+                      </span>
+                      <span v-if="!isHighlightableType(data.activeTreeItem)">This filetype ({{data.activeTreeItem.type}}) is not supported.</span>
+                    </h3>
+                    But you can download it here: <ExternalLink :href="`${baseUrl}/packageDetail/${
+                      data.currentPackage ? data.currentPackage.scope : undefined
+                      }/${$router.currentRoute.params.packageName}/${
+                        data.currentPackage ? data.currentPackage.version : undefined
+                      }/files/${encodeURIComponent(`${data.activeTreeItem.path}/${data.activeTreeItem.name}`)}?format=file`"></ExternalLink>
+                  </v-alert>
                   <LoadingSpinner
                     class="transition"
                     :class="isLoadingCode? 'visible' : 'hidden'"
@@ -103,6 +131,7 @@
                     :class="(data.activeTreeItem.name && !isLoadingCode)? 'visible' : 'hidden'"
                     :key="data.activeTreeItem.id"
                     :language="getLanguage(data.activeTreeItem.name)"
+                    v-if="data.activeCode !== undefined && data.activeTreeItem.type && isHighlightableType(data.activeTreeItem)"
                   ></CodeBlock>
                 </div>
               </v-card-text>
@@ -326,6 +355,8 @@ import Searchable from '../../types/Searchable';
 import { icons } from '../plugins/vuetify';
 import { close } from 'fs';
 import TreeItem from '../../types/TreeItem';
+import Util from '../util/Util';
+import BackendApi from '../services/BackendApi';
 
 @Component({
   components: {
@@ -395,6 +426,10 @@ export default class PackageDetail extends Vue {
     this.init();
   }
 
+  private get baseUrl(): string {
+    return BackendApi.Instance.getBaseURL();
+  }
+
   private resetModel(): void {
     this.activeTab = 0;
     this.resetCurrentPackage();
@@ -425,6 +460,10 @@ export default class PackageDetail extends Vue {
     });
   }
 
+  private get maxSizeToShowContent(): number {
+    return 50000;
+  }
+
   private selectCode(event: Event): void {
     const target = event.target as HTMLElement;
     const label = target.classList.contains('v-icon')
@@ -442,42 +481,56 @@ export default class PackageDetail extends Vue {
     if (this.data.packageDetail && this.data.packageDetail.fileList) {
       const currentFile = this.findFile(this.data.packageDetail.fileList, id);
       if (currentFile && !currentFile.children && currentFile.name === clickedLabel) {
-        this.toggleLoading(true);
-        const timeout = global.setTimeout(() => {
-          if (!this.data.activeCode) {
-            this.toggleLoading(false);
-            EventBus.$emit(Errors.TIMEOUT_ERROR, new Error('Timeout Error. No code found.'));
-          }
-        }, 30000);
-        const code = DataStore.Instance.getFileContent(
-          {
-            scope: this.data.currentPackage ? this.data.currentPackage.scope : undefined,
-            packageName: Router.currentRoute.params.packageName,
-            version: this.data.currentPackage ? this.data.currentPackage.version : undefined,
-          },
-          encodeURIComponent(`${currentFile.path}/${currentFile.name}`),
-        )
-          .then(content => {
-            if (typeof content === 'string') {
-              this.data.activeCode = content;
-            } else {
-              try {
-                this.data.activeCode = JSON.stringify(content, null, 2);
-              } catch (error) {
-                this.data.activeCode = 'Error: Could not display file content.';
-              }
+        if (currentFile.size !== undefined && currentFile.size > this.maxSizeToShowContent) {
+          this.data.activeTreeItem = currentFile;
+          this.data.activeCode = undefined;
+        } else {
+          this.toggleLoading(true);
+          const timeout = global.setTimeout(() => {
+            if (!this.data.activeCode) {
+              this.toggleLoading(false);
+              EventBus.$emit(Errors.TIMEOUT_ERROR, new Error('Timeout Error. No code found.'));
             }
-            this.data.activeTreeItem = currentFile;
-            this.toggleLoading(false);
-            global.clearTimeout(timeout);
-          })
-          .catch(error => {
-            this.toggleLoading(false);
-            EventBus.$emit(Errors.SERVER_ERROR, error);
-            global.clearTimeout(timeout);
-          });
+          }, 30000);
+          const code = DataStore.Instance.getFileContent(
+            {
+              scope: this.data.currentPackage ? this.data.currentPackage.scope : undefined,
+              packageName: Router.currentRoute.params.packageName,
+              version: this.data.currentPackage ? this.data.currentPackage.version : undefined,
+            },
+            encodeURIComponent(`${currentFile.path}/${currentFile.name}`),
+          )
+            .then(content => {
+              if (typeof content === 'string') {
+                this.data.activeCode = content;
+              } else {
+                try {
+                  this.data.activeCode = JSON.stringify(content, null, 2);
+                } catch (error) {
+                  this.data.activeCode = 'Error: Could not display file content.';
+                }
+              }
+              this.data.activeTreeItem = currentFile;
+              this.toggleLoading(false);
+              global.clearTimeout(timeout);
+            })
+            .catch(error => {
+              this.toggleLoading(false);
+              EventBus.$emit(Errors.SERVER_ERROR, error);
+              global.clearTimeout(timeout);
+            });
+        }
       }
     }
+  }
+
+  private isHighlightableType(item: TreeItem): boolean {
+    return item.type !== undefined &&
+      (
+        item.type.endsWith('json') ||
+        item.type.endsWith('application/javascript') ||
+        item.type.startsWith('text')
+      );
   }
 
   private resetActiveCode(): void {
@@ -641,7 +694,11 @@ export default class PackageDetail extends Vue {
         return languages[extension];
       }
     }
-    return 'javascript';
+    return 'plaintext';
+  }
+
+  private fileSize(bytes: number): string {
+    return Util.fileSize(bytes);
   }
 
   private isOld(): boolean | undefined {
@@ -708,9 +765,8 @@ export default class PackageDetail extends Vue {
   padding: 0 !important;
 }
 
-.file-content,
-.loading-spinner {
-  margin-top: 2rem;
+.v-treeview {
+  margin-bottom: 2rem;
 }
 
 pre code.hljs {
