@@ -175,7 +175,11 @@ export default class DataStore {
       });
   }
 
-  public async getFileContent(packageId: PackageId, filepath: string): Promise<string> {
+  public async getFileContent(
+    packageId: PackageId,
+    filepath: string,
+    format: string = 'string',
+  ): Promise<string> {
     const key = `${packageId.scope}${packageId.packageName}${packageId.version}${filepath}`;
     return this.fileContentCache[key]
       ? new Promise<string>(resolve => {
@@ -185,6 +189,7 @@ export default class DataStore {
           (this.fileContentPromises[key] = BackendApi.Instance.getFileContent(
             packageId,
             filepath,
+            format,
           ).then(response => {
             this.fileContentCache[key] = response.data;
             return response.data;

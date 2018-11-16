@@ -1,6 +1,7 @@
 import { promisify } from 'util';
 import { resolve } from 'path';
 import * as fs from 'fs';
+import * as mime from 'mime';
 
 const readdir = promisify(fs.readdir);
 const stat = promisify(fs.stat);
@@ -24,7 +25,8 @@ export default async function getFiles(
   return await Promise.all(
     subdirs.map(async subdir => {
       const res = resolve(dir, subdir);
-      return (await stat(res)).isDirectory()
+      const stats = await stat(res);
+      return stats.isDirectory()
         ? {
             id: generateId(),
             name: subdir,
@@ -34,6 +36,8 @@ export default async function getFiles(
             id: generateId(),
             name: subdir,
             path: recursive ? sub.substring(sub.indexOf('/') + 1, sub.length) : '',
+            size: stats.size,
+            type: mime.getType(subdir),
           };
     }),
   );

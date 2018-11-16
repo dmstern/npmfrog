@@ -203,8 +203,11 @@ function getDistTags({ scope, packageName }: PackageId): AxiosPromise<any> {
     : axios.get(`/-/package/${name2url({ scope, packageName })}/dist-tags`);
 }
 
-async function getFileContent(packageId: PackageId, filepath: string): Promise<string> {
-  const versionResponse = await getDistTags(packageId);
+async function getFileContent(
+  packageId: PackageId,
+  filepath: string,
+  format: string = 'string',
+): Promise<string | Buffer> {
   const absPath = path.join(
     tmpDir,
     packageId.scope,
@@ -213,7 +216,9 @@ async function getFileContent(packageId: PackageId, filepath: string): Promise<s
     'package',
     filepath,
   );
-  return fs.readFileSync(absPath).toString();
+  const fileContent = fs.readFileSync(absPath);
+  console.log(format === 'string');
+  return format === 'string' ? fileContent.toString() : fileContent;
 }
 
 export default {

@@ -28,6 +28,10 @@ export default class BackendApi {
     return this.instance || (this.instance = new this());
   }
 
+  public getBaseURL(): string {
+    return this.baseURL;
+  }
+
   public getPackages(): AxiosPromise<PackagesResponse> {
     return this.get('packages');
   }
@@ -44,11 +48,15 @@ export default class BackendApi {
     return this.get(`packageDetail/${scope}/${packageName}${version ? `/${version}` : ''}`);
   }
 
-  public getFileContent(packageId: PackageId, filepath: string): AxiosPromise<string> {
+  public getFileContent(
+    packageId: PackageId,
+    filepath: string,
+    format: string = 'string',
+  ): AxiosPromise<string> {
     return this.get(
       `packageDetail/${packageId.scope}/${packageId.packageName}${
         packageId.version ? `/${packageId.version}` : ''
-      }/files/${filepath}`,
+      }/files/${filepath}?format=${format}`,
     );
   }
 
