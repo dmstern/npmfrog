@@ -1,9 +1,9 @@
 # npmFrog
 
-> A nice npmjs.org-like web interface for jFrog Artifactory
+> A nice npmjs.org-like web interface for JFrog Artifactory
 
-To share frontend code inside your company between different projects and developers, you can use a private npm registry like Verdaccio or jFrog's Artifactory (which is often used for Maven dependency management in the Java Environment).
-The latter lacks of a good UI for web devlopers, so npmFrog will present you the self-hosted packages of your company in a more familiar and discoverable way.
+To share frontend code in your company or team between different projects and developers, you can use a private npm registry like [Verdaccio](https://verdaccio.org/) or [JFrog's Artifactory](https://www.jfrog.com/confluence/display/RTF/Npm+Registry) (which is often used for Maven dependency management in the Java Environment).
+The latter lacks of a good UI for web devlopers, so npmFrog is here to present you the self-hosted packages of your team in a more familiar and discoverable way.
 
 It's free and open source. :)
 
@@ -19,6 +19,11 @@ It's free and open source. :)
 
 ![Screenshot](art/screenshot-files.png)
 
+## Prerequisites
+
+* [Node.js >= 8.x](https://nodejs.org/en/download/)
+* JFrog Artifactory is running somewhere in your company's network
+
 ## Installation
 
 ```bash
@@ -31,7 +36,7 @@ npm i -g npmfrog
 npmfrog
 ```
 
-At the first start up, npmFrog will create a config file in your home directory under `~/.npmfrog/config.json`. Please fill this file with with your artifactory properties.
+At the first start up, npmFrog will create a configuration file in your home directory under `~/.npmfrog/config.json`. Please fill this file with with your artifactory properties.
 
 Browse to npmFrog instance [http://localhost:8000](http://localhost:8000).
 
