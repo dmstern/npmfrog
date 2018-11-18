@@ -24,10 +24,7 @@ export default class Crafter extends Searchable {
 
   private static lastUsedColorNumber: number = -1;
   private static colors: string[] = Object.keys(vuetifyColors).filter(color => {
-    return (
-      !forbiddenColors.some(forbidden => forbidden === color) &&
-      !color.startsWith('light')
-    );
+    return !forbiddenColors.some(forbidden => forbidden === color) && !color.startsWith('light');
   });
   private static allCrafters: Crafter[] = [];
 
@@ -61,9 +58,7 @@ export default class Crafter extends Searchable {
         Object.assign(this, author);
       }
     }
-    const alreadyCreatedCrafter = Crafter.allCrafters.find(crafter =>
-      crafter.equals(this),
-    );
+    const alreadyCreatedCrafter = Crafter.allCrafters.find(crafter => crafter.equals(this));
     if (alreadyCreatedCrafter) {
       return alreadyCreatedCrafter;
     } else {
@@ -75,10 +70,7 @@ export default class Crafter extends Searchable {
     if (other instanceof Crafter && other.equals(this)) {
       return true;
     }
-    if (
-      other instanceof Package &&
-      other.crafters.some(crafter => crafter.equals(this))
-    ) {
+    if (other instanceof Package && other.crafters.some(crafter => crafter.equals(this))) {
       return true;
     }
     for (const item of packages) {
@@ -101,12 +93,7 @@ export default class Crafter extends Searchable {
         `collaborator:${this.name}`,
       );
     }
-    text.push(
-      this.name || '',
-      this.email || '',
-      this.url || '',
-      this.initials || '',
-    );
+    text.push(this.name || '', this.email || '', this.url || '', this.initials || '');
     return text;
   }
 
@@ -118,10 +105,6 @@ export default class Crafter extends Searchable {
     if (this.email && other.email) {
       return this.email === other.email;
     }
-    return (
-      this.name === other.name &&
-      this.email === other.email &&
-      this.url === other.url
-    );
+    return this.name === other.name && this.email === other.email && this.url === other.url;
   }
 }

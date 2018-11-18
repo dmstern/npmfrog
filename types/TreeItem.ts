@@ -3,4 +3,6 @@ export default interface TreeItem {
   readonly name: string;
   readonly path: string;
   readonly children?: TreeItem[];
+  readonly size?: number;
+  readonly type?: string;
 }

@@ -72,6 +72,7 @@ app.get('/packageDetail/:scope/:packageName/:version/files/:path', (req, res) =>
           version: req.params.version,
         },
         req.params.path,
+        req.query.format,
       )
       .then(response => {
         res.send(response);
