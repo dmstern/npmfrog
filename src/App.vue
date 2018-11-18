@@ -137,24 +137,24 @@
       <v-spacer></v-spacer>
     </v-toolbar>
     <v-content>
-       <router-view/> 
-         <v-snackbar
-          v-model="error.show"
-          bottom
-          right
-          auto-height
-          color="error"
-          :timeout="0"
+      <router-view/>
+      <v-snackbar
+        v-model="error.show"
+        bottom
+        right
+        auto-height
+        color="error"
+        :timeout="0"
+      >
+        <span class="error__message" v-html="error.msg"></span>
+        <v-btn
+          dark
+          flat
+          @click="error.show = false"
         >
-          <span class="error__message" v-html="error.msg"></span>
-          <v-btn
-            dark
-            flat
-            @click="error.show = false"
-          >
-            Close
-          </v-btn>
-        </v-snackbar>
+          Close
+        </v-btn>
+      </v-snackbar>
     </v-content>
   </v-app>
 </template>
@@ -271,9 +271,14 @@ export default class App extends Vue {
   }
 
   private loadPackages(): void {
-    DataStore.Instance.getPackages().then((packages: Package[]) => {
-      this.searchItems = DataStore.Instance.searchItems;
-      this.filterSearchItems();
+    DataStore.Instance.getConfig().then(config => {
+      if (!config.artifactory.host.startsWith('<')) {
+        DataStore.Instance.getPackages().then((packages: Package[]) => {
+          // TODO wtf?
+          this.searchItems = DataStore.Instance.searchItems;
+          this.filterSearchItems();
+        });
+      }
     });
   }
 

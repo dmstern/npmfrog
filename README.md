@@ -25,13 +25,13 @@ It's free and open source.
 npm i -g npmfrog
 ```
 
-Duplicate the file `.SAMPLE.npmfrogrc.json` and rename it to `.npmfrogrc.json` (either leave it in the project directory or put it in your home directory).
-
 ## Usage
 
 ```bash
 npmfrog
 ```
+
+At the first start up, npmFrog will create a config file in your home directory under `~/.npmfrog/config.json`. Please fill this file with with your artifactory properties.
 
 Browse to npmFrog instance [http://localhost:8000](http://localhost:8000).
 

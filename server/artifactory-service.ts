@@ -7,16 +7,26 @@ import * as emoji from 'node-emoji';
 import { PackagesResponse } from '../types/PackageResponse';
 import PackageId from '../types/PackageId';
 import getFiles from './fileLister';
+import * as os from 'os';
 
-import config from './config-service.js';
-const repoKey = config.artifactory.repoKey;
-const tmpDir = `${__dirname}/../../package-cache`;
+import configService from './config-service.js';
+
+const tmpDir = path.join(os.homedir(), '.npmfrog', 'package-cache');
 const packageDetailCache = {};
-
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
-const s = config.artifactory.https ? 's' : '';
-axios.defaults.baseURL = `http${s}://${config.artifactory.host}/artifactory/api/npm/${repoKey}`;
-axios.defaults.headers.common.Authorization = config.artifactory.apiKey;
+
+configService
+  .getConfig()
+  .then(config => {
+    const repoKey = config.artifactory.repoKey;
+    const s = config.artifactory.https ? 's' : '';
+
+    axios.defaults.baseURL = `http${s}://${config.artifactory.host}/artifactory/api/npm/${repoKey}`;
+    axios.defaults.headers.common.Authorization = config.artifactory.apiKey;
+  })
+  .catch(error => {
+    console.error(error);
+  });
 
 interface AdditionalCode {
   readme: string;

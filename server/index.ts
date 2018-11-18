@@ -4,8 +4,8 @@ import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 import * as morgan from 'morgan';
 import * as fs from 'fs-extra';
+import configService from './config-service';
 import artifactoryService from './artifactory-service';
-import config from './config-service';
 
 const portNumber = 30001;
 
@@ -83,18 +83,21 @@ app.get('/packageDetail/:scope/:packageName/:version/files/:path', (req, res) =>
 });
 
 app.get('/config', (req, res) => {
-  try {
-    res.send({
-      artifactory: {
-        host: config.artifactory.host,
-        repoKey: config.artifactory.repoKey,
-        https: config.artifactory.https,
-      },
-      companyScope: config.companyScope,
+  configService
+    .getConfig()
+    .then(config => {
+      res.send({
+        artifactory: {
+          host: config.artifactory.host,
+          repoKey: config.artifactory.repoKey,
+          https: config.artifactory.https,
+        },
+        companyScope: config.companyScope,
+      });
+    })
+    .catch(error => {
+      handleError(error, res, `Could not get npmFrog config from server.`);
     });
-  } catch (error) {
-    handleError(error, res, `Could not get npmFrog config from server.`);
-  }
 });
 
 app.get('/meta', (req, res) => {
