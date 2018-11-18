@@ -272,9 +272,8 @@ export default class App extends Vue {
 
   private loadPackages(): void {
     DataStore.Instance.getConfig().then(config => {
-      if (!config.artifactory.host.startsWith('<')) {
-        DataStore.Instance.getPackages().then((packages: Package[]) => {
-          // TODO wtf?
+      if (config && !config.artifactory.host.startsWith('<')) {
+        DataStore.Instance.getPackages().then(() => {
           this.searchItems = DataStore.Instance.searchItems;
           this.filterSearchItems();
         });
