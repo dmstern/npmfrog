@@ -7,3 +7,9 @@ export default interface Config {
   };
   companyScope: string;
 }
+
+export enum Status {
+  loading,
+  firstStartUp,
+  configured,
+}

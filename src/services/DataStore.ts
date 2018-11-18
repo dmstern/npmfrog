@@ -141,21 +141,16 @@ export default class DataStore {
       }));
   }
 
-  public getConfig(): Promise<Config | undefined> {
+  public getConfig(): Promise<Config> {
     if (this.config) {
       return new Promise((resolve, reject) => {
         resolve(this.config);
       });
     }
-    return BackendApi.Instance.getConfig()
-      .then(response => {
-        this.config = response.data;
-        return this.config;
-      })
-      .catch(error => {
-        EventBus.$emit(Errors.SERVER_ERROR, error);
-        return undefined;
-      });
+    return BackendApi.Instance.getConfig().then(response => {
+      this.config = response.data;
+      return this.config;
+    });
   }
 
   public getMetaInfo(): Promise<IPackageJSON | undefined> {
