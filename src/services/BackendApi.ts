@@ -11,14 +11,7 @@ export default class BackendApi {
   private baseURL: string;
 
   private constructor() {
-    let cloudPort;
-    try {
-      cloudPort = require('../../.backend').port;
-    } catch (e) {
-      cloudPort = undefined;
-    }
-    this.baseURL = `//${document.location ? document.location.hostname : 'localhost'}:${cloudPort ||
-      '30001'}`;
+    this.baseURL = `//${document.location ? document.location.hostname : 'localhost'}:30001`;
     this.axios = axios.create({
       baseURL: this.baseURL,
     });
