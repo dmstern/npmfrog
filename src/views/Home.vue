@@ -7,7 +7,7 @@
       It looks like this is your first startup and npmFrog hasn't set up correctly.
       Please open the config file <code>~/.npmfrog/config.json</code> in the server's home directory and change the defaults to your artifacory properties.
     </v-alert>
-    <PackageList v-if="data.status.toString() === '2'" startMsg="Loading packages..."/>
+    <PackageList :class="data.status.toString() !== '2' ? 'hidden' : ''" startMsg="Loading packages..."/>
   </div>
 </template>
 
@@ -32,9 +32,12 @@ export default class Home extends Vue {
     this.data = {
       status: Status.loading,
     };
+    this.getStatus();
+  }
 
+  private getStatus(): void {
     DataStore.Instance.getConfig().then(config => {
-      if (config.artifactory.host.startsWith('<')) {
+      if (config && config.artifactory.host.startsWith('<')) {
         this.data.status = Status.firstStartUp;
       } else {
         this.data.status = Status.configured;
