@@ -110,11 +110,16 @@
                       </span>
                       <span v-if="!isHighlightableType(data.activeTreeItem)">This filetype ({{`${data.activeTreeItem.type}`}}) is not supported.</span>
                     </h3>
-                    But you can download it here: <ExternalLink :href="`${baseUrl}/packageDetail/${
-                      data.currentPackage ? data.currentPackage.scope : undefined
-                      }/${$router.currentRoute.params.packageName}/${
-                        data.currentPackage ? data.currentPackage.version : undefined
-                      }/files/${encodeURIComponent(`${data.activeTreeItem.path}/${data.activeTreeItem.name}`)}?format=file`"></ExternalLink>
+                    But you can download it here:
+                    <ExternalLink
+                      :href="`${baseUrl}/packageDetail/${
+                        data.currentPackage ? data.currentPackage.scope : undefined
+                        }/${$router.currentRoute.params.packageName}/${
+                          data.currentPackage ? data.currentPackage.version : undefined
+                        }/files/${encodeURIComponent(`${data.activeTreeItem.path}/${data.activeTreeItem.name}`)}?format=file`"
+                      :newTab="false"
+                      :icon="$vuetify.icons.download"
+                    ></ExternalLink>
                   </v-alert>
                   <LoadingSpinner
                     class="transition"
@@ -300,7 +305,7 @@
                       <v-list-tile-action>
                         <v-icon>{{$vuetify.icons.email}}</v-icon>
                       </v-list-tile-action>
-                      <v-list-tile-title>mailto:{{crafter.email}}</v-list-tile-title>
+                      <v-list-tile-title>{{crafter.email}}</v-list-tile-title>
                     </v-list-tile>
                   </a>
                 </v-list>
