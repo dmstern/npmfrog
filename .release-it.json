@@ -7,7 +7,7 @@
     "tag": true,
     "commit": true
   },
-  "buildCommand": "npm run build",
+  "buildCommand": "npm i && npm run build",
   "npm": {
     "publish": true
   }
