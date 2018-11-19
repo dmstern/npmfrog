@@ -18,7 +18,7 @@ const allowedCliCommands = ['stop', 'logs'];
 const command: string[] =
   allowedCliCommands.indexOf(firstArg) > -1 ? ['run', firstArg] : startCommand;
 
-const run = execute(`npm`, command);
+const run = execute(`npm`, command, { cwd: __dirname, env: process.env });
 
 run.stdout.on('data', data => {
   console.log(data.toString());
