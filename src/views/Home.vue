@@ -5,7 +5,7 @@
       :value="data.status.toString() === '1'"
     >
       It looks like this is your first startup and npmFrog hasn't set up correctly.
-      Please open the config file <code>~/.npmfrog/config.json</code> in the server's home directory and change the defaults to your artifacory properties.
+      Please open the config file <code>~/.npmfrog/config.json</code> in the server's home directory and change the defaults to your artifacory properties and restart the server.
     </v-alert>
     <PackageList :class="data.status.toString() !== '2' ? 'hidden' : ''" startMsg="Loading packages..."/>
   </div>
