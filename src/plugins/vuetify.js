@@ -44,7 +44,7 @@ export const icons = {
   bullhorn: 'fas fa-bullhorn',
   folder: 'far fa-folder',
   folderOpen: 'far fa-folder-open',
-  file: 'far fa-file',
+  file: 'fas fa-file',
   fileTxt: 'far fa-file-alt',
   fileImage: 'far fa-file-image',
   fileVideo: 'far fa-file-video',
@@ -118,7 +118,7 @@ icons.avi = icons.fileVideo;
 icons.wmv = icons.fileVideo;
 icons.m4p = icons.fileVideo;
 icons.m4v = icons.fileVideo;
-icons.yml = icons.configFile;
+icons.yml = icons.fileTxt;
 icons.yaml = icons.yml;
 icons.hbs = icons.html;
 icons.nunj = icons.html;
