@@ -522,6 +522,7 @@ export default class PackageDetail extends Vue {
 
   private isHighlightableType(item: TreeItem): boolean {
     return (
+      this.getLanguage(item.name) !== 'plaintext' ||
       item.type === null ||
       (item.type !== undefined &&
         (item.type.endsWith('json') ||
