@@ -58,7 +58,6 @@ export default class Package extends Searchable implements PackageMetaDataDTO {
   public readonly bugTrackerUrl?: string;
   public readonly dependenciesCount: number;
   public readonly scope: string | undefined;
-  public readonly mainCode: string | undefined;
   public readonly fileList?: TreeItem[];
   private craftersList: Crafter[];
   private tagList: Tag[];

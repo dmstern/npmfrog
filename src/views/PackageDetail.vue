@@ -46,7 +46,7 @@
               </v-card-text>
             </v-tab-item>
             <v-tab-item>
-              <v-card-text v-if="data.packageDetail.mainCode || data.currentPackage.scripts">
+              <v-card-text v-if="data.packageDetail.fileList || data.currentPackage.scripts">
                 <div v-if="data.currentPackage.scripts">
                   <h2>Scripts</h2>
 

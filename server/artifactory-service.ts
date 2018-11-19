@@ -30,7 +30,6 @@ configService
 
 interface AdditionalCode {
   readme: string;
-  mainCode: string | undefined;
   fileList;
 }
 
@@ -61,16 +60,6 @@ function readme2Html(readmeFile: string): string {
   const converter = new showdown.Converter();
   const html = converter.makeHtml(emojifiedReadme);
   return html;
-}
-
-function readMainCode(storageDir: string): string {
-  const packageJson = fs.readJSONSync(path.join(storageDir, `package.json`));
-  try {
-    return fs.readFileSync(path.join(storageDir, packageJson.main)).toString();
-  } catch (error) {
-    console.error(`MainCode file not found: ${storageDir}`);
-    return null;
-  }
 }
 
 function fetchPackages(): AxiosPromise<PackagesResponse> {
@@ -121,7 +110,6 @@ async function getPackageDetail({
         }
         resolve({
           readme: data,
-          mainCode: readMainCode(path.join(__dirname, '..', '..')),
           fileList: [],
         });
       })
@@ -177,17 +165,11 @@ async function getPackageDetail({
 
 async function readAdditionalCode(storageDir: string): Promise<AdditionalCode> {
   let readme;
-  let mainCode;
   let fileList;
   try {
     readme = readme2Html(path.join(storageDir, 'package', 'README.md'));
   } catch (error) {
     readme = undefined;
-  }
-  try {
-    mainCode = readMainCode(path.join(storageDir, 'package'));
-  } catch (error) {
-    mainCode = undefined;
   }
   try {
     fileList = await getFiles(storageDir, 'package', false);
@@ -196,7 +178,6 @@ async function readAdditionalCode(storageDir: string): Promise<AdditionalCode> {
   }
   return {
     readme,
-    mainCode,
     fileList,
   };
 }
