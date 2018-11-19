@@ -21,8 +21,8 @@ It's free and open source. :)
 
 ## Prerequisites
 
-* [Node.js >= 8.x](https://nodejs.org/en/download/)
-* JFrog Artifactory is running somewhere in your company's network
+- [Node.js >= 8.x](https://nodejs.org/en/download/)
+- JFrog Artifactory is running somewhere in your company's network
 
 ## Installation
 
@@ -32,8 +32,22 @@ npm i -g npmfrog
 
 ## Usage
 
+### Start
+
 ```bash
 npmfrog
+```
+
+### Stop
+
+```bash
+npmfrog stop
+```
+
+### Show logs
+
+```bash
+npmfrog logs
 ```
 
 At the first start up, npmFrog will create a configuration file in your home directory under `~/.npmfrog/config.json`. Please fill this file with with your artifactory properties.
