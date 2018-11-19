@@ -1,12 +1,10 @@
 #!/usr/bin/env node
 // =============================================================
 
-import * as childProcess from 'child_process';
 import * as path from 'path';
-const exec = childProcess.spawn;
+import * as execute from 'cross-spawn';
 
-// tslint:disable-next-line:no-var-requires
-const pm2Config = require('../pm2.config');
+import * as pm2Config from '../pm2.config';
 const port = pm2Config.serveUIStatic.env.PM2_SERVE_PORT;
 const logFiles = {
   ui: path.join(__dirname, '..', pm2Config.serveUIStatic.cwd || '', pm2Config.serveUIStatic.log),
@@ -20,15 +18,7 @@ const allowedCliCommands = ['stop', 'logs'];
 const command: string[] =
   allowedCliCommands.indexOf(firstArg) > -1 ? ['run', firstArg] : startCommand;
 
-const run = exec(`npm`, command);
-
-if (command === startCommand) {
-  console.log(`Running npmFrog in background on http://localhost:${port}`);
-  console.log(`To stop npmFrog, run \`${programm} stop\``);
-  console.log(`Logs can be found in ${logFiles.server} and ${logFiles.ui} .`);
-} else if (command[1] === 'stop') {
-  console.log(`Stopped npmFrog.`);
-}
+const run = execute(`npm`, command);
 
 run.stdout.on('data', data => {
   console.log(data.toString());
@@ -39,5 +29,16 @@ run.stderr.on('data', data => {
 });
 
 run.on('exit', code => {
-  console.log(`npmFrog exited with code ${code.toString()}.`);
+  if (code === 0) {
+    if (command === startCommand) {
+      console.log(`Running npmFrog in background on http://localhost:${port}`);
+      console.log(`To stop npmFrog, run \`${programm} stop\``);
+      console.log(
+        `Logs can be found in ${logFiles.server} and ${logFiles.ui} .
+        Or run \`npmfrog logs\` to get all live logs.`,
+      );
+    } else if (command[1] === 'stop') {
+      console.log(`Stopped npmFrog.`);
+    }
+  }
 });

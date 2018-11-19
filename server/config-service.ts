@@ -22,10 +22,12 @@ export default {
         `Creating default configuration in ${configPath} . Please fill it with life and restart the server. :)`,
       );
       const config = sampleConfig.toJSON().data;
+      // tslint:disable no-string-literal
       return {
         artifactory: config['artifactory'],
         companyScope: config['companyScope'],
       };
+      // tslint:enable no-string-literal
     }
   },
 };
