@@ -679,7 +679,7 @@ export default class PackageDetail extends Vue {
       hbs: 'handlebars',
       xml: 'xml',
       json: 'json',
-      svg: 'svg',
+      svg: 'xml',
       ftl: 'xml',
       sh: 'bash',
       yml: 'yaml',
