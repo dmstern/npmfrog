@@ -1,7 +1,7 @@
 <template>
   <a
     :href="href"
-    target="_blank"
+    :target="newTab === false ? '' : '_blank'"
     :title="title"
   >
     <img :src="img" v-if="img">
@@ -21,6 +21,7 @@ export default class ExternalLink extends Vue {
   @Prop() private text?: string;
   @Prop() private icon?: string;
   @Prop() private img?: string;
+  @Prop() private newTab?: boolean;
 }
 </script>
 
