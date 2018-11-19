@@ -321,7 +321,7 @@ export default class App extends Vue {
     for (const value of values) {
       if (value instanceof Package) {
         router.push(`/package/${value.name}`);
-        this.$refs.searchbar.selectedItems.pop();
+        this.$refs.searchbar.clearableCallback();
         setTimeout(this.$refs.searchbar.blur, 100);
       }
     }
