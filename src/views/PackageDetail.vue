@@ -483,16 +483,20 @@ export default class PackageDetail extends Vue {
 
   private selectCode(event: Event): void {
     const target = event.target as HTMLElement;
-    const label = target.classList.contains('v-icon')
-      ? (target.nextSibling as HTMLElement)
-      : target;
-    const clickedLabel = label.innerHTML;
+    const treeItem = target.closest('.v-treeview-node__root');
 
-    if (!this.data.activeFile.length) {
+    if (!this.data.activeFile.length || !treeItem) {
       this.resetActiveCode();
       return;
     }
 
+    const labelElement = treeItem.querySelector('.v-treeview-node__label');
+
+    if (!labelElement) {
+      return;
+    }
+
+    const clickedLabel = labelElement.innerHTML;
     const id = this.data.activeFile[0];
 
     if (this.data.packageDetail && this.data.packageDetail.fileList) {
