@@ -235,8 +235,11 @@
       <v-flex xs12 md5 xl4 order-xs1 order-md2 class="meta-panel">
         <v-layout row wrap>
           <PackageDetailItem title="install" :bigContent="false" v-if="data.config && data.config.artifactory" :icon="$vuetify.icons.install" :full="true">
+            <h3>With global npm registry configuration</h3>
             <CodeBlock :code="getInstallCode().config" language="bash"></CodeBlock>
             <CodeBlock :code="getInstallCode().install" language="bash"></CodeBlock>
+            <h3>Without changing your global npm configuration</h3>
+            <CodeBlock :code="`npm i ${data.versionsHistory[data.currentPackage.version].dist.tarball}`" language="bash"></CodeBlock>
             <v-btn
               color="success"
               class="v-btn--standalone"
@@ -617,9 +620,9 @@ export default class PackageDetail extends Vue {
       return {
         config: `npm config set ${
           this.data.packageDetail.scope ? this.data.packageDetail.scope + ':' : ''
-        }registry http://${this.data.config.artifactory.host}/artifactory/api/npm/${
-          this.data.config.artifactory.repoKey
-        }/`,
+        }registry http${this.data.config.artifactory.https ? 's' : ''}://${
+          this.data.config.artifactory.host
+        }/artifactory/api/npm/${this.data.config.artifactory.repoKey}/`,
         install: `npm i ${this.data.packageDetail.name}`,
       };
     }
