@@ -144,6 +144,14 @@
             </v-tab-item>
             <v-tab-item>
               <v-card-text v-if="data.currentPackage.dependenciesCount">
+                <v-alert
+                  type="info"
+                  :value="true"
+                  outline
+                  dismissible
+                >
+                  <strong>Tip:</strong> Click on a dependency to view it's package page
+                </v-alert>
                 <h2>Dependencies</h2>
                 <router-link
                   v-for="(version, key) in data.currentPackage.dependencies"
@@ -172,13 +180,21 @@
                 </router-link>
               </v-card-text>
               <v-card-text v-else>
-                <v-alert :value="true" type="info">
+                <v-alert :value="true" type="info" :outline="true">
                   This package has no dependencies.
                 </v-alert>
               </v-card-text>
             </v-tab-item>
             <v-tab-item>
               <v-card-text>
+                <v-alert
+                  type="info"
+                  :value="true"
+                  :outline="true"
+                  dismissible
+                >
+                  <strong>Tip:</strong> Click on a version number to view a previous version's package page
+                </v-alert>
                 <h2>Current Tags</h2>
                 <v-list>
                   <v-list-tile
