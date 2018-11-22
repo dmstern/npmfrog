@@ -235,10 +235,13 @@
       <v-flex xs12 md5 xl4 order-xs1 order-md2 class="meta-panel">
         <v-layout row wrap>
           <PackageDetailItem title="install" :bigContent="false" v-if="data.config && data.config.artifactory" :icon="$vuetify.icons.install" :full="true">
+            <h3>For the depending project (recommended)</h3>
+            <CodeBlock title="Put this in a .npmrc file on your project folder" :code="getInstallCode().npmrc" language="properties"></CodeBlock>
+            <CodeBlock :code="getInstallCode().install" language="bash"></CodeBlock>
             <h3>With global npm registry configuration</h3>
             <CodeBlock :code="getInstallCode().config" language="bash"></CodeBlock>
             <CodeBlock :code="getInstallCode().install" language="bash"></CodeBlock>
-            <h3>Without changing your global npm configuration</h3>
+            <h3>Specific (use Artifactory only for this dependency)</h3>
             <CodeBlock :code="`npm i ${data.versionsHistory[data.currentPackage.version].dist.tarball}`" language="bash"></CodeBlock>
             <v-btn
               color="success"
@@ -614,6 +617,7 @@ export default class PackageDetail extends Vue {
     | {
         config: string;
         install: string;
+        npmrc: string;
       }
     | undefined {
     if (this.data.packageDetail && this.data.config && this.data.config.artifactory) {
@@ -624,6 +628,11 @@ export default class PackageDetail extends Vue {
           this.data.config.artifactory.host
         }/artifactory/api/npm/${this.data.config.artifactory.repoKey}/`,
         install: `npm i ${this.data.packageDetail.name}`,
+        npmrc: `${
+          this.data.packageDetail.scope ? this.data.packageDetail.scope + ':' : ''
+        }registry=http${this.data.config.artifactory.https ? 's' : ''}://${
+          this.data.config.artifactory.host
+        }/artifactory/api/npm/${this.data.config.artifactory.repoKey}/`,
       };
     }
   }
