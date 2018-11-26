@@ -235,7 +235,7 @@
       <v-flex xs12 md5 xl4 order-xs1 order-md2 class="meta-panel">
         <v-layout row wrap>
           <PackageDetailItem title="install" :bigContent="false" v-if="data.config && data.config.artifactory" :icon="$vuetify.icons.install" :full="true">
-            <CodeBlock title="Put this in a .npmrc file on your project folder:" :code="getInstallCode().npmrc" language="properties"></CodeBlock>
+            <CodeBlock title="Put this in a .npmrc file in your project folder:" :code="getInstallCode().npmrc" language="properties"></CodeBlock>
             <CodeBlock :code="getInstallCode().install" language="bash"></CodeBlock>
             <v-btn
               color="success"
