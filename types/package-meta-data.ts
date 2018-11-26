@@ -15,7 +15,7 @@ export interface ITimes {
 }
 
 export interface IDistTags {
-  [key: string]: number;
+  [key: string]: string;
 }
 
 export interface IVersions {

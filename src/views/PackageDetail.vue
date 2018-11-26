@@ -1,17 +1,16 @@
 <template>
   <div>
-    <v-container v-if="!data.packageDetail">
+    <v-container v-if="!data.packageDetail || !data.currentPackage">
       <LoadingSpinner msg="Loading package details..."/>
     </v-container>
     <v-container v-else fluid grid-list-lg :class="isOld() ? 'isOld' : ''">
       <v-layout row wrap>
         <v-flex xs12 md7 xl8 class="packageDetail__heading">
           <v-alert
-            v-if="isOld()"
-            v-model="showAlert"
+            :value="isOld() || data.currentPackage.version !== data.packageDetail.distTags.latest"
             dismissible
             type="info"
-          >You are displaying an old version of this package. To see the newest version, click on "latest" under "versions".</v-alert>
+          >You are not watching the latest version of this package. To see the latest version, click on "latest" under "versions".</v-alert>
           <h1>{{ data.packageDetail.name }}</h1>
           <div class="subheading last-published-version-line">
             <span>{{data.currentPackage.version}}</span>
@@ -438,7 +437,6 @@ export default class PackageDetail extends Vue {
   };
   private activeTab: number;
   private isLoadingCode: boolean;
-  private showAlert: boolean = false;
 
   constructor() {
     super();
@@ -769,7 +767,6 @@ export default class PackageDetail extends Vue {
       typeof this.data.packageDetail.distTags.latest === 'string' &&
       this.data.currentPackage.version !== undefined &&
       this.data.currentPackage.version < this.data.packageDetail.distTags.latest;
-    this.showAlert = isOld;
     return isOld;
   }
 }
