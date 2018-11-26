@@ -50,7 +50,7 @@
               </v-tab-item>
               <v-tab-item>
                 <v-card-text v-if="data.packageDetail.fileList || data.currentPackage.scripts">
-                  <div v-if="data.currentPackage.scripts">
+                  <div v-if="data.currentPackage.scripts && Object.keys(data.currentPackage.scripts).length">
                     <h2>Scripts</h2>
 
                     <table class="package-detail__scripts">
