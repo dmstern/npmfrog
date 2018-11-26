@@ -235,14 +235,8 @@
       <v-flex xs12 md5 xl4 order-xs1 order-md2 class="meta-panel">
         <v-layout row wrap>
           <PackageDetailItem title="install" :bigContent="false" v-if="data.config && data.config.artifactory" :icon="$vuetify.icons.install" :full="true">
-            <h3>For the depending project (recommended)</h3>
-            <CodeBlock title="Put this in a .npmrc file on your project folder" :code="getInstallCode().npmrc" language="properties"></CodeBlock>
+            <CodeBlock title="Put this in a .npmrc file on your project folder:" :code="getInstallCode().npmrc" language="properties"></CodeBlock>
             <CodeBlock :code="getInstallCode().install" language="bash"></CodeBlock>
-            <h3>With global npm registry configuration</h3>
-            <CodeBlock :code="getInstallCode().config" language="bash"></CodeBlock>
-            <CodeBlock :code="getInstallCode().install" language="bash"></CodeBlock>
-            <h3>Specific (use Artifactory only for this dependency)</h3>
-            <CodeBlock :code="`npm i ${data.versionsHistory[data.currentPackage.version].dist.tarball}`" language="bash"></CodeBlock>
             <v-btn
               color="success"
               class="v-btn--standalone"
