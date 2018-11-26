@@ -27,7 +27,7 @@ export const icons = {
   created: 'fas fa-bolt',
   updated: 'far fa-clock',
   info: 'fas fa-info-circle',
-  howto: 'far fa-question-circle',
+  question: 'far fa-question-circle',
   clear: 'fas fa-times',
   bug: 'fas fa-bug',
   contact: 'far fa-comments',
@@ -123,6 +123,7 @@ icons.yaml = icons.yml;
 icons.hbs = icons.html;
 icons.nunj = icons.html;
 icons.ftl = icons.html;
+icons.howto = icons.question;
 
 Vue.use(Vuetify, {
   iconfont: 'fa', // 'md' || 'mdi' || 'fa' || 'fa4'

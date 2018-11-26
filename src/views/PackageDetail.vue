@@ -236,6 +236,9 @@
         <v-layout row wrap>
           <PackageDetailItem title="install" :bigContent="false" v-if="data.config && data.config.artifactory" :icon="$vuetify.icons.install" :full="true">
             <CodeBlock title="Put this in a .npmrc file in your project folder:" :code="getInstallCode().npmrc" language="properties"></CodeBlock>
+            <div class="config-info">
+              <ExternalLink href="https://docs.npmjs.com/misc/config#npmrc-files" :icon="$vuetify.icons.question" :text="false" title="More info about npm-config"></ExternalLink>
+            </div>
             <CodeBlock :code="getInstallCode().install" language="bash"></CodeBlock>
             <v-btn
               color="success"
@@ -767,6 +770,15 @@ export default class PackageDetail extends Vue {
         transform: rotate(0) scale($mdi2faScaleFactor);
       }
     }
+  }
+}
+
+.config-info {
+  transform: translateY(-1em);
+  text-align: right;
+
+  a {
+    margin-right: 0 !important;
   }
 }
 
