@@ -388,19 +388,6 @@ import BackendApi from '../services/BackendApi';
   },
 })
 export default class PackageDetail extends Vue {
-  @Prop()
-  private dataProp!: {
-    packageDetail: Package | null;
-    currentPackage?: Package;
-    currentTags: IVersions;
-    versionsHistory: IVersions;
-    config: Config | undefined;
-    tree: any[];
-    open: any[];
-    activeFile: any[];
-    activeCode?: string;
-    activeTreeItem: TreeItem;
-  };
   private data: {
     packageDetail: Package | null;
     currentPackage?: Package;
@@ -412,7 +399,7 @@ export default class PackageDetail extends Vue {
     activeFile: any[];
     activeTreeItem?: TreeItem;
     activeCode?: string;
-  } = this.dataProp;
+  };
   private activeTab: number;
   private isLoadingCode: boolean;
   private showAlert: boolean = false;
