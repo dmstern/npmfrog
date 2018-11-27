@@ -38,6 +38,8 @@ npm i -g npmfrog
 npmfrog
 ```
 
+Browse to npmFrog instance [http://localhost:8000](http://localhost:8000).
+
 ### Stop
 
 ```bash
@@ -50,9 +52,13 @@ npmfrog stop
 npmfrog logs
 ```
 
+### Configuration
+
 At the first start up, npmFrog will create a configuration file in your home directory under `~/.npmfrog/config.json`. Please fill this file with with your artifactory properties.
 
-Browse to npmFrog instance [http://localhost:8000](http://localhost:8000).
+If you want to add addtional text in the /howto section, you can create a `howto.md` file in the npmfrog config directory (see above) with some additinal markdown content.
+
+If you want to hide the default publishing guide under /howto, set howto.default in the `config.json` file to `false`.
 
 ### Development
 

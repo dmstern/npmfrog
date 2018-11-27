@@ -5,5 +5,8 @@
     "repoKey": "npm",
     "https": false
   },
+  "howto": {
+    "default": true
+  },
   "companyScope": "<YOUR_DEFAULT_COMPANY_SCOPE_WITHOUT_AT>"
 }

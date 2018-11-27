@@ -92,6 +92,13 @@ app.get('/config', (req, res) => {
           repoKey: config.artifactory.repoKey,
           https: config.artifactory.https,
         },
+        howto: {
+          default: config.howto && config.howto.default === false ? config.howto.default : true,
+          additional: {
+            markup: config.howto && config.howto.additional ? config.howto.additional.markup : '',
+            heading: config.howto && config.howto.additional ? config.howto.additional.heading : '',
+          },
+        },
         companyScope: config.companyScope,
       });
     })

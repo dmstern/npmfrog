@@ -381,10 +381,7 @@ export default class App extends Vue {
 <style lang="scss">
 @import 'assets/variables';
 
-h1 {
-  margin-bottom: 0.5em;
-}
-
+h1,
 h2,
 h3,
 h4,

@@ -6,6 +6,13 @@ export default interface Config {
     apiKey: string;
   };
   companyScope: string;
+  howto?: {
+    default?: boolean;
+    additional?: {
+      markup: string;
+      heading: string;
+    };
+  };
 }
 
 export enum Status {

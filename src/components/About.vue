@@ -153,6 +153,13 @@ export default class About extends Vue {
           https: false,
           apiKey: '',
         },
+        howto: {
+          additional: {
+            heading: '',
+            markup: '',
+          },
+          default: true,
+        },
         companyScope: '',
       },
     };
