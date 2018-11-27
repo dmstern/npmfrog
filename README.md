@@ -54,7 +54,7 @@ npmfrog logs
 
 ### Configuration
 
-At the first start up, npmFrog will create a configuration file in your home directory under `~/.npmfrog/config.json`. Please fill this file with with your artifactory properties.
+At the first start up, npmFrog will create a configuration file in your home directory under `~/.npmfrog/config.json`. Please fill this file with your artifactory properties.
 
 If you want to add addtional text in the `/howto` section, you can create a `howto.md` file in the `.npmfrog` config directory (see above) with some additinal markdown content.
 
