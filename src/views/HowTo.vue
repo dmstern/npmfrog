@@ -124,9 +124,6 @@ export default class HowTo extends Vue {
         }/artifactory/api/npm/${response.artifactory.repoKey}/`;
         this.data.companyScope = response.companyScope;
         if (response.howto) {
-          console.log(response.howto.default);
-          console.log(typeof response.howto.default);
-          console.log(response.howto.default === true);
           this.data.showDefault = response.howto.default === true;
           this.data.additional = response.howto.additional;
         }
