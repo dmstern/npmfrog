@@ -170,6 +170,17 @@ export default class About extends Vue {
   private loadMetaInfo(): void {
     DataStore.Instance.getMetaInfo().then(response => {
       this.data.meta = response;
+      if (
+        this.data.meta &&
+        this.data.meta.repository &&
+        this.data.meta.repository &&
+        typeof this.data.meta.repository !== 'string' &&
+        this.data.meta.repository.url.startsWith('git+')
+      ) {
+        Object.assign(this.data.meta.repository, {
+          url: this.data.meta.repository.url.substring(4, this.data.meta.repository.url.length),
+        });
+      }
     });
   }
 
