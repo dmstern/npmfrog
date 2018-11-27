@@ -38,7 +38,7 @@ export default class Crafter extends Searchable {
     if (this.backgroundColor) {
       return this.backgroundColor;
     }
-    if (Crafter.lastUsedColorNumber >= Crafter.colors.length) {
+    if (Crafter.lastUsedColorNumber >= Crafter.colors.length - 1) {
       Crafter.lastUsedColorNumber = -1;
     }
     Crafter.lastUsedColorNumber++;
