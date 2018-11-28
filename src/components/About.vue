@@ -173,7 +173,6 @@ export default class About extends Vue {
       if (
         this.data.meta &&
         this.data.meta.repository &&
-        this.data.meta.repository &&
         typeof this.data.meta.repository !== 'string' &&
         this.data.meta.repository.url.startsWith('git+')
       ) {
