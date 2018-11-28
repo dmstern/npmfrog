@@ -1,15 +1,10 @@
 #!/usr/bin/env node
 // =============================================================
 
-import * as path from 'path';
 import * as execute from 'cross-spawn';
-
 import * as pm2Config from '../pm2.config';
+
 const port = pm2Config.serveUIStatic.env.PM2_SERVE_PORT;
-const logFiles = {
-  ui: path.join(__dirname, '..', pm2Config.serveUIStatic.cwd || '', pm2Config.serveUIStatic.log),
-  server: path.join(__dirname, '..', pm2Config.runServer.cwd || '', pm2Config.runServer.log),
-};
 
 const startCommand = ['run', 'prod'];
 const programm = 'npmfrog';
@@ -34,7 +29,7 @@ run.on('exit', code => {
       console.log(`Running npmFrog in background on http://localhost:${port}`);
       console.log(`To stop npmFrog, run \`${programm} stop\``);
       console.log(
-        `Logs can be found in ${logFiles.server} and ${logFiles.ui} .
+        `Logs can be found in ${pm2Config.runServer.log} and ${pm2Config.serveUIStatic.log} .
         Or run \`npmfrog logs\` to get all live logs.`,
       );
     } else if (command[1] === 'stop') {

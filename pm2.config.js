@@ -1,3 +1,8 @@
+const os = require('os');
+const path = require('path');
+
+const homedir = os.homedir();
+
 const env_local = {
   MOCK: true,
 };
@@ -29,14 +34,14 @@ module.exports = {
     name: 'frog-server',
     script: 'index.js',
     cwd: 'dist/server/',
-    log: '../../logs/frog-server.log',
+    log: path.join(homedir, '.npmfrog', 'logs', 'server.log'),
     env_local,
   },
   serveUIStatic: {
     name: 'frog-ui-static',
     script: 'serve',
-    log: './logs/frog-ui.log',
     log_date_format,
+    log: path.join(homedir, '.npmfrog', 'logs', 'webui.log'),
     env: {
       PM2_SERVE_PATH: 'dist/webui',
       PM2_SERVE_PORT: 8000,
