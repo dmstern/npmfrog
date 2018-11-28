@@ -2,7 +2,7 @@
 
 > A nice npmjs.org-like web interface for JFrog Artifactory
 
-To share frontend code in your company or team between different projects and developers, you can use a private npm registry like [Verdaccio](https://verdaccio.org/) or [JFrog's Artifactory](https://www.jfrog.com/confluence/display/RTF/Npm+Registry) (which is often used for Maven dependency management in the Java Environment).
+To share code in your company or team between different projects and developers, you can use a private npm registry like [Verdaccio](https://verdaccio.org/) or [JFrog's Artifactory](https://www.jfrog.com/confluence/display/RTF/Npm+Registry) (which is often used for Maven dependency management in the Java Environment).
 The latter lacks of a good UI for web developers, so npmFrog is here to present you the self-hosted packages of your team in a more familiar and discoverable way.
 
 It's free and open source. :)
