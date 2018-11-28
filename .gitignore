@@ -26,6 +26,5 @@ logs
 *.sln
 *.sw*
 
-.npmfrogrc.json
 .backend
 npmfrog*.tgz

@@ -8,5 +8,5 @@
   "howto": {
     "default": true
   },
-  "companyScope": "<YOUR_DEFAULT_COMPANY_SCOPE_WITHOUT_AT>"
+  "companyScope": "<YOUR_DEFAULT_COMPANY_SCOPE_WITHOUT_AT_SIGN>"
 }

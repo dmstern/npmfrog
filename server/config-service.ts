@@ -8,7 +8,7 @@ import { JSDOM } from 'jsdom';
 const homedir = os.homedir();
 const configFile = 'config.json';
 const howToFile = 'howto.md';
-const sampleConfigFile = path.join(__dirname, '..', '..', '.sample.npmfrogrc.json');
+const sampleConfigFile = path.join(__dirname, '..', '..', '.sample.config.json');
 const configFolder = '.npmfrog';
 const sampleConfig = fs.readFileSync(sampleConfigFile);
 const configPath = path.join(homedir, configFolder, configFile);

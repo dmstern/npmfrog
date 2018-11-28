@@ -89,7 +89,7 @@
   "files": [
     "dist",
     "ecosystem.config.js",
-    ".sample.npmfrogrc.json",
+    ".sample.config.json",
     "pm2.config.js",
     "pm2.prod.config.js",
     "bin/cli.js"
