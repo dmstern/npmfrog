@@ -83,3 +83,10 @@ Stop all running background processes:
 ```bash
 npm stop
 ```
+
+See the status of background processes:
+
+```bash
+npm run ps
+```
+
