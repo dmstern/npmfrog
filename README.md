@@ -62,6 +62,12 @@ If you want to add addtional text in the `/howto` section, you can create a `how
 
 If you want to hide the default publishing guide under `/howto`, set `howto.default` in the `config.json` file to `false`.
 
+```json
+  "howto": {
+    "default": false
+  }
+```
+
 ### Development
 
 ```bash
