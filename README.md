@@ -7,23 +7,31 @@ The latter lacks a good UI for web developers, so npmFrog is here to present you
 
 👐 It's free and open source. :)
 
-![Screenshot: package list](art/screenshot-list.png "The homepage: an overview list of your company's packages")
-> ⬑ *The homepage: an overview list of your company's packages.*
+## Core Features
 
-![Screenshot: search](art/screenshot-search.png)
-> ⬑ *The awesome package search: lookup tags, crafters and packages.*
-
-![Screenshot: package detail page](art/screenshot-detail.png)
-> ⬑ *Every package has a detail page to view a lot of useful meta information. Even the remote-cache packages.*
-
-![Screenshot: crafter info](art/screenshot-crafter.png)
-> ⬑ *Get details about the people who crafted the package to contact them or to search for other packages by the same author.*
-
-![Screenshot: scripts](art/screenshot-scripts.png)
-> ⬑ *Get an overview of all npm scripts in the `package.json`.*
-
-![Screenshot: file inspector](art/screenshot-files.png)
-> ⬑ *Inspect files that are contained in the package and view or download its code.*
+* *The homepage: an overview list of your company's packages.*
+  
+  ![Screenshot: package list](art/screenshot-list.png)
+  
+* *The awesome package search: lookup tags, crafters and packages.*
+  
+  ![Screenshot: search](art/screenshot-search.png)
+  
+* *Every package has a detail page to view a lot of useful meta information. Even the remote-cache packages.*
+  
+  ![Screenshot: package detail page](art/screenshot-detail.png)
+  
+* *Get details about the people who crafted the package to contact them or to search for other packages by the same author.*
+  
+  ![Screenshot: crafter info](art/screenshot-crafter.png)
+  
+* *Get an overview of all npm scripts in the `package.json`.*
+  
+  ![Screenshot: scripts](art/screenshot-scripts.png)
+  
+* *Inspect files that are contained in the package and view or download its code.*
+  
+  ![Screenshot: file inspector](art/screenshot-files.png)
 
 ## Prerequisites
 
