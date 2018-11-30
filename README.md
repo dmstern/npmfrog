@@ -7,17 +7,17 @@ The latter lacks of a good UI for web developers, so npmFrog is here to present 
 
 It's free and open source. :)
 
-![Screenshot](art/screenshot-list.png)
+![The homepage: an overview list of your packages](art/screenshot-list.png)
 
-![Screenshot](art/screenshot-search.png)
+![The awesome package search: lookup tags, crafters and packages](art/screenshot-search.png)
 
-![Screenshot](art/screenshot-detail.png)
+![Every package has detail page to view a lot useful meta information. Even the remote-cache packages](art/screenshot-detail.png)
 
-![Screenshot](art/screenshot-crafter.png)
+![Get details about the responsible people of the package.](art/screenshot-crafter.png)
 
-![Screenshot](art/screenshot-scripts.png)
+![An overview table over all sccripts in the package.json](art/screenshot-scripts.png)
 
-![Screenshot](art/screenshot-files.png)
+![Inspect files that are contained in the package and view or download it's code](art/screenshot-files.png)
 
 ## Prerequisites
 
@@ -58,6 +58,8 @@ At the first start up, npmFrog will create a configuration file in your home dir
 
 If you want to add addtional text in the `/howto` section, you can create a `howto.md` file in the `~/.npmfrog` directory with some additinal markdown content.
 
+![Screenshot of additional howto.md in ~/.npmfrog/](art/Screenshot-howto.png)
+
 If you want to hide the default publishing guide under `/howto`, set `howto.default` in the `config.json` file to `false`.
 
 ### Development
@@ -89,4 +91,3 @@ See the status of background processes:
 ```bash
 npm run ps
 ```
-
