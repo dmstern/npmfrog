@@ -15,7 +15,7 @@ It's free and open source. :)
 
 ![Get details about the responsible people of the package.](art/screenshot-crafter.png)
 
-![An overview table over all sccripts in the package.json](art/screenshot-scripts.png)
+![An overview table over all scripts in the package.json](art/screenshot-scripts.png)
 
 ![Inspect files that are contained in the package and view or download it's code](art/screenshot-files.png)
 
@@ -56,7 +56,7 @@ npmfrog logs
 
 At the first start up, npmFrog will create a configuration file in your home directory under `~/.npmfrog/config.json`. Please fill this file with your artifactory properties.
 
-If you want to add addtional text in the `/howto` section, you can create a `howto.md` file in the `~/.npmfrog` directory with some additinal markdown content.
+If you want to add additional text in the `/howto` section, you can create a `howto.md` file in the `~/.npmfrog` directory with some additional [markdown](https://www.markdownguide.org/) content.
 
 ![Screenshot of additional howto.md in ~/.npmfrog/](art/Screenshot-howto.png)
 

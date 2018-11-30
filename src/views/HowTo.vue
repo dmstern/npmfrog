@@ -17,7 +17,7 @@
           This will create a <code class="hljs">package.json</code> file for your new module. If you already have one, proceed with the next step.
         </p>
         <h2>Configure artifactory as an npm registry for your company</h2>
-        <h3>Alternative 1) Globally</h3>
+        <h3>Alternative 1) Globally (for the current os user)</h3>
         <CodeBlock :code="`npm set ${data.companyScope ? `@${data.companyScope}:` : ''}registry ${data.artifactoryUrl}`" language="bash"></CodeBlock>
         <v-subheader>More info:</v-subheader>
         <v-list :class="`link-list`">
@@ -38,7 +38,7 @@
         </v-list>
         <h2>Login to Artifactory</h2>
         <CodeBlock :code="`npm login --registry=${data.artifactoryUrl}`" language="bash"></CodeBlock>
-        <p>You'll get prompted to enter your username and password of your inhouse <a :href="data.artifactoryUrl" target="_blank">artifactory instance</a>.</p>
+        <p>You'll get prompted to enter your username and password of your in-house <a :href="data.artifactoryUrl" target="_blank">artifactory instance</a>.</p>
         <v-subheader>More info:</v-subheader>
         <v-list :class="`link-list`">
           <v-list-tile><ExternalLink href="https://docs.npmjs.com/cli/adduser"></ExternalLink></v-list-tile>
