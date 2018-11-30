@@ -18,7 +18,10 @@
     "logs": "pm2 logs /frog-.*/",
     "stop": "pm2 delete /frog-.*/",
     "pre-release": "release-it --preRelease=alpha",
-    "rc": "release-it --preRelease=rc --npm.tag=next"
+    "release:rc": "release-it --preRelease=rc --npm.tag=next",
+    "release:patch": "release-it",
+    "release:minor": "release-it minor",
+    "release:major": "release-it major"
   },
   "husky": {
     "hooks": {
