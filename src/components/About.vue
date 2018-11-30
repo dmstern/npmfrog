@@ -32,11 +32,11 @@
             <ExternalLink href="https://github.com/dmstern/npmfrog/releases" text="Changelog" :icon="$vuetify.icons.changelog"></ExternalLink>
           </p>
           <p>
-            This tool requests meta data of npm packages that were published to jFrog's npm registry on <ExternalLink :href="`http${data.config.artifactory.https? 's' : ''}://${data.config.artifactory.host}`" :text="data.config.artifactory.host"></ExternalLink> for integration into another front-end project or for deployment as a back-end dependency.
+            This tool requests metadata of npm packages that were published to jFrog's npm registry on <ExternalLink :href="`http${data.config.artifactory.https? 's' : ''}://${data.config.artifactory.host}`" :text="data.config.artifactory.host"></ExternalLink> for integration into another front-end project or for deployment as a back-end dependency.
             It aims to display them in a way that should help front-end developers to discover the best in-house javascript solutions to solve a specific problem.
           </p>
           <p>
-            It's code is developed as open source and published on <ExternalLink :href="data.meta.repository.url" text="GitHub" :icon="$vuetify.icons.github"></ExternalLink>.
+            Its code is developed as open source and published on <ExternalLink :href="data.meta.repository.url" text="GitHub" :icon="$vuetify.icons.github"></ExternalLink>.
             If you discover any bugs or would like to have a feature being added, feel free to file an <ExternalLink :href="data.meta.bugs.url" text="issue"></ExternalLink> or contribute to this project.
           </p>
           <h2 class="subheading">Technologies</h2>
