@@ -109,7 +109,13 @@
     "npm",
     "npmjs",
     "jfrog",
-    "artifactory"
+    "artifactory",
+    "verdaccio",
+    "jfrog-artifactory",
+    "registry",
+    "package-manager",
+    "material-design",
+    "npm-registry"
   ],
   "author": "Daniel Morgenstern <morgenstern.daniel@gmail.com>",
   "license": "ISC",
