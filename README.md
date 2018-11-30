@@ -3,21 +3,38 @@
 > A nice npmjs.org-like web interface for JFrog Artifactory
 
 To share code in your company or team between different projects and developers, you can use a private npm registry like [Verdaccio](https://verdaccio.org/) or [JFrog's Artifactory](https://www.jfrog.com/confluence/display/RTF/Npm+Registry) (which is often used for Maven dependency management in the Java Environment).
-The latter lacks of a good UI for web developers, so npmFrog is here to present you the self-hosted packages of your team in a more familiar and discoverable way.
+The latter lacks a good UI for web developers, so npmFrog is here to present you the self-hosted packages of your team in a more familiar and discoverable way.
 
-It's free and open source. :)
+👐 It's free and open source. :)
 
-![The homepage: an overview list of your packages](art/screenshot-list.png)
+![Screenshot: package list](art/screenshot-list.png)
+> *The homepage: an overview list of your packages.*
 
-![The awesome package search: lookup tags, crafters and packages](art/screenshot-search.png)
+---
 
-![Every package has detail page to view a lot useful meta information. Even the remote-cache packages](art/screenshot-detail.png)
+![Screenshot: search](art/screenshot-search.png)
+> *The awesome package search: lookup tags, crafters and packages.*
 
-![Get details about the responsible people of the package.](art/screenshot-crafter.png)
+---
 
-![An overview table over all scripts in the package.json](art/screenshot-scripts.png)
+![Screenshot: package detail page](art/screenshot-detail.png)
+> *Every package has a detail page to view a lot of useful meta information. Even the remote-cache packages.*
 
-![Inspect files that are contained in the package and view or download it's code](art/screenshot-files.png)
+---
+
+![Screenshot: crafter info](art/screenshot-crafter.png)
+> *Get details about the people who crafted the package to contact them or to search for other packages by the same author.*
+
+---
+
+![Screenshot: scripts](art/screenshot-scripts.png)
+> *An overview table of all npm scripts in the `package.json`.*
+
+---
+
+![Screenshot: file inspector](art/screenshot-files.png)
+> *Inspect files that are contained in the package and view or download its code.*
+
 
 ## Prerequisites
 
@@ -54,7 +71,7 @@ npmfrog logs
 
 ### Configuration
 
-At the first start up, npmFrog will create a configuration file in your home directory under `~/.npmfrog/config.json`. Please fill this file with your artifactory properties.
+At the first startup, npmFrog will create a configuration file in your home directory under `~/.npmfrog/config.json`. Please fill this file with your artifactory properties.
 
 If you want to add additional text in the `/howto` section, you can create a `howto.md` file in the `~/.npmfrog` directory with some additional [markdown](https://www.markdownguide.org/) content.
 
@@ -74,7 +91,7 @@ If you want to hide the default publishing guide under `/howto`, set `howto.defa
 npm run dev
 ```
 
-With local environment (no internet connection needed):
+With a local environment (no internet connection needed):
 
 ```bash
 npm start
