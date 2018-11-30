@@ -1,12 +1,12 @@
 {
   "artifactory": {
-    "host": "<YOUR_ARTIFACTORY_BASE_URL>",
+    "host": "artifactory.mycompany.com",
     "apiKey": "<YOUR_ARTIFACTORY_API_KEY>",
     "repoKey": "npm",
-    "https": false
+    "https": true
   },
   "howto": {
     "default": true
   },
-  "companyScope": "<YOUR_DEFAULT_COMPANY_SCOPE_WITHOUT_AT_SIGN>"
+  "companyScope": "mycompany"
 }
