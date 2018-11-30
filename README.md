@@ -87,11 +87,13 @@ If you want to hide the default publishing guide under `/howto`, set `howto.defa
 
 ### Development
 
+Run the development task with real back-end data:
+
 ```bash
 npm run dev
 ```
 
-With a local environment (no internet connection needed):
+With a local environment and dummy data (no internet connection needed):
 
 ```bash
 npm start
