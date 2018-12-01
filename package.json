@@ -81,12 +81,12 @@
     "node-sass": "^4.10.0",
     "nodemon": "^1.18.7",
     "pretty-quick": "^1.8.0",
-    "release-it": "^7.6.3",
+    "release-it": "^8.2.0",
     "sass-loader": "^7.1.0",
     "tslint": "^5.11.0",
     "tslint-config-prettier": "^1.17.0",
-    "typescript": "^2.1.0",
-    "vue-cli-plugin-vuetify": "^0.1.6",
+    "typescript": "^3.2.1",
+    "vue-cli-plugin-vuetify": "^0.4.6",
     "vue-template-compiler": "^2.5.17"
   },
   "files": [
