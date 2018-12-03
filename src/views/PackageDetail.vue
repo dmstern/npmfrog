@@ -278,7 +278,7 @@
               </a>
             </PackageDetailItem>
             <PackageDetailItem
-              title="Feedback"
+              title="Report an Issue"
               v-if="data.currentPackage.bugs"
               :icon="$vuetify.icons.contact"
             >
