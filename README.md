@@ -9,28 +9,28 @@ The latter lacks a good UI for web developers, so npmFrog is here to present you
 
 ## Core Features
 
-* *The homepage: an overview list of your company's packages.*
-  
+- _The homepage: an overview list of your company's packages._
+
   ![Screenshot: package list](art/screenshot-list.png)
-  
-* *The awesome package search: lookup tags, crafters and packages.*
-  
+
+- _The awesome package search: lookup tags, crafters and packages._
+
   ![Screenshot: search](art/screenshot-search.png)
-  
-* *Every package has a detail page to view a lot of useful meta information. Even the remote-cache packages.*
-  
+
+- _Every package has a detail page to view a lot of useful meta information. Even the remote-cache packages._
+
   ![Screenshot: package detail page](art/screenshot-detail.png)
-  
-* *Get details about the people who crafted the package to contact them or to search for other packages by the same author.*
-  
+
+- _Get details about the people who crafted the package to contact them or to search for other packages by the same author._
+
   ![Screenshot: crafter info](art/screenshot-crafter.png)
-  
-* *Get an overview of all npm scripts in the `package.json`.*
-  
+
+- _Get an overview of all npm scripts in the `package.json`._
+
   ![Screenshot: scripts](art/screenshot-scripts.png)
-  
-* *Inspect files that are contained in the package and view or download its code.*
-  
+
+- _Inspect files that are contained in the package and view or download its code._
+
   ![Screenshot: file inspector](art/screenshot-files.png)
 
 ## Prerequisites
