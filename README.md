@@ -66,6 +66,12 @@ npmfrog stop
 npmfrog logs
 ```
 
+### Show status
+
+```bash
+npmfrog status
+```
+
 ### Configuration
 
 At the first startup, npmFrog will create a configuration file in your home directory under `~/.npmfrog/config.json`. Please fill this file with your artifactory properties.
