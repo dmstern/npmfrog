@@ -242,6 +242,13 @@ export default class App extends Vue {
     });
 
     router.afterEach(this.fireSearchFilterEvent);
+    router.beforeEach((to, from, next) => {
+      const getTitle = to.meta.getTitle;
+      if (getTitle) {
+        document.title = getTitle(to);
+      }
+      next();
+    });
 
     const anyError: string[] = Object.keys(Errors).map(error => Errors[error]);
 
