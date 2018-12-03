@@ -650,7 +650,12 @@ export default class PackageDetail extends Vue {
         }registry http${this.data.config.artifactory.https ? 's' : ''}://${
           this.data.config.artifactory.host
         }/artifactory/api/npm/${this.data.config.artifactory.repoKey}/`,
-        install: `npm i ${this.data.packageDetail.name}`,
+        install: `npm i ${this.data.packageDetail.name}${
+          this.data.currentPackage &&
+          this.data.currentPackage.version !== this.data.packageDetail.distTags.latest
+            ? `@${this.data.currentPackage.version}`
+            : ''
+        }`,
         npmrc: `${
           this.data.packageDetail.scope ? this.data.packageDetail.scope + ':' : ''
         }registry=http${this.data.config.artifactory.https ? 's' : ''}://${
