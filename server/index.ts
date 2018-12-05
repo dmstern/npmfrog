@@ -6,6 +6,7 @@ import * as morgan from 'morgan';
 import * as fs from 'fs-extra';
 import configService from './config-service';
 import artifactoryService from './artifactory-service';
+import cacheService from './cache-service';
 
 const portNumber = 30001;
 
@@ -117,3 +118,5 @@ app.get('/meta', (req, res) => {
 });
 
 app.listen(portNumber);
+
+cacheService.fillCacheFromDisc();
