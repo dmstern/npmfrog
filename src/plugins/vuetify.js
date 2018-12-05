@@ -23,6 +23,7 @@ export const icons = {
   install: 'mdi-package-down',
   version: 'fas fa-code-branch',
   legal: 'fas fa-balance-scale',
+  cache: 'fas fa-archive',
   code: 'fas fa-code',
   created: 'fas fa-bolt',
   updated: 'far fa-clock',

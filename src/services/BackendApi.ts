@@ -1,5 +1,5 @@
 import axios, { AxiosInstance, AxiosPromise } from 'axios';
-import { PackagesResponse } from '../../types/PackageResponse';
+import { PackagesResponse } from '../../types/PackagesResponse';
 import { PackageMetaDataDTO } from '../../types/package-meta-data';
 import { IPackageJSON } from '../../types/package-json';
 import Config from '../../types/Config';

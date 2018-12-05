@@ -4,17 +4,16 @@
     <v-list subheader three-line v-else class="package-list">
       <v-subheader 
         class="title"
-        v-if="config && config.artifactory">Found {{packages.data.length}}/{{packages.all.length}} npm packages on &nbsp;
+        v-if="config && config.artifactory">Found {{countFreshPackages(packages.data)}}/{{countFreshPackages(packages.all)}} npm packages on &nbsp;
         <ExternalLink
           :href="`http${
               config.artifactory.https? 's' : ''
             }://${
               config.artifactory.host
-            }/artifactory/webapp/#/artifacts/browse/tree/General/${
-              config.artifactory.repoKey
             }`"
           :text="config.artifactory.host">
-        </ExternalLink>
+        </ExternalLink>. 
+        <span v-if="countFreshPackages(packages.data) === 0">&nbsp;Displaying cached packages instead:</span>
       </v-subheader>
       <template v-for="(item, index) in packages.data">
         <v-list-tile
@@ -24,7 +23,15 @@
           @click="$router.push(`package/${item.name}`)"
         >
           <v-list-tile-content>
-            <v-list-tile-title class="font-weight-medium">{{ item.name }}</v-list-tile-title>
+            <v-list-tile-title class="font-weight-medium">
+              {{ item.name }}
+              <v-chip
+                small
+                v-if="item._isCached"
+                disabled
+                label
+              ><v-icon>{{$vuetify.icons.cache}}</v-icon> cached</v-chip>
+            </v-list-tile-title>
             <v-list-tile-sub-title>{{item.description}}</v-list-tile-sub-title>
             <v-list-tile-sub-title class="package-list--keywords">
               <v-chip v-for="keyword in item.keywords" :key="keyword" small>{{keyword}}</v-chip>
@@ -72,7 +79,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import DataStore from '@/services/DataStore';
-import { PackagesResponse } from '../../types/PackageResponse';
+import { PackagesResponse } from '../../types/PackagesResponse';
 import Package from '../../types/Package';
 import { EventBus, Events } from '@/services/event-bus';
 import LoadingSpinner from '@/components/LoadingSpinner.vue';
@@ -133,6 +140,16 @@ export default class Packages extends Vue {
     );
   }
 
+  private countFreshPackages(packages: PackagesResponse): number {
+    let count = 0;
+    for (const key of Object.keys(packages)) {
+      if (!packages[key]._isCached) {
+        count++;
+      }
+    }
+    return count;
+  }
+
   private loadConfig(): void {
     DataStore.Instance.getConfig().then(config => {
       if (config) {
@@ -152,6 +169,10 @@ export default class Packages extends Vue {
 
 .package-list {
   padding-bottom: 88px;
+
+  .v-list__tile__title {
+    height: initial;
+  }
 
   .v-list__tile__content {
     padding: 0.4em 0;

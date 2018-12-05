@@ -6,6 +6,7 @@ export interface PackageMetaDataDTO extends IPackageJSON {
   readonly users: {};
   readonly _id: string;
   readonly _rev: string;
+  readonly _isCached?: boolean;
 }
 
 export interface ITimes {

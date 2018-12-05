@@ -1,5 +1,5 @@
 import BackendApi from './BackendApi';
-import { PackagesResponse } from '../../types/PackageResponse';
+import { PackagesResponse } from '../../types/PackagesResponse';
 import Package from '../../types/Package';
 import { Tag } from '../../types/Tag';
 import { PackageMetaDataDTO } from '../../types/package-meta-data';

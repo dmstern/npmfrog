@@ -4,7 +4,7 @@ import * as fs from 'fs-extra';
 import * as tar from 'tar';
 import * as showdown from 'showdown';
 import * as emoji from 'node-emoji';
-import { PackagesResponse } from '../types/PackageResponse';
+import { PackagesResponse } from '../types/PackagesResponse';
 import PackageId from '../types/PackageId';
 import getFiles from './fileLister';
 import * as os from 'os';
@@ -13,10 +13,6 @@ import configService from './config-service.js';
 
 let instance;
 
-const tmpDir = path.join(os.homedir(), '.npmfrog', 'package-cache');
-const packageDetailCache = {};
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
-
 interface AdditionalCode {
   readme: string;
   fileList;
@@ -24,11 +20,17 @@ interface AdditionalCode {
 
 class ArtifactoryService {
   public baseURL: string;
+  private tmpDir: string;
+  private packageDetailCache: PackagesResponse;
 
   constructor() {
     if (instance) {
       return instance;
     }
+    this.tmpDir = path.join(os.homedir(), '.npmfrog', 'package-cache');
+    this.packageDetailCache = {};
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
     configService
       .getConfig()
       .then(config => {
@@ -56,7 +58,16 @@ class ArtifactoryService {
         );
       });
     }
-    return axios.get(`/-/all`);
+    return axios
+      .get(`/-/all`)
+      .then(response => {
+        return response;
+      })
+      .catch(error => {
+        return new Promise<AxiosResponse>((resolve, reject) => {
+          resolve(this.createAxiosResponse(this.packageDetailCache));
+        });
+      });
   }
 
   public async getPackageDetail({
@@ -66,7 +77,7 @@ class ArtifactoryService {
   }: PackageId): Promise<AxiosResponse> {
     const latestVersionResponse = await this.getDistTags({ scope, packageName });
     const currentVersion = version || latestVersionResponse.data.latest;
-    const key = `${scope}-${packageName}-${currentVersion}`;
+    const key = `${scope}-${packageName}`;
 
     const packageDetailResponse: AxiosResponse = process.env.MOCK
       ? await new Promise<AxiosResponse>((resolve, reject) => {
@@ -79,9 +90,9 @@ class ArtifactoryService {
           }
           resolve(this.createAxiosResponse(data));
         })
-      : packageDetailCache[key]
+      : this.packageDetailCache[key]
         ? await new Promise<AxiosResponse>((resolve, reject) => {
-            resolve(this.createAxiosResponse(packageDetailCache[key]));
+            resolve(this.createAxiosResponse(this.packageDetailCache[key]));
           })
         : await axios.get(`/${this.name2url({ scope, packageName })}`);
 
@@ -104,7 +115,7 @@ class ArtifactoryService {
       : await new Promise<AdditionalCode>(async (resolve, reject) => {
           const packageDetail = packageDetailResponse.data;
           const downloadUrl = packageDetail.versions[currentVersion].dist.tarball;
-          const storageDir = path.join(tmpDir, scope, packageName, currentVersion);
+          const storageDir = path.join(this.tmpDir, scope, packageName, currentVersion);
           if (fs.existsSync(storageDir)) {
             this.readAdditionalCode(storageDir).then(response => {
               resolve(response);
@@ -146,7 +157,12 @@ class ArtifactoryService {
     Object.assign(packageDetailResponse.data, additionalCode);
 
     return new Promise<AxiosResponse>((resolve, reject) => {
-      packageDetailCache[key] = packageDetailResponse.data;
+      if (!this.packageDetailCache[key]) {
+        this.packageDetailCache[key] = Object.assign(
+          { _isCached: true },
+          packageDetailResponse.data,
+        );
+      }
       resolve(packageDetailResponse);
     });
   }
@@ -169,7 +185,7 @@ class ArtifactoryService {
     format: string = 'string',
   ): Promise<string | Buffer> {
     const absPath = path.join(
-      tmpDir,
+      this.tmpDir,
       packageId.scope,
       packageId.packageName,
       packageId.version,
@@ -177,7 +193,6 @@ class ArtifactoryService {
       filepath,
     );
     const fileContent = fs.readFileSync(absPath);
-    console.log(format === 'string');
     return format === 'string' ? fileContent.toString() : fileContent;
   }
 
