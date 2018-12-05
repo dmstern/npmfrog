@@ -11,7 +11,7 @@ import * as os from 'os';
 
 import configService from './config-service.js';
 
-let instance;
+let instance: ArtifactoryService;
 
 interface AdditionalCode {
   readme: string;
