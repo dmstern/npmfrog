@@ -29,7 +29,7 @@
                 small
                 v-if="item._isCached"
                 disabled
-                label
+                outline
               ><v-icon>{{$vuetify.icons.cache}}</v-icon> cached</v-chip>
             </v-list-tile-title>
             <v-list-tile-sub-title>{{item.description}}</v-list-tile-sub-title>
@@ -46,10 +46,11 @@
             <div class="package-list--by">crafted by</div>
             <div class="package-list--author">
               <CrafterAvatar
-                v-for="(crafter, index) in item.crafters"
+                v-for="(crafter, index) in item.crafters.slice(0, maxCraftersCount)"
                 :key="index"
                 :crafter="crafter">
               </CrafterAvatar>
+              <span class="package-list--author--others" v-if="item.crafters.length > maxCraftersCount">...and {{item.crafters.length - maxCraftersCount}} more</span>
             </div>
           </v-list-tile-action>
 
@@ -109,6 +110,8 @@ export default class Packages extends Vue {
     data: Package[];
     loading: boolean;
   } = this.packagesProp;
+
+  private maxCraftersCount: number = 5;
 
   constructor() {
     super();
@@ -184,13 +187,20 @@ export default class Packages extends Vue {
 
   .v-list__tile__action--stack {
     align-self: flex-end;
+    max-width: 40%;
   }
 
   &--author {
     display: flex;
 
     .CrafterAvatar {
-      margin-left: 0.5em;
+      margin: 0 0 0.3em 0.3em;
+    }
+
+    &--others {
+      color: $color-gray-light;
+      font-size: $package-list--author--font-size;
+      align-self: flex-end;
     }
   }
 
