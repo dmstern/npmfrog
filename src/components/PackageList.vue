@@ -13,7 +13,7 @@
             }`"
           :text="config.artifactory.host">
         </ExternalLink>. 
-        <span v-if="countFreshPackages(packages.data) === 0">&nbsp;Displaying cached packages instead:</span>
+        <span v-if="countFreshPackages(packages.data) === 0">&nbsp;Displaying {{packages.data.length}}/{{packages.all.length}} cached packages instead:</span>
       </v-subheader>
       <template v-for="(item, index) in packages.data">
         <v-list-tile
