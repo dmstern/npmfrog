@@ -8,6 +8,17 @@ const env_local = {
 };
 
 const log_date_format = 'DD-MM-YYYY HH:mm:ss';
+const defaultPorts = {
+  webui: 8000,
+  server: 30001,
+};
+
+let ports;
+try {
+  ports = require(path.resolve(homedir, '.npmfrog', 'ports.json'));
+} catch (error) {
+  ports = defaultPorts;
+}
 
 module.exports = {
   watchUI: {
@@ -44,11 +55,11 @@ module.exports = {
     log: path.join(homedir, '.npmfrog', 'logs', 'webui.log'),
     env: {
       PM2_SERVE_PATH: 'dist/webui',
-      PM2_SERVE_PORT: 8000,
+      PM2_SERVE_PORT: ports.webui,
     },
     env_local: {
       PM2_SERVE_PATH: 'dist/webui',
-      PM2_SERVE_PORT: 8000,
+      PM2_SERVE_PORT: ports.webui,
       MOCK: env_local.MOCK,
     },
   },
