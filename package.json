@@ -21,7 +21,9 @@
     "release:rc": "release-it --preRelease=rc --npm.tag=next",
     "release:patch": "release-it",
     "release:minor": "release-it minor",
-    "release:major": "release-it major"
+    "release:major": "release-it major",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "husky": {
     "hooks": {
@@ -57,7 +59,8 @@
     "vue-router": "^3.0.2",
     "vue-simple-svg": "^1.3.2",
     "vue-timeago": "^5.0.0",
-    "vuetify": "^1.3.11"
+    "vuetify": "^1.3.11",
+    "snyk": "^1.189.0"
   },
   "devDependencies": {
     "@types/body-parser": "^1.17.0",
@@ -123,5 +126,6 @@
   "author": "Daniel Morgenstern <morgenstern.daniel@gmail.com>",
   "license": "ISC",
   "description": "A nice npmjs.org-like web interface for jFrog Artifactory",
-  "main": "src/main.ts"
+  "main": "src/main.ts",
+  "snyk": true
 }
