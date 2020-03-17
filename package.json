@@ -48,7 +48,7 @@
     "node-emoji": "^1.8.1",
     "parse-authors": "^0.2.4",
     "pm2": "^3.2.2",
-    "showdown": "^1.9.0",
+    "showdown": "^1.9.1",
     "tar": "^4.4.8",
     "url-parse": "^1.4.4",
     "vue": "^2.5.17",
