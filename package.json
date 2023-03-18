@@ -81,7 +81,7 @@
     "cross-env": "^5.2.0",
     "eslint": "^5.9.0",
     "husky": "^1.2.0",
-    "node-sass": "^4.10.0",
+    "node-sass": "^8.0.0",
     "nodemon": "^1.18.7",
     "pretty-quick": "^1.8.0",
     "release-it": "^8.2.0",
